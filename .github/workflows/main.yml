@@ -32,7 +32,7 @@ jobs:
             #     echo Add other actions to build,
             #     echo test, and deploy your project.
             - name: Build
-                run: ./build.sh
+                run: bash ../../build.sh
     sonarcloud:
         runs-on: ubuntu-latest
         steps:
