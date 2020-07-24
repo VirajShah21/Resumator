@@ -1,16 +1,31 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "strict": true,
     "baseUrl": "./",
-    "outDir": "build",
-    "removeComments": true,
-    "experimentalDecorators": true,
-    "target": "es6",
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "paths": {
+      "@daos/*": [
+        "src/daos/*"
+      ],
+      "@entities/*": [
+        "src/entities/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@server": [
+        "src/Server"
+      ]
+    },
     "types": [
       "node"
     ],
@@ -19,9 +34,10 @@
     ]
   },
   "include": [
-    "./src/**/*.ts"
+    "src/**/*.ts",
+    "spec/**/*.ts"
   ],
   "exclude": [
-    "./src/public/"
+    "src/public/"
   ]
 }

@@ -1,14 +1,9 @@
-import express from "express";
+import './LoadEnv'; // Must be the first import
+import app from '@server';
+import logger from '@shared/Logger';
 
-const PORT = process.env.PORT || 3000; // NOSONAR
-const app = express();
-
-app.set("view engine", "pug");
-
-app.get("/", (req, res) => {
-    res.render("index");
-});
-
-app.listen(PORT, () => {
-    console.log(`Listening on PORT: ${PORT}`);
+// Start the server
+const port = Number(process.env.PORT || 3000);
+app.listen(port, () => {
+    logger.info('Express server started on port: ' + port);
 });
