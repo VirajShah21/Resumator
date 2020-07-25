@@ -2,7 +2,11 @@ doctype html
 
 html(lang='en-US')
     head
-        meta(charset='UTF-8')
-        title Hello World
+        include components/head
     body
-        h1 Hello World
+        .container-fluid#window
+            .row.p-4
+                .col-12.p-4
+                    h1 Hello World
+
+        include components/scripts
