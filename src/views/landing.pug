@@ -4,9 +4,18 @@ html(lang='en-US')
     head
         include components/head
     body
-        .container-fluid#window
-            .row.p-4
-                .col-12.p-4
-                    h1 Hello World
+        #window.container-fluid.text-dark
+            .row.pt-4.pl-4
+                .col-6.pt-4.pl-4
+                    h1.m-0(style='font-size:4em;font-weight:900;text-transform:uppercase;text-shadow: 0 0 10px 10px black;')
+                        | Create a stunning resume in less than 2 minutes!
+            .row.pl-4.pt-4
+                .col-6.pl-4.pt-4
+                    a.btn.btn-dark.btn-lg.p-4.rounded-pill(href='/app/resumeinfo') Get Started
+            .row(style='position:fixed;bottom:0;z-index:-1')
+                .col
+                .col-7
+                    img.img-fluid(src='/images/landing.png' alt='Resume Grid')
+                
 
         include components/scripts
