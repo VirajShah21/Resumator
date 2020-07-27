@@ -1,0 +1,23 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    .container-fluid
+        a.navbar-brand(href='#')
+            img.img-fluid.d-inline-block.align-top(
+                src='/images/resumator-logo.png'
+                height='30'
+                width='30'
+                alt='Resumator Logo'
+                loading='lazy')
+            | &nbsp; Resumator     
+        button.navbar-toggler(type='button'
+            data-toggle='collapse'
+            data-target='#collapsing-navbar'
+            aria-controls='collapsing-navbar'
+            aria-expanded='false'
+            aria-label='Toggle Navigation')
+            span.navbar-toggler-icon
+        #collapsing-navbar.collapse.navbar-collapse
+            .navbar-nav
+                a.nav-link.active(href='#') Home
+                a.nav-link(href='#') Browse Themes
+                a.nav-link(href='#') Your Profile
+                a.nav-link(href='#') Free Stuff
