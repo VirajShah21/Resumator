@@ -9,7 +9,9 @@ const router = Router();
 
 // Base Routes
 router.get("/", (req, res) => {
-    res.render("landing");
+    res.render("landing", {
+        nav: "Home",
+    });
 });
 
 // Add sub-routes

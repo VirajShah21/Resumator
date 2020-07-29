@@ -1,3 +1,5 @@
+include components/dashboard-components
+
 doctype html
 
 html(lang='en-US')
@@ -5,12 +7,17 @@ html(lang='en-US')
         include components/head
     body
         include components/navbar
-
+        +add-work-experience-modal
         .container.mt-4
             .row
                 .col-12.col-md-6
                     p= `Email: ${account.email}`
                 .col-12.col-md-6.text-left.text-md-right
                     p= `Name: ${account.fname} ${account.lname}`
+            .row
+                .col-12.col-md-6
+                    +work-experience-card(workExperience)
+                .col-12.col-md-6
+                    +education-card(education)
 
         include components/scripts

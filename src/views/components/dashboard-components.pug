@@ -1,0 +1,55 @@
+mixin work-experience-card(experiences)
+    .card.w-100
+        .card-body
+            h4.card-title Work Experience
+            each experience in experiences
+                +work-experience-item(experience)
+            button.btn.btn-primary.btn-block(
+                data-toggle='modal'
+                data-target='#add-work-modal') Add Work Experience
+
+mixin work-experience-item(experience)
+    .alert.alert-success
+        h5= `${experience.position} at ${experience.organization}`
+
+mixin add-work-experience-modal
+    #add-work-modal.modal.fade(tabindex='1')
+        .modal-dialog
+            .modal-content
+                form(action='/app/work-experience/add' method='POST')
+                    .modal-header
+                        h5.modal-title Add Work Experience
+                        button.close(type='button' data-dismiss='modal')
+                            span &times;
+                    .modal-body
+                        .row
+                            .col-12 Position
+                                input.form-control(name='position')
+                        .row
+                            .col-12 Organization
+                                input.form-control(name='organization')
+                        .row
+                            .col-12.col-md-6 Start
+                                input.form-control(name='start-date' placeholder='mm/dd/yyyy')
+                            .col-12.col-md-6 End
+                                input.form-control(name='end-date' placeholder='mm/dd/yyyy')
+                        .row
+                            .col-12 Description
+                                textarea.form-control(name='description')
+                    .modal-footer
+                        button.btn.btn-secondary(
+                            type='button'
+                            data-dismiss='modal') Close
+                        button.btn.btn-primary(type='submit') Save
+
+mixin education-card(experiences)
+    .card.w-100
+        .card-body
+            h4.card-title Education
+            each experience in experiences
+                +education-item(experience)
+            button.btn.btn-primary.btn-block Add Education
+
+mixin education-item(experience)
+    .alert.alert-success
+        h5= `${experience.organization}, Class of ${experience.graduation}`

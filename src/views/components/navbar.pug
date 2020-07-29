@@ -17,7 +17,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
             span.navbar-toggler-icon
         #collapsing-navbar.collapse.navbar-collapse
             .navbar-nav
-                a.nav-link.active(href='#') Home
-                a.nav-link(href='#') Browse Themes
-                a.nav-link(href='#') Your Profile
-                a.nav-link(href='#') Free Stuff
+                a.nav-link(href='/' class=`${nav == "Home" ? "active" : ""}`) Home
+                a.nav-link(href='/app/dashboard' class=`${nav == "Home" ? "active" : ""}`) Dashboard
+                a.nav-link(href='#' class=`${nav == "Home" ? "active" : ""}`) Themes
+                a.nav-link(href='#' class=`${nav == "Home" ? "active" : ""}`) Free Stuff

@@ -1,7 +1,6 @@
 import { database } from "@shared/database";
 
 const ACCOUNTS_COLLECTION = "accounts";
-const SESSIONS_COLLECTION = "sessions";
 
 export interface IAccount {
     fname: string;
