@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/users/create", (req, res) => {
     res.send(true);
 });
 

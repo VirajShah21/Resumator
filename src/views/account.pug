@@ -10,9 +10,31 @@ html(lang='en-US')
             .row
                 .col-12.col-md-5
                     h2 Login
-                .col
-                    span.p-4.bg-dark.text-light(style='border-radius:100%') OR
+
+                    .row
+                        .col-12
+                            input.form-control.mb-4(type='email' name='email' placeholder='Email')
+                        .col-12
+                            input.form-control.mb-4(type='password' name='password' placeholder='Password')
+                        .col-12
+                            button.btn.btn-primary(type='submit') Login
+                .col.text-center(style='padding-top:10vh')
+                    span.p-4.bg-light.text-dark(style='border-radius:100%;') OR
                 .col-12.col-md-5
                     h2 Sign Up
+
+                    form.row(action='/app/account/signup' method='POST')
+                        .col-12.col-md-6
+                            input.form-control.mb-4(type='text' name='fname' placeholder='First Name')
+                        .col-12.col-md-6
+                            input.form-control.mb-4(type='text' name='lname' placeholder='Last Name')
+                        .col-12
+                            input.form-control.mb-4(type='email' name='email' placeholder='Email')
+                        .col-12.col-md-6
+                            input.form-control.mb-4(type='password' name='password' placeholder='Password')
+                        .col-12.col-md-6
+                            input.form-control.mb-4(type='password' name='passwordconf' placeholder='Confirm Password')
+                        .col-12
+                            button.btn.btn-primary(type='submit') Sign Up
 
         include components/scripts

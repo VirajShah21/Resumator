@@ -1,0 +1,16 @@
+doctype html
+
+html(lang='en-US')
+    head
+        include components/head
+    body
+        include components/navbar
+
+        .container.mt-4
+            .row
+                .col-12.col-md-6
+                    p= `Email: ${account.email}`
+                .col-12.col-md-6.text-left.text-md-right
+                    p= `Name: ${account.fname} ${account.lname}`
+
+        include components/scripts
