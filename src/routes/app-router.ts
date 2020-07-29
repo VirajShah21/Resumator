@@ -6,6 +6,7 @@ import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import Education from "@entities/Education";
 import path from "path";
+import app from "@server";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -99,6 +100,31 @@ router.post("/education/add", (req, res) => {
             );
             education.insertDatabaseItem(() => {
                 res.redirect(path.join(PREFIX, "dashboard"));
+            });
+        });
+    });
+});
+
+router.get("/themes", (req, res) => {
+    res.render("themes", {
+        nav: "Themes",
+    });
+});
+
+router.get("/themes/preview", (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        Account.loadFromDatabase(session.user, (account) => {
+            WorkExperience.loadFromDatabase(account.email, (workExperience) => {
+                Education.loadFromDatabase(
+                    account.email,
+                    (educationHistory) => {
+                        res.render(`resume-templates/${req.query.theme}`, {
+                            account,
+                            workExperience,
+                            educationHistory,
+                        });
+                    }
+                );
             });
         });
     });
