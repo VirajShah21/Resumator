@@ -31,8 +31,16 @@ jobs:
             #   run: |
             #     echo Add other actions to build,
             #     echo test, and deploy your project.
-            - name: Build this file
-              run: npm install bcrypt --build-from-source && npm run build && npm run start
+            - name: Rebuild bcrypt
+              run: npm install bcrypt --build-from-source
+            - name: Build server
+              run: npm run build
+            - name: Start Server
+              run: npm run start
+              env:
+                  CI: true
+                  RESUMATOR_WEB_DB_USER: ${{ secrets.RESUMATOR_WEB_DB_USER }}
+                  RESUMATOR_WEB_DB_PASS: ${{ secrets.RESUMATOR_WEB_DB_PASS }}
     sonarcloud:
         runs-on: ubuntu-latest
         steps:
