@@ -5,4 +5,26 @@ html(lang='en-US')
         meta(charset='utf-8')
         link(rel='stylesheet' href='/stylesheets/resumes/budgie-blue.css')
     body
-        h1= `${account.fname} ${account.lname}`
+        .page
+            h1= `${account.fname} ${account.lname}`
+            #contact
+                span.p-12
+                    ion-icon(style='vertical-align:middle' name='mail-unread-outline')
+                    span= account.email
+                span.p-12
+                    ion-icon(style='vertical-align:middle' name='call-outline')
+                    span (609) 751 7703
+            table.w-100
+                tr
+                    td.text-right.title-cell(style='width:50%') Work
+                    td.title-cell(style='width:50%') Education
+                tr
+                    td.text-right
+                        each job in workExperience
+                            div
+                                .work-item
+                                    h4= `${job.position} at ${job.organization}`
+                                    .date= `${job.start.split("/")[2]} - ${job.end.toLowerCase() == "present" ? "Present" : job.end.split("/")[2]}`
+                                    p(style='margin:0')= job.description
+
+        script(src='https://unpkg.com/ionicons@5.1.2/dist/ionicons.js')

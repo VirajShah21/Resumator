@@ -1,7 +1,76 @@
+:root {
+    --blue: #126dff;
+}
+
+* {
+    font-family: "Avenir Next";
+    font-weight: normal;
+}
+
 html,
 body {
-    width: 8.5in;
-    height: 11in;
     margin: 0;
     padding: 0;
+}
+
+.page {
+    width: 8.5in;
+    height: 11in;
+    border: 1px solid gray;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    padding-top: 0.5in;
+    font-size: 48pt;
+    color: var(--blue);
+}
+
+h4 {
+    margin: 0;
+}
+
+#contact {
+    text-align: center;
+    font-size: 12pt;
+}
+
+.date {
+    color: gray;
+    font-size: 10pt;
+}
+
+.p-12 {
+    padding: 12pt;
+    box-sizing: border-box;
+}
+
+.spacer-12 {
+    width: 12pt;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.w-50 {
+    width: 50%:
+}
+
+.title-cell {
+    padding-left: 12pt;
+    padding-right: 12pt;
+}
+
+.work-item {
+    padding-right: 12pt;
 }
