@@ -24,32 +24,20 @@ mixin add-work-experience-modal
                     .modal-body
                         .row
                             .col-12 Position
-                                input.form-control(name='position')
+                                input.form-control.mb-2(name='position')
                         .row
                             .col-12 Organization
-                                input.form-control(name='organization')
+                                input.form-control.mb-2(name='organization')
                         .row
                             .col-12.col-md-6 Start
-                                input.form-control(name='start-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='start-date' placeholder='mm/dd/yyyy')
                             .col-12.col-md-6 End
-                                input.form-control(name='end-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='end-date' placeholder='mm/dd/yyyy')
                         .row
                             .col-12 Description
-                                textarea.form-control(name='description')
+                                textarea.form-control.mb-2(name='description')
                     .modal-footer
                         button.btn.btn-secondary(
                             type='button'
                             data-dismiss='modal') Close
                         button.btn.btn-primary(type='submit') Save
-
-mixin education-card(experiences)
-    .card.w-100
-        .card-body
-            h4.card-title Education
-            each experience in experiences
-                +education-item(experience)
-            button.btn.btn-primary.btn-block Add Education
-
-mixin education-item(experience)
-    .alert.alert-success
-        h5= `${experience.organization}, Class of ${experience.graduation}`

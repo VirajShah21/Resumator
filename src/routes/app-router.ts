@@ -4,8 +4,10 @@ import Account from "@entities/Account";
 import { hashPassword } from "@shared/functions";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
+import Education from "@entities/Education";
+import path from "path";
 
-export const PREFIX = "/account";
+export const PREFIX = "/app";
 const router = Router();
 
 const jsonParser = BodyParser.json();
@@ -45,20 +47,21 @@ router.post("/account/signup", jsonParser, (req, res) => {
 router.get("/dashboard", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
-            WorkExperience.loadFromDatabase(
-                account.email,
-                (workExperience: WorkExperience[]) => {
-                    console.log(workExperience);
-                    res.render("dashboard", {
-                        session,
-                        account,
-                        education: [],
-                        workExperience,
-                        volunteerExperience: [],
-                        nav: "Dashboard",
-                    });
-                }
-            );
+            WorkExperience.loadFromDatabase(account.email, (workExperience) => {
+                Education.loadFromDatabase(
+                    account.email,
+                    (educationHistory) => {
+                        res.render("dashboard", {
+                            session,
+                            account,
+                            educationHistory,
+                            workExperience,
+                            volunteerExperience: [],
+                            nav: "Dashboard",
+                        });
+                    }
+                );
+            });
         });
     });
 });
@@ -75,18 +78,30 @@ router.post("/work-experience/add", jsonParser, (req, res) => {
                 account.email
             );
             experience.insertDatabaseItem(() => {
-                res.redirect("/app/dashboard");
+                res.redirect(path.join(PREFIX, "dashboard"));
             });
         });
     });
 });
 
-// router.get("/education/add", (req, res) => {
-//     Session.loadFromDatabase(req.cookies.session, (session) => {
-//         Account.loadFromDatabase(session.user, (accout) => {
-//             let education = new Education();
-//         });
-//     });
-// });
+router.post("/education/add", (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        Account.loadFromDatabase(session.user, (account) => {
+            let education = new Education(
+                account.email,
+                req.body.institution,
+                req.body.level,
+                req.body.degree,
+                req.body["start-date"],
+                req.body["end-date"],
+                req.body.gpa,
+                req.body.description
+            );
+            education.insertDatabaseItem(() => {
+                res.redirect(path.join(PREFIX, "dashboard"));
+            });
+        });
+    });
+});
 
 export default router;
