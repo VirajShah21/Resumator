@@ -23,12 +23,7 @@ router.get("/account", (req, res) => {
 router.post("/account/signup", jsonParser, (req, res) => {
     if (req.body.password == req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
-            let account = new Account(
-                req.body.fname,
-                req.body.lname,
-                req.body.email,
-                hash
-            );
+            let account = new Account(req.body.fname, req.body.lname, req.body.email, hash);
             account.insertDatabaseItem((success) => {
                 if (success) {
                     let session: Session = new Session(account);
@@ -50,19 +45,16 @@ router.get("/dashboard", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
             WorkExperience.loadFromDatabase(account.email, (workExperience) => {
-                Education.loadFromDatabase(
-                    account.email,
-                    (educationHistory) => {
-                        res.render("dashboard", {
-                            session,
-                            account,
-                            educationHistory,
-                            workExperience,
-                            volunteerExperience: [],
-                            nav: "Dashboard",
-                        });
-                    }
-                );
+                Education.loadFromDatabase(account.email, (educationHistory) => {
+                    res.render("dashboard", {
+                        session,
+                        account,
+                        educationHistory,
+                        workExperience,
+                        volunteerExperience: [],
+                        nav: "Dashboard",
+                    });
+                });
             });
         });
     });
@@ -116,22 +108,19 @@ router.get("/themes/preview", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
             WorkExperience.loadFromDatabase(account.email, (workExperience) => {
-                Education.loadFromDatabase(
-                    account.email,
-                    (educationHistory) => {
-                        res.render(`resume-templates/${req.query.theme}`, {
-                            account,
-                            workExperience,
-                            educationHistory,
-                        });
-                    }
-                );
+                Education.loadFromDatabase(account.email, (educationHistory) => {
+                    res.render(`resume-templates/${req.query.theme}`, {
+                        account,
+                        workExperience,
+                        educationHistory,
+                    });
+                });
             });
         });
     });
 });
 
-router.post("/work-experience/edit", (req, res) => {
+router.post("/work-experience/update", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
             let experience = new WorkExperience(
