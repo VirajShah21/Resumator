@@ -14,7 +14,7 @@ mixin work-experience-item(experience)
             .col-12.col-md-8
                 .btn= `${experience.position} at ${experience.organization}`
             .col-12.col-md-4.text-center.text-md-right
-                button.btn.btn-success(data-toggle='modal' data-target=`#edit-work-experience-${experience._id}`)
+                button.btn.btn-light(data-toggle='modal' data-target=`#edit-work-experience-${experience._id}`)
                     ion-icon(name='create-outline')
 
 mixin add-work-experience-modal
@@ -74,7 +74,7 @@ mixin edit-work-experience-modal(experience)
                                 input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/dd/yyyy')
                         .row
                             .col-12 Description
-                                textarea.form-control.mb-2(name='description' value=experience.description)
+                                textarea.form-control.mb-2(name='description')= experience.description
                         .row
                             .col-12
                                 .alert.alert-danger
