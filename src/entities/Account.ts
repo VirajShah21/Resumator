@@ -70,7 +70,7 @@ export default class Account implements IAccount {
         database
             .collection(ACCOUNTS_COLLECTION)
             .findOne({ email }, (err, result) => {
-                if (err) err;
+                if (err) throw err;
                 callback(new Account(result));
             });
     }

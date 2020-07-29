@@ -4,6 +4,7 @@ import Account from "@entities/Account";
 import { hashPassword } from "@shared/functions";
 import Session from "@entities/Session";
 
+export const PREFIX = "/account";
 const router = Router();
 
 const jsonParser = BodyParser.json();

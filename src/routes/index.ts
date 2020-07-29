@@ -2,6 +2,8 @@ import { Router } from "express";
 import AppRouter from "./app-router";
 import ApiRouter from "./api";
 
+export const PREFIX = "/";
+
 // Init router and path
 const router = Router();
 
