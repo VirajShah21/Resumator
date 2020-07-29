@@ -60,17 +60,26 @@ export default class Education implements IEducation {
     }
 
     public insertDatabaseItem(callback?: () => void): void {
-        database
-            .collection(EDUCATION_COLLECTION)
-            .insert(this, (err, result) => {
-                if (callback) callback();
-            });
+        database.collection(EDUCATION_COLLECTION).insert(this, (err, result) => {
+            if (callback) callback();
+        });
     }
 
-    public static loadFromDatabase(
-        email: string,
-        callback?: (eduHistory: Education[]) => void
-    ): void {
+    public updateDatabaseItem(callback?: () => void): void {
+        database.collection(EDUCATION_COLLECTION).updateOne(
+            {
+                _id: this._id,
+            },
+            {
+                $set: this,
+            },
+            (err, result) => {
+                if (callback) callback();
+            }
+        );
+    }
+
+    public static loadFromDatabase(email: string, callback?: (eduHistory: Education[]) => void): void {
         database
             .collection(EDUCATION_COLLECTION)
             .find({ user: email })

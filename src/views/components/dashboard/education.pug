@@ -54,7 +54,7 @@ mixin edit-education-modal(edu)
     .modal.fade(tabindex='1' id=`edit-education-modal-${edu._id}`)
         .modal-dialog
             .modal-content
-                form(action='/app/education/add' method='POST')
+                form(action='/app/education/update' method='POST')
                     .modal-header
                         h5.modal-title Add Education
                         button.close(type='button' data-dismiss='modal')

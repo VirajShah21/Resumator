@@ -122,19 +122,36 @@ router.get("/themes/preview", (req, res) => {
 
 router.post("/work-experience/update", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
-        Account.loadFromDatabase(session.user, (account) => {
-            let experience = new WorkExperience(
-                req.body.position,
-                req.body.organization,
-                req.body.start,
-                req.body.end,
-                req.body.description,
-                account.email
-            );
-            experience._id = new ObjectId(req.body.dbid);
-            experience.updateDatabaseItem(() => {
-                res.redirect(path.join(PREFIX, "dashboard"));
-            });
+        let experience = new WorkExperience(
+            req.body.position,
+            req.body.organization,
+            req.body.start,
+            req.body.end,
+            req.body.description,
+            session.user
+        );
+        experience._id = new ObjectId(req.body.dbid);
+        experience.updateDatabaseItem(() => {
+            res.redirect(path.join(PREFIX, "dashboard"));
+        });
+    });
+});
+
+router.post("/education/update", (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        let education = new Education(
+            session.user,
+            req.body.institution,
+            req.body.level,
+            req.body.degree,
+            req.body.start,
+            req.body.end,
+            req.body.gpa,
+            req.body.description
+        );
+        education._id = new ObjectId(req.body._id);
+        education.updateDatabaseItem(() => {
+            res.redirect(path.join(PREFIX, "dashboard"));
         });
     });
 });
