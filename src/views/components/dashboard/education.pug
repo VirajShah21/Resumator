@@ -10,7 +10,7 @@ mixin education-item(edu)
     .alert.alert-success
         .row
             .col-12.col-md-8
-                .btn= `${edu.institution}, Class of ${edu.end.split("/")[2]}`
+                .btn= `${edu.institution} (${edu.end.split("/")[2]})`
             .col-12.col-md-4.text-center.text-md-right
                 button.btn.btn-light(data-toggle='modal' data-target=`#edit-education-modal-${edu._id}`)
                     ion-icon(name='create-outline')

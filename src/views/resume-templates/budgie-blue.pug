@@ -26,5 +26,12 @@ html(lang='en-US')
                                     h4= `${job.position} at ${job.organization}`
                                     .date= `${job.start.split("/")[2]} - ${job.end.toLowerCase() == "present" ? "Present" : job.end.split("/")[2]}`
                                     p(style='margin:0')= job.description
+                    td.text-left
+                        each edu in educationHistory
+                            div
+                                .education-item
+                                    h4= `${edu.degree} at ${edu.institution}`
+                                    span.date= `${edu.end.split("/")[2]}`
+                                    p(style='margin:0')= `${edu.level}, GPA: ${edu.gpa}`
 
         script(src='https://unpkg.com/ionicons@5.1.2/dist/ionicons.js')

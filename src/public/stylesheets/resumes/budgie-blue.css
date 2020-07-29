@@ -74,3 +74,11 @@ h4 {
 .work-item {
     padding-right: 12pt;
 }
+
+.education-item {
+    padding-left: 12pt;
+}
+
+td {
+    vertical-align: top;
+}
