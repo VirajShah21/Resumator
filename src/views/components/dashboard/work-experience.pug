@@ -10,7 +10,12 @@ mixin work-experience-card(experiences)
 
 mixin work-experience-item(experience)
     .alert.alert-success
-        h5= `${experience.position} at ${experience.organization}`
+        .row
+            .col-12.col-md-8
+                .btn= `${experience.position} at ${experience.organization}`
+            .col-12.col-md-4.text-center.text-md-right
+                button.btn.btn-success(data-toggle='modal' data-target=`#edit-work-experience-${experience._id}`)
+                    ion-icon(name='create-outline')
 
 mixin add-work-experience-modal
     #add-work-modal.modal.fade(tabindex='1')
@@ -36,6 +41,45 @@ mixin add-work-experience-modal
                         .row
                             .col-12 Description
                                 textarea.form-control.mb-2(name='description')
+                    .modal-footer
+                        button.btn.btn-secondary(
+                            type='button'
+                            data-dismiss='modal') Close
+                        button.btn.btn-primary(type='submit') Save
+
+mixin edit-work-experience-modal(experience)
+    .modal.fade(
+        tabindex='1'
+        id=`edit-work-experience-${experience._id}`
+    )
+        .modal-dialog
+            .modal-content
+                form(action='/app/work-experience/edit' method='POST')
+                    .modal-header
+                        h5.modal-title Edit Work Experience
+                        button.close(type='button' data-dismiss='modal')
+                            span &times;
+                    .modal-body
+                        input(name='dbid' value=experience._id hidden)
+                        .row
+                            .col-12 Position
+                                input.form-control.mb-2(name='position' value=experience.position)
+                        .row
+                            .col-12 Organization
+                                input.form-control.mb-2(name='organization' value=experience.organization)
+                        .row
+                            .col-12.col-md-6 Start
+                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/dd/yyyy')
+                            .col-12.col-md-6 End
+                                input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/dd/yyyy')
+                        .row
+                            .col-12 Description
+                                textarea.form-control.mb-2(name='description' value=experience.description)
+                        .row
+                            .col-12
+                                .alert.alert-danger
+                                    input(type='checkbox' name='delete')
+                                    span.ml-2 Delete
                     .modal-footer
                         button.btn.btn-secondary(
                             type='button'

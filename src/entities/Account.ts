@@ -1,8 +1,10 @@
 import { database } from "@shared/database";
+import { ObjectId } from "mongodb";
 
 const ACCOUNTS_COLLECTION = "accounts";
 
 export interface IAccount {
+    _id: ObjectId;
     fname: string;
     lname: string;
     email: string;
@@ -10,6 +12,7 @@ export interface IAccount {
 }
 
 export default class Account implements IAccount {
+    public _id: ObjectId;
     public fname: string;
     public lname: string;
     public email: string;
@@ -26,11 +29,13 @@ export default class Account implements IAccount {
             this.lname = lname || "";
             this.email = email || "";
             this.password = password || "";
+            this._id = new ObjectId();
         } else {
             this.fname = fname.fname;
             this.lname = fname.lname;
             this.email = fname.email;
             this.password = fname.password;
+            this._id = fname._id;
         }
     }
 

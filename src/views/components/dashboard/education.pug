@@ -8,7 +8,7 @@ mixin education-card(educationHistory)
 
 mixin education-item(education)
     .alert.alert-success
-        h5= `${education.institution}, Class of ${education.end.split("/")[2]}`
+        .btn= `${education.institution}, Class of ${education.end.split("/")[2]}`
 
 mixin add-education-modal
     #add-education-modal.modal.fade(tabindex='1')

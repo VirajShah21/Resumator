@@ -7,6 +7,7 @@ import WorkExperience from "@entities/WorkExperience";
 import Education from "@entities/Education";
 import path from "path";
 import app from "@server";
+import { ObjectId } from "mongodb";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -125,6 +126,25 @@ router.get("/themes/preview", (req, res) => {
                         });
                     }
                 );
+            });
+        });
+    });
+});
+
+router.post("/work-experience/edit", (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        Account.loadFromDatabase(session.user, (account) => {
+            let experience = new WorkExperience(
+                req.body.position,
+                req.body.organization,
+                req.body.start,
+                req.body.end,
+                req.body.description,
+                account.email
+            );
+            experience._id = new ObjectId(req.body.dbid);
+            experience.updateDatabaseItem(() => {
+                res.redirect(path.join(PREFIX, "dashboard"));
             });
         });
     });

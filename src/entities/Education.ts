@@ -1,8 +1,10 @@
 import { database } from "@shared/database";
+import { ObjectId } from "mongodb";
 
 const EDUCATION_COLLECTION = "education";
 
 export interface IEducation {
+    _id: ObjectId;
     user: string;
     institution: string;
     level: string;
@@ -14,6 +16,7 @@ export interface IEducation {
 }
 
 export default class Education implements IEducation {
+    public _id: ObjectId;
     public user: string;
     public institution: string;
     public level: string;
@@ -42,6 +45,7 @@ export default class Education implements IEducation {
             this.end = end || "";
             this.gpa = gpa || 0;
             this.description = description || "";
+            this._id = new ObjectId();
         } else {
             this.user = user.user;
             this.institution = user.institution;
@@ -51,6 +55,7 @@ export default class Education implements IEducation {
             this.end = user.end;
             this.gpa = user.gpa;
             this.description = user.description;
+            this._id = user._id;
         }
     }
 

@@ -1,8 +1,10 @@
 import { database } from "@shared/database";
+import { ObjectId } from "mongodb";
 
 const WORK_EXPERIENCE_COLLECTION = "work-experience";
 
 export interface IWorkExperience {
+    _id: ObjectId;
     position: string;
     organization: string;
     start: string;
@@ -12,6 +14,7 @@ export interface IWorkExperience {
 }
 
 export default class WorkExperience {
+    public _id: ObjectId;
     public user: string;
     public position: string;
     public organization: string;
@@ -32,6 +35,7 @@ export default class WorkExperience {
             this.organization = organization || "";
             this.description = description || "";
             this.user = user || "";
+            this._id = new ObjectId();
             if (start) {
                 if (typeof start != "string") {
                     const month = start.getMonth() + 1;
@@ -57,6 +61,7 @@ export default class WorkExperience {
                 this.end = "1/1/2020";
             }
         } else {
+            this._id = position._id;
             this.position = position.position;
             this.organization = position.organization;
             this.start = position.start;
@@ -72,6 +77,20 @@ export default class WorkExperience {
             .insert(this, (err, result) => {
                 if (callback) callback();
             });
+    }
+
+    public updateDatabaseItem(callback?: () => void): void {
+        database.collection(WORK_EXPERIENCE_COLLECTION).updateOne(
+            {
+                _id: this._id,
+            },
+            {
+                $set: this,
+            },
+            (err, result) => {
+                if (callback) callback();
+            }
+        );
     }
 
     public static loadFromDatabase(
