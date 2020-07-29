@@ -32,7 +32,7 @@ jobs:
             #     echo Add other actions to build,
             #     echo test, and deploy your project.
             - name: Build this file
-              run: npm run build && npm run start
+              run: npm install bcrypt --build-from-source && npm run build && npm run start
     sonarcloud:
         runs-on: ubuntu-latest
         steps:
