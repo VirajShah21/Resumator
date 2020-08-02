@@ -1,5 +1,7 @@
 :root {
     --blue: #126dff;
+    --light-blue: #5295ff;
+    --dark-blue: #0a3a86;
 }
 
 * {
@@ -81,4 +83,32 @@ h4 {
 
 td {
     vertical-align: top;
+}
+
+h3 {
+    color: var(--blue);
+}
+
+h4 {
+    color: var(--dark-blue);
+}
+
+p {
+    font-size: 10pt;
+}
+
+.mb-12 {
+    margin-bottom: 12pt;
+}
+
+.text-blue {
+    color: var(--blue);
+}
+
+.text-light-blue {
+    color: var(--light-blue);
+}
+
+.text-dark-blue {
+    color: var(--dark-blue)
 }

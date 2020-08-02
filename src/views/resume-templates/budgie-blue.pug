@@ -7,7 +7,7 @@ html(lang='en-US')
     body
         .page
             h1= `${account.fname} ${account.lname}`
-            #contact
+            #contact.mb-12
                 span.p-12
                     ion-icon(style='vertical-align:middle' name='mail-unread-outline')
                     span= account.email
@@ -15,22 +15,28 @@ html(lang='en-US')
                     ion-icon(style='vertical-align:middle' name='call-outline')
                     span (609) 751 7703
             table.w-100
-                tr
-                    td.text-right.title-cell(style='width:50%') Work
-                    td.title-cell(style='width:50%') Education
+                tr.mb-12
+                    td.text-right.title-cell(style='width:50%')
+                        h3 Work
+                    td.title-cell(style='width:50%')
+                        h3 Education
                 tr
                     td.text-right
                         each job in workExperience
-                            div
+                            .mb-12
                                 .work-item
-                                    h4= `${job.position} at ${job.organization}`
+                                    h4
+                                        small= `${job.position} at`
+                                        = ` ${job.organization}`
                                     .date= `${job.start.split("/")[2]} - ${job.end.toLowerCase() == "present" ? "Present" : job.end.split("/")[2]}`
                                     p(style='margin:0')= job.description
                     td.text-left
                         each edu in educationHistory
-                            div
+                            .mb-12
                                 .education-item
-                                    h4= `${edu.degree} at ${edu.institution}`
+                                    h4= edu.institution
+                                        | &nbsp;
+                                        small= edu.degree
                                     span.date= `${edu.end.split("/")[2]}`
                                     p(style='margin:0')= `${edu.level}, GPA: ${edu.gpa}`
 

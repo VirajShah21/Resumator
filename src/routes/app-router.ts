@@ -41,6 +41,15 @@ router.post("/account/signup", jsonParser, (req, res) => {
     }
 });
 
+router.post("account/update", (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        Account.loadFromDatabase(session.user, (account) => {
+            // account.address =
+            // TODO: Add Validators
+        });
+    });
+});
+
 router.get("/dashboard", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
