@@ -35,7 +35,7 @@ export default class Address implements IAddress {
 
     private validateStreet(): boolean {
         try {
-            let number = this.line1.split(" ")[0];
+            const number = this.line1.split(" ")[0];
             parseInt(number); // will throw an exception if NaN
             // checks if street name exists (and len > 1) (if blank throws an exception)
             return this.line1.split(" ")[1].trim().length > 1;

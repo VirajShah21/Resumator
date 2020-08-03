@@ -1,7 +1,6 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
-import Address from "./Address";
-import { IAddress } from "./Address";
+import Address, { IAddress } from "./Address";
 import { validateEmail } from "@shared/functions";
 
 const ACCOUNTS_COLLECTION = "accounts";
@@ -58,7 +57,7 @@ export default class Account implements IAccount {
         return true;
     }
 
-    private validateAddress(): booelan {
+    private validateAddress(): boolean {
         return this.address.validate();
     }
 

@@ -30,7 +30,7 @@ export default class Session implements ISession {
     }
 
     public insertDatabaseItem(callback: () => void): void {
-        database.collection(SESSIONS_COLLECTION).insert(this);
+        database.collection(SESSIONS_COLLECTION).insertOne(this);
         callback();
     }
 

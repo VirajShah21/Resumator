@@ -61,7 +61,7 @@ export default class Education implements IEducation {
     }
 
     public insertDatabaseItem(callback?: () => void): void {
-        database.collection(EDUCATION_COLLECTION).insert(this, (err, result) => {
+        database.collection(EDUCATION_COLLECTION).insertOne(this, (err, result) => {
             if (callback) callback();
         });
     }

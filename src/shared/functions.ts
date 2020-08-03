@@ -1,6 +1,7 @@
-import logger from "./Logger";
 import Bcrypt from "bcrypt";
 import { passwordSaltRounds, keygenChars } from "./constants";
+
+export const KEYLENGTH = 15;
 
 export function hashPassword(plaintextPassword: string, callback?: (hash: string) => void) {
     Bcrypt.hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
@@ -21,7 +22,7 @@ export function comparePasswordWithHash(
 export function generateKey(): string {
     let key = "";
 
-    while (key.length < 15) key += keygenChars.charAt(Math.random() * keygenChars.length);
+    while (key.length < KEYLENGTH) key += keygenChars.charAt(Math.random() * keygenChars.length);
 
     return key;
 }
