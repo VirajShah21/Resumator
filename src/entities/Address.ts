@@ -1,3 +1,6 @@
+/**
+ * Address interface
+ */
 export interface IAddress {
     line1: string;
     line2: string;
@@ -6,6 +9,9 @@ export interface IAddress {
     zip: number;
 }
 
+/**
+ * Address class
+ */
 export default class Address implements IAddress {
     public line1: string;
     public line2: string;
@@ -13,6 +19,14 @@ export default class Address implements IAddress {
     public state: string;
     public zip: number;
 
+    /**
+     *
+     * @param line1 Address line 1
+     * @param line2 Address line 2
+     * @param city City/Township/Municipality
+     * @param state The two letter state abbreviation
+     * @param zip Zip code
+     */
     constructor(line1: string | IAddress, line2?: string, city?: string, state?: string, zip?: number) {
         if (typeof line1 == "string") {
             this.line1 = line1;
@@ -29,6 +43,9 @@ export default class Address implements IAddress {
         }
     }
 
+    /**
+     * @returns True if all fields are valid; false otherwise
+     */
     public validate(): boolean {
         return this.validateStreet() && this.validateCityAndState() && this.validateZip();
     }
@@ -45,7 +62,7 @@ export default class Address implements IAddress {
     }
 
     private validateCityAndState(): boolean {
-        return this.city.length > 0 && this.state.length > 0;
+        return this.city.length > 0 && this.state.length == 2;
     }
 
     private validateZip(): boolean {

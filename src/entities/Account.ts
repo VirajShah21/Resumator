@@ -5,6 +5,9 @@ import { validateEmail } from "@shared/functions";
 
 const ACCOUNTS_COLLECTION = "accounts";
 
+/**
+ * Account Interface (User accounts)
+ */
 export interface IAccount {
     _id: ObjectId;
     fname: string;
@@ -14,6 +17,9 @@ export interface IAccount {
     address: IAddress;
 }
 
+/**
+ * The Account class. Stores core user account information.
+ */
 export default class Account implements IAccount {
     public _id: ObjectId;
     public fname: string;
@@ -22,6 +28,14 @@ export default class Account implements IAccount {
     public password: string;
     public address: Address;
 
+    /**
+     *
+     * @param fname The user's first name
+     * @param lname The user's last name
+     * @param email The user's email
+     * @param password The user's hashed password (hashed with Bcrypt)
+     * @param address The user's address
+     */
     constructor(fname: string | IAccount, lname?: string, email?: string, password?: string, address?: IAddress) {
         if (typeof fname == "string") {
             this._id = new ObjectId();
@@ -40,6 +54,9 @@ export default class Account implements IAccount {
         }
     }
 
+    /**
+     * @returns True if all fields are valid
+     */
     public validate(): boolean {
         return this.validateName() && this.validateEmail() && this.validatePassword() && this.validateAddress();
     }
@@ -61,6 +78,11 @@ export default class Account implements IAccount {
         return this.address.validate();
     }
 
+    /**
+     * Inserts this object to the accounts database
+     *
+     * @param callback The function to call upon completion
+     */
     public insertDatabaseItem(callback?: (success: boolean) => void): void {
         database.collection(ACCOUNTS_COLLECTION).findOne({ email: this.email }, (err, result) => {
             if (err) throw err;
@@ -74,6 +96,12 @@ export default class Account implements IAccount {
         });
     }
 
+    /**
+     * Loads an account from the database via email address
+     *
+     * @param email Lookup email
+     * @param callback The callback passing the user's account
+     */
     public static loadFromDatabase(email: string, callback: (account: Account) => void): void {
         database.collection(ACCOUNTS_COLLECTION).findOne({ email }, (err, result) => {
             if (err) throw err;

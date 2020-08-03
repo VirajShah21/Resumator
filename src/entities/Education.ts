@@ -27,6 +27,17 @@ export default class Education implements IEducation {
     public gpa: number;
     public description: string;
 
+    /**
+     *
+     * @param user The user's email address
+     * @param institution The institution which this education object belongs to
+     * @param level The level of education acquired
+     * @param degree The degree/diploma received
+     * @param start Start date
+     * @param end End/Graduation Date
+     * @param gpa Grade Point Average
+     * @param description Description of study at the institution
+     */
     constructor(
         user: string | IEducation,
         institution?: string,
@@ -60,12 +71,22 @@ export default class Education implements IEducation {
         }
     }
 
+    /**
+     * Inserts this object to the education database
+     *
+     * @param callback Callback upon completion
+     */
     public insertDatabaseItem(callback?: () => void): void {
         database.collection(EDUCATION_COLLECTION).insertOne(this, (err, result) => {
             if (callback) callback();
         });
     }
 
+    /**
+     * Updates this item in the database
+     *
+     * @param callback Callback upon completion
+     */
     public updateDatabaseItem(callback?: () => void): void {
         database.collection(EDUCATION_COLLECTION).updateOne(
             {
@@ -80,6 +101,12 @@ export default class Education implements IEducation {
         );
     }
 
+    /**
+     * Loads a list of education history belonging to the user
+     *
+     * @param email The email to lookup
+     * @param callback The callback passing the education history for the user
+     */
     public static loadFromDatabase(email: string, callback?: (eduHistory: Education[]) => void): void {
         database
             .collection(EDUCATION_COLLECTION)
