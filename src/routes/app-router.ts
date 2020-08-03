@@ -1,12 +1,10 @@
 import { Router } from "express";
 import BodyParser from "body-parser";
 import Account from "@entities/Account";
-import { hashPassword } from "@shared/functions";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import Education from "@entities/Education";
 import path from "path";
-import app from "@server";
 import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 
@@ -14,6 +12,8 @@ export const PREFIX = "/app";
 const router = Router();
 
 const jsonParser = BodyParser.json();
+
+router.use("/account", AccountRouter);
 
 router.get("/dashboard", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
@@ -37,7 +37,7 @@ router.get("/dashboard", (req, res) => {
 router.post("/work-experience/add", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
-            let experience = new WorkExperience(
+            const experience = new WorkExperience(
                 req.body.position,
                 req.body.organization,
                 req.body["start-date"],
@@ -55,7 +55,7 @@ router.post("/work-experience/add", jsonParser, (req, res) => {
 router.post("/education/add", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
-            let education = new Education(
+            const education = new Education(
                 account.email,
                 req.body.institution,
                 req.body.level,
@@ -96,7 +96,7 @@ router.get("/themes/preview", (req, res) => {
 
 router.post("/work-experience/update", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
-        let experience = new WorkExperience(
+        const experience = new WorkExperience(
             req.body.position,
             req.body.organization,
             req.body.start,
@@ -113,7 +113,7 @@ router.post("/work-experience/update", (req, res) => {
 
 router.post("/education/update", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
-        let education = new Education(
+        const education = new Education(
             session.user,
             req.body.institution,
             req.body.level,

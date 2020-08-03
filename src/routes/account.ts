@@ -2,6 +2,7 @@ import { Router } from "express";
 import BodyParser from "body-parser";
 import Session from "@entities/Session";
 import Account from "@entities/Account";
+import { hashPassword } from "@shared/functions";
 
 const router = Router();
 
@@ -14,12 +15,12 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", jsonParser, (req, res) => {
-    if (req.body.password == req.body.passwordconf) {
+    if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
-            let account = new Account(req.body.fname, req.body.lname, req.body.email, hash);
+            const account = new Account(req.body.fname, req.body.lname, req.body.email, hash);
             account.insertDatabaseItem((success) => {
                 if (success) {
-                    let session: Session = new Session(account);
+                    const session: Session = new Session(account);
                     session.insertDatabaseItem(() => {
                         res.cookie("session", session.key);
                         res.redirect("/app/dashboard");
