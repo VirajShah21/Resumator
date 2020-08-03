@@ -4,6 +4,9 @@ import { validateEmail, validateDateString } from "@shared/functions";
 
 const EDUCATION_COLLECTION = "education";
 
+/**
+ * Education interface
+ */
 export interface IEducation {
     _id: ObjectId;
     user: string;
@@ -16,6 +19,9 @@ export interface IEducation {
     description: string;
 }
 
+/**
+ * Education class
+ */
 export default class Education implements IEducation {
     public _id: ObjectId;
     public user: string;
@@ -76,10 +82,15 @@ export default class Education implements IEducation {
      *
      * @param callback Callback upon completion
      */
-    public insertDatabaseItem(callback?: () => void): void {
-        database.collection(EDUCATION_COLLECTION).insertOne(this, (err, result) => {
-            if (callback) callback();
-        });
+    public insertDatabaseItem(callback?: (success: boolean) => void): void {
+        if (this.validate()) {
+            database.collection(EDUCATION_COLLECTION).insertOne(this, (err, result) => {
+                if (err && callback) callback(false);
+                else if (callback) callback(true);
+            });
+        } else if (callback) {
+            callback(false);
+        }
     }
 
     /**
@@ -87,18 +98,23 @@ export default class Education implements IEducation {
      *
      * @param callback Callback upon completion
      */
-    public updateDatabaseItem(callback?: () => void): void {
-        database.collection(EDUCATION_COLLECTION).updateOne(
-            {
-                _id: this._id,
-            },
-            {
-                $set: this,
-            },
-            (err, result) => {
-                if (callback) callback();
-            }
-        );
+    public updateDatabaseItem(callback?: (success: boolean) => void): void {
+        if (this.validate()) {
+            database.collection(EDUCATION_COLLECTION).updateOne(
+                {
+                    _id: this._id,
+                },
+                {
+                    $set: this,
+                },
+                (err, result) => {
+                    if (err && callback) callback(false);
+                    else if (callback) callback(true);
+                }
+            );
+        } else if (callback) {
+            callback(false);
+        }
     }
 
     /**
@@ -122,6 +138,9 @@ export default class Education implements IEducation {
             });
     }
 
+    /**
+     * @returns True if all fields are valid; false otherwise
+     */
     public validate(): boolean {
         return (
             this.validateUser() &&

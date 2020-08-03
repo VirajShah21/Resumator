@@ -70,10 +70,15 @@ export default class WorkExperience {
      *
      * @param callback The callback upon completion
      */
-    public insertDatabaseItem(callback?: () => void): void {
-        database.collection(WORK_EXPERIENCE_COLLECTION).insertOne(this, (err, result) => {
-            if (callback) callback();
-        });
+    public insertDatabaseItem(callback?: (success: boolean) => void): void {
+        if (this.validate()) {
+            database.collection(WORK_EXPERIENCE_COLLECTION).insertOne(this, (err, result) => {
+                if (err && callback) callback(false);
+                else if (callback) callback(true);
+            });
+        } else if (callback) {
+            callback(false);
+        }
     }
 
     /**
@@ -81,18 +86,22 @@ export default class WorkExperience {
      *
      * @param callback The callback upon completion
      */
-    public updateDatabaseItem(callback?: () => void): void {
-        database.collection(WORK_EXPERIENCE_COLLECTION).updateOne(
-            {
-                _id: this._id,
-            },
-            {
-                $set: this,
-            },
-            (err, result) => {
-                if (callback) callback();
-            }
-        );
+    public updateDatabaseItem(callback?: (success: boolean) => void): void {
+        if (this.validate()) {
+            database.collection(WORK_EXPERIENCE_COLLECTION).updateOne(
+                {
+                    _id: this._id,
+                },
+                {
+                    $set: this,
+                },
+                (err, result) => {
+                    if (callback) callback(true);
+                }
+            );
+        } else if (callback) {
+            callback(false);
+        }
     }
 
     /**

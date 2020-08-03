@@ -1,4 +1,4 @@
-import { generateKey } from "@shared/functions";
+import { generateKey, KEYLENGTH } from "@shared/functions";
 import { database } from "@shared/database";
 import { IAccount } from "@entities/Account";
 
@@ -44,9 +44,13 @@ export default class Session implements ISession {
      *
      * @param callback Callback upon completion
      */
-    public insertDatabaseItem(callback: () => void): void {
-        database.collection(SESSIONS_COLLECTION).insertOne(this);
-        callback();
+    public insertDatabaseItem(callback: (success: boolean) => void): void {
+        if (this.validate()) {
+            database.collection(SESSIONS_COLLECTION).insertOne(this);
+            callback(true);
+        } else {
+            callback(false);
+        }
     }
 
     /**
@@ -60,5 +64,12 @@ export default class Session implements ISession {
             if (err) throw err;
             callback(new Session(result));
         });
+    }
+
+    /**
+     * @returns True if the session key is valid; false otherwise
+     */
+    public validate(): boolean {
+        return this.key.length === KEYLENGTH;
     }
 }
