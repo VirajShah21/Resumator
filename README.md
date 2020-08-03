@@ -51,9 +51,23 @@ This directory contains three main files:
 
 -   `src` - this contains the files pertaining to the main process of the server application
 
-## SonarCloud
+## Code Style
 
 This project is being scanned on SonarCloud. Crappy code is frowned upon.
+
+Analysis by **SonarCloud**
+
+Linter (for IDEs) **TSLint, SonarLint**
+
+### Data Access Objects
+
+Before a database entry is updated, all fields should be validated using `{DAO}.validate(): boolean`. Common methods for entities are the following:
+
+-   `public static loadFromDatabase(lookup: any, callback: (results: any) => void): void`
+-   `public static insertDatabaseItem(callback: (success: boolean) => void): void`
+-   `public static updateDatabaseItem(callback: (success: boolean) => void): void`
+
+... although they are not required
 
 ## Configuration Files
 
