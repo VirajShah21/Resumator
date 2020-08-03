@@ -1,14 +1,16 @@
 import { ObjectId } from "mongodb";
+import { database } from "@shared/database";
+
+export const SKILLS_COLLECTION = "skills";
 
 /**
  * Skill interface
  */
 export interface ISkill {
     _id: ObjectId;
-    category: string;
-    subcategory: string;
     name: string;
     proficiency: number;
+    user: string;
 }
 
 /**
@@ -16,31 +18,44 @@ export interface ISkill {
  */
 export default class Skill implements ISkill {
     public _id: ObjectId;
-    public category: string;
-    public subcategory: string;
     public name: string;
     public proficiency: number;
+    public user: string;
 
     /**
      *
-     * @param category The category which this skill belongs to OR an ISkill
-     * @param subcategory The subcategory which this skill belongs to; defaults to ""
      * @param name The name of this skill; defaults to ""
      * @param proficiency The proficiency the user has in this skill; defaults to 1 (out of 100)
+     * @param user The user's email address
      */
-    constructor(category: string | ISkill, subcategory?: string, name?: string, proficiency?: number) {
-        if (typeof category == "string") {
+    constructor(name: string | ISkill, proficiency?: number, user?: string) {
+        if (typeof name == "string") {
             this._id = new ObjectId();
-            this.category = category;
-            this.subcategory = subcategory || "";
-            this.name = name || "";
+            this.name = name;
             this.proficiency = proficiency || 1;
+            this.user = user || "";
         } else {
-            this._id = category._id;
-            this.category = category.category;
-            this.subcategory = category.subcategory;
-            this.name = category.name;
-            this.proficiency = category.proficiency;
+            this._id = name._id;
+            this.name = name.name;
+            this.proficiency = name.proficiency;
+            this.user = name.user;
         }
+    }
+
+    public insertDatabaseItem(callback: (success: boolean) => void): void {
+        database.collection(SKILLS_COLLECTION).insert(this, (err) => {
+            if (err) callback(false);
+            else callback(true);
+        });
+    }
+
+    public static loadFromDatabase(user: string, callback: (skills: ISkill[]) => void): void {
+        database
+            .collection(SKILLS_COLLECTION)
+            .find({ user })
+            .toArray((err, skillset) => {
+                if (err) callback([]);
+                else callback(skillset || []);
+            });
     }
 }

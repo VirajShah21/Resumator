@@ -1,0 +1,91 @@
+mixin skills-card(skillset)
+    .card.w-100.mb-4
+        .card-body
+            h4.card-title Skills
+            .row
+                .col-12
+                    .alert.alert-success
+                        each skill in skillset
+                            if skill.proficiency > 66
+                                span.badge.bg-success.rounded-pill.p-2= skill.name
+            .row
+                .col-12
+                    .alert.alert-warning
+                        each skill in skillset
+                            if skill.proficiency > 33 && skill.proficiency <= 66
+                                span.badge.bg-warning.rounded-pill.p-2= skill.name
+            .row
+                .col-12
+                    .alert.alert-danger
+                        each skill in skillset
+                            if skill.proficiency <= 33
+                                span.badge.bg-danger.rounded-pill.p-2= skill.name
+            .row
+                .col-12
+                    button.btn.btn-primary.w-100(data-toggle='modal' data-target='#add-skill-modal') Add Skill
+
+mixin skill-badge(skill)
+    span.badge.bg-primary.rounded-pill.p-2= skill.name
+
+mixin add-skill-modal
+    #add-skill-modal.modal.fade(tabindex='1')
+        .modal-dialog
+            .modal-content
+                form(action='/app/skills/add' method='POST')
+                    .modal-header
+                        h5.modal-title Add Education
+                        button.close(type='button' data-dismiss='modal')
+                            span &times;
+                    .modal-body
+                        .row
+                            .col-12
+                                label Skill
+                                input.form-control.mb-2(name='skill')
+                            .col-12
+                                label Proficiency
+                                .row
+                                    .col-2.text-right 1   
+                                    .col
+                                        input.form-range.w-100(name='proficiency' type='range' min='1' max='100' step='1')
+                                    .col-2 100
+                    .modal-footer
+                        button.btn.btn-secondary(
+                            type='button'
+                            data-dismiss='modal') Close
+                        button.btn.btn-primary(type='submit') Add
+
+mixin edit-education-modal(edu)
+    .modal.fade(tabindex='1' id=`edit-education-modal-${edu._id}`)
+        .modal-dialog
+            .modal-content
+                form(action='/app/education/update' method='POST')
+                    .modal-header
+                        h5.modal-title Add Education
+                        button.close(type='button' data-dismiss='modal')
+                            span &times;
+                    .modal-body
+                        input(name='_id' value=edu._id hidden)
+                        .row
+                            .col-12 Level
+                                input.form-control.mb-2(name='level' value=edu.level placeholder='Undergraduate')
+                        .row
+                            .col-12 Insitution
+                                input.form-control.mb-2(name='institution' value=edu.institution placeholder='Temple University')
+                        .row
+                            .col-12.col-md-6 Start
+                                input.form-control.mb-2(name='start-date' value=edu.start placeholder='mm/dd/yyyy')
+                            .col-12.col-md-6 End
+                                input.form-control.mb-2(name='end-date' value=edu.end placeholder='mm/dd/yyyy')
+                        .row
+                            .col-12.col-md-8 Degree/Program
+                                input.form-control.mb-2(name='degree' value=edu.degree placeholder='B.Sc. Computer Science')
+                            .col-12.col-md-4 GPA
+                                input.form-control.mb-2(type='number' value=edu.gpa step='0.1' name='gpa' placeholder='GPA')
+                        .row
+                            .col-12 Description
+                                textarea.form-control.mb-2(name='description')= edu.description
+                    .modal-footer
+                        button.btn.btn-secondary(
+                            type='button'
+                            data-dismiss='modal') Close
+                        button.btn.btn-primary(type='submit') Save

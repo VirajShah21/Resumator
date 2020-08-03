@@ -7,6 +7,7 @@ import Education from "@entities/Education";
 import path from "path";
 import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
+import Skill from "@entities/Skill";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -20,13 +21,16 @@ router.get("/dashboard", (req, res) => {
         Account.loadFromDatabase(session.user, (account) => {
             WorkExperience.loadFromDatabase(account.email, (workExperience) => {
                 Education.loadFromDatabase(account.email, (educationHistory) => {
-                    res.render("dashboard", {
-                        session,
-                        account,
-                        educationHistory,
-                        workExperience,
-                        volunteerExperience: [],
-                        nav: "Dashboard",
+                    Skill.loadFromDatabase(account.email, (skillset) => {
+                        res.render("dashboard", {
+                            session,
+                            account,
+                            educationHistory,
+                            workExperience,
+                            volunteerExperience: [],
+                            skillset,
+                            nav: "Dashboard",
+                        });
                     });
                 });
             });
@@ -46,7 +50,8 @@ router.post("/work-experience/add", jsonParser, (req, res) => {
                 account.email
             );
             experience.insertDatabaseItem(() => {
-                res.redirect(path.join(PREFIX, "dashboard"));
+                res.redirect("back");
+                // res.redirect(path.join(PREFIX, "dashboard"));
             });
         });
     });
@@ -66,7 +71,8 @@ router.post("/education/add", (req, res) => {
                 req.body.description
             );
             education.insertDatabaseItem(() => {
-                res.redirect(path.join(PREFIX, "dashboard"));
+                res.redirect("back");
+                // res.redirect(path.join(PREFIX, "dashboard"));
             });
         });
     });
@@ -106,7 +112,7 @@ router.post("/work-experience/update", (req, res) => {
         );
         experience._id = new ObjectId(req.body.dbid);
         experience.updateDatabaseItem(() => {
-            res.redirect(path.join(PREFIX, "dashboard"));
+            res.redirect("back");
         });
     });
 });
@@ -125,7 +131,16 @@ router.post("/education/update", (req, res) => {
         );
         education._id = new ObjectId(req.body._id);
         education.updateDatabaseItem(() => {
-            res.redirect(path.join(PREFIX, "dashboard"));
+            res.redirect("back");
+        });
+    });
+});
+
+router.post("/skills/add", jsonParser, (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
+        skill.insertDatabaseItem((success) => {
+            res.redirect("back");
         });
     });
 });

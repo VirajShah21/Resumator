@@ -1,6 +1,7 @@
 include components/dashboard/work-experience
 include components/dashboard/education
 include components/dashboard/personal-info
+include components/dashboard/skillset
 
 doctype html
 
@@ -12,6 +13,8 @@ html(lang='en-US')
 
         +add-work-experience-modal
         +add-education-modal
+        +add-skill-modal
+
         each job, index in workExperience
             +edit-work-experience-modal(job, index)
         each education in educationHistory
@@ -27,6 +30,7 @@ html(lang='en-US')
             .row
                 .col-12.col-md-6
                     +personal-info-card(account)
+                    +skills-card(skillset)
                 .col-12.col-md-6
                     +education-card(educationHistory)
                     +work-experience-card(workExperience)
