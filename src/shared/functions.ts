@@ -2,10 +2,7 @@ import logger from "./Logger";
 import Bcrypt from "bcrypt";
 import { passwordSaltRounds, keygenChars } from "./constants";
 
-export function hashPassword(
-    plaintextPassword: string,
-    callback?: (hash: string) => void
-) {
+export function hashPassword(plaintextPassword: string, callback?: (hash: string) => void) {
     Bcrypt.hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
         if (callback) callback(hash);
     });
@@ -24,8 +21,27 @@ export function comparePasswordWithHash(
 export function generateKey(): string {
     let key = "";
 
-    while (key.length < 15)
-        key += keygenChars.charAt(Math.random() * keygenChars.length);
+    while (key.length < 15) key += keygenChars.charAt(Math.random() * keygenChars.length);
 
     return key;
+}
+
+export function validateEmail(email: string): boolean {
+    try {
+        return email.split("@").length === 2 && email.split("@")[1].split(".").length === 2;
+    } catch (e) {
+        return false;
+    }
+}
+
+export function validateDateString(date: string): boolean {
+    try {
+        const month = parseInt(date.split("/")[0]);
+        const day = parseInt(date.split("/")[1]);
+        const year = parseInt(date.split("/")[2]);
+
+        return month > 0 && month <= 12 && day > 0 && day <= 31 && year < new Date().getFullYear();
+    } catch (e) {
+        return false;
+    }
 }

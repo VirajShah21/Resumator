@@ -34,15 +34,10 @@ export default class Session implements ISession {
         callback();
     }
 
-    public static loadFromDatabase(
-        key: string,
-        callback: (session: Session) => void
-    ): void {
-        database
-            .collection(SESSIONS_COLLECTION)
-            .findOne({ key }, (err, result) => {
-                if (err) throw err;
-                callback(new Session(result));
-            });
+    public static loadFromDatabase(key: string, callback: (session: Session) => void): void {
+        database.collection(SESSIONS_COLLECTION).findOne({ key }, (err, result) => {
+            if (err) throw err;
+            callback(new Session(result));
+        });
     }
 }

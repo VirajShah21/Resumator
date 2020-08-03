@@ -1,5 +1,6 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
+import { validateEmail, validateDateString } from "@shared/functions";
 
 const EDUCATION_COLLECTION = "education";
 
@@ -92,5 +93,45 @@ export default class Education implements IEducation {
                     );
                 }
             });
+    }
+
+    public validate(): boolean {
+        return (
+            this.validateUser() &&
+            this.validateInstitution() &&
+            this.validateLevel() &&
+            this.validateDegree() &&
+            this.validateStartAndEnd() &&
+            this.validateGpa() &&
+            this.validateDescription()
+        );
+    }
+
+    private validateUser(): boolean {
+        return validateEmail(this.user);
+    }
+
+    private validateInstitution(): boolean {
+        return this.institution.length > 0;
+    }
+
+    private validateLevel(): boolean {
+        return this.level.length > 0;
+    }
+
+    private validateDegree(): boolean {
+        return this.degree.length > 0;
+    }
+
+    private validateStartAndEnd(): boolean {
+        return validateDateString(this.start) && validateDateString(this.end);
+    }
+
+    private validateGpa(): boolean {
+        return this.gpa > 0 && this.gpa <= 5;
+    }
+
+    private validateDescription(): boolean {
+        return this.description !== undefined;
     }
 }

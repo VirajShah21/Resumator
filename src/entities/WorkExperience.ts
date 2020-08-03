@@ -1,5 +1,6 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
+import { validateEmail, validateDateString } from "@shared/functions";
 
 const WORK_EXPERIENCE_COLLECTION = "work-experience";
 
@@ -72,11 +73,9 @@ export default class WorkExperience {
     }
 
     public insertDatabaseItem(callback?: () => void): void {
-        database
-            .collection(WORK_EXPERIENCE_COLLECTION)
-            .insert(this, (err, result) => {
-                if (callback) callback();
-            });
+        database.collection(WORK_EXPERIENCE_COLLECTION).insert(this, (err, result) => {
+            if (callback) callback();
+        });
     }
 
     public updateDatabaseItem(callback?: () => void): void {
@@ -93,10 +92,7 @@ export default class WorkExperience {
         );
     }
 
-    public static loadFromDatabase(
-        email: string,
-        callback?: (workExperiences: WorkExperience[]) => void
-    ): void {
+    public static loadFromDatabase(email: string, callback?: (workExperiences: WorkExperience[]) => void): void {
         database
             .collection(WORK_EXPERIENCE_COLLECTION)
             .find({ user: email })
@@ -109,5 +105,35 @@ export default class WorkExperience {
                     );
                 }
             });
+    }
+
+    public validate(): boolean {
+        return (
+            this.validateUser() &&
+            this.validatePosition() &&
+            this.validateOrganization() &&
+            this.validateStartAndEnd() &&
+            this.validateDescription()
+        );
+    }
+
+    private validateUser(): boolean {
+        return validateEmail(this.user);
+    }
+
+    private validatePosition(): boolean {
+        return this.position.length > 0;
+    }
+
+    private validateOrganization(): boolean {
+        return this.organization.length > 0;
+    }
+
+    private validateStartAndEnd(): boolean {
+        return validateDateString(this.start) && validateDateString(this.end);
+    }
+
+    private validateDescription(): boolean {
+        return this.description.length > 0;
     }
 }

@@ -2,6 +2,7 @@ import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import Address from "./Address";
 import { IAddress } from "./Address";
+import { validateEmail } from "@shared/functions";
 
 const ACCOUNTS_COLLECTION = "accounts";
 
@@ -41,14 +42,24 @@ export default class Account implements IAccount {
     }
 
     public validate(): boolean {
-        let valid: boolean;
+        return this.validateName() && this.validateEmail() && this.validatePassword() && this.validateAddress();
+    }
 
-        valid = this.fname.indexOf(" ") < 0;
-        valid = valid && this.lname.indexOf(" ") < 0;
-        valid = valid && this.email.split("@").length === 2 && this.email.split("@")[1].split(".").length === 2;
-        valid = valid && this.password.length > 8;
-        valid = valid && this.address.validate();
-        return valid;
+    private validateName(): boolean {
+        return this.fname.indexOf(" ") < 0 && this.lname.indexOf(" ") < 0;
+    }
+
+    private validateEmail(): boolean {
+        return validateEmail(this.email);
+    }
+
+    private validatePassword(): boolean {
+        // TODO: Ensure that the password is a bcrypt hash
+        return true;
+    }
+
+    private validateAddress(): booelan {
+        return this.address.validate();
     }
 
     public insertDatabaseItem(callback?: (success: boolean) => void): void {

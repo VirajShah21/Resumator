@@ -29,7 +29,26 @@ export default class Address implements IAddress {
         }
     }
 
-    validate(): boolean {
-        return true;
+    public validate(): boolean {
+        return this.validateStreet() && this.validateCityAndState() && this.validateZip();
+    }
+
+    private validateStreet(): boolean {
+        try {
+            let number = this.line1.split(" ")[0];
+            parseInt(number); // will throw an exception if NaN
+            // checks if street name exists (and len > 1) (if blank throws an exception)
+            return this.line1.split(" ")[1].trim().length > 1;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    private validateCityAndState(): boolean {
+        return this.city.length > 0 && this.state.length > 0;
+    }
+
+    private validateZip(): boolean {
+        return this.zip.toString().length === 5;
     }
 }
