@@ -145,4 +145,15 @@ router.post("/skills/add", jsonParser, (req, res) => {
     });
 });
 
+router.post("/skills/update", jsonParser, (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
+        skill._id = new ObjectId(req.body._id);
+        skill.updateDatabaseItem((success) => {
+            if (success) res.redirect("back");
+            else res.send("failed");
+        });
+    });
+});
+
 export default router;

@@ -49,6 +49,21 @@ export default class Skill implements ISkill {
         });
     }
 
+    public updateDatabaseItem(callback: (success: boolean) => void): void {
+        database.collection(SKILLS_COLLECTION).updateOne(
+            {
+                _id: this._id,
+            },
+            {
+                $set: this,
+            },
+            (err) => {
+                if (err) callback(false);
+                else callback(true);
+            }
+        );
+    }
+
     public static loadFromDatabase(user: string, callback: (skills: ISkill[]) => void): void {
         database
             .collection(SKILLS_COLLECTION)
