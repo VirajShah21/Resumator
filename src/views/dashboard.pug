@@ -9,6 +9,7 @@ html(lang='en-US')
         include components/head
     body
         include components/navbar
+
         +add-work-experience-modal
         +add-education-modal
         each job, index in workExperience
@@ -18,15 +19,17 @@ html(lang='en-US')
         
         .container.mt-4
             .row
-                .col-12.col-md-6
-                    p= `Email: ${account.email}`
-                .col-12.col-md-6.text-left.text-md-right
-                    p= `Name: ${account.fname} ${account.lname}`
+                .col-12
+                    span= `${account.fname} ${account.lname} (${account.email})`
+            .row
+                .col-12
+                    hr
             .row
                 .col-12.col-md-6
-                    +work-experience-card(workExperience)
                     +personal-info-card(account)
                 .col-12.col-md-6
                     +education-card(educationHistory)
+                    +work-experience-card(workExperience)
+
 
         include components/scripts
