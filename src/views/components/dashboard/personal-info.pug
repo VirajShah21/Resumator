@@ -2,33 +2,34 @@ mixin personal-info-card(account)
     .card.w-100.mb-4
         .card-body
             h4.card-title Personal Information
-            .row
-                .col-12.col-6
-                    label First Name
-                    input.form-control.mb-2(name='fname' value=account.fname)
-                .col-12.col-6
-                    label Last Name
-                    input.form-control.mb-2(name='lname' value=account.lname)
-            .row
-                .col-12
-                    label Email
-                    input.form-control.mb-2(name='email' value=account.email)
-            .row
-                .col-12
-                    label Phone
-                    input.form-control.mb-2(name='phone' value=account.phone)
-            .row
-                .col-12
-                    label Address
-                    input.form-control.mb-2(name='address-line-1' value=account.address.line1 placeholder='Address Line 1')
-            .row
-                .col-12
-                    input.form-control.mb-2(name='address-line-2' value=account.address.line2 placeholder='Address Line 2')
-            .row
-                .col-12.col-md-5
-                    input.form-control.mb-2(name='city' value=account.address.city placeholder='City')
-                .col-6.col-md-3
-                    input.form-control.mb-2(name='state' value=account.address.state placeholder='State')
-                .col-6.col-md-4
-                    input.form-control.mb-2(name='zip' value=account.address.zip placeholder='Zip Code')
-            button.btn.btn-primary.btn-block(type='submit') Update
+            form(action='/app/account/update' method='POST')
+                .row
+                    .col-12.col-6
+                        label First Name
+                        input.form-control.mb-2(name='fname' value=account.fname)
+                    .col-12.col-6
+                        label Last Name
+                        input.form-control.mb-2(name='lname' value=account.lname)
+                .row
+                    .col-12
+                        label Email
+                        input.form-control.mb-2(name='email' value=account.email)
+                .row
+                    .col-12
+                        label Phone
+                        input.form-control.mb-2(name='phone' value=account.phone)
+                .row
+                    .col-12
+                        label Address
+                        input.form-control.mb-2(name='line1' value=account.address.line1 placeholder='Address Line 1')
+                .row
+                    .col-12
+                        input.form-control.mb-2(name='line2' value=account.address.line2 placeholder='Address Line 2')
+                .row
+                    .col-12.col-md-5
+                        input.form-control.mb-2(name='city' value=account.address.city placeholder='City')
+                    .col-6.col-md-3
+                        input.form-control.mb-2(name='state' value=account.address.state placeholder='State')
+                    .col-6.col-md-4
+                        input.form-control.mb-2(name='zip' value=account.address.zip placeholder='Zip Code')
+                button.btn.btn-primary.btn-block(type='submit') Update

@@ -102,6 +102,25 @@ export default class Account implements IAccount {
         }
     }
 
+    public updateDatabaseItem(callback: (success: boolean) => void): void {
+        if (this.validate()) {
+            database.collection(ACCOUNTS_COLLECTION).updateOne(
+                {
+                    _id: this._id,
+                },
+                {
+                    $set: this,
+                },
+                (err) => {
+                    if (err) callback(false);
+                    else callback(true);
+                }
+            );
+        } else {
+            callback(false);
+        }
+    }
+
     /**
      * Loads an account from the database via email address
      *
