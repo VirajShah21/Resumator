@@ -5,25 +5,28 @@ mixin skills-card(skillset)
             .row
                 .col-12
                     .alert.alert-success
+                        h5 High Proficiency
                         each skill in skillset
                             if skill.proficiency > 66
-                                span.badge.bg-success.rounded-pill.p-2(
+                                span.badge.bg-success.rounded-pill.p-2.mr-1.mb-1(
                                     data-toggle='modal'
                                     data-target=`#edit-skill-modal-${skill._id}`)= skill.name
             .row
                 .col-12
                     .alert.alert-warning
+                        h5 Moderate Proficiency
                         each skill in skillset
                             if skill.proficiency > 33 && skill.proficiency <= 66
-                                span.badge.bg-warning.rounded-pill.p-2(
+                                span.badge.bg-warning.rounded-pill.p-2.mr-1.mb-1(
                                     data-toggle='modal'
                                     data-target=`#edit-skill-modal-${skill._id}`)= skill.name
             .row
                 .col-12
                     .alert.alert-danger
+                        h5 Low Proficiency
                         each skill in skillset
                             if skill.proficiency <= 33
-                                span.badge.bg-danger.rounded-pill.p-2(
+                                span.badge.bg-danger.rounded-pill.p-2.mr-1.mb-1(
                                     data-toggle='modal'
                                     data-target=`#edit-skill-modal-${skill._id}`)= skill.name
             .row
