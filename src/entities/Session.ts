@@ -26,16 +26,16 @@ export default class Session implements ISession {
      * @param sessionOrAccount An object containing information for either a session or an account
      */
     constructor(sessionOrAccount: ISession | IAccount) {
-        if (sessionOrAccount.hasOwnProperty("key")) {
+        if ("key" in sessionOrAccount) {
             // if is of type `ISession`
-            this.key = (sessionOrAccount as ISession).key;
-            this.timestamp = (sessionOrAccount as ISession).timestamp;
-            this.user = (sessionOrAccount as ISession).user;
+            this.key = sessionOrAccount.key;
+            this.timestamp = sessionOrAccount.timestamp;
+            this.user = sessionOrAccount.user;
         } else {
             // is of type `IAccount`
             this.key = generateKey();
             this.timestamp = new Date().getTime();
-            this.user = (sessionOrAccount as IAccount).email;
+            this.user = sessionOrAccount.email;
         }
     }
 

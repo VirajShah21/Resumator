@@ -93,7 +93,6 @@ The linter rules for TypeScript
 
 ## Issues
 
--   :red_circle: Login has no functionality
 -   :beetle: Adding education does not work
 -   :red_circle: Missing delete Skill
 -   :red_circle: Missing delete Education
@@ -111,8 +110,8 @@ The linter rules for TypeScript
 
 > **Key**
 >
-> :red_circle: = functionality issue  
-> :white_circle: = UI issue  
+> :red_circle: = functionality issue **or** missing functionality  
+> :white_circle: = UI issue **or missing component**  
 > :black_circle: = code quality issue
 > :beetle: = bug
 

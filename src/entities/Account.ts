@@ -45,7 +45,8 @@ export default class Account implements IAccount {
             this.password = password || "";
             this.address = address ? new Address(address) : new Address("", "", "", "", 0);
         } else {
-            this._id = fname._id;
+            console.log(fname);
+            this._id = new ObjectId(fname._id);
             this.fname = fname.fname;
             this.lname = fname.lname;
             this.email = fname.email;
@@ -127,9 +128,9 @@ export default class Account implements IAccount {
      * @param email Lookup email
      * @param callback The callback passing the user's account
      */
-    public static loadFromDatabase(email: string, callback: (account: Account) => void): void {
+    public static loadFromDatabase(email: string, callback: (account?: Account) => void): void {
         database.collection(ACCOUNTS_COLLECTION).findOne({ email }, (err, result) => {
-            if (err) throw err;
+            if (err || !result) callback(undefined);
             callback(new Account(result));
         });
     }

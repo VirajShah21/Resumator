@@ -2,7 +2,7 @@ import { Router } from "express";
 import BodyParser from "body-parser";
 import Session from "@entities/Session";
 import Account from "@entities/Account";
-import { hashPassword } from "@shared/functions";
+import { hashPassword, comparePasswordWithHash } from "@shared/functions";
 import Address from "@entities/Address";
 
 const router = Router();
@@ -39,16 +39,42 @@ router.post("/signup", jsonParser, (req, res) => {
 router.post("/update", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         Account.loadFromDatabase(session.user, (account) => {
-            account.fname = req.body.fname || account.fname;
-            account.lname = req.body.lname || account.lname;
-            account.email = req.body.email || account.email;
-            account.address = req.body.line1
-                ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
-                : account.address;
-            account.updateDatabaseItem((success) => {
-                res.redirect("/app/dashboard");
-            });
+            if (account) {
+                account.fname = req.body.fname || account.fname;
+                account.lname = req.body.lname || account.lname;
+                account.email = req.body.email || account.email;
+                account.address = req.body.line1
+                    ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
+                    : account.address;
+                account.updateDatabaseItem((success) => {
+                    res.redirect("/app/dashboard");
+                });
+            }
         });
+    });
+});
+
+router.post("/login", jsonParser, (req, res) => {
+    Account.loadFromDatabase(req.body.email, (account) => {
+        if (account) {
+            comparePasswordWithHash(req.body.password, account.password, (correctPassword) => {
+                if (correctPassword) {
+                    const session: Session = new Session(account);
+                    res.cookie("session", session.key);
+                    session.insertDatabaseItem((isSessionAdded) => {
+                        if (isSessionAdded) {
+                            res.redirect("/app/dashboard");
+                        } else {
+                            // Throw an error
+                        }
+                    });
+                } else {
+                    // Throw an error
+                }
+            });
+        } else {
+            // Throw an error
+        }
     });
 });
 

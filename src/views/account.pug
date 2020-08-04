@@ -11,7 +11,7 @@ html(lang='en-US')
                 .col-12.col-md-5
                     h2 Login
 
-                    .row
+                    form.row(action='/app/account/login' method='POST')
                         .col-12
                             input.form-control.mb-4(type='email' name='email' placeholder='Email')
                         .col-12
