@@ -84,7 +84,7 @@ export default class Account implements IAccount {
      * @param callback The function to call upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
+        if (this.validateEmail() && this.validateName() && this.validatePassword()) {
             database.collection(ACCOUNTS_COLLECTION).findOne({ email: this.email }, (err, result) => {
                 if (err) throw err;
 
