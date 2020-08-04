@@ -50,10 +50,10 @@ mixin add-education-modal
                                 label Description
                                 textarea.form-control.mb-2(name='description')
                     .modal-footer
-                        button.btn.btn-secondary(
+                        button.btn.btn-secondary.btn-sm(
                             type='button'
                             data-dismiss='modal') Close
-                        button.btn.btn-primary(type='submit') Save
+                        button.btn.btn-primary.btn-sm(type='submit') Save
 
 mixin edit-education-modal(edu)
     .modal.fade(tabindex='1' id=`edit-education-modal-${edu._id}`)
@@ -86,7 +86,7 @@ mixin edit-education-modal(edu)
                             .col-12 Description
                                 textarea.form-control.mb-2(name='description')= edu.description
                     .modal-footer
-                        button.btn.btn-secondary(
+                        button.btn.btn-secondary.btn-sm(
                             type='button'
                             data-dismiss='modal') Close
-                        button.btn.btn-primary(type='submit') Save
+                        button.btn.btn-primary.btn-sm(type='submit') Save
