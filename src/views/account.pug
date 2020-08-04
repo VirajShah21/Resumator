@@ -13,27 +13,34 @@ html(lang='en-US')
 
                     form.row(action='/app/account/login' method='POST')
                         .col-12
-                            input.form-control.mb-4(type='email' name='email' placeholder='Email')
+                            label Email
+                            input.form-control.mb-2(type='email' name='email')
                         .col-12
-                            input.form-control.mb-4(type='password' name='password' placeholder='Password')
+                            label Password
+                            input.form-control.mb-2(type='password' name='password')
                         .col-12
                             button.btn.btn-primary(type='submit') Login
-                .col.text-center(style='padding-top:10vh')
+                .col.text-center(style='padding-top:10%;padding-bottom:10%;')
                     span.p-4.bg-light.text-dark(style='border-radius:100%;') OR
                 .col-12.col-md-5
                     h2 Sign Up
 
                     form.row(action='/app/account/signup' method='POST')
                         .col-12.col-md-6
-                            input.form-control.mb-4(type='text' name='fname' placeholder='First Name')
+                            label First Name
+                            input.form-control.mb-2(type='text' name='fname')
                         .col-12.col-md-6
-                            input.form-control.mb-4(type='text' name='lname' placeholder='Last Name')
+                            label Last Name
+                            input.form-control.mb-2(type='text' name='lname')
                         .col-12
-                            input.form-control.mb-4(type='email' name='email' placeholder='Email')
+                            label Email
+                            input.form-control.mb-2(type='email' name='email')
                         .col-12.col-md-6
-                            input.form-control.mb-4(type='password' name='password' placeholder='Password')
+                            label Password
+                            input.form-control.mb-2(type='password' name='password')
                         .col-12.col-md-6
-                            input.form-control.mb-4(type='password' name='passwordconf' placeholder='Confirm Password')
+                            label Confirm Password
+                            input.form-control.mb-2(type='password' name='passwordconf')
                         .col-12
                             button.btn.btn-primary(type='submit') Sign Up
 

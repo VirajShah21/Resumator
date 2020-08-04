@@ -93,15 +93,11 @@ The linter rules for TypeScript
 
 ## Issues
 
--   :beetle: Adding education does not work
 -   :red_circle: Missing delete Skill
 -   :red_circle: Missing delete Education
 -   :red_circle: Missing delete Work Experience
 -   :red_circle: Signup should send a verification email
 -   :black_circle: Account entity should record if email is verified
--   :white_circle: `<label> ... </label>` font size is too large
--   :white_circle: Font weight is too heavy
--   :white_circle: Landing page is ugly
 -   :white_circle: Form labels should be outside of input placeholders in Login/Signup
 -   :black_circle: Some entities may not have any doc comments
 -   :black_circle: Non-entities have no doc comments

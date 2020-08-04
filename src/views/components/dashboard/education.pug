@@ -1,19 +1,17 @@
 mixin education-card(educationHistory)
     .card.w-100.mb-4
         .card-body
-            h4.card-title Education
-            each education in educationHistory
-                +education-item(education)
-            button.btn.btn-primary.btn-block(data-toggle='modal' data-target='#add-education-modal') Add Education
+            h4.card-title.text-center Education
+            ul.list-group.list-group-flush
+                each education in educationHistory
+                    +education-item(education)
+            button.btn.btn-outline-primary.btn-block.mt-4(data-toggle='modal' data-target='#add-education-modal') Add Education
 
 mixin education-item(edu)
-    .alert.alert-success
-        .row
-            .col-12.col-md-8
-                .btn= `${edu.institution} (${edu.end.split("/")[2]})`
-            .col-12.col-md-4.text-center.text-md-right
-                button.btn.btn-light(data-toggle='modal' data-target=`#edit-education-modal-${edu._id}`)
-                    ion-icon(name='create-outline')
+    li.list-group-item
+        button.btn.btn-light.mr-4(data-toggle='modal' data-target=`#edit-education-modal-${edu._id}`)
+            ion-icon(name='create-outline')
+        span= `${edu.institution} (${edu.end.split("/")[2]})`
 
 mixin add-education-modal
     #add-education-modal.modal.fade(tabindex='1')
@@ -26,23 +24,30 @@ mixin add-education-modal
                             span &times;
                     .modal-body
                         .row
-                            .col-12 Level
-                                input.form-control.mb-2(name='level' placeholder='Undergraduate')
+                            .col-12
+                                label Level
+                                input.form-control.mb-2(name='level')
                         .row
-                            .col-12 Insitution
-                                input.form-control.mb-2(name='institution' placeholder='Temple University')
+                            .col-12
+                                label Insitution
+                                input.form-control.mb-2(name='institution')
                         .row
-                            .col-12.col-md-6 Start
+                            .col-12.col-md-6
+                                label Start
                                 input.form-control.mb-2(name='start-date' placeholder='mm/dd/yyyy')
-                            .col-12.col-md-6 End
+                            .col-12.col-md-6
+                                label End
                                 input.form-control.mb-2(name='end-date' placeholder='mm/dd/yyyy')
                         .row
-                            .col-12.col-md-8 Degree/Program
-                                input.form-control.mb-2(name='degree' placeholder='B.Sc. Computer Science')
-                            .col-12.col-md-4 GPA
-                                input.form-control.mb-2(type='number' step='0.1' name='gpa' placeholder='GPA')
+                            .col-12.col-md-8
+                                label Degree/Program
+                                input.form-control.mb-2(name='degree')
+                            .col-12.col-md-4
+                                label GPA
+                                input.form-control.mb-2(type='number' step='0.1' name='gpa')
                         .row
-                            .col-12 Description
+                            .col-12
+                                label Description
                                 textarea.form-control.mb-2(name='description')
                     .modal-footer
                         button.btn.btn-secondary(
