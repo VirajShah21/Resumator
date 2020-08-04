@@ -93,30 +93,34 @@ The linter rules for TypeScript
 
 ## Issues
 
+-   :red_circle: Login has no functionality
+-   :beetle: Adding education does not work
+-   :red_circle: Missing delete Skill
+-   :red_circle: Missing delete Education
+-   :red_circle: Missing delete Work Experience
+-   :red_circle: Signup should send a verification email
+-   :black_circle: Account entity should record if email is verified
+-   :white_circle: `<label> ... </label>` font size is too large
+-   :white_circle: Font weight is too heavy
+-   :white_circle: Landing page is ugly
+-   :white_circle: Form labels should be outside of input placeholders in Login/Signup
+-   :black_circle: Some entities may not have any doc comments
+-   :black_circle: Non-entities have no doc comments
+-   :red_circle: Editing phone number does not do anything
+-   :black_circle: Account entity should record phone number
+
 > **Key**
 >
 > :red_circle: = functionality issue  
 > :white_circle: = UI issue  
 > :black_circle: = code quality issue
->
-> :x: = important issue  
-> :bangbang: = severe issue
-
--   :red_circle: :x: Adding education does not work
--   :red_circle: :x: Missing delete Skill
--   :red_circle: :x: Missing delete Education
--   :red_circle: :x: Missing delete Work Experience
--   :white_circle: Make `<label> ... </label>` a smaller font size
--   :white_circle: Use lighter font
--   :white_circle: Landing page is ugly
--   :white_circle: Move form labels to outside of input placeholders in Login/Signup
--   :black_circle: Ensure all entites have doc comments on public methods, classes, and interfaces
+> :beetle: = bug
 
 ## Features List
 
 -   **Login/Signup** - Click on "Get Started" (when on the landing page) or navigate to `/app/account`.
 -   **Access the dashboard** - Click on "Dashboard" in the navigation menu or click on `/app/dashboard`.
--   **Modify Person Information** - Navigate to the dashboard and find the card labeled "Personal Information". There, you can modify your first name, last name, email, phone, and address.
+-   **Modify Personal Information** - Navigate to the dashboard and find the card labeled "Personal Information". There, you can modify your first name, last name, email, phone, and address.
 -   **Add/Edit Education History** - Navigate to the dashboard and find the card labeled "Education".
 -   **Add/Edit Work Experience** - Navigate to the dashboard and find the card labeled "Work Experience"
 -   **Add/Edit Skills** - Navigate to the dashboard and find the card labeled "Skills". You can add skills by clicking the blue button labeled "Add Skill". You can adjust proficiency in the modal when adding or editing skills. To edit a skill, click on its pill badge.
