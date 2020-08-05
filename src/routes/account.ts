@@ -27,12 +27,12 @@ router.post("/signup", jsonParser, (req, res) => {
                         res.redirect("/app/dashboard");
                     });
                 } else {
-                    res.render("/app/signup-error", {
-                        nav: "Home",
-                    });
+                    res.render("UnknownError");
                 }
             });
         });
+    } else {
+        res.render("UnknownError");
     }
 });
 
@@ -53,7 +53,7 @@ router.post("/update", jsonParser, (req, res) => {
                 }
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -69,15 +69,15 @@ router.post("/login", jsonParser, (req, res) => {
                         if (isSessionAdded) {
                             res.redirect("/app/dashboard");
                         } else {
-                            // TODO: Throw an error
+                            res.render("UnknownError");
                         }
                     });
                 } else {
-                    // TODO: Throw an error
+                    res.render("UnknownError");
                 }
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });

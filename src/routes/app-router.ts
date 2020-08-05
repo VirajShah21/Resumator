@@ -39,7 +39,7 @@ router.get("/dashboard", (req, res) => {
                 }
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -59,12 +59,11 @@ router.post("/work-experience/add", jsonParser, (req, res) => {
                     );
                     experience.insertDatabaseItem(() => {
                         res.redirect("back");
-                        // res.redirect(path.join(PREFIX, "dashboard"));
                     });
                 }
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -86,12 +85,11 @@ router.post("/education/add", (req, res) => {
                     );
                     education.insertDatabaseItem(() => {
                         res.redirect("back");
-                        // res.redirect(path.join(PREFIX, "dashboard"));
                     });
                 }
             });
         } else {
-            // Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -119,7 +117,7 @@ router.get("/themes/preview", (req, res) => {
                 }
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -140,7 +138,7 @@ router.post("/work-experience/update", (req, res) => {
                 res.redirect("back");
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -163,7 +161,7 @@ router.post("/education/update", (req, res) => {
                 res.redirect("back");
             });
         } else {
-            // Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -176,7 +174,7 @@ router.post("/skills/add", jsonParser, (req, res) => {
                 res.redirect("back");
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
@@ -191,7 +189,7 @@ router.post("/skills/update", jsonParser, (req, res) => {
                 else res.send("failed");
             });
         } else {
-            // TODO: Throw an error
+            res.render("UnknownError");
         }
     });
 });
