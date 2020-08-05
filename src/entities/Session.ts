@@ -59,9 +59,9 @@ export default class Session implements ISession {
      * @param key The session key to lookup
      * @param callback The callback upon completion
      */
-    public static loadFromDatabase(key: string, callback: (session: Session) => void): void {
+    public static loadFromDatabase(key: string, callback: (session?: Session) => void): void {
         database.collection(SESSIONS_COLLECTION).findOne({ key }, (err, result) => {
-            if (err) throw err;
+            if (err || !result) callback(undefined);
             callback(new Session(result));
         });
     }

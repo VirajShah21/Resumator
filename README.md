@@ -103,6 +103,7 @@ The linter rules for TypeScript
 -   :black_circle: Non-entities have no doc comments
 -   :red_circle: Editing phone number does not do anything
 -   :black_circle: Account entity should record phone number
+-   :black_circle: Use `.input-group` for all forms using bootstrap
 
 > **Key**
 >
