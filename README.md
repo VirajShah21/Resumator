@@ -121,3 +121,34 @@ The linter rules for TypeScript
 -   **Add/Edit Work Experience** - Navigate to the dashboard and find the card labeled "Work Experience"
 -   **Add/Edit Skills** - Navigate to the dashboard and find the card labeled "Skills". You can add skills by clicking the blue button labeled "Add Skill". You can adjust proficiency in the modal when adding or editing skills. To edit a skill, click on its pill badge.
 -   **Render Resume Template** - Navigate to `/app/themes` or click on "Themes" in the navigation menu. Then select a theme and click on the button labeled "Preview".
+
+## Testing Procedures
+
+**Login/Signup**
+
+1. **Sign up (unique email ID):** Should create a new account and redirect to the dashboard
+2. **Sign up with the same email**: Should display an account doesn't exist error
+3. **Sign up with mismatching passwords**: Should display a password mismatch error
+
+**Access the dashboard**
+
+The following cards should be displayed:
+
+-   Personal Information
+    -   All data which has been previously set should be filled in
+-   Education
+    -   List with education history
+    -   Add education button
+-   Work Experience
+    -   List with work experience
+    -   Add work experience button
+-   Skills
+    -   Should display skills
+    -   Skills should be rendered using red, yellow, and green respective to proficiency
+    -   Skills should be shown from green to red
+    -   Add skills button
+
+**Modify Personal Information**
+
+1. **Change all information + submit**: Should change all fields
+2. **Change no information + submit**: Should change **NO** fields
