@@ -44,10 +44,12 @@ export default class Session implements ISession {
      *
      * @param callback Callback upon completion
      */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
+    public insertDatabaseItem(callback: (success?: boolean) => void): void {
         if (this.validate()) {
-            database.collection(SESSIONS_COLLECTION).insertOne(this);
-            callback(true);
+            database.collection(SESSIONS_COLLECTION).insertOne(this, (err) => {
+                if (err) callback(false);
+                else callback(true);
+            });
         } else {
             callback(false);
         }
@@ -61,8 +63,9 @@ export default class Session implements ISession {
      */
     public static loadFromDatabase(key: string, callback: (session?: Session) => void): void {
         database.collection(SESSIONS_COLLECTION).findOne({ key }, (err, result) => {
-            if (err || !result) callback(undefined);
-            callback(new Session(result));
+            if (err) throw err;
+            else if (!result) callback(undefined);
+            else callback(new Session(result));
         });
     }
 
