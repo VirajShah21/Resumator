@@ -2,6 +2,7 @@ include components/dashboard/work-experience
 include components/dashboard/education
 include components/dashboard/personal-info
 include components/dashboard/skillset
+include components/dashboard/certifications
 
 doctype html
 
@@ -14,6 +15,7 @@ html(lang='en-US')
         +add-work-experience-modal
         +add-education-modal
         +add-skill-modal
+        +add-certification-modal
 
         each job, index in workExperience
             +edit-work-experience-modal(job, index)
@@ -21,6 +23,8 @@ html(lang='en-US')
             +edit-education-modal(education)
         each skill in skillset
             +edit-skill-modal(skill)
+        each certification in certifications
+            +edit-certification-modal(certification)
         
         .container.mt-4
             .row
@@ -36,6 +40,7 @@ html(lang='en-US')
                 .col-12.col-md-6
                     +education-card(educationHistory)
                     +work-experience-card(workExperience)
+                    +certification-card(certifications)
 
 
         include components/scripts

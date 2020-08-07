@@ -8,6 +8,7 @@ import path from "path";
 import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
+import Certification from "@entities/Certification";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -24,14 +25,16 @@ router.get("/dashboard", (req, res) => {
                     WorkExperience.loadFromDatabase(account.email, (workExperience) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
                             Skill.loadFromDatabase(account.email, (skillset) => {
-                                res.render("dashboard", {
-                                    session,
-                                    account,
-                                    educationHistory,
-                                    workExperience,
-                                    volunteerExperience: [],
-                                    skillset,
-                                    nav: "Dashboard",
+                                Certification.loadFromDatabase(account.email, (certifications) => {
+                                    res.render("dashboard", {
+                                        session,
+                                        account,
+                                        educationHistory,
+                                        workExperience,
+                                        volunteerExperience: [],
+                                        skillset,
+                                        nav: "Dashboard",
+                                    });
                                 });
                             });
                         });
