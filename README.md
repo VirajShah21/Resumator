@@ -95,16 +95,11 @@ The linter rules for TypeScript
 -   :red_circle: Missing delete Skill
 -   :red_circle: Missing delete Education
 -   :red_circle: Missing delete Work Experience
--   :red_circle: Signup should send a verification email
--   :black_circle: Account entity should record if email is verified
--   :white_circle: Form labels should be outside of input placeholders in Login/Signup
 -   :black_circle: Some entities may not have any doc comments
 -   :black_circle: Non-entities have no doc comments
 -   :red_circle: Editing phone number does not do anything
 -   :black_circle: Account entity should record phone number
 -   :black_circle: Use `.input-group` for all forms using bootstrap
--   :black_circle: `label.w-100` should be replaced with `label` and `.label { width: 100% }`
--   :white_circle: Display all input labels using the `label` tag
 
 > **Key**
 >

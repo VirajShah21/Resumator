@@ -67,23 +67,30 @@ mixin edit-education-modal(edu)
                     .modal-body
                         input(name='_id' value=edu._id hidden)
                         .row
-                            .col-12 Level
+                            .col-12
+                                label Level
                                 input.form-control.mb-2(name='level' value=edu.level placeholder='Undergraduate')
                         .row
-                            .col-12 Insitution
+                            .col-12
+                                label Insitution
                                 input.form-control.mb-2(name='institution' value=edu.institution placeholder='Temple University')
                         .row
-                            .col-12.col-md-6 Start
+                            .col-12.col-md-6
+                                label Start
                                 input.form-control.mb-2(name='start-date' value=edu.start placeholder='mm/dd/yyyy')
-                            .col-12.col-md-6 End
+                            .col-12.col-md-6
+                                label End
                                 input.form-control.mb-2(name='end-date' value=edu.end placeholder='mm/dd/yyyy')
                         .row
-                            .col-12.col-md-8 Degree/Program
+                            .col-12.col-md-8
+                                label Degree/Program
                                 input.form-control.mb-2(name='degree' value=edu.degree placeholder='B.Sc. Computer Science')
-                            .col-12.col-md-4 GPA
+                            .col-12.col-md-4
+                                label GPA
                                 input.form-control.mb-2(type='number' value=edu.gpa step='0.1' name='gpa' placeholder='GPA')
                         .row
-                            .col-12 Description
+                            .col-12
+                                label Description
                                 textarea.form-control.mb-2(name='description')= edu.description
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(

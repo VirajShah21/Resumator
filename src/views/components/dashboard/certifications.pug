@@ -57,7 +57,7 @@ mixin edit-certification-modal(certification)
                         input(name='_id' value=certification._id hidden)
                         .row
                             .col-12.col-md-8
-                                label.w-100 Insitution
+                                label Insitution
                                 input.form-control.mb-2(name='institution' value=certification.institution)
                             .col-12.col-md-4 Examination Date
                                 input.form-control.mb-2(name='exam-date' value=certification.examDate placeholder='mm/dd/yyyy')
@@ -67,7 +67,7 @@ mixin edit-certification-modal(certification)
                                 input.form-control.mb-2(name='certification' value=certification.certification)
                         .row
                             .col-12
-                                label.w-100 Additional Details
+                                label Additional Details
                                 textarea.form-control.mb-2(name='details')= certification.details
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(

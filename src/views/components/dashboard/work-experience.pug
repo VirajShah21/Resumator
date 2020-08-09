@@ -65,18 +65,22 @@ mixin edit-work-experience-modal(experience)
                     .modal-body
                         input(name='dbid' value=experience._id hidden)
                         .row
-                            .col-12 Position
+                            .col-12
+                                label Position
                                 input.form-control.mb-2(name='position' value=experience.position)
                         .row
-                            .col-12 Organization
+                            .col-12
+                                label Organization
                                 input.form-control.mb-2(name='organization' value=experience.organization)
                         .row
-                            .col-12.col-md-6 Start
+                            .col-12.col-md-6
+                                label Start
                                 input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/dd/yyyy')
                             .col-12.col-md-6 End
                                 input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/dd/yyyy')
                         .row
-                            .col-12 Description
+                            .col-12
+                                label Description
                                 textarea.form-control.mb-2(name='description')= experience.description
                         .row
                             .col-12
