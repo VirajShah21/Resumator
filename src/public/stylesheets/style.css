@@ -17,6 +17,10 @@ label {
     width: 100%;
 }
 
+ion-icon {
+    vertical-align: middle;
+}
+
 #window {
     width: 100vw;
     height: 100vh;

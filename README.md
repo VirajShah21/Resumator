@@ -100,6 +100,7 @@ The linter rules for TypeScript
 -   :red_circle: Editing phone number does not do anything
 -   :black_circle: Account entity should record phone number
 -   :red_circle: Implement validation in all forms
+-   :white_circle: Add more icons
 
 > **Key**
 >

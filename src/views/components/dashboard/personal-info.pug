@@ -1,7 +1,9 @@
 mixin personal-info-card(account)
     .card.w-100.mb-4
         .card-body
-            h4.card-title.text-center Personal Information
+            h4.card-title.text-center
+                ion-icon.text-primary.mr-4(name='finger-print-outline')
+                | Personal Information
             form(action='/app/account/update' method='POST')
                 .row
                     .col-12.col-md-6

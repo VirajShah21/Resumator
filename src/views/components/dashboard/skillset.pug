@@ -1,7 +1,9 @@
 mixin skills-card(skillset)
     .card.w-100.mb-4
         .card-body
-            h4.card-title.text-center Skills
+            h4.card-title.text-center
+                ion-icon.text-primary.mr-4(name='checkmark-done-outline')
+                | Skills
             .row.mt-4
                 .col-12
                     each skill in skillset

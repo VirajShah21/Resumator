@@ -44,8 +44,9 @@ function notifyInvalid(input) {
 function initializePassiveValidator() {
     document.querySelectorAll("input").forEach((input) => {
         if (
-            input.getAttribute("data-type") !== undefined &&
-            validators.hasOwnProperty(input.getAttribute("data-type"))
+            (input.getAttribute("data-type") !== undefined &&
+                validators.hasOwnProperty(input.getAttribute("data-type"))) ||
+            input.required
         ) {
             console.log("Validating " + input);
             input.addEventListener("change", (event) => {

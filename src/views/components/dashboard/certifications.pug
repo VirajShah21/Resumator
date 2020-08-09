@@ -1,7 +1,9 @@
 mixin certifications-card(certifications)
     #certifications-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center Certifications
+            h4.card-title.text-center
+                ion-icon.text-primary.mr-4(name='document-outline')
+                | Certifications
             ul.list-group.list-group-flush
                 each certification in certifications
                     +certification-item(certification)
@@ -26,7 +28,7 @@ mixin add-certification-modal
                         .row
                             .col-12.col-md-8
                                 label Insitution
-                                input.form-control.mb-2(name='institution' required)
+                                input.form-control.mb-2(name='institution' data-type="required" required)
                             .col-12.col-md-4
                                 label Exam Date
                                 input.form-control.mb-2(name='exam-date' placeholder='mm/dd/yyyy')

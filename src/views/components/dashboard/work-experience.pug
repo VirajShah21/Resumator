@@ -1,7 +1,10 @@
 mixin work-experience-card(experiences)
     .card.w-100.mb-4
         .card-body
-            h4.card-title.text-center Work Experience
+            h4.card-title.text-center
+                ion-icon.text-primary.mr-4(name='briefcase-outline')
+                | Work Experience
+                
             ul.list-group.list-group-flush
                 each experience in experiences
                     +work-experience-item(experience)
