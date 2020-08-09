@@ -1,22 +1,19 @@
-function validateDatestring(datestr) {
-    try {
-        let month = parseInt(datestr.split("/")[0]);
-        let day = parseInt(datestr.split("/")[1]);
-        let year = parseInt(datestr.split("/")[2]);
-
-        return month > 0 && month <= 12 && day > 0 && day <= 31 && year > 1800 && year < 2200;
-    } catch (e) {
-        return false;
-    }
-}
-
-function validateZip(zip) {
-    return zip.length <= 5;
-}
-
 const validators = {
-    zip: function (zip) {
-        return zip.length <= 5;
+    email: function (email) {
+        try {
+            const user = email.split("@")[0].trim();
+            const domain = email.split("@")[1].trim();
+            const domainName = domain.split(".")[0].trim();
+            const tld = domain.split(".")[1].trim();
+
+            return user.length > 0 && domain.length > 0 && domainName.length > 0 && tld.length > 1;
+        } catch (e) {
+            return false;
+        }
+    },
+
+    password: function (password) {
+        return password.length > 8;
     },
 };
 
@@ -43,18 +40,15 @@ function notifyInvalid(input) {
 
 function initializePassiveValidator() {
     document.querySelectorAll("input").forEach((input) => {
-        if (
-            (input.getAttribute("data-type") !== undefined &&
-                validators.hasOwnProperty(input.getAttribute("data-type"))) ||
-            input.required
-        ) {
+        if (input.getAttribute("data-type") !== undefined || input.getAttribute("data-validate") !== undefined) {
             console.log("Validating " + input);
             input.addEventListener("change", (event) => {
                 let target = event.target;
-                let validator = target.getAttribute("data-type");
-                if (target.required && target.trim().length == 0) notifyInvalid(target);
+                let validator = target.getAttribute("data-type") || target.type;
+                if (target.required && target.value.trim().length == 0) notifyInvalid(target);
                 else if (!target.required && target.value.trim().length == 0) clearValidation(target);
-                else validators[validator](target.value) ? notifyValid(target) : notifyInvalid(target);
+                else if (validators.hasOwnProperty(validator))
+                    validators[validator](target.value) ? notifyValid(target) : notifyInvalid(target);
             });
         }
     });

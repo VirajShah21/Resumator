@@ -14,10 +14,10 @@ html(lang='en-US')
                     form.row(action='/app/account/login' method='POST')
                         .col-12
                             label Email
-                            input.form-control.mb-2(type='email' name='email' required)
+                            input.form-control.mb-2(type='email' name='email' data-validate required)
                         .col-12
                             label Password
-                            input.form-control.mb-2(type='password' name='password' required)
+                            input.form-control.mb-2(type='password' name='password' data-validate required)
                         .col-12
                             button.btn.btn-primary(type='submit') Login
                 .col.text-center(style='padding-top:10%;padding-bottom:10%;')
@@ -25,7 +25,7 @@ html(lang='en-US')
                 .col-12.col-md-5
                     h2 Sign Up
 
-                    form.row(action='/app/account/signup' method='POST' role='form' data-toggle='validator')
+                    form.row(action='/app/account/signup' method='POST' role='form')
                         .col-12.col-md-6
                             .input-group
                                 label First Name
@@ -37,15 +37,15 @@ html(lang='en-US')
                         .col-12
                             .input-group
                                 label Email
-                                input.form-control.mb-2(type='email' name='email' required)
+                                input.form-control.mb-2(type='email' name='email' data-validate required)
                         .col-12.col-md-6
                             .input-group
                                 label Password
-                                input.form-control.mb-2(type='password' name='password' required)
+                                input.form-control.mb-2(type='password' name='password' data-validate required)
                         .col-12.col-md-6
                             .input-group
                                 label Confirm Password
-                                input.form-control.mb-2(type='password' name='passwordconf' required)
+                                input.form-control.mb-2(type='password' name='passwordconf' data-validate required)
                         .col-12
                             button.btn.btn-primary(type='submit') Sign Up
 
