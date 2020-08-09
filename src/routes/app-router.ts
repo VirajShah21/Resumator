@@ -33,6 +33,7 @@ router.get("/dashboard", (req, res) => {
                                         workExperience,
                                         volunteerExperience: [],
                                         skillset,
+                                        certifications,
                                         nav: "Dashboard",
                                     });
                                 });
@@ -189,10 +190,51 @@ router.post("/skills/update", jsonParser, (req, res) => {
             skill._id = new ObjectId(req.body._id);
             skill.updateDatabaseItem((success) => {
                 if (success) res.redirect("back");
-                else res.send("failed");
+                else res.render("UnknownError");
             });
         } else {
             res.render("UnknownError");
+        }
+    });
+});
+
+router.post("/certifications/add", jsonParser, (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        if (session) {
+            const certification = new Certification(
+                req.body.institution,
+                req.body.certification,
+                req.body.details,
+                req.body["exam-date"],
+                session.user
+            );
+            certification.insertDatabaseItem((success) => {
+                if (success) res.redirect("/app/dashboard#certifications-card");
+                else res.render("UnknownError");
+            });
+        } else {
+            res.render("UnknownError");
+        }
+    });
+});
+
+router.post("/certifications/update", jsonParser, (req, res) => {
+    Session.loadFromDatabase(req.cookies.session, (session) => {
+        if (session) {
+            const certification = new Certification(
+                req.body.institution,
+                req.body.certification,
+                req.body.details,
+                req.body["exam-date"],
+                session.user
+            );
+            certification._id = req.body._id;
+            certification.updateDatabaseItem((success) => {
+                if (success) res.redirect("/app/dashboard#certifications-card");
+                else res.render("UnknownError");
+            });
+        } else {
+            res.render("UnkownError");
         }
     });
 });

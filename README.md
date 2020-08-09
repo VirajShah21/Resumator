@@ -103,6 +103,8 @@ The linter rules for TypeScript
 -   :red_circle: Editing phone number does not do anything
 -   :black_circle: Account entity should record phone number
 -   :black_circle: Use `.input-group` for all forms using bootstrap
+-   :black_circle: `label.w-100` should be replaced with `label` and `.label { width: 100% }`
+-   :white_circle: Display all input labels using the `label` tag
 
 > **Key**
 >

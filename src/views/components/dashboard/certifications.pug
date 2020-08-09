@@ -1,20 +1,20 @@
 mixin certifications-card(certifications)
-    .card.w-100.mb-4
+    #certifications-card.card.w-100.mb-4
         .card-body
             h4.card-title.text-center Certifications
             ul.list-group.list-group-flush
                 each certification in certifications
                     +certification-item(certification)
-            button.btn.btn-outline-primary.btn-block.mt-4(data-toggle='modal' data-target='#add-education-modal') Add Education
+            button.btn.btn-outline-primary.btn-block.mt-4(data-toggle='modal' data-target='#add-certification-modal') Add Certification
 
 mixin certification-item(certification)
     li.list-group-item
         button.btn.btn-light.mr-4(data-toggle='modal' data-target=`#edit-certification-modal-${certification._id}`)
             ion-icon(name='create-outline')
-        span= `${certification.institution} (${edu.end.split("/")[2]})`
+        span= `${certification.institution}`
 
 mixin add-certification-modal
-    #add-education-modal.modal.fade(tabindex='1')
+    #add-certification-modal.modal.fade(tabindex='1')
         .modal-dialog
             .modal-content
                 form(action='/app/certifications/add' method='POST')
@@ -28,8 +28,12 @@ mixin add-certification-modal
                                 label Insitution
                                 input.form-control.mb-2(name='institution' required)
                             .col-12.col-md-4
-                                label Examination Date (optional)
+                                label Exam Date
                                 input.form-control.mb-2(name='exam-date' placeholder='mm/dd/yyyy')
+                        .row
+                            .col-12
+                                label Certification
+                                input.form-control.mb-2(name='certification')
                         .row
                             .col-12
                                 label Additional Details (optional)
@@ -40,7 +44,7 @@ mixin add-certification-modal
                             data-dismiss='modal') Close
                         button.btn.btn-primary.btn-sm(type='submit') Save
 
-mixin edit-education-modal(certification)
+mixin edit-certification-modal(certification)
     .modal.fade(tabindex='1' id=`edit-certification-modal-${certification._id}`)
         .modal-dialog
             .modal-content
@@ -52,15 +56,19 @@ mixin edit-education-modal(certification)
                     .modal-body
                         input(name='_id' value=certification._id hidden)
                         .row
-                            .col-12
+                            .col-12.col-md-8
                                 label.w-100 Insitution
                                 input.form-control.mb-2(name='institution' value=certification.institution)
-                            .col-12.col-md-6 Examination Date
+                            .col-12.col-md-4 Examination Date
                                 input.form-control.mb-2(name='exam-date' value=certification.examDate placeholder='mm/dd/yyyy')
                         .row
                             .col-12
+                                label Certification
+                                input.form-control.mb-2(name='certification' value=certification.certification)
+                        .row
+                            .col-12
                                 label.w-100 Additional Details
-                                textarea.form-control.mb-2(name='details')= certification.description
+                                textarea.form-control.mb-2(name='details')= certification.details
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(
                             type='button'
