@@ -90,7 +90,7 @@ The production configuration for TypeScript. Also used for `npm run test`
 
 The linter rules for TypeScript
 
-## Issues
+## Issues & Tasks
 
 -   :red_circle: Missing delete Skill
 -   :red_circle: Missing delete Education
@@ -99,7 +99,7 @@ The linter rules for TypeScript
 -   :black_circle: Non-entities have no doc comments
 -   :red_circle: Editing phone number does not do anything
 -   :black_circle: Account entity should record phone number
--   :black_circle: Use `.input-group` for all forms using bootstrap
+-   :red_circle: Implement validation in all forms
 
 > **Key**
 >
