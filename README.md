@@ -92,13 +92,24 @@ The linter rules for TypeScript
 
 ## Features List
 
--   **Login/Signup** - Click on "Get Started" (when on the landing page) or navigate to `/app/account`.
--   **Access the dashboard** - Click on "Dashboard" in the navigation menu or click on `/app/dashboard`.
--   **Modify Personal Information** - Navigate to the dashboard and find the card labeled "Personal Information". There, you can modify your first name, last name, email, phone, and address.
--   **Add/Edit Education History** - Navigate to the dashboard and find the card labeled "Education".
--   **Add/Edit Work Experience** - Navigate to the dashboard and find the card labeled "Work Experience"
--   **Add/Edit Skills** - Navigate to the dashboard and find the card labeled "Skills". You can add skills by clicking the blue button labeled "Add Skill". You can adjust proficiency in the modal when adding or editing skills. To edit a skill, click on its pill badge.
--   **Render Resume Template** - Navigate to `/app/themes` or click on "Themes" in the navigation menu. Then select a theme and click on the button labeled "Preview".
+| Feature                | Description                            | Labels                        |
+| ---------------------- | -------------------------------------- | ----------------------------- |
+| Login/Signup           | Create an account or login             | :white_check_mark:            |
+| Dashboard              | Access the user dashboard              | :white_check_mark: :arrow_up: |
+| Personal Information   | Add/Modify/Delete personal information | :white_check_mark: :arrow_up: |
+| Education History      | Add/Modify/Delete education history    | :white_check_mark: :arrow_up: |
+| Work Experience        | Add/Modify/Delete work experience      | :white_check_mark: :arrow_up: |
+| Skills                 | Add/Modify/Delete skills               | :white_check_mark: :arrow_up: |
+| Render Resume Template | Display resume previews                | :a: :arrow_up:                |
+
+**Key**
+
+:a: - Alpha feature (barely functional)  
+:b: - Beta feature (functional, but buggy)  
+:x: - Not working  
+:white_check_mark: - Fully function (stable)  
+:arrow_up: - Upgrading feature  
+:cl: - Deprecated or closed feature
 
 ## Common Resolutions
 
