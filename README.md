@@ -92,15 +92,15 @@ The linter rules for TypeScript
 
 ## Features List
 
-| Feature                | Description                            | Labels                        |
-| ---------------------- | -------------------------------------- | ----------------------------- |
-| Login/Signup           | Create an account or login             | :white_check_mark:            |
-| Dashboard              | Access the user dashboard              | :white_check_mark: :arrow_up: |
-| Personal Information   | Add/Modify/Delete personal information | :white_check_mark: :arrow_up: |
-| Education History      | Add/Modify/Delete education history    | :white_check_mark: :arrow_up: |
-| Work Experience        | Add/Modify/Delete work experience      | :white_check_mark: :arrow_up: |
-| Skills                 | Add/Modify/Delete skills               | :white_check_mark: :arrow_up: |
-| Render Resume Template | Display resume previews                | :a: :arrow_up:                |
+| Feature                | Description                            | Labels                            |
+| ---------------------- | -------------------------------------- | --------------------------------- |
+| Login/Signup           | Create an account or login             | :white_check_mark:                |
+| Dashboard              | Access the user dashboard              | :b: :white_check_mark: :arrow_up: |
+| Personal Information   | Add/Modify/Delete personal information | :b: :white_check_mark: :arrow_up: |
+| Education History      | Add/Modify/Delete education history    | :b: :white_check_mark: :arrow_up: |
+| Work Experience        | Add/Modify/Delete work experience      | :b: :white_check_mark: :arrow_up: |
+| Skills                 | Add/Modify/Delete skills               | :b: :white_check_mark: :arrow_up: |
+| Render Resume Template | Display resume previews                | :a: :arrow_up:                    |
 
 **Key**
 

@@ -25,7 +25,7 @@ const validators = {
                 } catch (e) {
                     return false;
                 }
-            }).length == 10
+            }).length == 16
         );
     },
 

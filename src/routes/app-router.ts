@@ -8,6 +8,11 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
+import WorkExperienceRouter from "./work-experience";
+import EducationRouter from "./education";
+import SkillsRouter from "./skills";
+import CertificationRouter from "./certifications";
+import ThemesRouter from "./themes";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -15,6 +20,11 @@ const router = Router();
 const jsonParser = BodyParser.json();
 
 router.use("/account", AccountRouter);
+router.use("/work-experience", WorkExperienceRouter);
+router.use("/education", EducationRouter);
+router.use("/skills", SkillsRouter);
+router.use("/certifications", CertificationRouter);
+router.use("/themes", ThemesRouter);
 
 router.get("/dashboard", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
@@ -43,221 +53,6 @@ router.get("/dashboard", (req, res) => {
             });
         } else {
             res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/work-experience/add", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    const experience = new WorkExperience(
-                        req.body.position,
-                        req.body.organization,
-                        req.body["start-date"],
-                        req.body["end-date"],
-                        req.body.description,
-                        account.email
-                    );
-                    experience.insertDatabaseItem(() => {
-                        res.redirect("back");
-                    });
-                }
-            });
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/education/add", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    const education = new Education(
-                        account.email,
-                        req.body.institution,
-                        req.body.level,
-                        req.body.degree,
-                        req.body["start-date"],
-                        req.body["end-date"],
-                        req.body.gpa,
-                        req.body.description
-                    );
-                    education.insertDatabaseItem(() => {
-                        res.redirect("back");
-                    });
-                }
-            });
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.get("/themes", (req, res) => {
-    res.render("themes", {
-        nav: "Themes",
-    });
-});
-
-router.get("/themes/preview", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    WorkExperience.loadFromDatabase(account.email, (workExperience) => {
-                        Education.loadFromDatabase(account.email, (educationHistory) => {
-                            Skill.loadFromDatabase(account.email, (skillset) => {
-                                res.render(`resume-templates/${req.query.theme}`, {
-                                    account,
-                                    workExperience,
-                                    educationHistory,
-                                    skillset,
-                                });
-                            });
-                        });
-                    });
-                }
-            });
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/work-experience/update", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const experience = new WorkExperience(
-                req.body.position,
-                req.body.organization,
-                req.body.start,
-                req.body.end,
-                req.body.description,
-                session.user
-            );
-            experience._id = new ObjectId(req.body.dbid);
-
-            if (req.body.delete === "on") {
-                experience.deleteDatabaseItem(() => {
-                    res.redirect("/app/dashboard#work-experience-card");
-                });
-            } else {
-                experience.updateDatabaseItem(() => {
-                    res.redirect("back");
-                });
-            }
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/education/update", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const education = new Education(
-                session.user,
-                req.body.institution,
-                req.body.level,
-                req.body.degree,
-                req.body.start,
-                req.body.end,
-                req.body.gpa,
-                req.body.description
-            );
-
-            if (req.body.delete === "on") {
-                education.deleteDatabaseItem(() => {
-                    res.redirect("/app/dashboard#education-card");
-                });
-            } else {
-                education._id = new ObjectId(req.body._id);
-                education.updateDatabaseItem(() => {
-                    res.redirect("/app/dashboard#education-card");
-                });
-            }
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/skills/add", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
-
-            if (req.body.delete === "on") {
-                skill.deleteDatabaseItem((success) => {
-                    res.redirect("/app/dashboard#skillset-card");
-                });
-            } else {
-                skill.insertDatabaseItem((success) => {
-                    res.redirect("/app/dashboard#skillset-card");
-                });
-            }
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/skills/update", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
-            skill._id = new ObjectId(req.body._id);
-            skill.updateDatabaseItem((success) => {
-                if (success) res.redirect("back");
-                else res.render("UnknownError");
-            });
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/certifications/add", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const certification = new Certification(
-                req.body.institution,
-                req.body.certification,
-                req.body.details,
-                req.body["exam-date"],
-                session.user
-            );
-            certification.insertDatabaseItem((success) => {
-                if (success) res.redirect("/app/dashboard#certifications-card");
-                else res.render("UnknownError");
-            });
-        } else {
-            res.render("UnknownError");
-        }
-    });
-});
-
-router.post("/certifications/update", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const certification = new Certification(
-                req.body.institution,
-                req.body.certification,
-                req.body.details,
-                req.body["exam-date"],
-                session.user
-            );
-            certification._id = req.body._id;
-            certification.updateDatabaseItem((success) => {
-                if (success) res.redirect("/app/dashboard#certifications-card");
-                else res.render("UnknownError");
-            });
-        } else {
-            res.render("UnkownError");
         }
     });
 });
