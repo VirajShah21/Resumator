@@ -28,25 +28,25 @@ mixin add-education-modal
                         .row
                             .col-12
                                 label Level
-                                input.form-control.mb-2(name='level')
+                                input.form-control.mb-2(name='level' data-validate required)
                         .row
                             .col-12
                                 label Insitution
-                                input.form-control.mb-2(name='institution')
+                                input.form-control.mb-2(name='institution' data-validate required)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='start-date' placeholder='mm/dd/yyyy' data-type='date' data-validate data-format)
                             .col-12.col-md-6
                                 label End
-                                input.form-control.mb-2(name='end-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='end-date' placeholder='mm/dd/yyyy' data-type='date' data-format required)
                         .row
                             .col-12.col-md-8
                                 label Degree/Program
-                                input.form-control.mb-2(name='degree')
+                                input.form-control.mb-2(name='degree' data-validate required)
                             .col-12.col-md-4
                                 label GPA
-                                input.form-control.mb-2(type='number' step='0.1' name='gpa')
+                                input.form-control.mb-2(type='number' step='0.1' name='gpa' data-valdiate)
                         .row
                             .col-12
                                 label Description
@@ -71,25 +71,25 @@ mixin edit-education-modal(edu)
                         .row
                             .col-12
                                 label Level
-                                input.form-control.mb-2(name='level' value=edu.level placeholder='Undergraduate')
+                                input.form-control.mb-2(name='level' value=edu.level placeholder='Undergraduate' data-validate required)
                         .row
                             .col-12
                                 label Insitution
-                                input.form-control.mb-2(name='institution' value=edu.institution placeholder='Temple University')
+                                input.form-control.mb-2(name='institution' value=edu.institution placeholder='Temple University' data-validate required)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' value=edu.start placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='start-date' value=edu.start placeholder='mm/dd/yyyy' data-type='date')
                             .col-12.col-md-6
                                 label End
-                                input.form-control.mb-2(name='end-date' value=edu.end placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='end-date' value=edu.end placeholder='mm/dd/yyyy' data-type='date' required)
                         .row
                             .col-12.col-md-8
                                 label Degree/Program
-                                input.form-control.mb-2(name='degree' value=edu.degree placeholder='B.Sc. Computer Science')
+                                input.form-control.mb-2(name='degree' value=edu.degree placeholder='B.Sc. Computer Science' data-validate)
                             .col-12.col-md-4
                                 label GPA
-                                input.form-control.mb-2(type='number' value=edu.gpa step='0.1' name='gpa' placeholder='GPA')
+                                input.form-control.mb-2(type='number' value=edu.gpa step='0.1' name='gpa' placeholder='GPA' data-validate)
                         .row
                             .col-12
                                 label Description

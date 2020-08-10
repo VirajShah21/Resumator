@@ -1,7 +1,3 @@
-/**
- * VALIDATOR CODE
- */
-
 const validators = {
     email: function (email) {
         try {
@@ -35,6 +31,18 @@ const validators = {
 
     text: function (text) {
         return text.trim().length > 0;
+    },
+
+    date: function (date) {
+        try {
+            let month = parseInt(date.split("/")[0]);
+            let day = parseInt(date.split("/")[1]);
+            let year = date.split("/")[2];
+
+            return month > 0 && month < 13 && day > 0 && day < 32 && year.length == 4;
+        } catch (e) {
+            return false;
+        }
     },
 };
 
@@ -77,7 +85,7 @@ function initializePassiveValidator() {
             // Validate
             input.addEventListener("change", (event) => {
                 let target = event.target;
-                let validator = target.getAttribute("data-type") || target.type;
+                let validator = target.getAttribute("data-type") || target.type || "text";
 
                 if (target.required && target.value.trim().length == 0) notifyInvalid(target);
                 else if (!target.required && target.value.trim().length == 0) clearValidation(target);
@@ -91,12 +99,9 @@ function initializePassiveValidator() {
             input.addEventListener("keyup", (event) => {
                 let target = event.target;
                 let formatter = target.getAttribute("data-type") || target.type;
-                if (target.value.trim().length > 0) target.value = formatters[formatter](target.value);
+
+                if (target.value.trim().length > 0 && formatter) target.value = formatters[formatter](target.value);
             });
         }
     });
 }
-
-/**
- * END VALIDATOR CODE
- */

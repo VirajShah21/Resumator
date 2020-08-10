@@ -28,14 +28,14 @@ mixin add-certification-modal
                         .row
                             .col-12.col-md-8
                                 label Insitution
-                                input.form-control.mb-2(name='institution' data-type="required" required)
+                                input.form-control.mb-2(name='institution' data-validate required)
                             .col-12.col-md-4
                                 label Exam Date
-                                input.form-control.mb-2(name='exam-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='exam-date' placeholder='mm/dd/yyyy' data-type='date' required)
                         .row
                             .col-12
                                 label Certification
-                                input.form-control.mb-2(name='certification')
+                                input.form-control.mb-2(name='certification' data-validate required)
                         .row
                             .col-12
                                 label Additional Details (optional)
@@ -60,16 +60,16 @@ mixin edit-certification-modal(certification)
                         .row
                             .col-12.col-md-8
                                 label Insitution
-                                input.form-control.mb-2(name='institution' value=certification.institution)
+                                input.form-control.mb-2(name='institution' value=certification.institution data-validate required)
                             .col-12.col-md-4 Examination Date
-                                input.form-control.mb-2(name='exam-date' value=certification.examDate placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='exam-date' value=certification.examDate placeholder='mm/dd/yyyy' data-type='date' required)
                         .row
                             .col-12
                                 label Certification
-                                input.form-control.mb-2(name='certification' value=certification.certification)
+                                input.form-control.mb-2(name='certification' value=certification.certification data-validate required)
                         .row
                             .col-12
-                                label Additional Details
+                                label Additional Details (optional)
                                 textarea.form-control.mb-2(name='details')= certification.details
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(
