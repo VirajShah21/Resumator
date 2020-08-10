@@ -67,7 +67,6 @@ export default class Certification implements ICertification {
                 $set: this,
             },
             (err) => {
-                console.log(err);
                 if (err) callback(false);
                 else callback(true);
             }

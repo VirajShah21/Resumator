@@ -55,7 +55,6 @@ export default class Account implements IAccount {
             this.address = address ? new Address(address) : new Address("", "", "", "", 0);
             this.phone = phone || "";
         } else {
-            console.log(fname);
             this._id = new ObjectId(fname._id);
             this.fname = fname.fname;
             this.lname = fname.lname;
