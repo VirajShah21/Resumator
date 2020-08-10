@@ -96,11 +96,13 @@ export default class Account implements IAccount {
     }
 
     private validatePhone(): boolean {
-        return (
-            this.phone.split("").filter((digit) => {
-                return "1234567890 ()-".indexOf(digit) < 0;
-            }).length === 0 && this.phone.length === 16
-        );
+        if (this.phone)
+            return (
+                this.phone.split("").filter((digit) => {
+                    return "1234567890 ()-".indexOf(digit) < 0;
+                }).length === 0 && this.phone.length === 16
+            );
+        else return true;
     }
 
     /**
