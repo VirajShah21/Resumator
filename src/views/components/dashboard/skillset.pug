@@ -2,10 +2,11 @@ mixin skills-card(skillset)
     .card.w-100.mb-4
         .card-body
             h4.card-title.text-center
-                ion-icon.text-primary.mr-4(name='checkmark-done-outline')
+                ion-icon.text-primary(name='checkmark-done-outline')
+                br
                 | Skills
             .row.mt-4
-                .col-12
+                .col-12.text-center
                     each skill in skillset
                         if skill.proficiency > 66
                             span.badge.bg-success.rounded-pill.p-2.mr-1.mb-1(

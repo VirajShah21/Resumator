@@ -2,7 +2,8 @@ mixin education-card(educationHistory)
     .card.w-100.mb-4
         .card-body
             h4.card-title.text-center
-                ion-icon.text-primary.mr-4(name='school-outline')
+                ion-icon.text-primary(name='school-outline')
+                br
                 | Education
             ul.list-group.list-group-flush
                 each education in educationHistory
@@ -11,7 +12,7 @@ mixin education-card(educationHistory)
 
 mixin education-item(edu)
     li.list-group-item
-        button.btn.btn-light.mr-4(data-toggle='modal' data-target=`#edit-education-modal-${edu._id}`)
+        button.btn.mr-4(data-toggle='modal' data-target=`#edit-education-modal-${edu._id}`)
             ion-icon(name='create-outline')
         span= `${edu.institution} (${edu.end.split("/")[2]})`
 

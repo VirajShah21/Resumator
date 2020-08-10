@@ -2,7 +2,8 @@ mixin certifications-card(certifications)
     #certifications-card.card.w-100.mb-4
         .card-body
             h4.card-title.text-center
-                ion-icon.text-primary.mr-4(name='document-outline')
+                ion-icon.text-primary(name='document-outline')
+                br
                 | Certifications
             ul.list-group.list-group-flush
                 each certification in certifications
@@ -11,7 +12,7 @@ mixin certifications-card(certifications)
 
 mixin certification-item(certification)
     li.list-group-item
-        button.btn.btn-light.mr-4(data-toggle='modal' data-target=`#edit-certification-modal-${certification._id}`)
+        button.btn.mr-4(data-toggle='modal' data-target=`#edit-certification-modal-${certification._id}`)
             ion-icon(name='create-outline')
         span= `${certification.institution}`
 

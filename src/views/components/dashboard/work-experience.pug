@@ -2,7 +2,8 @@ mixin work-experience-card(experiences)
     .card.w-100.mb-4
         .card-body
             h4.card-title.text-center
-                ion-icon.text-primary.mr-4(name='briefcase-outline')
+                ion-icon.text-primary(name='briefcase-outline')
+                br
                 | Work Experience
                 
             ul.list-group.list-group-flush
@@ -14,7 +15,7 @@ mixin work-experience-card(experiences)
 
 mixin work-experience-item(experience)
     li.list-group-item
-        button.btn.btn-light.mr-4(data-toggle='modal' data-target=`#edit-work-experience-${experience._id}`)
+        button.btn.mr-4(data-toggle='modal' data-target=`#edit-work-experience-${experience._id}`)
             ion-icon(name='create-outline')
         span= `${experience.position} at ${experience.organization}`
 
