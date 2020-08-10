@@ -117,6 +117,13 @@ export default class Education implements IEducation {
         }
     }
 
+    public deleteDatabaseItem(callback: (success: boolean) => void): void {
+        database.collection(EDUCATION_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+            if (err) callback(false);
+            else callback(true);
+        });
+    }
+
     /**
      * Loads a list of education history belonging to the user
      *

@@ -105,12 +105,24 @@ export default class WorkExperience {
     }
 
     /**
+     * Deletes this object from the database
+     *
+     * @param callback The callback upon deleting database item
+     */
+    public deleteDatabaseItem(callback: (success: boolean) => void): void {
+        database.collection(WORK_EXPERIENCE_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+            if (err) callback(false);
+            else callback(true);
+        });
+    }
+
+    /**
      * Load a list of the user's work experience
      *
      * @param email The user's email to lookup
      * @param callback The callback passing all work history as an array upon completion
      */
-    public static loadFromDatabase(email: string, callback?: (workExperiences: WorkExperience[]) => void): void {
+    public static loadFromDatabase(email: string, callback: (workExperiences: WorkExperience[]) => void): void {
         database
             .collection(WORK_EXPERIENCE_COLLECTION)
             .find({ user: email })

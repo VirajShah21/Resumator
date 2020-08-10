@@ -64,6 +64,13 @@ export default class Skill implements ISkill {
         );
     }
 
+    public deleteDatabaseItem(callback: (success: boolean) => void): void {
+        database.collection(SKILLS_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+            if (err) callback(false);
+            else callback(true);
+        });
+    }
+
     public static loadFromDatabase(user: string, callback: (skills: ISkill[]) => void): void {
         database
             .collection(SKILLS_COLLECTION)

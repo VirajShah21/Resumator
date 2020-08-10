@@ -4,7 +4,6 @@ import Account from "@entities/Account";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import Education from "@entities/Education";
-import path from "path";
 import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
@@ -112,12 +111,12 @@ router.get("/themes/preview", (req, res) => {
                     WorkExperience.loadFromDatabase(account.email, (workExperience) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
                             Skill.loadFromDatabase(account.email, (skillset) => {
-                            res.render(`resume-templates/${req.query.theme}`, {
-                                account,
-                                workExperience,
-                                educationHistory,
-                                skillset
-                            });
+                                res.render(`resume-templates/${req.query.theme}`, {
+                                    account,
+                                    workExperience,
+                                    educationHistory,
+                                    skillset,
+                                });
                             });
                         });
                     });
@@ -141,9 +140,16 @@ router.post("/work-experience/update", (req, res) => {
                 session.user
             );
             experience._id = new ObjectId(req.body.dbid);
-            experience.updateDatabaseItem(() => {
-                res.redirect("back");
-            });
+
+            if (req.body.delete === "on") {
+                experience.deleteDatabaseItem(() => {
+                    res.redirect("/app/dashboard#work-experience-card");
+                });
+            } else {
+                experience.updateDatabaseItem(() => {
+                    res.redirect("back");
+                });
+            }
         } else {
             res.render("UnknownError");
         }
@@ -163,10 +169,17 @@ router.post("/education/update", (req, res) => {
                 req.body.gpa,
                 req.body.description
             );
-            education._id = new ObjectId(req.body._id);
-            education.updateDatabaseItem(() => {
-                res.redirect("back");
-            });
+
+            if (req.body.delete === "on") {
+                education.deleteDatabaseItem(() => {
+                    res.redirect("/app/dashboard#education-card");
+                });
+            } else {
+                education._id = new ObjectId(req.body._id);
+                education.updateDatabaseItem(() => {
+                    res.redirect("/app/dashboard#education-card");
+                });
+            }
         } else {
             res.render("UnknownError");
         }
@@ -177,9 +190,16 @@ router.post("/skills/add", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
-            skill.insertDatabaseItem((success) => {
-                res.redirect("back");
-            });
+
+            if (req.body.delete === "on") {
+                skill.deleteDatabaseItem((success) => {
+                    res.redirect("/app/dashboard#skillset-card");
+                });
+            } else {
+                skill.insertDatabaseItem((success) => {
+                    res.redirect("/app/dashboard#skillset-card");
+                });
+            }
         } else {
             res.render("UnknownError");
         }
