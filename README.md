@@ -90,20 +90,6 @@ The production configuration for TypeScript. Also used for `npm run test`
 
 The linter rules for TypeScript
 
-## Issues & Tasks
-
--   :red_circle: Missing delete Skill
--   :red_circle: Missing delete Education
--   :red_circle: Missing delete Work Experience
--   :red_circle: Editing phone number does not do anything
-
-> **Key**
->
-> :red_circle: = functionality issue **or** missing functionality  
-> :white_circle: = UI issue **or missing component**  
-> :black_circle: = code quality issue
-> :beetle: = bug
-
 ## Features List
 
 -   **Login/Signup** - Click on "Get Started" (when on the landing page) or navigate to `/app/account`.
@@ -114,42 +100,12 @@ The linter rules for TypeScript
 -   **Add/Edit Skills** - Navigate to the dashboard and find the card labeled "Skills". You can add skills by clicking the blue button labeled "Add Skill". You can adjust proficiency in the modal when adding or editing skills. To edit a skill, click on its pill badge.
 -   **Render Resume Template** - Navigate to `/app/themes` or click on "Themes" in the navigation menu. Then select a theme and click on the button labeled "Preview".
 
-## Testing Procedures
-
-**Login/Signup**
-
-1. **Sign up (unique email ID):** Should create a new account and redirect to the dashboard
-2. **Sign up with the same email**: Should display an account doesn't exist error
-3. **Sign up with mismatching passwords**: Should display a password mismatch error
-
-**Access the dashboard**
-
-The following cards should be displayed:
-
--   Personal Information
-    -   All data which has been previously set should be filled in
--   Education
-    -   List with education history
-    -   Add education button
--   Work Experience
-    -   List with work experience
-    -   Add work experience button
--   Skills
-    -   Should display skills
-    -   Skills should be rendered using red, yellow, and green respective to proficiency
-    -   Skills should be shown from green to red
-    -   Add skills button
-
-**Modify Personal Information**
-
-1. **Change all information + submit**: Should change all fields
-2. **Change no information + submit**: Should change **NO** fields
-
 ## Common Resolutions
 
 ### MongoDB
 
 If you get this:
+
 ```bash
 info: Express server started on port: 3000
 
@@ -162,4 +118,5 @@ MongoServerSelectionError: Authentication failed.
     at processTimers (internal/timers.js:492:7)
 [nodemon] app crashed - waiting for file changes before starting...
 ```
+
 Then just run `source ~/.bashrc` making sure the secrets are stored as environment variables
