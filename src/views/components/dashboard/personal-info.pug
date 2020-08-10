@@ -8,33 +8,33 @@ mixin personal-info-card(account)
                 .row
                     .col-12.col-md-6
                         label First Name
-                        input.form-control.mb-2.pop-input(name='fname' value=account.fname)
+                        input.form-control.mb-2.pop-input(name='fname' value=account.fname placeholder=' ')
                     .col-12.col-md-6
                         label Last Name
-                        input.form-control.mb-2.pop-input(name='lname' value=account.lname)
+                        input.form-control.mb-2.pop-input(name='lname' value=account.lname placeholder=' ')
                 .row
                     .col-12.col-md-6
                         label Email
-                        input.form-control.mb-2.pop-input(name='email' value=account.email)
+                        input.form-control.mb-2.pop-input(name='email' value=account.email placeholder=' ')
                     .col-12.col-md-6
                         label Phone
-                        input.form-control.mb-2.pop-input(name='phone' value=account.phone)
+                        input.form-control.mb-2.pop-input(name='phone' value=account.phone placeholder=' ')
                 .row
                     .col-12
                         label Address Line 1
-                        input.form-control.mb-2.pop-input(name='line1' value=account.address.line1)
+                        input.form-control.mb-2.pop-input(name='line1' value=account.address.line1 placeholder=' ')
                 .row
                     .col-12
                         label Address Line 2
-                        input.form-control.mb-2.pop-input(name='line2' value=account.address.line2)
+                        input.form-control.mb-2.pop-input(name='line2' value=account.address.line2 placeholder=' ')
                 .row
                     .col-12.col-md-5
                         label City
-                        input.form-control.mb-2.pop-input(name='city' value=account.address.city)
+                        input.form-control.mb-2.pop-input(name='city' value=account.address.city placeholder=' ')
                     .col-6.col-md-3
                         label State
-                        input.form-control.mb-2.pop-input(name='state' value=account.address.state)
+                        input.form-control.mb-2.pop-input(name='state' value=account.address.state placeholder=' ')
                     .col-6.col-md-4
                         label Zip Code
-                        input.form-control.mb-2.pop-input(name='zip' value=account.address.zip)
+                        input.form-control.mb-2.pop-input(name='zip' value=account.address.zip placeholder=' ')
                 button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Update

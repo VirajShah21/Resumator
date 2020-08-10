@@ -32,6 +32,10 @@ input.pop-input {
     transition: 0.25s padding;
 }
 
+input.pop-input:placeholder-shown {
+    background: var(--bs-light);
+}
+
 input.pop-input:active,
 input.pop-input:focus {
     padding: 0.375rem 0.75rem;
