@@ -38,7 +38,7 @@ mixin add-skill-modal
                         .row
                             .col-12
                                 label Skill
-                                input.form-control.mb-2(name='skill')
+                                input.form-control.mb-2(name='skill' data-validate required)
                             .col-12
                                 label Proficiency
                                 .row
@@ -66,7 +66,7 @@ mixin edit-skill-modal(skill)
                         .row
                             .col-12
                                 label Skill
-                                input.form-control.mb-2(name='skill' value=skill.name)
+                                input.form-control.mb-2(name='skill' value=skill.name data-validate required)
                             .col-12
                                 label Proficiency
                                 .row

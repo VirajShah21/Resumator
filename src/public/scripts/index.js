@@ -44,6 +44,10 @@ const validators = {
             return false;
         }
     },
+
+    zip: function (zip) {
+        return zip.length == 5;
+    },
 };
 
 const formatters = {

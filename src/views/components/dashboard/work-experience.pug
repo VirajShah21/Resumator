@@ -31,18 +31,18 @@ mixin add-work-experience-modal
                         .row
                             .col-12
                                 label Position
-                                input.form-control.mb-2(name='position')
+                                input.form-control.mb-2(name='position' data-validate required)
                         .row
                             .col-12
                                 label Organization
-                                input.form-control.mb-2(name='organization')
+                                input.form-control.mb-2(name='organization' data-validate required)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='start-date' placeholder='mm/dd/yyyy' data-type='date' required)
                             .col-12.col-md-6
                                 label End
-                                input.form-control.mb-2(name='end-date' placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='end-date' placeholder='mm/dd/yyyy' data-type='date' required)
                         .row
                             .col-12
                                 label Description
@@ -70,17 +70,17 @@ mixin edit-work-experience-modal(experience)
                         .row
                             .col-12
                                 label Position
-                                input.form-control.mb-2(name='position' value=experience.position)
+                                input.form-control.mb-2(name='position' value=experience.position data-validate required)
                         .row
                             .col-12
                                 label Organization
-                                input.form-control.mb-2(name='organization' value=experience.organization)
+                                input.form-control.mb-2(name='organization' value=experience.organization data-validate required)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/dd/yyyy' data-type='date' required)
                             .col-12.col-md-6 End
-                                input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/dd/yyyy')
+                                input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/dd/yyyy' data-type='date' required)
                         .row
                             .col-12
                                 label Description
