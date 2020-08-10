@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
+import { validateDateString } from "@shared/functions";
 
 const CERT_COLLECTION = "certifications";
 
@@ -42,6 +43,14 @@ export default class Certification implements ICertification {
             this.examDate = institution.examDate;
             this.user = institution.user;
         }
+    }
+
+    public validate(): boolean {
+        return (
+            this.institution.trim().length > 0 &&
+            this.certification.trim().length > 0 &&
+            validateDateString(this.examDate)
+        );
     }
 
     public insertDatabaseItem(callback: (success: boolean) => void): void {

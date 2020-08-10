@@ -15,6 +15,7 @@ export interface IAccount {
     email: string;
     password: string;
     address: IAddress;
+    phone: string;
 }
 
 /**
@@ -27,6 +28,7 @@ export default class Account implements IAccount {
     public email: string;
     public password: string;
     public address: Address;
+    public phone: string;
 
     /**
      *
@@ -36,7 +38,14 @@ export default class Account implements IAccount {
      * @param password The user's hashed password (hashed with Bcrypt)
      * @param address The user's address
      */
-    constructor(fname: string | IAccount, lname?: string, email?: string, password?: string, address?: IAddress) {
+    constructor(
+        fname: string | IAccount,
+        lname?: string,
+        email?: string,
+        password?: string,
+        address?: IAddress,
+        phone?: string
+    ) {
         if (typeof fname == "string") {
             this._id = new ObjectId();
             this.fname = fname;
@@ -44,6 +53,7 @@ export default class Account implements IAccount {
             this.email = email || "";
             this.password = password || "";
             this.address = address ? new Address(address) : new Address("", "", "", "", 0);
+            this.phone = phone || "";
         } else {
             console.log(fname);
             this._id = new ObjectId(fname._id);
@@ -52,6 +62,7 @@ export default class Account implements IAccount {
             this.email = fname.email;
             this.password = fname.password;
             this.address = new Address(fname.address);
+            this.phone = fname.phone;
         }
     }
 
@@ -59,7 +70,13 @@ export default class Account implements IAccount {
      * @returns True if all fields are valid
      */
     public validate(): boolean {
-        return this.validateName() && this.validateEmail() && this.validatePassword() && this.validateAddress();
+        return (
+            this.validateName() &&
+            this.validateEmail() &&
+            this.validatePassword() &&
+            this.validateAddress() &&
+            this.validatePhone()
+        );
     }
 
     private validateName(): boolean {
@@ -77,6 +94,14 @@ export default class Account implements IAccount {
 
     private validateAddress(): boolean {
         return this.address.validate();
+    }
+
+    private validatePhone(): boolean {
+        return (
+            this.phone.split("").filter((digit) => {
+                return "1234567890 ()-".indexOf(digit) < 0;
+            }).length === 0 && this.phone.length === 16
+        );
     }
 
     /**
