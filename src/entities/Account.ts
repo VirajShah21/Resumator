@@ -117,8 +117,8 @@ export default class Account implements IAccount {
                 if (result) {
                     callback(false);
                 } else {
-                    database.collection(ACCOUNTS_COLLECTION).insertOne(this, (err) => {
-                        if (err) callback(false);
+                    database.collection(ACCOUNTS_COLLECTION).insertOne(this, (err2) => {
+                        if (err2) callback(false);
                         else callback(true);
                     });
                 }

@@ -4,7 +4,7 @@ html,
 body {
     padding: 0;
     margin: 0;
-    font-family: Quicksand;
+    font-family: Quicksand, "Avenir Next", Sawasdee, Helvetica, sans-serif;
 }
 
 button {

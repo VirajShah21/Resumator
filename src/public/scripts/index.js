@@ -98,7 +98,7 @@ function initializePassiveValidator() {
             });
         }
 
-        if (input.getAttribute("data-type") !== undefined || input.getAttribute("data-format" !== undefined)) {
+        if (input.getAttribute("data-type") !== undefined || input.getAttribute("data-format") !== undefined) {
             // Format
             input.addEventListener("keyup", (event) => {
                 let target = event.target;
