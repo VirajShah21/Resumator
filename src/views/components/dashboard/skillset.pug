@@ -79,6 +79,11 @@ mixin edit-skill-modal(skill)
                                             min='1' max='100' step='1'
                                             value=skill.proficiency)
                                     .col-2 100
+                        .row
+                            .col-12
+                                .alert.alert-danger
+                                    input(type='checkbox' name='delete')
+                                    span.ml-2 Delete
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(
                             type='button'

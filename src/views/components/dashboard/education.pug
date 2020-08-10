@@ -95,6 +95,11 @@ mixin edit-education-modal(edu)
                             .col-12
                                 label Description
                                 textarea.form-control.mb-2(name='description')= edu.description
+                        .row
+                            .col-12
+                                .alert.alert-danger
+                                    input(type='checkbox' name='delete')
+                                    span.ml-2 Delete
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(
                             type='button'

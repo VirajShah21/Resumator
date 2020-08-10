@@ -72,6 +72,11 @@ mixin edit-certification-modal(certification)
                             .col-12
                                 label Additional Details (optional)
                                 textarea.form-control.mb-2(name='details')= certification.details
+                        .row
+                            .col-12
+                                .alert.alert-danger
+                                    input(type='checkbox' name='delete')
+                                    span.ml-2 Delete
                     .modal-footer
                         button.btn.btn-secondary.btn-sm(
                             type='button'

@@ -95,9 +95,7 @@ The linter rules for TypeScript
 -   :red_circle: Missing delete Skill
 -   :red_circle: Missing delete Education
 -   :red_circle: Missing delete Work Experience
--   :black_circle: Some entities may not have any doc comments
 -   :red_circle: Editing phone number does not do anything
--   :black_circle: Account entity should record phone number
 
 > **Key**
 >
