@@ -111,10 +111,13 @@ router.get("/themes/preview", (req, res) => {
                 if (account) {
                     WorkExperience.loadFromDatabase(account.email, (workExperience) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
+                            Skill.loadFromDatabase(account.email, (skillset) => {
                             res.render(`resume-templates/${req.query.theme}`, {
                                 account,
                                 workExperience,
                                 educationHistory,
+                                skillset
+                            });
                             });
                         });
                     });

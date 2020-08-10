@@ -146,3 +146,22 @@ The following cards should be displayed:
 
 1. **Change all information + submit**: Should change all fields
 2. **Change no information + submit**: Should change **NO** fields
+
+## Common Resolutions
+
+### MongoDB
+
+If you get this:
+```bash
+info: Express server started on port: 3000
+
+/Users/viraj/Desktop/Resumator/node_modules/mongodb/lib/core/sdam/topology.js:430
+        const timeoutError = new MongoServerSelectionError(
+                             ^
+MongoServerSelectionError: Authentication failed.
+    at Timeout._onTimeout (/Users/viraj/Desktop/Resumator/node_modules/mongodb/lib/core/sdam/topology.js:430:30)
+    at listOnTimeout (internal/timers.js:549:17)
+    at processTimers (internal/timers.js:492:7)
+[nodemon] app crashed - waiting for file changes before starting...
+```
+Then just run `source ~/.bashrc` making sure the secrets are stored as environment variables

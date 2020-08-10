@@ -1,43 +1,39 @@
 doctype html
 
+mixin section-title(label)
+    h2= label
+    .blue-bar &nbsp;
+
+mixin work-experience(experience)
+    h3= `${experience.position} // ${experience.organization}`
+        small= `${experience.start} - ${experience.end}`
+    p= experience.description
+
+mixin education(edu)
+    h3= edu.institution
+        small= `${edu.end.split("/")[2]}`
+    p= `${edu.level} // ${edu.degree}`
+    p= edu.description
+    
+
 html(lang='en-US')
     head
         meta(charset='utf-8')
         link(rel='stylesheet' href='/stylesheets/resumes/budgie-blue.css')
     body
         .page
-            h1= `${account.fname} ${account.lname}`
-            #contact.mb-12
-                span.p-12
-                    ion-icon(style='vertical-align:middle' name='mail-unread-outline')
-                    span= account.email
-                span.p-12
-                    ion-icon(style='vertical-align:middle' name='call-outline')
-                    span (609) 751 7703
-            table.w-100
-                tr.mb-12
-                    td.text-right.title-cell(style='width:50%')
-                        h3 Work
-                    td.title-cell(style='width:50%')
-                        h3 Education
-                tr
-                    td.text-right
-                        each job in workExperience
-                            .mb-12
-                                .work-item
-                                    h4
-                                        small= `${job.position} at`
-                                        = ` ${job.organization}`
-                                    .date= `${job.start.split("/")[2]} - ${job.end.toLowerCase() == "present" ? "Present" : job.end.split("/")[2]}`
-                                    p(style='margin:0')= job.description
-                    td.text-left
-                        each edu in educationHistory
-                            .mb-12
-                                .education-item
-                                    h4= edu.institution
-                                        | &nbsp;
-                                        small= edu.degree
-                                    span.date= `${edu.end.split("/")[2]}`
-                                    p(style='margin:0')= `${edu.level}, GPA: ${edu.gpa}`
+            #white-box
+                h1= `${account.fname} ${account.lname}`
+                #main-section
+                    +section-title('Objective')
+                    p(style='margin-top:5pt') Your objective will appear here
+                    +section-title('Work Experience')
+                    each experience in workExperience
+                        +work-experience(experience)
+                    +section-title('Education')
+                    each education in educationHistory
+                        +education(education)
+            
+
 
         script(src='https://unpkg.com/ionicons@5.1.2/dist/ionicons.js')
