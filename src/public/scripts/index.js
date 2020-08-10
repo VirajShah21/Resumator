@@ -1,3 +1,7 @@
+/**
+ * VALIDATOR CODE
+ */
+
 const validators = {
     email: function (email) {
         try {
@@ -14,6 +18,35 @@ const validators = {
 
     password: function (password) {
         return password.length > 8;
+    },
+
+    phone: function (phone) {
+        return (
+            phone.split("").filter((digit) => {
+                try {
+                    parseInt(digit);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }).length == 10
+        );
+    },
+
+    text: function (text) {
+        return text.trim().length > 0;
+    },
+};
+
+const formatters = {
+    phone: function (phone) {
+        let digits = phone
+            .split("")
+            .filter((digit) => {
+                return "1234567890".indexOf(digit) >= 0;
+            })
+            .join("");
+        return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)} - ${digits.substring(6, 10)}`;
     },
 };
 
@@ -41,15 +74,29 @@ function notifyInvalid(input) {
 function initializePassiveValidator() {
     document.querySelectorAll("input").forEach((input) => {
         if (input.getAttribute("data-type") !== undefined || input.getAttribute("data-validate") !== undefined) {
-            console.log("Validating " + input);
+            // Validate
             input.addEventListener("change", (event) => {
                 let target = event.target;
                 let validator = target.getAttribute("data-type") || target.type;
+
                 if (target.required && target.value.trim().length == 0) notifyInvalid(target);
                 else if (!target.required && target.value.trim().length == 0) clearValidation(target);
                 else if (validators.hasOwnProperty(validator))
                     validators[validator](target.value) ? notifyValid(target) : notifyInvalid(target);
             });
         }
+
+        if (input.getAttribute("data-type") !== undefined || input.getAttribute("data-format" !== undefined)) {
+            // Format
+            input.addEventListener("keyup", (event) => {
+                let target = event.target;
+                let formatter = target.getAttribute("data-type") || target.type;
+                if (target.value.trim().length > 0) target.value = formatters[formatter](target.value);
+            });
+        }
     });
 }
+
+/**
+ * END VALIDATOR CODE
+ */
