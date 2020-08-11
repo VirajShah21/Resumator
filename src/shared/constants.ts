@@ -14,7 +14,7 @@ export const routes = {
     dashboardCard: {
         workExperience: "/app/dashboard#work-experience-card",
         education: "/app/dashboard#education-card",
-        certification: "/app/dashboard#certification-card",
+        certification: "/app/dashboard#certifications-card",
         skills: "/app/dashboard#skills-card",
     },
 };
