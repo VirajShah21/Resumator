@@ -4,7 +4,7 @@ import Account from "@entities/Account";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import { ObjectId } from "mongodb";
-import { views } from "@shared/constants";
+import { views, routes } from "@shared/constants";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -23,7 +23,7 @@ router.post("/add", jsonParser, (req, res) => {
                         account.email
                     );
                     experience.insertDatabaseItem(() => {
-                        res.redirect("back");
+                        res.redirect(routes.dashboardCard.workExperience);
                     });
                 }
             });
@@ -48,11 +48,11 @@ router.post("/update", (req, res) => {
 
             if (req.body.delete === "on") {
                 experience.deleteDatabaseItem(() => {
-                    res.redirect("/app/dashboard#work-experience-card");
+                    res.redirect(routes.dashboardCard.workExperience);
                 });
             } else {
                 experience.updateDatabaseItem(() => {
-                    res.redirect("back");
+                    res.redirect(routes.dashboardCard.workExperience);
                 });
             }
         } else {

@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
-import { views } from "@shared/constants";
+import { views, routes } from "@shared/constants";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -29,7 +29,7 @@ router.post("/add", (req, res) => {
                         req.body.description
                     );
                     education.insertDatabaseItem(() => {
-                        res.redirect("back");
+                        res.redirect(routes.dashboardCard.education);
                     });
                 }
             });
@@ -55,12 +55,12 @@ router.post("/update", (req, res) => {
 
             if (req.body.delete === "on") {
                 education.deleteDatabaseItem(() => {
-                    res.redirect("/app/dashboard#education-card");
+                    res.redirect(routes.dashboardCard.education);
                 });
             } else {
                 education._id = new ObjectId(req.body._id);
                 education.updateDatabaseItem(() => {
-                    res.redirect("/app/dashboard#education-card");
+                    res.redirect(routes.dashboardCard.education);
                 });
             }
         } else {

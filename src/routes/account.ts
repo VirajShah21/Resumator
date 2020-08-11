@@ -4,7 +4,7 @@ import Session from "@entities/Session";
 import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
 import Address from "@entities/Address";
-import { views } from "@shared/constants";
+import { views, routes } from "@shared/constants";
 
 const router = Router();
 
@@ -25,7 +25,7 @@ router.post("/signup", jsonParser, (req, res) => {
                     const session: Session = new Session(account);
                     session.insertDatabaseItem(() => {
                         res.cookie("session", session.key);
-                        res.redirect("/app/dashboard");
+                        res.redirect(routes.dashboard);
                     });
                 } else {
                     res.render(views.unknownError);
@@ -49,7 +49,7 @@ router.post("/update", jsonParser, (req, res) => {
                         ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
                         : account.address;
                     account.updateDatabaseItem((success) => {
-                        res.redirect("/app/dashboard");
+                        res.redirect(routes.dashboard);
                     });
                 }
             });
@@ -68,7 +68,7 @@ router.post("/login", jsonParser, (req, res) => {
                     res.cookie("session", session.key);
                     session.insertDatabaseItem((isSessionAdded) => {
                         if (isSessionAdded) {
-                            res.redirect("/app/dashboard");
+                            res.redirect(routes.dashboard);
                         } else {
                             res.render(views.unknownError);
                         }
