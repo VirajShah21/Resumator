@@ -25,11 +25,14 @@ router.get("/preview", (req, res) => {
                     WorkExperience.loadFromDatabase(account.email, (workExperience) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
                             Skill.loadFromDatabase(account.email, (skillset) => {
-                                res.render(`resume-templates/${req.query.theme}`, {
-                                    account,
-                                    workExperience,
-                                    educationHistory,
-                                    skillset,
+                                Certification.loadFromDatabase(account.email, (certifications) => {
+                                    res.render(`resume-templates/${req.query.theme}`, {
+                                        account,
+                                        workExperience,
+                                        educationHistory,
+                                        skillset,
+                                        certifications,
+                                    });
                                 });
                             });
                         });
