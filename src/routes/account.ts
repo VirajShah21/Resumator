@@ -4,13 +4,14 @@ import Session from "@entities/Session";
 import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
 import Address from "@entities/Address";
+import { views } from "@shared/constants";
 
 const router = Router();
 
 const jsonParser = BodyParser.json();
 
 router.get("/", (req, res) => {
-    res.render("account.pug", {
+    res.render(views.accountPage, {
         nav: "Home",
     });
 });
@@ -27,12 +28,12 @@ router.post("/signup", jsonParser, (req, res) => {
                         res.redirect("/app/dashboard");
                     });
                 } else {
-                    res.render("UnknownError");
+                    res.render(views.unknownError);
                 }
             });
         });
     } else {
-        res.render("UnknownError");
+        res.render(views.unknownError);
     }
 });
 
@@ -53,7 +54,7 @@ router.post("/update", jsonParser, (req, res) => {
                 }
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });
@@ -69,15 +70,15 @@ router.post("/login", jsonParser, (req, res) => {
                         if (isSessionAdded) {
                             res.redirect("/app/dashboard");
                         } else {
-                            res.render("UnknownError");
+                            res.render(views.unknownError);
                         }
                     });
                 } else {
-                    res.render("UnknownError");
+                    res.render(views.unknownError);
                 }
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });

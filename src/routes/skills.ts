@@ -8,6 +8,7 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
+import { views } from "@shared/constants";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -27,7 +28,7 @@ router.post("/add", jsonParser, (req, res) => {
                 });
             }
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });
@@ -39,10 +40,10 @@ router.post("/update", jsonParser, (req, res) => {
             skill._id = new ObjectId(req.body._id);
             skill.updateDatabaseItem((success) => {
                 if (success) res.redirect("back");
-                else res.render("UnknownError");
+                else res.render(views.unknownError);
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });

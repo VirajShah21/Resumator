@@ -4,6 +4,7 @@ import Account from "@entities/Account";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import { ObjectId } from "mongodb";
+import { views } from "@shared/constants";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -27,7 +28,7 @@ router.post("/add", jsonParser, (req, res) => {
                 }
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });
@@ -55,7 +56,7 @@ router.post("/update", (req, res) => {
                 });
             }
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });

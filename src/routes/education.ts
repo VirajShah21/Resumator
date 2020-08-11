@@ -8,6 +8,7 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
+import { views } from "@shared/constants";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -33,7 +34,7 @@ router.post("/add", (req, res) => {
                 }
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });
@@ -63,7 +64,7 @@ router.post("/update", (req, res) => {
                 });
             }
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });

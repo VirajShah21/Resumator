@@ -8,6 +8,7 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
+import { views } from "@shared/constants";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -24,10 +25,10 @@ router.post("/add", jsonParser, (req, res) => {
             );
             certification.insertDatabaseItem((success) => {
                 if (success) res.redirect("/app/dashboard#certifications-card");
-                else res.render("UnknownError");
+                else res.render(views.unknownError);
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });
@@ -45,10 +46,10 @@ router.post("/update", jsonParser, (req, res) => {
             certification._id = req.body._id;
             certification.updateDatabaseItem((success) => {
                 if (success) res.redirect("/app/dashboard#certifications-card");
-                else res.render("UnknownError");
+                else res.render(views.unknownError);
             });
         } else {
-            res.render("UnkownError");
+            res.render(views.unknownError);
         }
     });
 });

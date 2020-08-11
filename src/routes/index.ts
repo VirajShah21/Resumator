@@ -2,6 +2,7 @@ import { Router } from "express";
 import AppRouter from "./app-router";
 import ApiRouter from "./api";
 import Logger from "@shared/Logger";
+import { views } from "@shared/constants";
 
 export const PREFIX = "/";
 
@@ -33,7 +34,7 @@ router.use((req, res, next) => {
 
 // Base Routes
 router.get("/", (req, res) => {
-    res.render("landing", {
+    res.render(views.landingPage, {
         nav: "Home",
     });
 });

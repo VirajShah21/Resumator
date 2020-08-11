@@ -13,6 +13,7 @@ import EducationRouter from "./education";
 import SkillsRouter from "./skills";
 import CertificationRouter from "./certifications";
 import ThemesRouter from "./themes";
+import { views } from "@shared/constants";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -35,7 +36,7 @@ router.get("/dashboard", (req, res) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
                             Skill.loadFromDatabase(account.email, (skillset) => {
                                 Certification.loadFromDatabase(account.email, (certifications) => {
-                                    res.render("dashboard", {
+                                    res.render(views.dashboard, {
                                         session,
                                         account,
                                         educationHistory,
@@ -52,7 +53,7 @@ router.get("/dashboard", (req, res) => {
                 }
             });
         } else {
-            res.render("UnknownError");
+            res.render(views.unknownError);
         }
     });
 });
