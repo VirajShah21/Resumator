@@ -44,7 +44,7 @@ export default class Session implements ISession {
      *
      * @param callback Callback upon completion
      */
-    public insertDatabaseItem(callback: (success?: boolean) => void): void {
+    public insertDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
             database.collection(SESSIONS_COLLECTION).insertOne(this, (err) => {
                 if (err) callback(false);

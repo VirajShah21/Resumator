@@ -50,6 +50,11 @@ router.get("/dashboard", (req, res) => {
                             });
                         });
                     });
+                } else {
+                    res.render(views.genericError, {
+                        error: "Account Issue",
+                        message: "There was a problem loading your account. Please log out and log back in.",
+                    });
                 }
             });
         } else {

@@ -31,6 +31,11 @@ router.post("/add", (req, res) => {
                     education.insertDatabaseItem(() => {
                         res.redirect(routes.dashboardCard.education);
                     });
+                } else {
+                    res.render(views.genericError, {
+                        error: "Account Issue",
+                        message: "There was a problem loading your account. Please sign out and log back in.",
+                    });
                 }
             });
         } else {

@@ -23,9 +23,16 @@ router.post("/signup", jsonParser, (req, res) => {
             account.insertDatabaseItem((success) => {
                 if (success) {
                     const session: Session = new Session(account);
-                    session.insertDatabaseItem(() => {
-                        res.cookie("session", session.key);
-                        res.redirect(routes.dashboard);
+                    session.insertDatabaseItem((success) => {
+                        if (success) {
+                            res.cookie("session", session.key);
+                            res.redirect(routes.dashboard);
+                        } else {
+                            res.render(views.genericError, {
+                                error: "Signup Error",
+                                message: "Something wrong happened on our end. Please try again in a couple minutes.",
+                            });
+                        }
                     });
                 } else {
                     res.render(views.unknownError);
@@ -49,7 +56,17 @@ router.post("/update", jsonParser, (req, res) => {
                         ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
                         : account.address;
                     account.updateDatabaseItem((success) => {
-                        res.redirect(routes.dashboard);
+                        if (success) res.redirect(routes.dashboard);
+                        else
+                            res.render(views.genericError, {
+                                error: "Account Issue",
+                                message: "There was an issue updating your account.",
+                            });
+                    });
+                } else {
+                    res.render(views.genericError, {
+                        error: "Account Issue",
+                        message: "There is an issue loading your account. Please sign out and log back in.",
                     });
                 }
             });
