@@ -2,13 +2,13 @@ doctype html
 
 html(lang='en-US')
     head
-        - nav = "Unknown Error";
+        - nav = error
         include components/head
     body
         div.w-100.p-4(style='height:100vh')
             div.w-100.h-100.p-4.bg-light(style='border-radius:30px')
-                h1 There is an Unknown Error
+                h1= error
 
-                p There is currently no other information provided. If you continue to experience issues, contact this email.
+                p= message
 
         include components/scripts
