@@ -4,7 +4,6 @@ import Account from "@entities/Account";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import Education from "@entities/Education";
-import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";

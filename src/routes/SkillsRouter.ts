@@ -1,13 +1,8 @@
 import { Router } from "express";
 import BodyParser from "body-parser";
-import Account from "@entities/Account";
 import Session from "@entities/Session";
-import WorkExperience from "@entities/WorkExperience";
-import Education from "@entities/Education";
 import { ObjectId } from "mongodb";
-import AccountRouter from "./account";
 import Skill from "@entities/Skill";
-import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
