@@ -46,3 +46,8 @@ export function validateDateString(date: string): boolean {
         return false;
     }
 }
+
+export function addToObject(toAdd: any, base: any): any {
+    for (const prop in toAdd) if (toAdd.hasOwnProperty(prop)) base[prop] = toAdd[prop];
+    return base;
+}

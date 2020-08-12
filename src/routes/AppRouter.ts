@@ -14,6 +14,8 @@ import CertificationRouter from "./CertificationRouter";
 import ThemesRouter from "./ThemesRouter";
 import { views } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import { ResumeInfoAccess } from "@entities/ResumeInfo";
+import { addToObject } from "@shared/functions";
 
 export const PREFIX = "/app";
 const AppRouter = Router();
@@ -32,23 +34,18 @@ AppRouter.get("/dashboard", (req, res) => {
         if (session) {
             Account.loadFromDatabase(session.user, (account) => {
                 if (account) {
-                    WorkExperience.loadFromDatabase(account.email, (workExperience) => {
-                        Education.loadFromDatabase(account.email, (educationHistory) => {
-                            Skill.loadFromDatabase(account.email, (skillset) => {
-                                Certification.loadFromDatabase(account.email, (certifications) => {
-                                    res.render(views.dashboard, {
-                                        session,
-                                        account,
-                                        educationHistory,
-                                        workExperience,
-                                        volunteerExperience: [],
-                                        skillset,
-                                        certifications,
-                                        nav: "Dashboard",
-                                    });
-                                });
-                            });
-                        });
+                    ResumeInfoAccess.fetch(account.email, (resumeInfo) => {
+                        res.render(
+                            views.dashboard,
+                            addToObject(
+                                {
+                                    session: session,
+                                    account: account,
+                                    nav: "Dashboard",
+                                },
+                                resumeInfo
+                            )
+                        );
                     });
                 } else {
                     res.render(views.genericError, new SessionErrorPuggable());
