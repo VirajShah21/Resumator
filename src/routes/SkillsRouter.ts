@@ -7,10 +7,10 @@ import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
-const router = Router();
+const SkillsRouter = Router();
 const jsonParser = BodyParser.json();
 
-router.post("/add", jsonParser, (req, res) => {
+SkillsRouter.post("/add", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
@@ -32,7 +32,7 @@ router.post("/add", jsonParser, (req, res) => {
     });
 });
 
-router.post("/update", jsonParser, (req, res) => {
+SkillsRouter.post("/update", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
@@ -47,4 +47,4 @@ router.post("/update", jsonParser, (req, res) => {
     });
 });
 
-export default router;
+export default SkillsRouter;

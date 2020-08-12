@@ -8,17 +8,17 @@ import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
-const router = Router();
+const AccountRouter = Router();
 
 const jsonParser = BodyParser.json();
 
-router.get("/", (req, res) => {
+AccountRouter.get("/", (req, res) => {
     res.render(views.accountPage, {
         nav: "Home",
     });
 });
 
-router.post("/signup", jsonParser, (req, res) => {
+AccountRouter.post("/signup", jsonParser, (req, res) => {
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
             const account = new Account(req.body.fname, req.body.lname, req.body.email, hash);
@@ -52,7 +52,7 @@ router.post("/signup", jsonParser, (req, res) => {
     }
 });
 
-router.post("/update", jsonParser, (req, res) => {
+AccountRouter.post("/update", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             Account.loadFromDatabase(session.user, (account) => {
@@ -77,7 +77,7 @@ router.post("/update", jsonParser, (req, res) => {
     });
 });
 
-router.post("/login", jsonParser, (req, res) => {
+AccountRouter.post("/login", jsonParser, (req, res) => {
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {
             comparePasswordWithHash(req.body.password, account.password, (correctPassword) => {
@@ -105,4 +105,4 @@ router.post("/login", jsonParser, (req, res) => {
     });
 });
 
-export default router;
+export default AccountRouter;

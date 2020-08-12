@@ -4,7 +4,7 @@ import Account from "@entities/Account";
 import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import Education from "@entities/Education";
-import AccountRouter from "./account";
+import AccountRouter from "./AccountRouter";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
 import WorkExperienceRouter from "./WorkExperienceRouter";
