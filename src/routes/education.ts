@@ -9,6 +9,8 @@ import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -31,23 +33,17 @@ router.post("/add", (req, res) => {
                     education.insertDatabaseItem((success) => {
                         if (success) res.redirect(routes.dashboardCard.education);
                         else
-                            res.render(views.genericError, {
-                                error: "Database Error",
-                                message: "There was an error adding education. Try again in some time.",
-                            });
+                            res.render(
+                                views.genericError,
+                                new DatabaseErrorPuggable("Could not add the education to your dashboard.")
+                            );
                     });
                 } else {
-                    res.render(views.genericError, {
-                        error: "Account Issue",
-                        message: "There was a problem loading your account. Please sign out and log back in.",
-                    });
+                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
@@ -70,28 +66,20 @@ router.post("/update", (req, res) => {
                 education.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.education);
                     else
-                        res.render(views.genericError, {
-                            error: "Database Error",
-                            message: "There was an error deleting your education. Please try again in some time.",
-                        });
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorPuggable("Could not not delete this education.")
+                        );
                 });
             } else {
                 education._id = new ObjectId(req.body._id);
                 education.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.education);
-                    else
-                        res.render(views.genericError, {
-                            error: "Database Error",
-                            message:
-                                "There was an error updating updating your education. Please try again in some time.",
-                        });
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update education."));
                 });
             }
         } else {
-            res.render(views.genericError, {
-                error: "Session error",
-                message: "Could not find an account associated with the session.",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });

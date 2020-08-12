@@ -9,6 +9,8 @@ import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -25,17 +27,10 @@ router.post("/add", jsonParser, (req, res) => {
             );
             certification.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
-                else
-                    res.render(views.genericError, {
-                        error: "Database Error",
-                        message: "Error adding certification. Please try again.",
-                    });
+                else res.render(views.genericError, new DatabaseErrorPuggable("Could not add your certification."));
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account assocated with your session",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
@@ -53,17 +48,10 @@ router.post("/update", jsonParser, (req, res) => {
             certification._id = req.body._id;
             certification.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
-                else
-                    res.render(views.genericError, {
-                        error: "Database Error",
-                        message: "Could not add your certification. Please try again in some time",
-                    });
+                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update the certificate."));
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });

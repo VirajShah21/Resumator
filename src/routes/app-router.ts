@@ -14,6 +14,7 @@ import SkillsRouter from "./skills";
 import CertificationRouter from "./certifications";
 import ThemesRouter from "./themes";
 import { views } from "@shared/constants";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 
 export const PREFIX = "/app";
 const router = Router();
@@ -51,17 +52,11 @@ router.get("/dashboard", (req, res) => {
                         });
                     });
                 } else {
-                    res.render(views.genericError, {
-                        error: "Account Issue",
-                        message: "There was a problem loading your account. Please log out and log back in.",
-                    });
+                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Issue",
-                message: "We could not find an account associated with your session",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });

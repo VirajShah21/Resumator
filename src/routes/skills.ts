@@ -9,6 +9,8 @@ import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -21,27 +23,16 @@ router.post("/add", jsonParser, (req, res) => {
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else
-                        res.render(views.genericError, {
-                            error: "Database Error",
-                            message: "Could not delete this skill. Please try again in some time.",
-                        });
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not delete skill."));
                 });
             } else {
                 skill.insertDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else
-                        res.render(views.genericError, {
-                            error: "Database Error",
-                            message: "Could not add your skill. Please try again in some time.",
-                        });
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
                 });
             }
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session.",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
@@ -53,17 +44,10 @@ router.post("/update", jsonParser, (req, res) => {
             skill._id = new ObjectId(req.body._id);
             skill.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.skills);
-                else
-                    res.render(views.genericError, {
-                        error: "Database Error",
-                        message: "Could not update your ",
-                    });
+                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session.",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });

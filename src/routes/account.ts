@@ -5,6 +5,8 @@ import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
 import Address from "@entities/Address";
 import { views, routes } from "@shared/constants";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
 const router = Router();
 
@@ -28,17 +30,16 @@ router.post("/signup", jsonParser, (req, res) => {
                             res.cookie("session", session.key);
                             res.redirect(routes.dashboard);
                         } else {
-                            res.render(views.genericError, {
-                                error: "Signup Error",
-                                message: "Something wrong happened on our end. Please try again in a couple minutes.",
-                            });
+                            res.render(
+                                views.genericError,
+                                new DatabaseErrorPuggable(
+                                    "Could not create a new session. Your account was created, however, you will need to login manually."
+                                )
+                            );
                         }
                     });
                 } else {
-                    res.render(views.genericError, {
-                        error: "Oops, our bad",
-                        message: "Something went wrong, but we don't know why. Please try signing up again later.",
-                    });
+                    res.render(views.genericError, new DatabaseErrorPuggable("Could not create a new account."));
                 }
             });
         });
@@ -64,24 +65,14 @@ router.post("/update", jsonParser, (req, res) => {
                         : account.address;
                     account.updateDatabaseItem((success) => {
                         if (success) res.redirect(routes.dashboard);
-                        else
-                            res.render(views.genericError, {
-                                error: "Account Issue",
-                                message: "There was an issue updating your account.",
-                            });
+                        else res.render(views.genericError, new DatabaseErrorPuggable("Could not update account info"));
                     });
                 } else {
-                    res.render(views.genericError, {
-                        error: "Account Issue",
-                        message: "There is an issue loading your account. Please sign out and log back in.",
-                    });
+                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
         } else {
-            res.render(views.genericError, {
-                error: "Security!!",
-                message: "It seems like something went wrong with your session. Please log back in",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
@@ -94,15 +85,12 @@ router.post("/login", jsonParser, (req, res) => {
                     const session: Session = new Session(account);
                     res.cookie("session", session.key);
                     session.insertDatabaseItem((isSessionAdded) => {
-                        if (isSessionAdded) {
-                            res.redirect(routes.dashboard);
-                        } else {
-                            res.render(views.genericError, {
-                                error: "Oops, our bad",
-                                message:
-                                    "We could not log you in, and it is our fault. Please try logging back in later",
-                            });
-                        }
+                        if (isSessionAdded) res.redirect(routes.dashboard);
+                        else
+                            res.render(
+                                views.genericError,
+                                new DatabaseErrorPuggable("Could not create a new session.")
+                            );
                     });
                 } else {
                     res.render(views.genericError, {
@@ -112,10 +100,7 @@ router.post("/login", jsonParser, (req, res) => {
                 }
             });
         } else {
-            res.render(views.genericError, {
-                error: "Account Error",
-                message: `We could not find an account with the email: ${req.body.email}`,
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
