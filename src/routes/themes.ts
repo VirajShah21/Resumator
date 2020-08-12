@@ -9,6 +9,7 @@ import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
 import { views } from "@shared/constants";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 
 const router = Router();
 
@@ -41,10 +42,7 @@ router.get("/preview", (req, res) => {
                 }
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session.",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });

@@ -5,6 +5,8 @@ import Session from "@entities/Session";
 import WorkExperience from "@entities/WorkExperience";
 import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
+import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 
 const router = Router();
 const jsonParser = BodyParser.json();
@@ -25,18 +27,14 @@ router.post("/add", jsonParser, (req, res) => {
                     experience.insertDatabaseItem((success) => {
                         if (success) res.redirect(routes.dashboardCard.workExperience);
                         else
-                            res.render(views.genericError, {
-                                error: "Database Error",
-                                message: "Could not add your work experience. Please try again in some time.",
-                            });
+                            res.render(views.genericError, new DatabaseErrorPuggable("Could not add work experience."));
                     });
+                } else {
+                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session.",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
@@ -57,27 +55,16 @@ router.post("/update", (req, res) => {
             if (req.body.delete === "on") {
                 experience.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.workExperience);
-                    else
-                        res.render(views.genericError, {
-                            error: "Database Error",
-                            message: "Could not delete your work experience. Please try again in some time.",
-                        });
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not delete work experience."));
                 });
             } else {
                 experience.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.workExperience);
-                    else
-                        res.render(views.genericError, {
-                            error: "Database Error",
-                            message: "Could not update your work experience. Please try again in some time.",
-                        });
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update work experience."));
                 });
             }
         } else {
-            res.render(views.genericError, {
-                error: "Session Error",
-                message: "Could not find an account associated with the session",
-            });
+            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
