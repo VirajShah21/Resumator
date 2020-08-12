@@ -3,7 +3,7 @@ export const keygenChars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP
 
 export const views = {
     dashboard: "dashboard",
-    unknownError: "errors/UnknownError",
+    // unknownError: "errors/UnknownError",
     genericError: "errors/GenericError",
     accountPage: "account",
     landingPage: "landing",

@@ -28,8 +28,13 @@ router.post("/add", (req, res) => {
                         req.body.gpa,
                         req.body.description
                     );
-                    education.insertDatabaseItem(() => {
-                        res.redirect(routes.dashboardCard.education);
+                    education.insertDatabaseItem((success) => {
+                        if (success) res.redirect(routes.dashboardCard.education);
+                        else
+                            res.render(views.genericError, {
+                                error: "Database Error",
+                                message: "There was an error adding education. Try again in some time.",
+                            });
                     });
                 } else {
                     res.render(views.genericError, {
@@ -39,7 +44,10 @@ router.post("/add", (req, res) => {
                 }
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session",
+            });
         }
     });
 });
@@ -59,17 +67,31 @@ router.post("/update", (req, res) => {
             );
 
             if (req.body.delete === "on") {
-                education.deleteDatabaseItem(() => {
-                    res.redirect(routes.dashboardCard.education);
+                education.deleteDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.education);
+                    else
+                        res.render(views.genericError, {
+                            error: "Database Error",
+                            message: "There was an error deleting your education. Please try again in some time.",
+                        });
                 });
             } else {
                 education._id = new ObjectId(req.body._id);
-                education.updateDatabaseItem(() => {
-                    res.redirect(routes.dashboardCard.education);
+                education.updateDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.education);
+                    else
+                        res.render(views.genericError, {
+                            error: "Database Error",
+                            message:
+                                "There was an error updating updating your education. Please try again in some time.",
+                        });
                 });
             }
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session error",
+                message: "Could not find an account associated with the session.",
+            });
         }
     });
 });

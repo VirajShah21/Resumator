@@ -41,7 +41,10 @@ router.get("/preview", (req, res) => {
                 }
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session.",
+            });
         }
     });
 });

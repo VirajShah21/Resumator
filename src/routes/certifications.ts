@@ -25,10 +25,17 @@ router.post("/add", jsonParser, (req, res) => {
             );
             certification.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
-                else res.render(views.unknownError);
+                else
+                    res.render(views.genericError, {
+                        error: "Database Error",
+                        message: "Error adding certification. Please try again.",
+                    });
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account assocated with your session",
+            });
         }
     });
 });
@@ -46,10 +53,17 @@ router.post("/update", jsonParser, (req, res) => {
             certification._id = req.body._id;
             certification.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
-                else res.render(views.unknownError);
+                else
+                    res.render(views.genericError, {
+                        error: "Database Error",
+                        message: "Could not add your certification. Please try again in some time",
+                    });
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session",
+            });
         }
     });
 });

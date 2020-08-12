@@ -35,12 +35,19 @@ router.post("/signup", jsonParser, (req, res) => {
                         }
                     });
                 } else {
-                    res.render(views.unknownError);
+                    res.render(views.genericError, {
+                        error: "Oops, our bad",
+                        message: "Something went wrong, but we don't know why. Please try signing up again later.",
+                    });
                 }
             });
         });
     } else {
-        res.render(views.unknownError);
+        res.render(views.genericError, {
+            error: "Passwords don't match",
+            message:
+                "Your password and confirmation password do not match. Please make sure they are typed exactly the same. Passwords are case sensitive",
+        });
     }
 });
 
@@ -71,7 +78,10 @@ router.post("/update", jsonParser, (req, res) => {
                 }
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Security!!",
+                message: "It seems like something went wrong with your session. Please log back in",
+            });
         }
     });
 });
@@ -87,15 +97,25 @@ router.post("/login", jsonParser, (req, res) => {
                         if (isSessionAdded) {
                             res.redirect(routes.dashboard);
                         } else {
-                            res.render(views.unknownError);
+                            res.render(views.genericError, {
+                                error: "Oops, our bad",
+                                message:
+                                    "We could not log you in, and it is our fault. Please try logging back in later",
+                            });
                         }
                     });
                 } else {
-                    res.render(views.unknownError);
+                    res.render(views.genericError, {
+                        error: "Wrong Password",
+                        message: "You entered an incorrect password. Passwords are case sensitive",
+                    });
                 }
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Account Error",
+                message: `We could not find an account with the email: ${req.body.email}`,
+            });
         }
     });
 });

@@ -22,13 +22,21 @@ router.post("/add", jsonParser, (req, res) => {
                         req.body.description,
                         account.email
                     );
-                    experience.insertDatabaseItem(() => {
-                        res.redirect(routes.dashboardCard.workExperience);
+                    experience.insertDatabaseItem((success) => {
+                        if (success) res.redirect(routes.dashboardCard.workExperience);
+                        else
+                            res.render(views.genericError, {
+                                error: "Database Error",
+                                message: "Could not add your work experience. Please try again in some time.",
+                            });
                     });
                 }
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session.",
+            });
         }
     });
 });
@@ -47,16 +55,29 @@ router.post("/update", (req, res) => {
             experience._id = new ObjectId(req.body.dbid);
 
             if (req.body.delete === "on") {
-                experience.deleteDatabaseItem(() => {
-                    res.redirect(routes.dashboardCard.workExperience);
+                experience.deleteDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.workExperience);
+                    else
+                        res.render(views.genericError, {
+                            error: "Database Error",
+                            message: "Could not delete your work experience. Please try again in some time.",
+                        });
                 });
             } else {
-                experience.updateDatabaseItem(() => {
-                    res.redirect(routes.dashboardCard.workExperience);
+                experience.updateDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.workExperience);
+                    else
+                        res.render(views.genericError, {
+                            error: "Database Error",
+                            message: "Could not update your work experience. Please try again in some time.",
+                        });
                 });
             }
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session",
+            });
         }
     });
 });

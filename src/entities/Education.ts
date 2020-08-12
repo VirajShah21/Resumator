@@ -130,7 +130,7 @@ export default class Education implements IEducation {
      * @param email The email to lookup
      * @param callback The callback passing the education history for the user
      */
-    public static loadFromDatabase(email: string, callback?: (eduHistory: Education[]) => void): void {
+    public static loadFromDatabase(email: string, callback: (eduHistory: Education[]) => void): void {
         database
             .collection(EDUCATION_COLLECTION)
             .find({ user: email })

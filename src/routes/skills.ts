@@ -20,15 +20,28 @@ router.post("/add", jsonParser, (req, res) => {
 
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
-                    res.redirect(routes.dashboardCard.skills);
+                    if (success) res.redirect(routes.dashboardCard.skills);
+                    else
+                        res.render(views.genericError, {
+                            error: "Database Error",
+                            message: "Could not delete this skill. Please try again in some time.",
+                        });
                 });
             } else {
                 skill.insertDatabaseItem((success) => {
-                    res.redirect(routes.dashboardCard.skills);
+                    if (success) res.redirect(routes.dashboardCard.skills);
+                    else
+                        res.render(views.genericError, {
+                            error: "Database Error",
+                            message: "Could not add your skill. Please try again in some time.",
+                        });
                 });
             }
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session.",
+            });
         }
     });
 });
@@ -40,10 +53,17 @@ router.post("/update", jsonParser, (req, res) => {
             skill._id = new ObjectId(req.body._id);
             skill.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.skills);
-                else res.render(views.unknownError);
+                else
+                    res.render(views.genericError, {
+                        error: "Database Error",
+                        message: "Could not update your ",
+                    });
             });
         } else {
-            res.render(views.unknownError);
+            res.render(views.genericError, {
+                error: "Session Error",
+                message: "Could not find an account associated with the session.",
+            });
         }
     });
 });
