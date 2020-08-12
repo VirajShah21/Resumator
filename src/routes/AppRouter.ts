@@ -8,18 +8,27 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
+import WorkExperienceRouter from "./WorkExperienceRouter";
+import EducationRouter from "./EducationRouter";
+import SkillsRouter from "./SkillsRouter";
+import CertificationRouter from "./CertificationRouter";
+import ThemesRouter from "./ThemesRouter";
 import { views } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 
-const router = Router();
+export const PREFIX = "/app";
+const AppRouter = Router();
 
-router.get("/", (req, res) => {
-    res.render("themes", {
-        nav: "Themes",
-    });
-});
+const jsonParser = BodyParser.json();
 
-router.get("/preview", (req, res) => {
+AppRouter.use("/account", AccountRouter);
+AppRouter.use("/work-experience", WorkExperienceRouter);
+AppRouter.use("/education", EducationRouter);
+AppRouter.use("/skills", SkillsRouter);
+AppRouter.use("/certifications", CertificationRouter);
+AppRouter.use("/themes", ThemesRouter);
+
+AppRouter.get("/dashboard", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             Account.loadFromDatabase(session.user, (account) => {
@@ -28,17 +37,22 @@ router.get("/preview", (req, res) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
                             Skill.loadFromDatabase(account.email, (skillset) => {
                                 Certification.loadFromDatabase(account.email, (certifications) => {
-                                    res.render(`resume-templates/${req.query.theme}`, {
+                                    res.render(views.dashboard, {
+                                        session,
                                         account,
-                                        workExperience,
                                         educationHistory,
+                                        workExperience,
+                                        volunteerExperience: [],
                                         skillset,
                                         certifications,
+                                        nav: "Dashboard",
                                     });
                                 });
                             });
                         });
                     });
+                } else {
+                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
         } else {
@@ -47,4 +61,4 @@ router.get("/preview", (req, res) => {
     });
 });
 
-export default router;
+export default AppRouter;

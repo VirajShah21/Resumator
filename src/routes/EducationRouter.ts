@@ -12,10 +12,10 @@ import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 
-const router = Router();
+const EducationRouter = Router();
 const jsonParser = BodyParser.json();
 
-router.post("/add", (req, res) => {
+EducationRouter.post("/add", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             Account.loadFromDatabase(session.user, (account) => {
@@ -48,7 +48,7 @@ router.post("/add", (req, res) => {
     });
 });
 
-router.post("/update", (req, res) => {
+EducationRouter.post("/update", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             const education = new Education(
@@ -84,4 +84,4 @@ router.post("/update", (req, res) => {
     });
 });
 
-export default router;
+export default EducationRouter;

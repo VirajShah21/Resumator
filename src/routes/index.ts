@@ -1,5 +1,5 @@
 import { Router } from "express";
-import AppRouter from "./app-router";
+import AppRouter from "./AppRouter";
 import ApiRouter from "./api";
 import Logger from "@shared/Logger";
 import { views } from "@shared/constants";

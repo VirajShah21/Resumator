@@ -8,27 +8,18 @@ import { ObjectId } from "mongodb";
 import AccountRouter from "./account";
 import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
-import WorkExperienceRouter from "./work-experience";
-import EducationRouter from "./education";
-import SkillsRouter from "./skills";
-import CertificationRouter from "./certifications";
-import ThemesRouter from "./themes";
 import { views } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 
-export const PREFIX = "/app";
-const router = Router();
+const ThemesRouter = Router();
 
-const jsonParser = BodyParser.json();
+ThemesRouter.get("/", (req, res) => {
+    res.render("themes", {
+        nav: "Themes",
+    });
+});
 
-router.use("/account", AccountRouter);
-router.use("/work-experience", WorkExperienceRouter);
-router.use("/education", EducationRouter);
-router.use("/skills", SkillsRouter);
-router.use("/certifications", CertificationRouter);
-router.use("/themes", ThemesRouter);
-
-router.get("/dashboard", (req, res) => {
+ThemesRouter.get("/preview", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             Account.loadFromDatabase(session.user, (account) => {
@@ -37,22 +28,17 @@ router.get("/dashboard", (req, res) => {
                         Education.loadFromDatabase(account.email, (educationHistory) => {
                             Skill.loadFromDatabase(account.email, (skillset) => {
                                 Certification.loadFromDatabase(account.email, (certifications) => {
-                                    res.render(views.dashboard, {
-                                        session,
+                                    res.render(`resume-templates/${req.query.theme}`, {
                                         account,
-                                        educationHistory,
                                         workExperience,
-                                        volunteerExperience: [],
+                                        educationHistory,
                                         skillset,
                                         certifications,
-                                        nav: "Dashboard",
                                     });
                                 });
                             });
                         });
                     });
-                } else {
-                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
         } else {
@@ -61,4 +47,4 @@ router.get("/dashboard", (req, res) => {
     });
 });
 
-export default router;
+export default ThemesRouter;

@@ -8,10 +8,10 @@ import { views, routes } from "@shared/constants";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 
-const router = Router();
+const WorkExperienceRouter = Router();
 const jsonParser = BodyParser.json();
 
-router.post("/add", jsonParser, (req, res) => {
+WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             Account.loadFromDatabase(session.user, (account) => {
@@ -39,7 +39,7 @@ router.post("/add", jsonParser, (req, res) => {
     });
 });
 
-router.post("/update", (req, res) => {
+WorkExperienceRouter.post("/update", (req, res) => {
     Session.loadFromDatabase(req.cookies.session, (session) => {
         if (session) {
             const experience = new WorkExperience(
@@ -69,4 +69,4 @@ router.post("/update", (req, res) => {
     });
 });
 
-export default router;
+export default WorkExperienceRouter;
