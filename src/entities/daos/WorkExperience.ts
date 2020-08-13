@@ -72,20 +72,19 @@ export default class WorkExperience {
      * @param callback The callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        Logger.info(`Adding work experience to database for ${this.user}`);
         if (this.validate()) {
-            Logger.info(`All data is valid`);
             database.collection(WORK_EXPERIENCE_COLLECTION).insertOne(this, (err, result) => {
                 if (err) {
+                    Logger.info(`Could not add work experience. ${JSON.stringify(this, null, 4)} Database Error`);
                     Logger.error(err);
                     callback(false);
                 } else {
-                    Logger.info(`Work experience added: ${JSON.stringify(this, null, 4)}`);
+                    Logger.info(`Work experience added: ${JSON.stringify(this, null, 4)} All data is valid`);
                     callback(true);
                 }
             });
         } else {
-            Logger.warn(`Found invalid data: ${JSON.stringify(this, null, 4)}`);
+            Logger.warn(`Could not add work experience: ${JSON.stringify(this, null, 4)} Found invalid data`);
             callback(false);
         }
     }
@@ -104,11 +103,19 @@ export default class WorkExperience {
                 {
                     $set: this,
                 },
-                (err, result) => {
-                    callback(true);
+                (err) => {
+                    if (err) {
+                        Logger.info(`Could not add work experience: ${JSON.stringify(this, null, 4)} Database Error`);
+                        Logger.error(err);
+                        callback(false);
+                    } else {
+                        Logger.info(`Work experience added: ${JSON.stringify(this, null, 4)}`);
+                        callback(true);
+                    }
                 }
             );
         } else {
+            Logger.info(`Could not add work experience: ${JSON.stringify(this, null, 4)} Found invalid data`);
             callback(false);
         }
     }

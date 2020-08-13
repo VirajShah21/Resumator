@@ -74,7 +74,7 @@ export default class Education implements IEducation {
             this.end = user.end;
             this.gpa = user.gpa;
             this.description = user.description;
-            this._id = user._id;
+            this._id = new ObjectId(user._id);
         }
     }
 
@@ -128,8 +128,14 @@ export default class Education implements IEducation {
 
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
         database.collection(EDUCATION_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-            if (err) callback(false);
-            else callback(true);
+            if (err) {
+                logger.info(`Could not delete education: ${JSON.stringify(this, null, 4)} Database Error`);
+                logger.error(err);
+                callback(false);
+            } else {
+                logger.info(`Deleted education: ${JSON.stringify(this, null, 4)}`);
+                callback(true);
+            }
         });
     }
 

@@ -100,7 +100,7 @@ The linter rules for TypeScript
 | :x:                | Edit Phone Number      | Edit phone number                        | \*1   |
 | :white_check_mark: | Edit Address           | Edit address (up to the state level)     |       |
 | :white_check_mark: | Education History      | Add/Modify/Delete education history      | \*2   |
-| :white_check_mark: | Work Experience        | Add/Modify/Delete work experience        | \*2   |
+| :white_check_mark: | Work Experience        | Add/Modify/Delete work experience        |       |
 | :white_check_mark: | Skills                 | Add/Modify/Delete skills                 | \*2   |
 | :white_check_mark: | Certifications         | Add/Modify/Delete Certification          | \*2   |
 | :white_check_mark: | Render Resume Template | Display resume previews                  | :new: |
