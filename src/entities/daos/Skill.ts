@@ -43,7 +43,7 @@ export default class Skill implements ISkill {
     }
 
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(SKILLS_COLLECTION).insert(this, (err) => {
+        database.collection(SKILLS_COLLECTION).insertOne(this, (err) => {
             if (err) callback(false);
             else callback(true);
         });

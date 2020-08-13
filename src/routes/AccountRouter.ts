@@ -22,11 +22,11 @@ AccountRouter.post("/signup", jsonParser, (req, res) => {
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
             const account = new Account(req.body.fname, req.body.lname, req.body.email, hash);
-            account.insertDatabaseItem((success) => {
-                if (success) {
+            account.insertDatabaseItem((accountSuccess) => {
+                if (accountSuccess) {
                     const session: Session = new Session(account);
-                    session.insertDatabaseItem((success) => {
-                        if (success) {
+                    session.insertDatabaseItem((sessionSuccess) => {
+                        if (sessionSuccess) {
                             res.cookie("session", session.key);
                             res.redirect(routes.dashboard);
                         } else {

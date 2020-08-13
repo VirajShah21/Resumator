@@ -1,7 +1,6 @@
 import { Router } from "express";
 import AppRouter from "./AppRouter";
 import ApiRouter from "./api";
-import Logger from "@shared/Logger";
 import { views } from "@shared/constants";
 
 export const PREFIX = "/";

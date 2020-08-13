@@ -62,7 +62,7 @@ export default class Address implements IAddress {
     }
 
     private validateCityAndState(): boolean {
-        return this.city.length > 0 && this.state.length == 2;
+        return this.city.length > 0 && this.state.length === 2;
     }
 
     private validateZip(): boolean {

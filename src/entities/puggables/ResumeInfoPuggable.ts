@@ -1,5 +1,3 @@
-import Session, { ISession } from "@entities/Session";
-import Account, { IAccount } from "@entities/Account";
 import WorkExperience, { IWorkExperience } from "@entities/WorkExperience";
 import Education, { IEducation } from "@entities/Education";
 import Skill, { ISkill } from "@entities/Skill";

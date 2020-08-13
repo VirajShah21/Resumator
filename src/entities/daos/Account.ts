@@ -113,9 +113,9 @@ export default class Account implements IAccount {
     public insertDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validateEmail() && this.validateName() && this.validatePassword()) {
             database.collection(ACCOUNTS_COLLECTION).findOne({ email: this.email }, (err, result) => {
-                if (err) throw err;
-
-                if (result) {
+                if (err) {
+                    throw err;
+                } else if (result) {
                     callback(false);
                 } else {
                     database.collection(ACCOUNTS_COLLECTION).insertOne(this, (err2) => {
