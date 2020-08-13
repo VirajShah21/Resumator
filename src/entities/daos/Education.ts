@@ -92,7 +92,7 @@ export default class Education implements IEducation {
                     logger.error(err);
                     callback(false);
                 } else {
-                    logger.info(`Work experience added: ${JSON.stringify(this, null, 4)}`);
+                    logger.info(`Education added: ${JSON.stringify(this, null, 4)}`);
                     callback(true);
                 }
             });
