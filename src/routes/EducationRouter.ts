@@ -7,48 +7,42 @@ import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
+import logger from "@shared/Logger";
+import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
 
 const EducationRouter = Router();
 const jsonParser = BodyParser.json();
 
 EducationRouter.post("/add", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    const education = new Education(
-                        account.email,
-                        req.body.institution,
-                        req.body.level,
-                        req.body.degree,
-                        req.body["start-date"],
-                        req.body["end-date"],
-                        req.body.gpa,
-                        req.body.description
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
+            const education = new Education(
+                accountSession.account.email,
+                req.body.institution,
+                req.body.level,
+                req.body.degree,
+                req.body["start-date"],
+                req.body["end-date"],
+                req.body.gpa,
+                req.body.description
+            );
+            education.insertDatabaseItem((success) => {
+                if (success) res.redirect(routes.dashboardCard.education);
+                else
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorPuggable("Could not add the education to your dashboard.")
                     );
-                    education.insertDatabaseItem((success) => {
-                        if (success) res.redirect(routes.dashboardCard.education);
-                        else
-                            res.render(
-                                views.genericError,
-                                new DatabaseErrorPuggable("Could not add the education to your dashboard.")
-                            );
-                    });
-                } else {
-                    res.render(views.genericError, new SessionErrorPuggable());
-                }
             });
-        } else {
-            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });
 
 EducationRouter.post("/update", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
             const education = new Education(
-                session.user,
+                accountSession.account.email,
                 req.body.institution,
                 req.body.level,
                 req.body.degree,

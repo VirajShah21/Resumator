@@ -7,6 +7,8 @@ import Skill from "@entities/Skill";
 import Certification from "@entities/Certification";
 import { views } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import { ResumeInfoAccess } from "@entities/ResumeInfoPuggable";
+import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
 
 const ThemesRouter = Router();
 
@@ -17,29 +19,21 @@ ThemesRouter.get("/", (req, res) => {
 });
 
 ThemesRouter.get("/preview", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    WorkExperience.loadFromDatabase(account.email, (workExperience) => {
-                        Education.loadFromDatabase(account.email, (educationHistory) => {
-                            Skill.loadFromDatabase(account.email, (skillset) => {
-                                Certification.loadFromDatabase(account.email, (certifications) => {
-                                    res.render(`resume-templates/${req.query.theme}`, {
-                                        account,
-                                        workExperience,
-                                        educationHistory,
-                                        skillset,
-                                        certifications,
-                                    });
-                                });
-                            });
-                        });
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
+            ResumeInfoAccess.fetch(accountSession.account.email, (resumeInfo) => {
+                if (resumeInfo) {
+                    res.render(`resume-templates/${req.query.theme}`, {
+                        account: accountSession.account,
+                        workExperience: resumeInfo.workExperience,
+                        educationHistory: resumeInfo.educationHistory,
+                        skillset: resumeInfo.skillset,
+                        certifications: resumeInfo.certifications,
                     });
+                } else {
+                    res.render(views.genericError, new SessionErrorPuggable());
                 }
             });
-        } else {
-            res.render(views.genericError, new SessionErrorPuggable());
         }
     });
 });

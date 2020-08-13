@@ -7,6 +7,7 @@ import Address from "@entities/Address";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
+import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
 
 const AccountRouter = Router();
 
@@ -53,23 +54,17 @@ AccountRouter.post("/signup", jsonParser, (req, res) => {
 });
 
 AccountRouter.post("/update", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    account.fname = req.body.fname || account.fname;
-                    account.lname = req.body.lname || account.lname;
-                    account.email = req.body.email || account.email;
-                    account.address = req.body.line1
-                        ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
-                        : account.address;
-                    account.updateDatabaseItem((success) => {
-                        if (success) res.redirect(routes.dashboard);
-                        else res.render(views.genericError, new DatabaseErrorPuggable("Could not update account info"));
-                    });
-                } else {
-                    res.render(views.genericError, new SessionErrorPuggable());
-                }
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
+            accountSession.account.fname = req.body.fname || accountSession.account.fname;
+            accountSession.account.lname = req.body.lname || accountSession.account.lname;
+            accountSession.account.email = req.body.email || accountSession.account.email;
+            accountSession.account.address = req.body.line1
+                ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
+                : accountSession.account.address;
+            accountSession.account.updateDatabaseItem((success) => {
+                if (success) res.redirect(routes.dashboard);
+                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update account info"));
             });
         } else {
             res.render(views.genericError, new SessionErrorPuggable());

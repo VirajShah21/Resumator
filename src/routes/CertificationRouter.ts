@@ -5,19 +5,20 @@ import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
+import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
 
 const CertificationRouter = Router();
 const jsonParser = BodyParser.json();
 
 CertificationRouter.post("/add", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
+    AccountSessionAccess.fetch(req.cookies.key, (accountSession) => {
+        if (accountSession) {
             const certification = new Certification(
                 req.body.institution,
                 req.body.certification,
                 req.body.details,
                 req.body["exam-date"],
-                session.user
+                accountSession.account.email
             );
             certification.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
@@ -30,14 +31,14 @@ CertificationRouter.post("/add", jsonParser, (req, res) => {
 });
 
 CertificationRouter.post("/update", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
             const certification = new Certification(
                 req.body.institution,
                 req.body.certification,
                 req.body.details,
                 req.body["exam-date"],
-                session.user
+                accountSession.account.email
             );
             certification._id = req.body._id;
             certification.updateDatabaseItem((success) => {

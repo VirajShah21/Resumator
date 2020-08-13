@@ -6,15 +6,15 @@ import Skill from "@entities/Skill";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
+import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
 
 const SkillsRouter = Router();
 const jsonParser = BodyParser.json();
 
 SkillsRouter.post("/add", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
-
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
+            const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
@@ -33,9 +33,9 @@ SkillsRouter.post("/add", jsonParser, (req, res) => {
 });
 
 SkillsRouter.post("/update", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            const skill = new Skill(req.body.skill, req.body.proficiency, session.user);
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
+            const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
             skill._id = new ObjectId(req.body._id);
             skill.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.skills);

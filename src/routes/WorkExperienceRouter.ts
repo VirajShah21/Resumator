@@ -7,31 +7,25 @@ import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
+import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
 
 const WorkExperienceRouter = Router();
 const jsonParser = BodyParser.json();
 
 WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
-            Account.loadFromDatabase(session.user, (account) => {
-                if (account) {
-                    const experience = new WorkExperience(
-                        req.body.position,
-                        req.body.organization,
-                        req.body["start-date"],
-                        req.body["end-date"],
-                        req.body.description,
-                        account.email
-                    );
-                    experience.insertDatabaseItem((success) => {
-                        if (success) res.redirect(routes.dashboardCard.workExperience);
-                        else
-                            res.render(views.genericError, new DatabaseErrorPuggable("Could not add work experience."));
-                    });
-                } else {
-                    res.render(views.genericError, new SessionErrorPuggable());
-                }
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
+            const experience = new WorkExperience(
+                req.body.position,
+                req.body.organization,
+                req.body["start-date"],
+                req.body["end-date"],
+                req.body.description,
+                accountSession.account.email
+            );
+            experience.insertDatabaseItem((success) => {
+                if (success) res.redirect(routes.dashboardCard.workExperience);
+                else res.render(views.genericError, new DatabaseErrorPuggable("Could not add work experience."));
             });
         } else {
             res.render(views.genericError, new SessionErrorPuggable());
@@ -40,18 +34,17 @@ WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
 });
 
 WorkExperienceRouter.post("/update", (req, res) => {
-    Session.loadFromDatabase(req.cookies.session, (session) => {
-        if (session) {
+    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession) {
             const experience = new WorkExperience(
                 req.body.position,
                 req.body.organization,
                 req.body.start,
                 req.body.end,
                 req.body.description,
-                session.user
+                accountSession.account.email
             );
             experience._id = new ObjectId(req.body.dbid);
-
             if (req.body.delete === "on") {
                 experience.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.workExperience);
