@@ -1,6 +1,7 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import { validateEmail, validateMonthYearString } from "@shared/functions";
+import logger from "@shared/Logger";
 
 const EDUCATION_COLLECTION = "education";
 
@@ -83,12 +84,20 @@ export default class Education implements IEducation {
      * @param callback Callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
+        logger.info(`Adding education to database: ${JSON.stringify(this, null, 4)}`);
         if (this.validate()) {
+            logger.info("All data is valid");
             database.collection(EDUCATION_COLLECTION).insertOne(this, (err, result) => {
-                if (err) callback(false);
-                else callback(true);
+                if (err) {
+                    logger.error(err);
+                    callback(false);
+                } else {
+                    logger.info(`Work experience added: ${JSON.stringify(this, null, 4)}`);
+                    callback(true);
+                }
             });
         } else {
+            logger.info(`Found invalid data: ${JSON.stringify(this, null, 4)}`);
             callback(false);
         }
     }
@@ -161,30 +170,38 @@ export default class Education implements IEducation {
     }
 
     private validateUser(): boolean {
+        logger.info(`Validate User (${this.user} = ${validateEmail(this.user)})`);
         return validateEmail(this.user);
     }
 
     private validateInstitution(): boolean {
+        logger.info(`Validate Institution (${this.institution} = ${this.institution.length > 0})`);
         return this.institution.length > 0;
     }
 
     private validateLevel(): boolean {
+        logger.info(`Validate Level (${this.level} = ${this.level.length > 0})`);
         return this.level.length > 0;
     }
 
     private validateDegree(): boolean {
+        logger.info(`Validate Degree (${this.degree} = ${this.degree.length > 0})`);
         return this.degree.length > 0;
     }
 
     private validateStartAndEnd(): boolean {
+        logger.info(`Validate Start Date (${this.start} = ${validateMonthYearString(this.start)})`);
+        logger.info(`Validate End Date (${this.end} = ${validateMonthYearString(this.end)})`);
         return validateMonthYearString(this.start) && validateMonthYearString(this.end);
     }
 
     private validateGpa(): boolean {
+        logger.info(`Validate GPA (${this.gpa} = ${this.gpa > 0 && this.gpa <= 5})`);
         return this.gpa > 0 && this.gpa <= 5;
     }
 
     private validateDescription(): boolean {
+        logger.info(`Validate Description (${this.description} = ${this.description !== undefined})`);
         return this.description !== undefined;
     }
 }
