@@ -1,6 +1,6 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
-import { validateEmail, validateDateString } from "@shared/functions";
+import { validateEmail, validateMonthYearString } from "@shared/functions";
 
 const EDUCATION_COLLECTION = "education";
 
@@ -177,7 +177,7 @@ export default class Education implements IEducation {
     }
 
     private validateStartAndEnd(): boolean {
-        return validateDateString(this.start) && validateDateString(this.end);
+        return validateMonthYearString(this.start) && validateMonthYearString(this.end);
     }
 
     private validateGpa(): boolean {

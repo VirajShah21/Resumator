@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
-import { validateDateString } from "@shared/functions";
+import { validateMonthYearString } from "@shared/functions";
 
 const CERT_COLLECTION = "certifications";
 
@@ -49,7 +49,7 @@ export default class Certification implements ICertification {
         return (
             this.institution.trim().length > 0 &&
             this.certification.trim().length > 0 &&
-            validateDateString(this.examDate)
+            validateMonthYearString(this.examDate)
         );
     }
 

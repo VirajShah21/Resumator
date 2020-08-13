@@ -35,13 +35,12 @@ export function validateEmail(email: string): boolean {
     }
 }
 
-export function validateDateString(date: string): boolean {
+export function validateMonthYearString(date: string): boolean {
     try {
         const month = parseInt(date.split("/")[0]);
-        const day = parseInt(date.split("/")[1]);
-        const year = parseInt(date.split("/")[2]);
+        const year = parseInt(date.split("/")[1]);
 
-        return month > 0 && month <= 12 && day > 0 && day <= 31 && year < new Date().getFullYear();
+        return month > 0 && month <= 12 && year >= 1000 && year <= 9999;
     } catch (e) {
         return false;
     }

@@ -1,6 +1,7 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
-import { validateEmail, validateDateString } from "@shared/functions";
+import { validateEmail, validateMonthYearString } from "@shared/functions";
+import Logger from "@shared/Logger";
 
 const WORK_EXPERIENCE_COLLECTION = "work-experience";
 
@@ -71,12 +72,20 @@ export default class WorkExperience {
      * @param callback The callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
+        Logger.info(`Adding work experience to database for ${this.user}`);
         if (this.validate()) {
+            Logger.info(`All data is valid`);
             database.collection(WORK_EXPERIENCE_COLLECTION).insertOne(this, (err, result) => {
-                if (err) callback(false);
-                else callback(true);
+                if (err) {
+                    Logger.error(err);
+                    callback(false);
+                } else {
+                    Logger.info(`Work experience added: ${JSON.stringify(this, null, 4)}`);
+                    callback(true);
+                }
             });
         } else {
+            Logger.warn(`Found invalid data: ${JSON.stringify(this, null, 4)}`);
             callback(false);
         }
     }
@@ -151,22 +160,28 @@ export default class WorkExperience {
     }
 
     private validateUser(): boolean {
+        Logger.info(`Validate User (${this.user} = ${validateEmail(this.user)})`);
         return validateEmail(this.user);
     }
 
     private validatePosition(): boolean {
+        Logger.info(`Validate Position (${this.position} = ${this.position.length > 0})`);
         return this.position.length > 0;
     }
 
     private validateOrganization(): boolean {
+        Logger.info(`Validate Organization (${this.organization} = ${this.organization.length > 0})`);
         return this.organization.length > 0;
     }
 
     private validateStartAndEnd(): boolean {
-        return validateDateString(this.start) && validateDateString(this.end);
+        Logger.info(`Validate Start Date (${this.start} = ${validateMonthYearString(this.start)})`);
+        Logger.info(`Validate End Date (${this.end} = ${validateMonthYearString(this.end)})`);
+        return validateMonthYearString(this.start) && validateMonthYearString(this.end);
     }
 
     private validateDescription(): boolean {
+        Logger.info(`Validate Description (${this.description} = ${this.description.length > 0})`);
         return this.description.length > 0;
     }
 }

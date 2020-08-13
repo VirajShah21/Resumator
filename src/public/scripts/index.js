@@ -48,6 +48,17 @@ const validators = {
     zip: function (zip) {
         return zip.length == 5;
     },
+
+    mmyyyy: function (monthYear) {
+        try {
+            let month = parseInt(monthYear.split("/")[0]);
+            let year = parseInt(monthYear.split("/")[1]);
+
+            return month > 0 && month <= 12 && year >= 1000 && year <= 9999;
+        } catch (e) {
+            return false;
+        }
+    },
 };
 
 const formatters = {
@@ -59,6 +70,31 @@ const formatters = {
             })
             .join("");
         return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)} - ${digits.substring(6, 10)}`;
+    },
+
+    mmyyyy: function (monthYear) {
+        let digits = monthYear
+            .split("")
+            .filter((value) => {
+                try {
+                    return !isNaN(parseInt(value));
+                } catch (e) {
+                    return false;
+                }
+            })
+            .map((value) => {
+                return +value;
+            })
+            .join("");
+        console.log(`Digits: ${digits}`);
+
+        if (digits.length > 6 && digits[0] == 0) digits = digits.substring(1);
+        else if (digits.length > 6) digits = digits.substring(0, digits.length - 1);
+
+        if ((digits.length == 1 && digits[0] > 1) || (digits.length == 2 && digits[1] > 2 && digits[0] != 0))
+            digits = "0" + digits;
+
+        return digits.length >= 2 ? `${digits.substring(0, 2)}/${digits.substring(2)}` : digits;
     },
 };
 
