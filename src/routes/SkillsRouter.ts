@@ -6,13 +6,13 @@ import Skill from "@entities/Skill";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const SkillsRouter = Router();
 const jsonParser = BodyParser.json();
 
 SkillsRouter.post("/add", jsonParser, (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
             if (req.body.delete === "on") {
@@ -33,7 +33,7 @@ SkillsRouter.post("/add", jsonParser, (req, res) => {
 });
 
 SkillsRouter.post("/update", jsonParser, (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
             skill._id = new ObjectId(req.body._id);

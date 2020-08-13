@@ -7,13 +7,13 @@ import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const WorkExperienceRouter = Router();
 const jsonParser = BodyParser.json();
 
 WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const experience = new WorkExperience(
                 req.body.position,
@@ -34,7 +34,7 @@ WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
 });
 
 WorkExperienceRouter.post("/update", (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const experience = new WorkExperience(
                 req.body.position,

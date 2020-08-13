@@ -7,7 +7,7 @@ import Address from "@entities/Address";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const AccountRouter = Router();
 
@@ -54,7 +54,7 @@ AccountRouter.post("/signup", jsonParser, (req, res) => {
 });
 
 AccountRouter.post("/update", jsonParser, (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.fname = req.body.fname || accountSession.account.fname;
             accountSession.account.lname = req.body.lname || accountSession.account.lname;

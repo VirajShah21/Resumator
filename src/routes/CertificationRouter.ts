@@ -5,13 +5,13 @@ import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const CertificationRouter = Router();
 const jsonParser = BodyParser.json();
 
 CertificationRouter.post("/add", jsonParser, (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.key, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.key, (accountSession) => {
         if (accountSession) {
             const certification = new Certification(
                 req.body.institution,
@@ -31,7 +31,7 @@ CertificationRouter.post("/add", jsonParser, (req, res) => {
 });
 
 CertificationRouter.post("/update", jsonParser, (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const certification = new Certification(
                 req.body.institution,

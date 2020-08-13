@@ -1,14 +1,8 @@
 import { Router } from "express";
-import Account from "@entities/Account";
-import Session from "@entities/Session";
-import WorkExperience from "@entities/WorkExperience";
-import Education from "@entities/Education";
-import Skill from "@entities/Skill";
-import Certification from "@entities/Certification";
 import { views } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import { ResumeInfoAccess } from "@entities/ResumeInfoPuggable";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import ResumeInfoPuggable from "@entities/ResumeInfoPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const ThemesRouter = Router();
 
@@ -19,9 +13,9 @@ ThemesRouter.get("/", (req, res) => {
 });
 
 ThemesRouter.get("/preview", (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            ResumeInfoAccess.fetch(accountSession.account.email, (resumeInfo) => {
+            ResumeInfoPuggable.fetch(accountSession.account.email, (resumeInfo) => {
                 if (resumeInfo) {
                     res.render(`resume-templates/${req.query.theme}`, {
                         account: accountSession.account,

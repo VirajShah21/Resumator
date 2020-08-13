@@ -8,9 +8,9 @@ import CertificationRouter from "./CertificationRouter";
 import ThemesRouter from "./ThemesRouter";
 import { views } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import { ResumeInfoAccess } from "@entities/ResumeInfoPuggable";
+import ResumeInfoPuggable from "@entities/ResumeInfoPuggable";
 import { addToObject } from "@shared/functions";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 export const PREFIX = "/app";
 const AppRouter = Router();
@@ -25,9 +25,9 @@ AppRouter.use("/certifications", CertificationRouter);
 AppRouter.use("/themes", ThemesRouter);
 
 AppRouter.get("/dashboard", (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (session) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (session) => {
         if (session) {
-            ResumeInfoAccess.fetch(session.account.email, (resumeInfo) => {
+            ResumeInfoPuggable.fetch(session.account.email, (resumeInfo) => {
                 res.render(
                     views.dashboard,
                     addToObject(

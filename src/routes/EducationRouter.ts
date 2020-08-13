@@ -8,13 +8,13 @@ import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import logger from "@shared/Logger";
-import { AccountSessionAccess } from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const EducationRouter = Router();
 const jsonParser = BodyParser.json();
 
 EducationRouter.post("/add", (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const education = new Education(
                 accountSession.account.email,
@@ -39,7 +39,7 @@ EducationRouter.post("/add", (req, res) => {
 });
 
 EducationRouter.post("/update", (req, res) => {
-    AccountSessionAccess.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const education = new Education(
                 accountSession.account.email,

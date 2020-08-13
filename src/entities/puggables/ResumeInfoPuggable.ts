@@ -20,9 +20,7 @@ export default class ResumeInfo {
         this.skillset = skillset;
         this.certifications = certifications;
     }
-}
 
-export class ResumeInfoAccess {
     public static fetch(email: string, callback: (resumeInfo: ResumeInfo) => void): void {
         WorkExperience.loadFromDatabase(email, (workExperience) => {
             Education.loadFromDatabase(email, (educationHistory) => {

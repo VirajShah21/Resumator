@@ -10,9 +10,7 @@ export default class AccountSessionPuggable {
         this.account = account;
         this.session = session;
     }
-}
 
-export class AccountSessionAccess {
     public static fetch(sessionKey: string, callback: (puggable?: AccountSessionPuggable) => void): void {
         Session.loadFromDatabase(sessionKey, (session) => {
             if (session) {
