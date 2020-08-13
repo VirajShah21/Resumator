@@ -1,14 +1,13 @@
-import Account from "@entities/Account";
-import Session from "@entities/Session";
-import { callbackify } from "util";
+import Account, { IAccount } from "@entities/Account";
+import Session, { ISession } from "@entities/Session";
 
 export default class AccountSessionPuggable {
     account: Account;
     session: Session;
 
-    constructor(account: Account, session: Session) {
-        this.account = account;
-        this.session = session;
+    constructor(account: IAccount, session: ISession) {
+        this.account = new Account(account);
+        this.session = new Session(session);
     }
 
     public static fetch(sessionKey: string, callback: (puggable?: AccountSessionPuggable) => void): void {
