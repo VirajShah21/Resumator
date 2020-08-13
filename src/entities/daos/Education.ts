@@ -197,8 +197,8 @@ export default class Education implements IEducation {
 
     private validateStartAndEnd(): boolean {
         logger.info(`Validate Start Date (${this.start} = ${validateMonthYearString(this.start)})`);
-        logger.info(`Validate End Date (${this.end} = ${validateMonthYearString(this.end)})`);
-        return validateMonthYearString(this.start) && validateMonthYearString(this.end);
+        logger.info(`Validate End Date (${this.end} = ${validateMonthYearString(this.end) || this.end === ""})`);
+        return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
     }
 
     private validateGpa(): boolean {
@@ -208,6 +208,6 @@ export default class Education implements IEducation {
 
     private validateDescription(): boolean {
         logger.info(`Validate Description (${this.description} = ${this.description !== undefined})`);
-        return this.description !== undefined;
+        return this.description !== undefined || this.description === "";
     }
 }

@@ -46,11 +46,12 @@ EducationRouter.post("/update", (req, res) => {
                 req.body.institution,
                 req.body.level,
                 req.body.degree,
-                req.body.start,
-                req.body.end,
+                req.body["start-date"],
+                req.body["end-date"],
                 req.body.gpa,
                 req.body.description
             );
+            education._id = req.body._id;
 
             if (req.body.delete === "on") {
                 education.deleteDatabaseItem((success) => {

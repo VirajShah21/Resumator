@@ -11,6 +11,7 @@ import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import ResumeInfoPuggable from "@entities/ResumeInfoPuggable";
 import { addToObject } from "@shared/functions";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import logger from "@shared/Logger";
 
 export const PREFIX = "/app";
 const AppRouter = Router();
