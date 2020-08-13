@@ -97,10 +97,10 @@ The linter rules for TypeScript
 | Login/Signup           | Create an account or login             | :white_check_mark: | :b: |
 | Dashboard              | Access the user dashboard              | :white_check_mark: | :a: |
 | Personal Information   | Add/Modify/Delete personal information | :white_check_mark: | :b: |
-| Education History      | Add/Modify/Delete education history    | :x:                | :a: |
-| Work Experience        | Add/Modify/Delete work experience      | :x:                | :a: |
+| Education History      | Add/Modify/Delete education history    | :white_check_mark: | :a: |
+| Work Experience        | Add/Modify/Delete work experience      | :white_check_mark: | :a: |
 | Skills                 | Add/Modify/Delete skills               | :white_check_mark: | :a: |
-| Certifications         | Add/Modify/Delete Certification        | :x:                | :a: |
+| Certifications         | Add/Modify/Delete Certification        | :white_check_mark: | :a: |
 | Render Resume Template | Display resume previews                | :white_check_mark: | :a: |
 
 **Key**
