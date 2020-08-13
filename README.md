@@ -92,25 +92,23 @@ The linter rules for TypeScript
 
 ## Features List
 
-| Feature                | Description                            | Status             | Dev |
-| ---------------------- | -------------------------------------- | ------------------ | --- |
-| Login/Signup           | Create an account or login             | :white_check_mark: | :b: |
-| Dashboard              | Access the user dashboard              | :white_check_mark: | :a: |
-| Personal Information   | Add/Modify/Delete personal information | :white_check_mark: | :b: |
-| Education History      | Add/Modify/Delete education history    | :white_check_mark: | :a: |
-| Work Experience        | Add/Modify/Delete work experience      | :white_check_mark: | :a: |
-| Skills                 | Add/Modify/Delete skills               | :white_check_mark: | :a: |
-| Certifications         | Add/Modify/Delete Certification        | :white_check_mark: | :a: |
-| Render Resume Template | Display resume previews                | :white_check_mark: | :a: |
+|                    | Feature                | Description                              | Notes |
+| ------------------ | ---------------------- | ---------------------------------------- | ----- |
+| :white_check_mark: | Login/Signup           | Create an account or login               |       |
+| :white_check_mark: | Dashboard              | Access the user dashboard                |       |
+| :white_check_mark: | Edit Name/Email        | Edit first, last Name, and email address |       |
+| :x:                | Edit Phone Number      | Edit phone number                        | \*1   |
+| :white_check_mark: | Edit Address           | Edit address (up to the state level)     |       |
+| :white_check_mark: | Education History      | Add/Modify/Delete education history      | \*2   |
+| :white_check_mark: | Work Experience        | Add/Modify/Delete work experience        | \*2   |
+| :white_check_mark: | Skills                 | Add/Modify/Delete skills                 | \*2   |
+| :white_check_mark: | Certifications         | Add/Modify/Delete Certification          | \*2   |
+| :white_check_mark: | Render Resume Template | Display resume previews                  | :new: |
 
-**Key**
+**Longer Notes**
 
-:a: - Alpha feature (barely functional)  
-:b: - Beta feature (functional, but buggy)  
-:x: - Not working  
-:white_check_mark: - Fully function (stable)  
-:arrow_up: - Upgrading feature  
-:cl: - Deprecated or closed feature
+1. Editing phone numbers does not actually work.
+2. Deleting item does not work
 
 ## Common Resolutions
 
