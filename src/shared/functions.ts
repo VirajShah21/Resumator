@@ -37,8 +37,8 @@ export function validateEmail(email: string): boolean {
 
 export function validateMonthYearString(date: string): boolean {
     try {
-        const month = parseInt(date.split("/")[0]);
-        const year = parseInt(date.split("/")[1]);
+        const month = parseInt(date.split("/")[0], 10);
+        const year = parseInt(date.split("/")[1], 10);
 
         return month > 0 && month <= 12 && year >= 1000 && year <= 9999;
     } catch (e) {
