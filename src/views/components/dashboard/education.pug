@@ -56,7 +56,7 @@ mixin add-education-modal
                         button.btn.btn-secondary.btn-sm(
                             type='button'
                             data-dismiss='modal') Close
-                        button.btn.btn-primary.btn-sm(type='submit') Save
+                        button.btn.btn-primary.btn-sm(type='submit') Add
 
 mixin edit-education-modal(edu)
     .modal.fade(tabindex='1' id=`edit-education-modal-${edu._id}`)
@@ -64,7 +64,7 @@ mixin edit-education-modal(edu)
             .modal-content
                 form(action='/app/education/update' method='POST')
                     .modal-header
-                        h5.modal-title Add Education
+                        h5.modal-title Edit Education
                         button.close(type='button' data-dismiss='modal')
                             span &times;
                     .modal-body
@@ -104,4 +104,4 @@ mixin edit-education-modal(edu)
                         button.btn.btn-secondary.btn-sm(
                             type='button'
                             data-dismiss='modal') Close
-                        button.btn.btn-primary.btn-sm(type='submit') Save
+                        button.btn.btn-primary.btn-sm(type='submit') Update
