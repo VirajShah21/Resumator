@@ -6,7 +6,7 @@ export interface IAddress {
     line2: string;
     city: string;
     state: string;
-    zip: number;
+    zip: string;
 }
 
 /**
@@ -17,7 +17,7 @@ export default class Address implements IAddress {
     public line2: string;
     public city: string;
     public state: string;
-    public zip: number;
+    public zip: string;
 
     /**
      *
@@ -27,13 +27,13 @@ export default class Address implements IAddress {
      * @param state The two letter state abbreviation
      * @param zip Zip code
      */
-    constructor(line1: string | IAddress, line2?: string, city?: string, state?: string, zip?: number) {
+    constructor(line1: string | IAddress, line2?: string, city?: string, state?: string, zip?: string) {
         if (typeof line1 == "string") {
             this.line1 = line1;
             this.line2 = line2 || "";
             this.city = city || "";
-            this.state = state || "PA";
-            this.zip = zip || 0;
+            this.state = state || "";
+            this.zip = zip || "";
         } else {
             this.line1 = line1.line1;
             this.line2 = line1.line2;
@@ -66,6 +66,6 @@ export default class Address implements IAddress {
     }
 
     private validateZip(): boolean {
-        return this.zip.toString().length === 5;
+        return this.zip.length === 5;
     }
 }

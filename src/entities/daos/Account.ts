@@ -53,7 +53,7 @@ export default class Account implements IAccount {
             this.lname = lname || "";
             this.email = email || "";
             this.password = password || "";
-            this.address = address ? new Address(address) : new Address("", "", "", "", 0);
+            this.address = address ? new Address(address) : new Address("", "", "", "", "");
             this.phone = phone || "";
         } else {
             this._id = new ObjectId(fname._id);
