@@ -48,6 +48,7 @@ AppRouter.get("/dashboard", (req, res) => {
 });
 
 AppRouter.get("/resume-strength", (req, res) => {
+    // TODO: Finish this route
     AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
         if (sessionAccount) {
             ResumeInfoPuggable.fetch(sessionAccount.account.email, (resumeInfo) => {});
