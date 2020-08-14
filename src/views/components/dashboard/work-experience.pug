@@ -78,9 +78,9 @@ mixin edit-work-experience-modal(experience)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/dd/yyyy' data-type='date' required)
+                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/yyyy' data-type='mmyyyy' required)
                             .col-12.col-md-6 End
-                                input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/dd/yyyy' data-type='date' required)
+                                input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/yyyy' data-type='mmyyyy' required)
                         .row
                             .col-12
                                 label Description

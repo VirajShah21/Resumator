@@ -86,12 +86,14 @@ const formatters = {
                 return +value;
             })
             .join("");
-        console.log(`Digits: ${digits}`);
 
-        if (digits.length > 6 && digits[0] == 0) digits = digits.substring(1);
+        if (digits.length > 6 && digits.charAt(0) == 0 && digits.charAt(1) == 1) digits = digits.substring(1);
         else if (digits.length > 6) digits = digits.substring(0, digits.length - 1);
 
-        if ((digits.length == 1 && digits[0] > 1) || (digits.length == 2 && digits[1] > 2 && digits[0] != 0))
+        if (
+            (digits.length == 1 && digits.charAt(0) > 1) ||
+            (digits.length == 2 && digits.charAt(0) > 2 && digits.charAt(0) != 0)
+        )
             digits = "0" + digits;
 
         return digits.length >= 2 ? `${digits.substring(0, 2)}/${digits.substring(2)}` : digits;
