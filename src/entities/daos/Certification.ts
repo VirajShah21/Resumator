@@ -73,6 +73,13 @@ export default class Certification implements ICertification {
         );
     }
 
+    public deleteDatabaseItem(callback: (success: boolean) => void): void {
+        database.collection(CERT_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+            if (err) callback(false);
+            else callback(true);
+        });
+    }
+
     public static loadFromDatabase(user: string, callback: (certifications: Certification[]) => void): void {
         database
             .collection(CERT_COLLECTION)

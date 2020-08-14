@@ -6,12 +6,13 @@ import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import logger from "@shared/Logger";
 
 const CertificationRouter = Router();
 const jsonParser = BodyParser.json();
 
 CertificationRouter.post("/add", jsonParser, (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.key, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const certification = new Certification(
                 req.body.institution,
@@ -41,10 +42,18 @@ CertificationRouter.post("/update", jsonParser, (req, res) => {
                 accountSession.account.email
             );
             certification._id = req.body._id;
-            certification.updateDatabaseItem((success) => {
-                if (success) res.redirect(routes.dashboardCard.certification);
-                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update the certificate."));
-            });
+
+            if (req.body.delete === "on") {
+                certification.deleteDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.certification);
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update the certificate."));
+                });
+            } else {
+                certification.updateDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.certification);
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update the certificate."));
+                });
+            }
         } else {
             res.render(views.genericError, new SessionErrorPuggable());
         }

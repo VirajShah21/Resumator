@@ -37,10 +37,15 @@ SkillsRouter.post("/update", jsonParser, (req, res) => {
         if (accountSession) {
             const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
             skill._id = new ObjectId(req.body._id);
-            skill.updateDatabaseItem((success) => {
-                if (success) res.redirect(routes.dashboardCard.skills);
-                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
-            });
+
+            if (req.body.delete == "on") {
+                // TODO: Delete skill
+            } else {
+                skill.updateDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.skills);
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
+                });
+            }
         } else {
             res.render(views.genericError, new SessionErrorPuggable());
         }
