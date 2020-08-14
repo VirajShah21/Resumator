@@ -111,8 +111,7 @@ The linter rules for TypeScript
 
 ## Tasklist
 
--   Fix modal titles
--   Fix modal "Save" buttons to "update" buttons
+-   Make `label` elements all-caps (via CSS)
 
 ### MongoDB
 
