@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
 import { validateMonthYearString } from "@shared/functions";
+import logger from "@shared/Logger";
 
 const CERT_COLLECTION = "certifications";
 
@@ -62,13 +63,19 @@ export default class Certification implements ICertification {
 
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         database.collection(CERT_COLLECTION).updateOne(
-            { _id: this._id },
+            { _id: new ObjectId(this._id) },
             {
                 $set: this,
             },
             (err) => {
-                if (err) callback(false);
-                else callback(true);
+                if (err) {
+                    logger.info(`Could not update certification ${JSON.stringify(this, null, 4)} Database Error`);
+                    logger.error(err);
+                    callback(false);
+                } else {
+                    logger.info(`Updated certification ${JSON.stringify(this, null, 4)}`);
+                    callback(true);
+                }
             }
         );
     }
