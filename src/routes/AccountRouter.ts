@@ -62,6 +62,8 @@ AccountRouter.post("/update", jsonParser, (req, res) => {
             accountSession.account.address = req.body.line1
                 ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
                 : accountSession.account.address;
+            accountSession.account.phone = req.body.phone;
+
             accountSession.account.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboard);
                 else res.render(views.genericError, new DatabaseErrorPuggable("Could not update account info"));

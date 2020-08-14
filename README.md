@@ -1,7 +1,6 @@
 # Resumator [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=VirajShah21_Resumator)
 
-![CI](https://github.com/VirajShah21/Resumator/workflows/CI/badge.svg)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VirajShah21_Resumator&metric=alert_status)](https://sonarcloud.io/dashboard?id=VirajShah21_Resumator)
+![CI](https://github.com/VirajShah21/Resumator/workflows/CI/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VirajShah21_Resumator&metric=alert_status)](https://sonarcloud.io/dashboard?id=VirajShah21_Resumator)
 
 Resumator creates resumes, and stuff like that.
 
@@ -92,23 +91,23 @@ The linter rules for TypeScript
 
 ## Features List
 
-|                    | Feature                     | Description                           | Notes                  |
-| ------------------ | --------------------------- | ------------------------------------- | ---------------------- |
-| :white_check_mark: | Sign Up                     | Sign up for a new Resumator account   |                        |
-| :white_check_mark: | Login                       | Login with a Resumator account        |                        |
-| :white_check_mark: | Dashboard View              | Access the user dashboard             |                        |
-| :white_check_mark: | Edit Name                   | Edit first and last Name              |                        |
-| :x:                | Edit Phone Number           | Edit phone number                     | Not setup yet          |
-| :white_check_mark: | Edit Address                | Edit home address                     |                        |
-| :white_check_mark: | Add Education               | Add education to the resume           |                        |
-| :white_check_mark: | Add Work Experience         | Add work experience to the resume     |                        |
-| :white_check_mark: | Add Skills                  | Add a skill/proficiency to the resume |                        |
-| :white_check_mark: | Add Certifications          | Add a certification to the resume     |                        |
-| :white_check_mark: | Edit/Delete Education       | Edit education information            |                        |
-| :x:                | Edit/Delete Work Experience | Edit work experience information      | Date validator issue   |
-| :x:                | Edit/Delete Skill           | Edit a skill/proficiency              | Deletion does not work |
-| :x:                | Edit/Delete Certification   | Edit a certification's information    | Update not working     |
-| :white_check_mark: | Render Resume Template      | Display resume previews               | :new: Very incomplete  |
+|                    | Feature                     | Notes                                       |
+| ------------------ | --------------------------- | ------------------------------------------- |
+| :white_check_mark: | Sign Up                     |                                             |
+| :white_check_mark: | Login                       |                                             |
+| :white_check_mark: | Dashboard View              |                                             |
+| :white_check_mark: | Edit Name                   |                                             |
+| :white_check_mark: | Edit Phone Number           |                                             |
+| :white_check_mark: | Edit Address                |                                             |
+| :white_check_mark: | Add Education               |                                             |
+| :white_check_mark: | Add Work Experience         |                                             |
+| :white_check_mark: | Add Skills                  |                                             |
+| :white_check_mark: | Add Certifications          |                                             |
+| :white_check_mark: | Edit/Delete Education       | Ensure Date validation and formatting works |
+| :x:                | Edit/Delete Work Experience | Date validator does not work                |
+| :x:                | Edit/Delete Skill           | Deletion does not work                      |
+| :x:                | Edit/Delete Certification   | Update not working                          |
+| :white_check_mark: | Render Resume Template      | :new: Very incomplete                       |
 
 ## Common Resolutions
 

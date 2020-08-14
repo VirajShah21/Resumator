@@ -37,6 +37,7 @@ export default class Account implements IAccount {
      * @param email The user's email
      * @param password The user's hashed password (hashed with Bcrypt)
      * @param address The user's address
+     * @param phone The user's phone number
      */
     constructor(
         fname: string | IAccount,
