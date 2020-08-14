@@ -111,8 +111,6 @@ The linter rules for TypeScript
 
 ## Tasklist
 
--   Make `label` elements all-caps (via CSS)
-
 ### MongoDB
 
 If you get this:

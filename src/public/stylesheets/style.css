@@ -19,6 +19,7 @@ label {
     font-size: 0.75em;
     color: var(--bs-primary);
     width: 100%;
+    text-transform: capitalize;
 }
 
 #window {
