@@ -26,21 +26,31 @@ AppRouter.use("/certifications", CertificationRouter);
 AppRouter.use("/themes", ThemesRouter);
 
 AppRouter.get("/dashboard", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (session) => {
-        if (session) {
-            ResumeInfoPuggable.fetch(session.account.email, (resumeInfo) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
+        if (sessionAccount) {
+            ResumeInfoPuggable.fetch(sessionAccount.account.email, (resumeInfo) => {
                 res.render(
                     views.dashboard,
                     addToObject(
                         {
-                            session: session.session,
-                            account: session.account,
+                            session: sessionAccount.session,
+                            account: sessionAccount.account,
                             nav: "Dashboard",
                         },
                         resumeInfo
                     )
                 );
             });
+        } else {
+            res.render(views.genericError, new SessionErrorPuggable());
+        }
+    });
+});
+
+AppRouter.get("/resume-strength", (req, res) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
+        if (sessionAccount) {
+            ResumeInfoPuggable.fetch(sessionAccount.account.email, (resumeInfo) => {});
         } else {
             res.render(views.genericError, new SessionErrorPuggable());
         }
