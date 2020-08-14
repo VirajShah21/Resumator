@@ -92,23 +92,23 @@ The linter rules for TypeScript
 
 ## Features List
 
-|                    | Feature                | Description                              | Notes |
-| ------------------ | ---------------------- | ---------------------------------------- | ----- |
-| :white_check_mark: | Login/Signup           | Create an account or login               |       |
-| :white_check_mark: | Dashboard              | Access the user dashboard                |       |
-| :white_check_mark: | Edit Name/Email        | Edit first, last Name, and email address |       |
-| :x:                | Edit Phone Number      | Edit phone number                        | \*1   |
-| :white_check_mark: | Edit Address           | Edit address (up to the state level)     |       |
-| :white_check_mark: | Education History      | Add/Modify/Delete education history      | \*2   |
-| :white_check_mark: | Work Experience        | Add/Modify/Delete work experience        |       |
-| :white_check_mark: | Skills                 | Add/Modify/Delete skills                 | \*2   |
-| :white_check_mark: | Certifications         | Add/Modify/Delete Certification          | \*2   |
-| :white_check_mark: | Render Resume Template | Display resume previews                  | :new: |
-
-**Longer Notes**
-
-1. Editing phone numbers does not actually work.
-2. Deleting item does not work
+|                    | Feature                     | Description                           | Notes                  |
+| ------------------ | --------------------------- | ------------------------------------- | ---------------------- |
+| :white_check_mark: | Sign Up                     | Sign up for a new Resumator account   |                        |
+| :white_check_mark: | Login                       | Login with a Resumator account        |                        |
+| :white_check_mark: | Dashboard View              | Access the user dashboard             |                        |
+| :white_check_mark: | Edit Name                   | Edit first and last Name              |                        |
+| :x:                | Edit Phone Number           | Edit phone number                     | Not setup yet          |
+| :white_check_mark: | Edit Address                | Edit home address                     |                        |
+| :white_check_mark: | Add Education               | Add education to the resume           |                        |
+| :white_check_mark: | Add Work Experience         | Add work experience to the resume     |                        |
+| :white_check_mark: | Add Skills                  | Add a skill/proficiency to the resume |                        |
+| :white_check_mark: | Add Certifications          | Add a certification to the resume     |                        |
+| :white_check_mark: | Edit/Delete Education       | Edit education information            |                        |
+| :x:                | Edit/Delete Work Experience | Edit work experience information      | Date validator issue   |
+| :x:                | Edit/Delete Skill           | Edit a skill/proficiency              | Deletion does not work |
+| :x:                | Edit/Delete Certification   | Edit a certification's information    | Update not working     |
+| :white_check_mark: | Render Resume Template      | Display resume previews               | :new: Very incomplete  |
 
 ## Common Resolutions
 
