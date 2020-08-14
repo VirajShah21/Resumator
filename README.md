@@ -91,25 +91,28 @@ The linter rules for TypeScript
 
 ## Features List
 
-|                    | Feature                     | Notes                  |
-| ------------------ | --------------------------- | ---------------------- |
-| :white_check_mark: | Sign Up                     |                        |
-| :white_check_mark: | Login                       |                        |
-| :white_check_mark: | Dashboard View              |                        |
-| :white_check_mark: | Edit Name                   |                        |
-| :white_check_mark: | Edit Phone Number           |                        |
-| :white_check_mark: | Edit Address                |                        |
-| :white_check_mark: | Add Education               |                        |
-| :white_check_mark: | Add Work Experience         |                        |
-| :white_check_mark: | Add Skills                  |                        |
-| :white_check_mark: | Add Certifications          |                        |
-| :white_check_mark: | Edit/Delete Education       |                        |
-| :white_check_mark: | Edit/Delete Work Experience |                        |
-| :x:                | Edit/Delete Skill           | Deletion does not work |
-| :x:                | Edit/Delete Certification   | Update not working     |
-| :white_check_mark: | Render Resume Template      | :new: Very incomplete  |
+|                    | Feature                     | Notes                 |
+| ------------------ | --------------------------- | --------------------- |
+| :white_check_mark: | Sign Up                     |                       |
+| :white_check_mark: | Login                       |                       |
+| :white_check_mark: | Dashboard View              |                       |
+| :white_check_mark: | Edit Name                   |                       |
+| :white_check_mark: | Edit Phone Number           |                       |
+| :white_check_mark: | Edit Address                |                       |
+| :white_check_mark: | Add Education               |                       |
+| :white_check_mark: | Add Work Experience         |                       |
+| :white_check_mark: | Add Skills                  |                       |
+| :white_check_mark: | Add Certifications          |                       |
+| :white_check_mark: | Edit/Delete Education       |                       |
+| :white_check_mark: | Edit/Delete Work Experience |                       |
+| :white_check_mark: | Edit/Delete Skill           |                       |
+| :x:                | Edit/Delete Certification   | Update not working    |
+| :white_check_mark: | Render Resume Template      | :new: Very incomplete |
 
-## Common Resolutions
+## Tasklist
+
+-   Fix modal titles
+-   Fix modal "Save" buttons to "update" buttons
 
 ### MongoDB
 

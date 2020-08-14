@@ -39,7 +39,10 @@ SkillsRouter.post("/update", jsonParser, (req, res) => {
             skill._id = new ObjectId(req.body._id);
 
             if (req.body.delete == "on") {
-                // TODO: Delete skill
+                skill.deleteDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboardCard.skills);
+                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
+                });
             } else {
                 skill.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
