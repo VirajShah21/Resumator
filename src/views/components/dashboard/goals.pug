@@ -1,17 +1,18 @@
-mixin goals-card
-    .card.w-100.mb-4
+mixin goals-card(account)
+    #personal-info-card.card.w-100.mb-4
         .card-body
-            h4.card-title Goals
-            
-            p
-                | I am a(n)
-                datalist
-                    option College Student
-                    option High School Student
-                    option University Professor
-                    option High School Teacher/Educator
-                    option K-12 Educator
-                    option Computer Programmer
-                    option 
-
-            button.btn.btn-primary.btn-block(data-toggle='modal' data-target='#add-education-modal') Add Education
+            h4.card-title.text-center
+                ion-icon.text-primary(name='trending-up-outline')
+                br
+                | Goals
+            form(action='/app/account/update' method='POST')
+                .row
+                    .col-12.col-md-6
+                        label I am a
+                        input.form-control.mb-2(list='current-position' name='current-position')
+                        datalist#current-position
+                    .col-12.col-md-6
+                        label I am applying for
+                        input.form-control.mb-2(list='resume-intent' name='resume-intent')
+                        datalist#resume-intent
+                button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Update
