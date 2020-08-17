@@ -14,8 +14,9 @@ export interface IAccount {
     lname: string;
     email: string;
     password: string;
-    address: IAddress;
-    phone: string;
+    address?: IAddress;
+    phone?: string;
+    currentGoal?: string;
 }
 
 /**
@@ -27,43 +28,23 @@ export default class Account implements IAccount {
     public lname: string;
     public email: string;
     public password: string;
-    public address: Address;
-    public phone: string;
+    public address?: Address;
+    public phone?: string;
+    public currentGoal?: string;
 
     /**
      *
-     * @param fname The user's first name
-     * @param lname The user's last name
-     * @param email The user's email
-     * @param password The user's hashed password (hashed with Bcrypt)
-     * @param address The user's address
-     * @param phone The user's phone number
+     * @param accountObject an implementation of IAccount
      */
-    constructor(
-        fname: string | IAccount,
-        lname?: string,
-        email?: string,
-        password?: string,
-        address?: IAddress,
-        phone?: string
-    ) {
-        if (typeof fname == "string") {
-            this._id = new ObjectId();
-            this.fname = fname;
-            this.lname = lname || "";
-            this.email = email || "";
-            this.password = password || "";
-            this.address = address ? new Address(address) : new Address("", "", "", "", "");
-            this.phone = phone || "";
-        } else {
-            this._id = new ObjectId(fname._id);
-            this.fname = fname.fname;
-            this.lname = fname.lname;
-            this.email = fname.email;
-            this.password = fname.password;
-            this.address = new Address(fname.address);
-            this.phone = fname.phone;
-        }
+    constructor(accountObject: IAccount) {
+        this._id = accountObject._id;
+        this.fname = accountObject.fname;
+        this.lname = accountObject.lname;
+        this.email = accountObject.email;
+        this.password = accountObject.password;
+        this.address = accountObject.address ? new Address(accountObject.address) : undefined;
+        this.phone = accountObject.phone;
+        this.currentGoal = accountObject.currentGoal;
     }
 
     /**
@@ -93,7 +74,7 @@ export default class Account implements IAccount {
     }
 
     private validateAddress(): boolean {
-        return this.address.validate();
+        return this.address ? this.address.validate() : true;
     }
 
     private validatePhone(): boolean {

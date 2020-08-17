@@ -8,6 +8,7 @@ import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import { ObjectId } from "mongodb";
 
 const AccountRouter = Router();
 
@@ -22,7 +23,13 @@ AccountRouter.get("/", (req, res) => {
 AccountRouter.post("/signup", jsonParser, (req, res) => {
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
-            const account = new Account(req.body.fname, req.body.lname, req.body.email, hash);
+            const account = new Account({
+                _id: new ObjectId(),
+                fname: req.body.fname,
+                lname: req.body.lname,
+                email: req.body.email,
+                password: hash,
+            });
             account.insertDatabaseItem((accountSuccess) => {
                 if (accountSuccess) {
                     const session: Session = new Session(account);

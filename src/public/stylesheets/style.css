@@ -46,15 +46,36 @@ input.pop-input:focus {
 ************** BOOTSTRAP OVERRIDES *****************
 ***************************************************/
 
-input.form-control,
-button.btn,
 .form-control,
 .btn {
     border-radius: 0;
     outline: none; /** will use bootstrap border **/
 }
 
+.btn-sm {
+    padding: 5px 10px;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.fade {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.8);
+}
+
 .card {
     border-radius: 0;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.alert {
+    border-radius: 0;
 }

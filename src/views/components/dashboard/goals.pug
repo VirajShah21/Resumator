@@ -7,12 +7,9 @@ mixin goals-card(account)
                 | Goals
             form(action='/app/account/update' method='POST')
                 .row
-                    .col-12.col-md-6
-                        label I am a
-                        input.form-control.mb-2(list='current-position' name='current-position')
-                        datalist#current-position
-                    .col-12.col-md-6
+                    .col-12.col-md-8
                         label I am applying for
-                        input.form-control.mb-2(list='resume-intent' name='resume-intent')
+                        input.form-control.mb-2.pop-input(list='resume-goal' name='resume-goal' placeholder=' ')
                         datalist#resume-intent
-                button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Update
+                    .col-12.col-md-4.text-center
+                        button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Save
