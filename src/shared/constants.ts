@@ -16,5 +16,6 @@ export const routes = {
         education: "/app/dashboard#education-card",
         certification: "/app/dashboard#certifications-card",
         skills: "/app/dashboard#skills-card",
+        goals: "/app/dashboard#goals-card",
     },
 };

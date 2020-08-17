@@ -11,6 +11,10 @@ export interface IGoalResults {
     tips: ISuggestion[];
 }
 
+export const goalsList: { name: string; label: string }[] = [
+    { name: "ug-internship", label: "Undergraduate Internship" },
+];
+
 export default class GoalParser {
     public static getGoalParser(name: string): (resumeInfo: ResumeInfo) => IGoalResults {
         switch (name) {

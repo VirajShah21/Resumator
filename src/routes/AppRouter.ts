@@ -12,6 +12,7 @@ import ResumeInfoPuggable from "@entities/ResumeInfoPuggable";
 import { addToObject } from "@shared/functions";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 import logger from "@shared/Logger";
+import { goalsList } from "@shared/util/GoalParser";
 
 export const PREFIX = "/app";
 const AppRouter = Router();
@@ -36,6 +37,7 @@ AppRouter.get("/dashboard", (req, res) => {
                             session: sessionAccount.session,
                             account: sessionAccount.account,
                             nav: "Dashboard",
+                            goalsList,
                         },
                         resumeInfo
                     )

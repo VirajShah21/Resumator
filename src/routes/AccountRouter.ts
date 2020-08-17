@@ -81,6 +81,20 @@ AccountRouter.post("/update", jsonParser, (req, res) => {
     });
 });
 
+AccountRouter.post("/update-goal", jsonParser, (req, res) => {
+    AccountSessionPuggable.fetch(req.cookies.email, (accountSession) => {
+        if (accountSession) {
+            accountSession.account.currentGoal = req.body.goal;
+            accountSession.account.updateDatabaseItem((success) => {
+                if (success) res.redirect(routes.dashboardCard.goals);
+                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update goals"));
+            });
+        } else {
+            res.render(views.genericError, new SessionErrorPuggable());
+        }
+    });
+});
+
 AccountRouter.post("/login", jsonParser, (req, res) => {
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {

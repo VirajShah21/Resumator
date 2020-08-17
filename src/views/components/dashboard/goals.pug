@@ -1,15 +1,17 @@
 mixin goals-card(account)
-    #personal-info-card.card.w-100.mb-4
+    #goals-card.card.w-100.mb-4
         .card-body
             h4.card-title.text-center
                 ion-icon.text-primary(name='trending-up-outline')
                 br
                 | Goals
-            form(action='/app/account/update' method='POST')
+            form(action='/app/account/update-goal' method='POST')
                 .row
                     .col-12.col-md-8
                         label I am applying for
-                        input.form-control.mb-2.pop-input(list='resume-goal' name='resume-goal' placeholder=' ')
-                        datalist#resume-intent
+                        select#resume-goal.form-control.mb-2.pop-input(name='resume-goal' placeholder=' ')
+                            option(value='' defaultselected)
+                            each goal in goalsList
+                                option(value=goal.name)= goal.label
                     .col-12.col-md-4.text-center
                         button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Save
