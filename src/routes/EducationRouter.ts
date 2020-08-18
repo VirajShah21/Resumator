@@ -1,13 +1,10 @@
 import { Router } from "express";
 import BodyParser from "body-parser";
-import Account from "@entities/Account";
-import Session from "@entities/Session";
 import Education from "@entities/Education";
 import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import logger from "@shared/Logger";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const EducationRouter = Router();

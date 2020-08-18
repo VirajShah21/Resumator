@@ -11,7 +11,6 @@ import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import ResumeInfoPuggable from "@entities/ResumeInfoPuggable";
 import { addToObject } from "@shared/functions";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
-import logger from "@shared/Logger";
 import { goalsList } from "@shared/util/GoalParser";
 import ResumeAnalyzerPuggable from "@entities/ResumeAnalyzerPuggable";
 

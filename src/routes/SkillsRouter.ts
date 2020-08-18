@@ -1,6 +1,5 @@
 import { Router } from "express";
 import BodyParser from "body-parser";
-import Session from "@entities/Session";
 import { ObjectId } from "mongodb";
 import Skill from "@entities/Skill";
 import { views, routes } from "@shared/constants";
@@ -38,7 +37,7 @@ SkillsRouter.post("/update", jsonParser, (req, res) => {
             const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
             skill._id = new ObjectId(req.body._id);
 
-            if (req.body.delete == "on") {
+            if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
                     else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));

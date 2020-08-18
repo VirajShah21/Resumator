@@ -9,7 +9,6 @@ import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 import { ObjectId } from "mongodb";
-import logger from "@shared/Logger";
 
 const AccountRouter = Router();
 

@@ -165,49 +165,22 @@ export default class Education implements IEducation {
      */
     public validate(): boolean {
         return (
-            this.validateUser() &&
-            this.validateInstitution() &&
-            this.validateLevel() &&
-            this.validateDegree() &&
+            validateEmail(this.user) &&
+            this.validateRequiredStrings() &&
             this.validateStartAndEnd() &&
-            this.validateGpa() &&
-            this.validateDescription()
+            this.validateGpa()
         );
     }
 
-    private validateUser(): boolean {
-        logger.info(`Validate User (${this.user} = ${validateEmail(this.user)})`);
-        return validateEmail(this.user);
-    }
-
-    private validateInstitution(): boolean {
-        logger.info(`Validate Institution (${this.institution} = ${this.institution.length > 0})`);
-        return this.institution.length > 0;
-    }
-
-    private validateLevel(): boolean {
-        logger.info(`Validate Level (${this.level} = ${this.level.length > 0})`);
-        return this.level.length > 0;
-    }
-
-    private validateDegree(): boolean {
-        logger.info(`Validate Degree (${this.degree} = ${this.degree.length > 0})`);
-        return this.degree.length > 0;
+    private validateRequiredStrings(): boolean {
+        return this.institution.length > 0 && this.level.length > 0 && this.degree.length > 0;
     }
 
     private validateStartAndEnd(): boolean {
-        logger.info(`Validate Start Date (${this.start} = ${validateMonthYearString(this.start)})`);
-        logger.info(`Validate End Date (${this.end} = ${validateMonthYearString(this.end) || this.end === ""})`);
         return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
     }
 
     private validateGpa(): boolean {
-        logger.info(`Validate GPA (${this.gpa} = ${this.gpa > 0 && this.gpa <= 5})`);
         return this.gpa > 0 && this.gpa <= 5;
-    }
-
-    private validateDescription(): boolean {
-        logger.info(`Validate Description (${this.description} = ${this.description !== undefined})`);
-        return this.description !== undefined || this.description === "";
     }
 }
