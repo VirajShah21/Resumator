@@ -1,5 +1,5 @@
 import { Router } from "express";
-import BodyParser from "body-parser";
+import { json as bodyParserJson } from "body-parser";
 import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
@@ -8,7 +8,7 @@ import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 import { ObjectId } from "mongodb";
 
 const CertificationRouter = Router();
-const jsonParser = BodyParser.json();
+const jsonParser = bodyParserJson();
 
 CertificationRouter.post("/add", jsonParser, (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import BodyParser from "body-parser";
+import { json as bodyParserJson } from "body-parser";
 import { ObjectId } from "mongodb";
 import Skill from "@entities/Skill";
 import { views, routes } from "@shared/constants";
@@ -8,7 +8,7 @@ import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
 const SkillsRouter = Router();
-const jsonParser = BodyParser.json();
+const jsonParser = bodyParserJson();
 
 SkillsRouter.post("/add", jsonParser, (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {

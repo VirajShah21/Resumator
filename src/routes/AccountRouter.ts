@@ -1,5 +1,5 @@
 import { Router } from "express";
-import BodyParser from "body-parser";
+import { json as bodyParserJson } from "body-parser";
 import Session from "@entities/Session";
 import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
@@ -11,8 +11,7 @@ import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 import { ObjectId } from "mongodb";
 
 const AccountRouter = Router();
-
-const jsonParser = BodyParser.json();
+const jsonParser = bodyParserJson();
 
 AccountRouter.get("/", (req, res) => {
     res.render(views.accountPage, {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import BodyParser from "body-parser";
+import { json as bodyParserJson } from "body-parser";
 import AccountRouter from "./AccountRouter";
 import WorkExperienceRouter from "./WorkExperienceRouter";
 import EducationRouter from "./EducationRouter";
@@ -17,7 +17,7 @@ import ResumeAnalyzerPuggable from "@entities/ResumeAnalyzerPuggable";
 export const PREFIX = "/app";
 const AppRouter = Router();
 
-const jsonParser = BodyParser.json();
+const jsonParser = bodyParserJson();
 
 AppRouter.use("/account", AccountRouter);
 AppRouter.use("/work-experience", WorkExperienceRouter);
