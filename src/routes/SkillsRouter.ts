@@ -7,6 +7,7 @@ import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 
+const DB_ERR = "Could not delete skill.";
 const SkillsRouter = Router();
 const jsonParser = bodyParserJson();
 
@@ -17,12 +18,12 @@ SkillsRouter.post("/add", jsonParser, (req, res) => {
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not delete skill."));
+                    else res.render(views.genericError, new DatabaseErrorPuggable(DB_ERR));
                 });
             } else {
                 skill.insertDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
+                    else res.render(views.genericError, new DatabaseErrorPuggable(DB_ERR));
                 });
             }
         } else {
@@ -40,12 +41,12 @@ SkillsRouter.post("/update", jsonParser, (req, res) => {
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
+                    else res.render(views.genericError, new DatabaseErrorPuggable(DB_ERR));
                 });
             } else {
                 skill.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update skill."));
+                    else res.render(views.genericError, new DatabaseErrorPuggable(DB_ERR));
                 });
             }
         } else {
