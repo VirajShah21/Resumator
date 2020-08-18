@@ -35,14 +35,35 @@ html(lang='en-US')
                 .col-12
                     hr
             .row
-                .col-12.col-md-6
+                .col-12.col-lg-6
                     +personal-info-card(account)
                     +skills-card(skillset)
-                .col-12.col-md-6
+                .col-12.col-lg-6
                     +goals-card(account)
                     +education-card(educationHistory)
                     +work-experience-card(workExperience)
                     +certifications-card(certifications)
-
+        .container-fluid.mt-4.text-dark.pt-4.pb-4(style='background:rgb(230, 230, 230)')
+            .container
+                .row
+                    .col-12
+                        h4.mb-4 Resume Strength
+                .row
+                    .col-12.col-md-6.col-lg-3
+                        h5 Education
+                        .progress.mb-4
+                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                    .col-12.col-md-6.col-lg-3
+                        h5 Work Experience
+                        .progress.mb-4
+                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                    .col-12.col-md-6.col-lg-3
+                        h5 Skills
+                        .progress.mb-4
+                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                    .col-12.col-md-6.col-lg-3
+                        h5 Certifications
+                        .progress.mb-4
+                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
 
         include components/scripts

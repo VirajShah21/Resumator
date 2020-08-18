@@ -18,6 +18,7 @@ export interface IAccount {
     address?: IAddress;
     phone?: string;
     currentGoal?: string;
+    objective?: string;
 }
 
 /**
@@ -32,6 +33,7 @@ export default class Account implements IAccount {
     public address?: Address;
     public phone?: string;
     public currentGoal?: string;
+    public objective?: string;
 
     /**
      *
@@ -46,6 +48,7 @@ export default class Account implements IAccount {
         this.address = accountObject.address ? new Address(accountObject.address) : undefined;
         this.phone = accountObject.phone;
         this.currentGoal = accountObject.currentGoal;
+        this.objective = accountObject.objective;
     }
 
     /**

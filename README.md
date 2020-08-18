@@ -110,7 +110,7 @@ The linter rules for TypeScript
 | :white_check_mark: | Render Resume Template      | :new: IDLE    |
 | :x:                | Strength Meter              | Not developed |
 | :white_check_mark: | Add/Modify Goal             | :new:         |
-| :x:                | Set Objective Statement     | Not developed |
+| :x:                | Set Objective Statement     | Developing    |
 
 ## Tasklist
 

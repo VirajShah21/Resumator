@@ -86,6 +86,7 @@ AccountRouter.post("/update-goal", jsonParser, (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.currentGoal = req.body.goal;
+            accountSession.account.objective = req.body.objective;
             accountSession.account.updateDatabaseItem((success) => {
                 if (success) {
                     res.redirect(routes.dashboardCard.goals);

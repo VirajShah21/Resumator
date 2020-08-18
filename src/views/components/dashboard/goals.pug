@@ -9,7 +9,7 @@ mixin goals-card(account)
                 .row
                     .col-12
                         label Objective Statement
-                        textarea.form-control.mb-2.pop-input(name='objective' placeholder=' ')
+                        textarea.form-control.mb-2.pop-input(name='objective' placeholder=' ')= account.objective || ""
                 .row
                     .col-12.col-md-8
                         label I am applying for

@@ -1,6 +1,7 @@
 import ResumeInfo from "@entities/ResumeInfoPuggable";
 
 export interface ISuggestion {
+    for: string;
     message: string;
     helpLink?: string;
     helpMessage?: string;
@@ -36,6 +37,7 @@ function handleUGIInternship(resumeInfo: ResumeInfo): IGoalResults {
         }).length === 0
     ) {
         results.requirements.push({
+            for: "education",
             message:
                 "When applying for an undergraduate internship, it is required that you have at least one undergraduate education listed",
         });
@@ -47,6 +49,7 @@ function handleUGIInternship(resumeInfo: ResumeInfo): IGoalResults {
 
     if (goodSkills.length < 5) {
         results.requirements.push({
+            for: "skills",
             message:
                 "You should have at least 5 skills... an internship is a job, where you use your existing skills to learn your field more in depth!",
         });
@@ -54,6 +57,7 @@ function handleUGIInternship(resumeInfo: ResumeInfo): IGoalResults {
 
     if (resumeInfo.workExperience.length === 0) {
         results.tips.push({
+            for: "work",
             message:
                 "Listing any previous work experience (even if irrelevant) could increase your chances of landing your next job",
             helpLink: "#",

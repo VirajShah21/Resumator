@@ -9,7 +9,7 @@ mixin skills-card(skillset)
                 .col-12.text-center
                     each skill in skillset
                         if skill.proficiency > 66
-                            span.badge.bg-success.rounded-pill.p-2.mr-1.mb-1(
+                            span.badge.bg-primary.rounded-pill.p-2.mr-1.mb-1(
                                 data-toggle='modal'
                                 data-target=`#edit-skill-modal-${skill._id}`)= skill.name
                     each skill in skillset
@@ -60,7 +60,7 @@ mixin edit-skill-modal(skill)
                 form(action='/app/skills/update' method='POST')
                     input(name='_id' value=skill._id hidden)
                     .modal-header
-                        h5.modal-title Edit Education
+                        h5.modal-title Edit
                         button.close(type='button' data-dismiss='modal')
                             span &times;
                     .modal-body
