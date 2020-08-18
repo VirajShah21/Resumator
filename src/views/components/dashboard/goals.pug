@@ -7,11 +7,16 @@ mixin goals-card(account)
                 | Goals
             form(action='/app/account/update-goal' method='POST')
                 .row
+                    .col-12
+                        label Objective Statement
+                        textarea.form-control.mb-2.pop-input(name='objective' placeholder=' ')
+                .row
                     .col-12.col-md-8
                         label I am applying for
-                        select#resume-goal.form-control.mb-2.pop-input(name='goal' placeholder=' ')
-                            option(value='' defaultselected)
+                        select.form-control.mb-2.pop-input(name='goal' placeholder=' ')
+                            if !account
+                                option(value='' defaultselected)
                             each goal in goalsList
-                                option(value=goal.name)= goal.label
+                                option(value=goal.name defaultselected=(account.currentGoal == goal.name))= goal.label
                     .col-12.col-md-4.text-center
                         button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Save
