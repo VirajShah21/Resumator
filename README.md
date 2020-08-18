@@ -91,26 +91,26 @@ The linter rules for TypeScript
 
 ## Features List
 
-|                    | Feature                     | Notes         |
-| ------------------ | --------------------------- | ------------- |
-| :white_check_mark: | Sign Up                     |               |
-| :white_check_mark: | Login                       |               |
-| :white_check_mark: | Dashboard View              |               |
-| :white_check_mark: | Edit Name                   |               |
-| :white_check_mark: | Edit Phone Number           |               |
-| :white_check_mark: | Edit Address                |               |
-| :white_check_mark: | Add Education               |               |
-| :white_check_mark: | Add Work Experience         |               |
-| :white_check_mark: | Add Skills                  |               |
-| :white_check_mark: | Add Certifications          |               |
-| :white_check_mark: | Edit/Delete Education       |               |
-| :white_check_mark: | Edit/Delete Work Experience |               |
-| :white_check_mark: | Edit/Delete Skill           |               |
-| :white_check_mark: | Edit/Delete Certification   |               |
-| :white_check_mark: | Render Resume Template      | :new: IDLE    |
-| :x:                | Strength Meter              | Not developed |
-| :white_check_mark: | Add/Modify Goal             | :new:         |
-| :x:                | Set Objective Statement     | Developing    |
+|                    | Feature                     | Notes      |
+| ------------------ | --------------------------- | ---------- |
+| :white_check_mark: | Sign Up                     |            |
+| :white_check_mark: | Login                       |            |
+| :white_check_mark: | Dashboard View              |            |
+| :white_check_mark: | Edit Name                   |            |
+| :white_check_mark: | Edit Phone Number           |            |
+| :white_check_mark: | Edit Address                |            |
+| :white_check_mark: | Add Education               |            |
+| :white_check_mark: | Add Work Experience         |            |
+| :white_check_mark: | Add Skills                  |            |
+| :white_check_mark: | Add Certifications          |            |
+| :white_check_mark: | Edit/Delete Education       |            |
+| :white_check_mark: | Edit/Delete Work Experience |            |
+| :white_check_mark: | Edit/Delete Skill           |            |
+| :white_check_mark: | Edit/Delete Certification   |            |
+| :white_check_mark: | Render Resume Template      | :new: IDLE |
+| :x:                | Strength Meter              | Developing |
+| :white_check_mark: | Add/Modify Goal             | :new:      |
+| :white_check_mark: | Set Objective Statement     | :new:      |
 
 ## Tasklist
 
