@@ -75,5 +75,40 @@ html(lang='en-US')
                         .progress.mb-4.bg-light
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.certifications}%`)
                                 = `${Math.floor(analysis.strength.certifications)}%`
+                br
+                h4 Requirements
+                each suggestion in analysis.requirements
+                    .row
+                        .col-12
+                            .alert.alert-dark(style='font-size:0.9em;vertical-align:middle')
+                                .row
+                                    .col-1
+                                        if suggestion.for == 'education'
+                                            ion-icon.p-1(name='school-outline')
+                                        else if suggestion.for == 'work'
+                                            ion-icon.p-1(name='briefcase-outline')
+                                        else if suggestion.for == 'skills'
+                                            ion-icon.p-1(name='checkmark-done-outline')
+                                        else if suggestion.for == 'certifications'
+                                            ion-icon.p-1(name='document-outline')
+                                    .col-11= suggestion.message
+                br
+                h4 Tips
+                each suggestion in analysis.tips
+                    .row
+                        .col-12
+                            .alert.alert-secondary(style='font-size:0.9em;vertical-align:middle')
+                                .row
+                                    .col-1
+                                        if suggestion.for == 'education'
+                                            ion-icon.p-1(name='school-outline')
+                                        else if suggestion.for == 'work'
+                                            ion-icon.p-1(name='briefcase-outline')
+                                        else if suggestion.for == 'skills'
+                                            ion-icon.p-1(name='checkmark-done-outline')
+                                        else if suggestion.for == 'certifications'
+                                            ion-icon.p-1(name='document-outline')
+                                    .col-11= suggestion.message
+
 
         include components/scripts
