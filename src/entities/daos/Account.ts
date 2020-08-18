@@ -2,6 +2,7 @@ import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import Address, { IAddress } from "./Address";
 import { validateEmail } from "@shared/functions";
+import logger from "@shared/Logger";
 
 const ACCOUNTS_COLLECTION = "accounts";
 
@@ -121,11 +122,17 @@ export default class Account implements IAccount {
                     $set: this,
                 },
                 (err) => {
-                    if (err) callback(false);
-                    else callback(true);
+                    if (err) {
+                        logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Database Error`);
+                        callback(false);
+                    } else {
+                        logger.info(`Updated account ${JSON.stringify(this, null, 4)}`);
+                        callback(true);
+                    }
                 }
             );
         } else {
+            logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Invalid data`);
             callback(false);
         }
     }

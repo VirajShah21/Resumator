@@ -9,7 +9,7 @@ mixin goals-card(account)
                 .row
                     .col-12.col-md-8
                         label I am applying for
-                        select#resume-goal.form-control.mb-2.pop-input(name='resume-goal' placeholder=' ')
+                        select#resume-goal.form-control.mb-2.pop-input(name='goal' placeholder=' ')
                             option(value='' defaultselected)
                             each goal in goalsList
                                 option(value=goal.name)= goal.label

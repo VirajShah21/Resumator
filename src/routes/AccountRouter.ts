@@ -9,6 +9,7 @@ import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 import { ObjectId } from "mongodb";
+import logger from "@shared/Logger";
 
 const AccountRouter = Router();
 
@@ -82,12 +83,15 @@ AccountRouter.post("/update", jsonParser, (req, res) => {
 });
 
 AccountRouter.post("/update-goal", jsonParser, (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.email, (accountSession) => {
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.currentGoal = req.body.goal;
             accountSession.account.updateDatabaseItem((success) => {
-                if (success) res.redirect(routes.dashboardCard.goals);
-                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update goals"));
+                if (success) {
+                    res.redirect(routes.dashboardCard.goals);
+                } else {
+                    res.render(views.genericError, new DatabaseErrorPuggable("Could not update goal "));
+                }
             });
         } else {
             res.render(views.genericError, new SessionErrorPuggable());
