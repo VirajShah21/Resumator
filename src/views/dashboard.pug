@@ -49,21 +49,31 @@ html(lang='en-US')
                     .col-12
                         h4.mb-4 Resume Strength
                 .row
+                    .col-12
+                        h5 Overall Stregth
+                        .progress.mb-4.bg-light
+                            .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.overall}%`)
+                                = `${Math.floor(analysis.strength.overall)}%`
+                .row
                     .col-12.col-md-6.col-lg-3
                         h5 Education
-                        .progress.mb-4
-                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                        .progress.mb-4.bg-light
+                            .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.education}%`)
+                                = `${Math.floor(analysis.strength.education)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Work Experience
-                        .progress.mb-4
-                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                        .progress.mb-4.bg-light
+                            .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.work}%`)
+                                = `${Math.floor(analysis.strength.work)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Skills
-                        .progress.mb-4
-                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                        .progress.mb-4.bg-light
+                            .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.skills}%`)
+                                = `${Math.floor(analysis.strength.skills)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Certifications
-                        .progress.mb-4
-                            .progress-bar.bg-primary.text-right.w-100.pr-3 100%
+                        .progress.mb-4.bg-light
+                            .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.certifications}%`)
+                                = `${Math.floor(analysis.strength.certifications)}%`
 
         include components/scripts
