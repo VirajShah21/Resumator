@@ -67,6 +67,12 @@ html(lang='en-US')
                             ol.breadcrumb
                                 .breadcrumb-item
                                     a(href='/app/help') Help
+                                .breadcrumb-item
+                                    a(href='/app/help')
+                                        if ["login-signup", "modify-contact-info"].indexOf(helpPage) >= 0
+                                            | Account Management
+                                        else if ["edit-education"].indexOf(helpPage) >= 0
+                                            | Resume Information
                                 .breadcrumb-item.active
                                     case helpPage
                                         when "login-signup"
