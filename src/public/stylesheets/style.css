@@ -64,6 +64,16 @@ blockquote p {
     margin: 0;
 }
 
+#footer {
+    position: fixed;
+    bottom: 0;
+    font-size: 0.6em;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
 /***************************************************
 ************** BOOTSTRAP OVERRIDES *****************
 ***************************************************/
