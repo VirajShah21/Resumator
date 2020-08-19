@@ -23,19 +23,19 @@ mixin personal-info-card(account)
                 .row
                     .col-12
                         label Address Line 1
-                        input.form-control.mb-2.pop-input(name='line1' value=account.address.line1 placeholder=' ' data-validate)
+                        input.form-control.mb-2.pop-input(name='line1' value=(account.address ? account.address.line1 : '') placeholder=' ' data-validate)
                 .row
                     .col-12
                         label Address Line 2
-                        input.form-control.mb-2.pop-input(name='line2' value=account.address.line2 placeholder=' ' data-validate)
+                        input.form-control.mb-2.pop-input(name='line2' value=(account.address ? account.address.line2 : '') placeholder=' ' data-validate)
                 .row
                     .col-12.col-md-5
                         label City
-                        input.form-control.mb-2.pop-input(name='city' value=account.address.city placeholder=' ' data-validate)
+                        input.form-control.mb-2.pop-input(name='city' value=(account.address ? account.address.city : '') placeholder=' ' data-validate)
                     .col-6.col-md-3
                         label State
-                        input.form-control.mb-2.pop-input(name='state' value=account.address.state placeholder=' ' data-validate)
+                        input.form-control.mb-2.pop-input(name='state' value=(account.address ? account.address.state : '') placeholder=' ' data-validate)
                     .col-6.col-md-4
                         label Zip Code
-                        input.form-control.mb-2.pop-input(name='zip' value=account.address.zip placeholder=' ' data-type='zip')
+                        input.form-control.mb-2.pop-input(name='zip' value=(account.address ? account.address.zip : '') placeholder=' ' data-type='zip')
                 button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Update

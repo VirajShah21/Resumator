@@ -41,8 +41,8 @@ mixin add-work-experience-modal
                                 label Start
                                 input.form-control.mb-2(name='start-date' placeholder='mm/yyyy' data-type='mmyyyy' required)
                             .col-12.col-md-6
-                                label End
-                                input.form-control.mb-2(name='end-date' placeholder='mm/yyyy' data-type='mmyyyy' required)
+                                label End (blank if current job)
+                                input.form-control.mb-2(name='end-date' placeholder='Present' data-type='mmyyyy')
                         .row
                             .col-12
                                 label Description
@@ -78,8 +78,8 @@ mixin edit-work-experience-modal(experience)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/yyyy' data-type='mmyyyy' required)
-                            .col-12.col-md-6 End
+                                input.form-control.mb-2(name='start-date' value=experience.start placeholder='mm/yyyy' data-type='mmyyyy')
+                            .col-12.col-md-6 End (blank if current job)
                                 input.form-control.mb-2(name='end-date' value=experience.end placeholder='mm/yyyy' data-type='mmyyyy' required)
                         .row
                             .col-12

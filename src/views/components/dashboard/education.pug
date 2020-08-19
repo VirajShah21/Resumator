@@ -14,7 +14,7 @@ mixin education-item(edu)
     li.list-group-item
         button.btn.mr-4(data-toggle='modal' data-target=`#edit-education-modal-${edu._id}`)
             ion-icon(name='create-outline')
-        span= `${edu.institution} (${edu.end.split("/")[2]})`
+        span= `${edu.institution} (${edu.end !== "" ? edu.end.split("/")[1] : "Present"})`
 
 mixin add-education-modal
     #add-education-modal.modal.fade(tabindex='1')
@@ -37,10 +37,10 @@ mixin add-education-modal
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' placeholder='mm/yyyy' data-type='mmyyyy' data-validate data-format)
+                                input.form-control.mb-2(name='start-date' placeholder='mm/yyyy' data-type='mmyyyy' data-validate data-format required)
                             .col-12.col-md-6
-                                label End
-                                input.form-control.mb-2(name='end-date' placeholder='mm/yyyy' data-type='mmyyyy' data-format required)
+                                label End (blank if currently enrolled)
+                                input.form-control.mb-2(name='end-date' placeholder='mm/yyyy' data-type='mmyyyy' data-format)
                         .row
                             .col-12.col-md-8
                                 label Degree/Program
@@ -72,25 +72,25 @@ mixin edit-education-modal(edu)
                         .row
                             .col-12
                                 label Level
-                                input.form-control.mb-2(name='level' value=edu.level placeholder='Undergraduate' data-validate required)
+                                input.form-control.mb-2(name='level' value=edu.level data-validate required)
                         .row
                             .col-12
                                 label Insitution
-                                input.form-control.mb-2(name='institution' value=edu.institution placeholder='Temple University' data-validate required)
+                                input.form-control.mb-2(name='institution' value=edu.institution data-validate required)
                         .row
                             .col-12.col-md-6
                                 label Start
-                                input.form-control.mb-2(name='start-date' value=edu.start placeholder='mm/yyyy' data-type='mmyyyy')
+                                input.form-control.mb-2(name='start-date' value=edu.start placeholder='mm/yyyy' data-type='mmyyyy' required)
                             .col-12.col-md-6
-                                label End
-                                input.form-control.mb-2(name='end-date' value=edu.end placeholder='mm/yyyy' data-type='mmyyyy' required)
+                                label End (blank if currently enrolled)
+                                input.form-control.mb-2(name='end-date' value=edu.end placeholder='Present' data-type='mmyyyy')
                         .row
                             .col-12.col-md-8
                                 label Degree/Program
-                                input.form-control.mb-2(name='degree' value=edu.degree placeholder='B.Sc. Computer Science' data-validate)
+                                input.form-control.mb-2(name='degree' value=edu.degree data-validate)
                             .col-12.col-md-4
                                 label GPA
-                                input.form-control.mb-2(type='number' value=edu.gpa step='0.1' name='gpa' placeholder='GPA' data-validate)
+                                input.form-control.mb-2(type='number' value=edu.gpa step='0.1' name='gpa' data-validate)
                         .row
                             .col-12
                                 label Description

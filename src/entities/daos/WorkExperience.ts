@@ -167,28 +167,22 @@ export default class WorkExperience {
     }
 
     private validateUser(): boolean {
-        Logger.info(`Validate User (${this.user} = ${validateEmail(this.user)})`);
         return validateEmail(this.user);
     }
 
     private validatePosition(): boolean {
-        Logger.info(`Validate Position (${this.position} = ${this.position.length > 0})`);
         return this.position.length > 0;
     }
 
     private validateOrganization(): boolean {
-        Logger.info(`Validate Organization (${this.organization} = ${this.organization.length > 0})`);
         return this.organization.length > 0;
     }
 
     private validateStartAndEnd(): boolean {
-        Logger.info(`Validate Start Date (${this.start} = ${validateMonthYearString(this.start)})`);
-        Logger.info(`Validate End Date (${this.end} = ${validateMonthYearString(this.end)})`);
-        return validateMonthYearString(this.start) && validateMonthYearString(this.end);
+        return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
     }
 
     private validateDescription(): boolean {
-        Logger.info(`Validate Description (${this.description} = ${this.description.length > 0})`);
         return this.description.length > 0;
     }
 }
