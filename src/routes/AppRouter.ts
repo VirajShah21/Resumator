@@ -13,8 +13,11 @@ import { addToObject } from "@shared/functions";
 import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 import { goalsList } from "@shared/util/GoalParser";
 import ResumeAnalyzerPuggable from "@entities/ResumeAnalyzerPuggable";
+import fs from "fs";
+import path from "path";
 
 export const PREFIX = "/app";
+export const ROOT_DIR = path.join(__dirname, "..");
 const AppRouter = Router();
 
 const jsonParser = bodyParserJson();
@@ -48,6 +51,26 @@ AppRouter.get("/dashboard", (req, res) => {
             res.render(views.genericError, new SessionErrorPuggable());
         }
     });
+});
+
+AppRouter.get("/help", (req, res) => {
+    if (req.query.page) {
+        // Route to specific help page
+        fs.readFile(path.join(ROOT_DIR, `views/help-pages/${req.query.page}.md`), (err, data) => {
+            if (err) {
+                res.render(views.genericError, {
+                    error: "Could not find help page",
+                    message:
+                        "This is our fault. We must have put up a faulty link. Please reach out to us so we can correct this.",
+                });
+            } else {
+                res.render("help", { helpPage: data.toString() });
+            }
+        });
+    } else {
+        // Route to main help page
+        res.render("help");
+    }
 });
 
 AppRouter.get("/resume-strength", (req, res) => {

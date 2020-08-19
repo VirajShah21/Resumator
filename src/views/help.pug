@@ -1,0 +1,37 @@
+include components/dashboard/work-experience
+include components/dashboard/education
+include components/dashboard/personal-info
+include components/dashboard/skillset
+include components/dashboard/certifications
+include components/dashboard/goals
+
+doctype html
+
+html(lang='en-US')
+    head
+        include components/head
+    body
+        include components/navbar
+
+        .container.mt-4
+            if !helpPage
+                .row
+                    h1 Help
+                    hr
+                .row
+                    .col-12.col-md-6
+                        .row
+                            .col-12
+                                h3 Account Management
+                                ul.text-primary
+                                    li
+                                        a(href='?page=login-signup') Sign Up or Login
+                                    li
+                                        a(href='/help-pages/contact-information.html') Add/Modify/Remove Contact Information
+            else
+                :markdown-it= helpPage
+                                
+                            
+
+
+        include components/scripts

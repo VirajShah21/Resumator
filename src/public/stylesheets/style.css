@@ -22,6 +22,10 @@ label {
     text-transform: capitalize;
 }
 
+a {
+    text-decoration: none;
+}
+
 #window {
     width: 100vw;
     height: 100vh;
