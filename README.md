@@ -112,7 +112,7 @@ The linter rules for TypeScript
 | :white_check_mark: | Set Objective Statement                     | :new:      |
 | :white_check_mark: | View Resume Strength                        | :new:      |
 | :white_check_mark: | View Resume Suggestions (Requirements/Tips) | :new: WIP  |
-| :x:                | Help Page                                   |            |
+| :white_check_mark: | Help Page                                   | :new: WIP  |
 
 ## Tasklist
 
