@@ -10,6 +10,17 @@ doctype html
 html(lang='en-US')
     head
         include components/head
+        style.
+            img {
+                max-width: 100%;
+                background: black;
+                transition: 0.5s opacity;
+                opacity: 1;
+            }
+
+            img:hover {
+                opacity: 0.5;
+            }
     body
         include components/navbar
 
@@ -19,24 +30,61 @@ html(lang='en-US')
                     h1 Help
                     hr
                 .row
-                    .col-12.col-md-6
-                        .row
-                            .col-12
-                                h3 Account Management
-                                ul.text-primary
-                                    li
-                                        a(href='?page=login-signup') Sign Up or Login
-                                    li
-                                        a(href='/help-pages/contact-information.html') Add/Modify/Remove Contact Information
+                    .col-12.col-md-6.mb-4
+                        h3 Account Management
+                        ul.list-group
+                            li.list-group-item
+                                a(href='?page=login-signup') Sign Up or Login
+                            li.list-group-item
+                                a(href='?page=modify-contact-info') Edit Contact Information
+                            li.list-group-item
+                                a(href='?page=session-errors-explained') Session Errors Explained
+                            li.list-group-item
+                                a(href='?page=database-errors-explained') Database Errors Explained
+                    .col-12.col-md-6.mb-4
+                        h3 Resume Information
+                        ul.list-group
+                            li.list-group-item
+                                a(href='?page=edit-education') Add, Edit, or Delete Education
+                            li.list-group-item
+                                a(href='?page=edit-work') Add, Edit, or Delete Work Experience
+                            li.list-group-item
+                                a(href='?page=edit-certifications') Add, Edit, or Delete Certifications
+                            li.list-group-item
+                                a(href='?page=edit-skills') Add, Edit, or Delete Skills
+                    .col-12.col-md-6.mb-4
+                        h3 Resume Strength
+                        ul.list-group
+                            li.list-group-item
+                                a(href='?page=resume-strength-meters') Resume Strength Meters
+                            li.list-group-item
+                                a(href='?page=resume-requirements') Resume Requirements
+                            li.list-group-item
+                                a(href='?page=resume-tips') Resume Tips
             else
-                h1 Help
-                hr
+                .row
+                    .col-12
+                        nav
+                            ol.breadcrumb
+                                .breadcrumb-item
+                                    a(href='/app/help') Help
+                                .breadcrumb-item.active
+                                    case helpPage
+                                        when "login-signup"
+                                            | Signup or Login
+                                        when "modify-contact-info"
+                                            | Edit Contact Information
+                                        when "edit-education"
+                                            | Add, Edit, or Delete Education
                 .mt-4
-                    if helpPage == "login-signup"
-                        include help-pages/login-signup
-                    
-                                
-                            
-
+                    case helpPage
+                        when "login-signup"
+                            include help-pages/login-signup
+                        when "modify-contact-info"
+                            include help-pages/modify-contact-info
+                        when "edit-education"
+                            include help-pages/edit-education
+                        default
+                            h2 Could not find the help page you requested
 
         include components/scripts
