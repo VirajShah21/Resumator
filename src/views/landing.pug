@@ -4,14 +4,16 @@ html(lang='en-US')
     head
         include components/head
     body
-        #window.container-fluid.text-dark
+        #window.container-fluid.text-primary
             .row.pt-4.pl-4
-                .col-6.pt-4.pl-4
+                .col-12.col-md-8.pl-4.pt-4
                     h1.m-0(style='font-size:4em;font-weight:900;text-transform:uppercase;text-shadow: 0 0 10px 10px black;')
                         | Create a stunning resume in less than 2 minutes!
+                .col
             .row.pl-4.pt-4
-                .col-6.pl-4.pt-4
-                    a.btn.btn-dark.btn-lg.p-4.rounded-pill(href='/app/account') Get Started
+                .col-12.col-md-3
+                    a.btn.btn-primary.p-4.rounded-pill.w-100(href='/app/account')
+                        strong Get Started
             .row(style='position:fixed;bottom:0;z-index:-1')
                 .col
                 .col-7
