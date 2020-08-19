@@ -37,6 +37,7 @@
         "express-async-errors": "^3.1.1",
         "helmet": "^3.23.3",
         "http-status-codes": "^1.4.0",
+        "jstransformer-markdown-it": "^2.1.0",
         "module-alias": "^2.2.2",
         "mongodb": "^3.5.9",
         "morgan": "^1.10.0",

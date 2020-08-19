@@ -29,7 +29,12 @@ html(lang='en-US')
                                     li
                                         a(href='/help-pages/contact-information.html') Add/Modify/Remove Contact Information
             else
-                :markdown-it= helpPage
+                h1 Help
+                hr
+                .mt-4
+                    if helpPage == "login-signup"
+                        include help-pages/login-signup
+                    
                                 
                             
 
