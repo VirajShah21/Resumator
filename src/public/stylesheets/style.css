@@ -54,7 +54,7 @@ a {
 }
 
 blockquote {
-    background: lightblue;
+    background: var(--bs-light);
     border-left: 5px solid var(--bs-primary);
     padding: 1em;
     box-sizing: border-box;
