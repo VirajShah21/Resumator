@@ -5,14 +5,14 @@ each education in educationHistory
     +edit-education-modal(education)
 
 .row
-    .col-10.col-md-8
+    .col-12
         .alert.alert-success If you're a real lazy ass, you can do it right here:
-.row
-    .col-10.col-md-8
-        +education-card(educationHistory)
-    .col-2.col-md-4
-        .alert.alert-primary(style='margin-left:-60px;margin-top:10px') You can access this on your 
-            a(href='/app/dashboard#education-card') dashboard.
+            .row
+                .col-10.col-md-8
+                    +education-card(educationHistory)
+                .col-2.col-md-4
+                    .alert.alert-primary(style='margin-left:-60px;margin-top:10px') You can access this on your 
+                        a(href='/app/dashboard#education-card') dashboard.
 .row
     .col-12.p-4
         hr
