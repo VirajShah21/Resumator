@@ -125,6 +125,10 @@ blockquote p {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+.list-group {
+    border-radius: 0;
+}
+
 /* To style active nav link */
 .nav-link.active {
     color: var(--bs-primary) !important;
