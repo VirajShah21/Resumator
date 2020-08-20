@@ -107,12 +107,13 @@ The linter rules for TypeScript
 | :white_check_mark: | Edit/Delete Work Experience                 |       | v0.0.1        |                 |
 | :white_check_mark: | Edit/Delete Skill                           |       | v0.0.1        |                 |
 | :white_check_mark: | Edit/Delete Certification                   |       | v0.0.1        |                 |
-| :white_check_mark: | Render Resume Template                      | IDLE  | v0.0.1        |                 |
+| :white_check_mark: | Preview Resume Theme                        | IDLE  | v0.0.1        |                 |
 | :white_check_mark: | Add/Modify Goal                             |       | v0.0.1        |                 |
 | :white_check_mark: | Set Objective Statement                     |       | v0.0.1        |                 |
-| :white_check_mark: | View Resume Strength                        |       | v0.0.1        |                 |
+| :white_check_mark: | View Resume Strength Meter                  |       | v0.0.1        |                 |
 | :white_check_mark: | View Resume Suggestions (Requirements/Tips) | WIP   | v0.0.1        |                 |
 | :white_check_mark: | Help Page                                   | WIP   | v0.0.1        |                 |
+| :white_check_mark: | Manage Account                              | WIP   | v0.0.1        |                 |
 
 ## Tasklist
 
