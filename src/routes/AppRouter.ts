@@ -54,13 +54,21 @@ AppRouter.get("/dashboard", (req, res) => {
 });
 
 AppRouter.get("/help", (req, res) => {
-    if (req.query.page) {
-        // Route to specific help page
-        res.render("help", { helpPage: req.query.page, nav: "Help" });
-    } else {
-        // Route to main help page
-        res.render("help", { nav: "Help" });
-    }
+    AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
+        if (sessionAccount) {
+            ResumeInfoPuggable.fetch(sessionAccount?.account.email, (resumeInfo) => {
+                if (req.query.page) {
+                    // Route to specific help page
+                    res.render("help", addToObject({ helpPage: req.query.page, nav: "Help" }, resumeInfo));
+                } else {
+                    // Route to main help page
+                    res.render("help", { nav: "Help" });
+                }
+            });
+        } else {
+            res.redirect("/");
+        }
+    });
 });
 
 AppRouter.get("/resume-strength", (req, res) => {
