@@ -17,8 +17,9 @@ All notable changes to this project will be documented in this file.
     -   Blue active nav links
     -   Redesigned Alpha badge
 -   **Dashboard** - moved goals below "Personal Information"
--   **Help Pages** -
+-   **Help Pages** - New Help Pages
     -   Add, Edit, or Delete work experience
+    -   Add, Edit, or Delete certifications
 
 ## [0.0.1] - 2020-08-20
 

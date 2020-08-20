@@ -1,0 +1,39 @@
+include ../components/dashboard/education
+
++add-certification-modal()
+each cert in certifications
+    +edit-certification-modal(cert)
+
+.row
+    .col-12
+        .alert.alert-success If you're a real lazy ass, you can do it right here:
+            .row
+                .col-10.col-md-8
+                    +certifications-card(certifications)
+                .col-2.col-md-4
+                    .alert.alert-primary(style='margin-left:-60px;margin-top:10px') You can access this on your 
+                        a(href='/app/dashboard#certifications-card') dashboard.
+.row
+    .col-12.p-4
+        hr
+
+:markdown-it
+    # Certification
+
+    1. Go to your [dashboard](/app/dashboard#certifications-card) and find the certification card.  
+    ![Certifications card](/images/help-pages/work-experience-card.png)
+    2. Click on "Add Certification"
+    3. Enter the required information
+        - Certification
+        - Exam Date
+        - Institution
+    4. Enter a description if you want (you can include your exam score if it was really impressive)
+
+    # Edit or Delete Certification
+
+    1. Go to your [dashboard](/app/dashboard#certifications-card) and find the work experience card.
+    2. Click on the edit button to the left of the item you would like to edit  
+    ![Edit button for certification](/images/help-pages/edit-education-button.png)
+    3. Modify any of the fields and click Update. To delete an item, simply click the checkbox
+    in the red box, then click Update.  
+    ![Edit certification thumbnail](/images/help-pages/edit-education-thumbnail.png)
