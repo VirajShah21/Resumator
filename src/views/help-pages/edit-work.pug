@@ -1,0 +1,41 @@
+include ../components/dashboard/education
+
++add-work-experience-modal()
+each exp in workExperience
+    +edit-work-experience-modal(exp)
+
+.row
+    .col-12
+        .alert.alert-success If you're a real lazy ass, you can do it right here:
+            .row
+                .col-10.col-md-8
+                    +work-experience-card(workExperience)
+                .col-2.col-md-4
+                    .alert.alert-primary(style='margin-left:-60px;margin-top:10px') You can access this on your 
+                        a(href='/app/dashboard#education-card') dashboard.
+.row
+    .col-12.p-4
+        hr
+
+:markdown-it
+    # Work Experience
+
+    1. Go to your [dashboard](/app/dashboard#work-experience-card) and find the work experience card.  
+    ![Work Experience card](/images/help-pages/education-card.png)
+    2. Click on "Add Work Experience"
+    3. Enter the required information
+        - Position
+        - Organization
+        - Start Date (Format: `mm/yyyy`)
+        - End Date (Format: `mm/yyyy`)
+            - Leave blank if currently enrolled
+    4. Enter a description if you want
+
+    # Edit or Delete Work Experience
+
+    1. Go to your [dashboard](/app/dashboard#work-experience-card) and find the work experience card.
+    2. Click on the edit button to the left of the item you would like to edit  
+    ![Edit button for work experience](/images/help-pages/edit-education-button.png)
+    3. Modify any of the fields and click Update. To delete an item, simply click the checkbox
+    in the red box, then click Update.  
+    ![Edit education thumbnail](/images/help-pages/edit-education-thumbnail.png)

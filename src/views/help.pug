@@ -80,7 +80,7 @@ html(lang='en-US')
                                     a(href='/app/help')
                                         if ["login-signup", "modify-contact-info"].indexOf(helpPage) >= 0
                                             | Account Management
-                                        else if ["edit-education"].indexOf(helpPage) >= 0
+                                        else if ["edit-education", "edit-work"].indexOf(helpPage) >= 0
                                             | Resume Information
                                 .breadcrumb-item.active
                                     case helpPage
@@ -90,6 +90,8 @@ html(lang='en-US')
                                             | Edit Contact Information
                                         when "edit-education"
                                             | Add, Edit, or Delete Education
+                                        when "edit-work"
+                                            | Add, Edit, or Delete Work Experience
                 .mt-4
                     case helpPage
                         when "login-signup"
@@ -98,6 +100,8 @@ html(lang='en-US')
                             include help-pages/modify-contact-info
                         when "edit-education"
                             include help-pages/edit-education
+                        when "edit-work"
+                            include help-pages/edit-work
                         default
                             h2 Could not find the help page you requested
         include components/footer
