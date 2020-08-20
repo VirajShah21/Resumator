@@ -7,8 +7,17 @@ import AccountSessionPuggable from "@entities/AccountSessionPuggable";
 const ThemesRouter = Router();
 
 ThemesRouter.get("/", (req, res) => {
-    res.render("themes", {
-        nav: "Themes",
+    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+        if (accountSession && accountSession.account) {
+            res.render("themes", {
+                nav: "Themes",
+                account: accountSession.account,
+            });
+        } else {
+            res.render("themes", {
+                nav: "Themes",
+            });
+        }
     });
 });
 
