@@ -91,28 +91,28 @@ The linter rules for TypeScript
 
 ## Features List
 
-|                    | Feature                                     | Notes      |
-| ------------------ | ------------------------------------------- | ---------- |
-| :white_check_mark: | Sign Up                                     |            |
-| :white_check_mark: | Login                                       |            |
-| :white_check_mark: | Dashboard View                              |            |
-| :white_check_mark: | Edit Name                                   |            |
-| :white_check_mark: | Edit Phone Number                           |            |
-| :white_check_mark: | Edit Address                                |            |
-| :white_check_mark: | Add Education                               |            |
-| :white_check_mark: | Add Work Experience                         |            |
-| :white_check_mark: | Add Skills                                  |            |
-| :white_check_mark: | Add Certifications                          |            |
-| :white_check_mark: | Edit/Delete Education                       |            |
-| :white_check_mark: | Edit/Delete Work Experience                 |            |
-| :white_check_mark: | Edit/Delete Skill                           |            |
-| :white_check_mark: | Edit/Delete Certification                   |            |
-| :white_check_mark: | Render Resume Template                      | :new: IDLE |
-| :white_check_mark: | Add/Modify Goal                             | :new:      |
-| :white_check_mark: | Set Objective Statement                     | :new:      |
-| :white_check_mark: | View Resume Strength                        | :new:      |
-| :white_check_mark: | View Resume Suggestions (Requirements/Tips) | :new: WIP  |
-| :white_check_mark: | Help Page                                   | :new: WIP  |
+|                    | Feature                                     | Notes | Version Added | Version Updated |
+| ------------------ | ------------------------------------------- | ----- | ------------- | --------------- |
+| :white_check_mark: | Sign Up                                     |       | v0.0.1        |                 |
+| :white_check_mark: | Login                                       |       | v0.0.1        |                 |
+| :white_check_mark: | Dashboard View                              |       | v0.0.1        |                 |
+| :white_check_mark: | Edit Name                                   |       | v0.0.1        |                 |
+| :white_check_mark: | Edit Phone Number                           |       | v0.0.1        |                 |
+| :white_check_mark: | Edit Address                                |       | v0.0.1        |                 |
+| :white_check_mark: | Add Education                               |       | v0.0.1        |                 |
+| :white_check_mark: | Add Work Experience                         |       | v0.0.1        |                 |
+| :white_check_mark: | Add Skills                                  |       | v0.0.1        |                 |
+| :white_check_mark: | Add Certifications                          |       | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Education                       |       | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Work Experience                 |       | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Skill                           |       | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Certification                   |       | v0.0.1        |                 |
+| :white_check_mark: | Render Resume Template                      | IDLE  | v0.0.1        |                 |
+| :white_check_mark: | Add/Modify Goal                             |       | v0.0.1        |                 |
+| :white_check_mark: | Set Objective Statement                     |       | v0.0.1        |                 |
+| :white_check_mark: | View Resume Strength                        |       | v0.0.1        |                 |
+| :white_check_mark: | View Resume Suggestions (Requirements/Tips) | WIP   | v0.0.1        |                 |
+| :white_check_mark: | Help Page                                   | WIP   | v0.0.1        |                 |
 
 ## Tasklist
 
