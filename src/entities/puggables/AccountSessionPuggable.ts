@@ -17,6 +17,8 @@ export default class AccountSessionPuggable {
                     if (account) callback(new AccountSessionPuggable(account, session));
                     else callback(undefined);
                 });
+            } else {
+                callback(undefined);
             }
         });
     }

@@ -1,0 +1,33 @@
+include components/dashboard/personal-info
+
+
+doctype html
+
+html(lang='en-US')
+    head
+        include components/head
+    body
+        include components/navbar
+
+        
+        .container.mt-4
+            .row
+                .col-12
+                    span= `${account.fname} ${account.lname} (${account.email})`
+            .row
+                .col-12
+                    hr
+            .row
+                .col-10.col-md-8
+                    +personal-info-card(account)
+                .col-2.col-md-4
+                    .alert.alert-primary(style='margin-left:-60px;margin-top:10px') You can access this on your 
+                        a(href='/app/dashboard') Dashboard
+            .row
+                .col-12
+                    .alert.alert-secondary.text-right
+                        a.btn.btn-light.text-danger(href='/app/account/logout') Logout
+                
+
+        include components/footer
+        include components/scripts

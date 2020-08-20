@@ -1,6 +1,6 @@
 nav.navbar.navbar-expand-lg.navbar-light
     .container-fluid
-        a.navbar-brand(href='#')
+        a.navbar-brand.text-primary.mr-lg-4(href='/' style='font-weight: lighter;')
             img.img-fluid.d-inline-block.align-top(
                 src='/images/resumator-logo.png'
                 height='30'
@@ -8,16 +8,20 @@ nav.navbar.navbar-expand-lg.navbar-light
                 alt='Resumator Logo'
                 loading='lazy')
             | &nbsp; Resumator     
-        button.navbar-toggler(type='button'
-            data-toggle='collapse'
-            data-target='#collapsing-navbar'
-            aria-controls='collapsing-navbar'
-            aria-expanded='false'
-            aria-label='Toggle Navigation')
+        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#collapsing-navbar')
             span.navbar-toggler-icon
-        #collapsing-navbar.collapse.navbar-collapse
-            .navbar-nav
-                a.nav-link(href='/' class=`${nav == "Home" ? "active" : ""}`) Home
-                a.nav-link(href='/app/dashboard' class=`${nav == "Dashboard" ? "active" : ""}`) Dashboard
-                a.nav-link(href='/app/themes' class=`${nav == "Themes" ? "active" : ""}`) Themes
-                a.nav-link(href='/app/help' class=`${nav == "Help" ? "active" : ""}`) Help
+        #collapsing-navbar.collapse.navbar-collapse.ml-lg-4
+            ul.navbar-nav.mr-auto.mb-2.mb-lg-0
+                li.nav-item
+                    a.nav-link(href='/' class=`${nav == "Home" ? "active" : ""}`) Home
+                if account
+                    li.nav-item
+                        a.nav-link(href='/app/dashboard' class=`${nav == "Dashboard" ? "active" : ""}`) Dashboard
+                    li.nav-item
+                        a.nav-link(href='/app/themes' class=`${nav == "Themes" ? "active" : ""}`) Themes
+                li.nav-item
+                    a.nav-link(href='/app/help' class=`${nav == "Help" ? "active" : ""}`) Help
+                if account
+                    li.nav-item
+                        a.nav-link(href='/app/account' class=`${nav == "Account" ? "active" : ""}`) Account
+

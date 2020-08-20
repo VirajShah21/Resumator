@@ -14,9 +14,24 @@ const AccountRouter = Router();
 const jsonParser = bodyParserJson();
 
 AccountRouter.get("/", (req, res) => {
-    res.render(views.accountPage, {
-        nav: "Home",
-    });
+    if (req.cookies.session) {
+        AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+            if (accountSession && accountSession.account) {
+                res.render("manage-account", {
+                    nav: "Account",
+                    account: accountSession.account,
+                });
+            } else {
+                res.render(views.accountPage, {
+                    nav: "Account",
+                });
+            }
+        });
+    } else {
+        res.render(views.accountPage, {
+            nav: "Account",
+        });
+    }
 });
 
 AccountRouter.post("/signup", jsonParser, (req, res) => {
@@ -124,6 +139,11 @@ AccountRouter.post("/login", jsonParser, (req, res) => {
             res.render(views.genericError, new SessionErrorPuggable());
         }
     });
+});
+
+AccountRouter.get("/logout", (req, res) => {
+    res.cookie("session", { expires: Date.now() });
+    res.redirect("/app/account");
 });
 
 export default AccountRouter;
