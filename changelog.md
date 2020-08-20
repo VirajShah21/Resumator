@@ -10,12 +10,15 @@ All notable changes to this project will be documented in this file.
 
 ### Improvements
 
--   **New Logo** - New circular and vibrant logo
--   **Redesigned navbar** -
+-   **Logo** - New circular and vibrant logo
+-   **Navbar** - UI Improvements
     -   Slightly fatter
     -   Added icons
     -   Blue active nav links
     -   Redesigned Alpha badge
+-   **Dashboard** - moved goals below "Personal Information"
+-   **Help Pages** -
+    -   Add, Edit, or Delete work experience
 
 ## [0.0.1] - 2020-08-20
 
