@@ -8,21 +8,37 @@ nav.navbar.navbar-expand-lg.navbar-light
                 alt='Resumator Logo'
                 loading='lazy')
             | &nbsp; Resumator
-            span.ml-1.badge.bg-primary(style='font-size:0.6em;') Alpha
+            sup
+                sup.ml-1.bg-primary.text-light.badge Alpha
         button.navbar-toggler(type='button' data-toggle='collapse' data-target='#collapsing-navbar')
             span.navbar-toggler-icon
         #collapsing-navbar.collapse.navbar-collapse.ml-lg-4
             ul.navbar-nav.mr-auto.mb-2.mb-lg-0
                 li.nav-item
-                    a.nav-link(href='/' class=`${nav == "Home" ? "active" : ""}`) Home
+                    a.nav-link(href='/' class=`${nav == "Home" ? "active" : ""}`)
+                        .btn
+                            ion-icon(name='home-outline')
+                        | Home
                 if account
                     li.nav-item
-                        a.nav-link(href='/app/dashboard' class=`${nav == "Dashboard" ? "active" : ""}`) Dashboard
+                        a.nav-link(href='/app/dashboard' class=`${nav == "Dashboard" ? "active" : ""}`)
+                            .btn
+                                ion-icon(name='build-outline')
+                            | Dashboard
                 li.nav-item
-                    a.nav-link(href='/app/themes' class=`${nav == "Themes" ? "active" : ""}`) Themes
+                    a.nav-link(href='/app/themes' class=`${nav == "Themes" ? "active" : ""}`)
+                        .btn
+                            ion-icon(name='color-palette-outline')
+                        | Themes
                 li.nav-item
-                    a.nav-link(href='/app/help' class=`${nav == "Help" ? "active" : ""}`) Help
+                    a.nav-link(href='/app/help' class=`${nav == "Help" ? "active" : ""}`)
+                        .btn
+                            ion-icon(name='help-buoy')
+                        | Help
                 if account
                     li.nav-item
-                        a.nav-link(href='/app/account' class=`${nav == "Account" ? "active" : ""}`) Account
+                        a.nav-link(href='/app/account' class=`${nav == "Account" ? "active" : ""}`)
+                            .btn
+                                ion-icon(name='person-circle-outline')
+                            | Account
 

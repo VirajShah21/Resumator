@@ -124,3 +124,13 @@ blockquote p {
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
+
+/* To style active nav link */
+.nav-link.active {
+    color: var(--bs-primary) !important;
+}
+
+/* To style active nav icon */
+.nav-link.active ion-icon {
+    color: var(--bs-primary);
+}
