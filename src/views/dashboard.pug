@@ -48,11 +48,17 @@ html(lang='en-US')
             .row
                 .col-12.col-lg-6
                     +personal-info-card(account)
-                    +goals-card(account)
-                    +skills-card(skillset)
+                .col-12.col-lg-6
+                    .row
+                        .col-12
+                            +goals-card(account)
+                        .col-12
+                            +skills-card(skillset)
                 .col-12.col-lg-6
                     +education-card(educationHistory)
+                .col-12.col-lg-6
                     +work-experience-card(workExperience)
+                .col-12.col-lg-6
                     +certifications-card(certifications)
         .container-fluid.mt-4.text-dark.pt-4.pb-4.bg-light
             .container

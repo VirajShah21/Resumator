@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
     -   Redesigned Alpha badge
 -   **Dashboard**
     -   Moved goals below "Personal Information"
+    -   Added bootstrap fluidity to dashboard cards
 -   **Help Pages** - New Help Pages
     -   Add, Edit, or Delete work experience
     -   Add, Edit, or Delete certifications
