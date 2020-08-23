@@ -5,6 +5,17 @@ include components/dashboard/skillset
 include components/dashboard/certifications
 include components/dashboard/goals
 
+mixin thumbs-indicator(strength)
+    if strength <= 55
+        .btn.btn-lg.text-danger
+            ion-icon(name='thumbs-down-outline')
+    else if strength <= 75
+        .btn.btn-lg.text-warning
+            ion-icon(name='thumbs-down-outline')
+    else
+        .btn.btn-lg.text-success
+            ion-icon(name='thumbs-up-outline')
+
 doctype html
 
 html(lang='en-US')
@@ -50,34 +61,33 @@ html(lang='en-US')
                         h4.mb-4 Resume Strength
                 .row
                     .col-12
-                        h5
-                            .btn.btn-lg
-                                ion-icon(name='barbell-outline')
-                            | Overall Stregth
+                        h5 Overall Stregth
+                            +thumbs-indicator(analysis.strength.overall)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.overall}%`)
                                 = `${Math.floor(analysis.strength.overall)}%`
                 .row
                     .col-12.col-md-6.col-lg-3
-                        h5
-                            .btn.btn-lg
-                                ion-icon(name='barbell-outline')
-                            | Education
+                        h5 Education
+                            +thumbs-indicator(analysis.strength.education)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.education}%`)
                                 = `${Math.floor(analysis.strength.education)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Work Experience
+                            +thumbs-indicator(analysis.strength.work)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.work}%`)
                                 = `${Math.floor(analysis.strength.work)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Skills
+                            +thumbs-indicator(analysis.strength.skills)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.skills}%`)
                                 = `${Math.floor(analysis.strength.skills)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Certifications
+                            +thumbs-indicator(analysis.strength.certifications)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.certifications}%`)
                                 = `${Math.floor(analysis.strength.certifications)}%`

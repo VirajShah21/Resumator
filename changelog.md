@@ -16,10 +16,14 @@ All notable changes to this project will be documented in this file.
     -   Added icons
     -   Blue active nav links
     -   Redesigned Alpha badge
--   **Dashboard** - moved goals below "Personal Information"
+-   **Dashboard**
+    -   Moved goals below "Personal Information"
 -   **Help Pages** - New Help Pages
     -   Add, Edit, or Delete work experience
     -   Add, Edit, or Delete certifications
+-   **Resume Strength** - UI Improvements
+    -   Fixed alert box padding
+    -   Added thumbs indicators to resume strength labels
 
 ## [0.0.1] - 2020-08-20
 
