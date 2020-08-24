@@ -16,6 +16,8 @@ export default class ResumeAnalyzerPuggable {
     constructor(account: Account, resumeInfo: ResumeInfoPuggable) {
         let parser: (resumeInfo: ResumeInfoPuggable) => IGoalResults;
 
+        // If a goal is set, then set the parser to the defined parser, otherwise set
+        // it to a function which returns NO requirement errors or tips.
         if (account.currentGoal) parser = GoalParser.getGoalParser(account.currentGoal);
         else
             parser = (reusmeInfo: ResumeInfoPuggable) => {
@@ -32,8 +34,9 @@ export default class ResumeAnalyzerPuggable {
             skills: 100,
             certifications: 100,
             overall: 100,
-        };
+        }; // defaults until calculation
 
+        // Cut strength by 2.5 for missing requirements
         results.requirements.forEach((requirement) => {
             switch (requirement.for) {
                 case "education":
@@ -53,6 +56,7 @@ export default class ResumeAnalyzerPuggable {
             }
         });
 
+        // Cut strength by a mere 1.1 for passive tips
         results.tips.forEach((tip) => {
             switch (tip.for) {
                 case "education":

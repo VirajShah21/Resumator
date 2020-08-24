@@ -1,5 +1,8 @@
 import ResumeInfo from "@entities/ResumeInfoPuggable";
 
+/**
+ * The Suggestion interface
+ */
 export interface ISuggestion {
     for: string;
     message: string;
@@ -27,6 +30,9 @@ export default class GoalParser {
     }
 }
 
+/**
+ * Undergraduate Internship Goal Parser
+ */
 class UGInternship {
     public static readonly requiredUndergrad: ISuggestion = {
         for: "education",
@@ -59,6 +65,12 @@ class UGInternship {
             "Adding a certification to your resume will make you stand out, especially as an undergrad. Find a course online, learn a little, and get certified!",
     };
 
+    /**
+     * Handles parsing resumes for undergraduate internships
+     *
+     * @param resumeInfo The user's resume information
+     * @returns The suggestions for the resume
+     */
     public static handle(resumeInfo: ResumeInfo): IGoalResults {
         const results: IGoalResults = { requirements: [], tips: [] };
 
@@ -93,6 +105,10 @@ class UGInternship {
     }
 }
 
+/**
+ *
+ * @param resumeInfo Returns blank requirements and tips
+ */
 function handleUndefinedGoal(resumeInfo: ResumeInfo): IGoalResults {
     return { requirements: [], tips: [] };
 }

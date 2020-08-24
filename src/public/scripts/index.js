@@ -1,4 +1,13 @@
+/**
+ * A mapper of validator name to the validator function
+ */
 const validators = {
+    /**
+     * Validates an email with the format <user>@<domain>.<tld>
+     *
+     * @param {string} email The email to validate
+     * @returns {boolean} True if the email is valid
+     */
     email: function (email) {
         try {
             const user = email.split("@")[0].trim();
@@ -12,10 +21,22 @@ const validators = {
         }
     },
 
+    /**
+     * Checks if a password is at least 8 characters long
+     *
+     * @param {string} password The password to validate
+     * @returns {boolean} True if the password is valid, false otherwise
+     */
     password: function (password) {
         return password.length > 8;
     },
 
+    /**
+     * Checks if a phone number follows the format (XXX) XXX - XXXX
+     *
+     * @param {string} phone The phone number to validate
+     * @returns {boolan} True if the phone number is valid, false otherwise
+     */
     phone: function (phone) {
         return (
             phone.split("").filter((digit) => {
@@ -29,10 +50,20 @@ const validators = {
         );
     },
 
+    /**
+     * @param {string} text Anything literally
+     * @returns True if text is not blank
+     */
     text: function (text) {
         return text.trim().length > 0;
     },
 
+    /**
+     * Checks if a date string follows the format: mm/dd/YYYY
+     *
+     * @param {string} date The date to validate
+     * @returns True if the date is valid; false otherwise
+     */
     date: function (date) {
         try {
             let month = parseInt(date.split("/")[0]);
@@ -45,10 +76,20 @@ const validators = {
         }
     },
 
+    /**
+     * Checks if the zip code is a 5 digit number
+     *
+     * @param {string} zip The zip code
+     */
     zip: function (zip) {
         return zip.length == 5;
     },
 
+    /**
+     * Checks if a month-year datestring follows the format: mm/YYYY
+     *
+     * @param {string} monthYear The month-year date string
+     */
     mmyyyy: function (monthYear) {
         try {
             let month = parseInt(monthYear.split("/")[0]);
@@ -61,7 +102,16 @@ const validators = {
     },
 };
 
+/**
+ * A mapper of formatter names and formatter functions
+ */
 const formatters = {
+    /**
+     * Formats a phone number from XXXXXXXXXX to (XXX) XXX - XXXX
+     *
+     * @param {string} phone The phone number
+     * @returns {string} The formatted phone number: (XXX) XXX - XXXX
+     */
     phone: function (phone) {
         let digits = phone
             .split("")
@@ -72,6 +122,12 @@ const formatters = {
         return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)} - ${digits.substring(6, 10)}`;
     },
 
+    /**
+     * Formats a month-year datestring from mmYYYY to mm/YYYY
+     *
+     * @param {string} monthYear The month-year datestring
+     * @returns {string} The formatted datestring: mm/YYYY
+     */
     mmyyyy: function (monthYear) {
         let digits = monthYear
             .split("")
@@ -100,6 +156,11 @@ const formatters = {
     },
 };
 
+/**
+ * Removes validator decorations from an input element
+ *
+ * @param {HTMLInputElement} input The input element to clear validation for
+ */
 function clearValidation(input) {
     let classes = input.className;
     classes = classes.replace("is-valid", "");
@@ -111,16 +172,31 @@ function clearValidation(input) {
     input.className = classes;
 }
 
+/**
+ * Inserts successful validation decorators in an input element
+ *
+ * @param {HTMLInputElement} input The input element to notify
+ */
 function notifyValid(input) {
     clearValidation(input);
     input.className += " is-valid";
 }
 
+/**
+ * Inserts failed validation decorators in an input element
+ *
+ * @param {HTMLInputElement} input The input element to notify
+ */
 function notifyInvalid(input) {
     clearValidation(input);
     input.className += " is-invalid";
 }
 
+/**
+ * Initializes a passive validator and formatter for all
+ * elements with the "data-type" or
+ * "data-validate"/"data-format" attribute
+ */
 function initializePassiveValidator() {
     document.querySelectorAll("input").forEach((input) => {
         if (input.getAttribute("data-type") !== undefined || input.getAttribute("data-validate") !== undefined) {
