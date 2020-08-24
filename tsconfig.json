@@ -13,7 +13,7 @@
         "target": "es6",
         "moduleResolution": "node",
         "paths": {
-            "@entities/*": ["src/entities/daos/*", "src/entities/puggables/*"],
+            "@entities/*": ["src/entities/daos/*", "src/entities/puggables/*", "src/entities/models/*"],
             "@shared/*": ["src/shared/*"],
             "@server": ["src/Server"]
         },

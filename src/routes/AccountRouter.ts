@@ -3,7 +3,7 @@ import { json as bodyParserJson } from "body-parser";
 import Session from "@entities/Session";
 import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
-import Address from "@entities/Address";
+import Address from "src/entities/models/Address";
 import { views, routes } from "@shared/constants";
 import SessionErrorPuggable from "@entities/SessionErrorPuggable";
 import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
