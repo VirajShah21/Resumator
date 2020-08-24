@@ -158,31 +158,19 @@ export default class WorkExperience {
      */
     public validate(): boolean {
         return (
-            this.validateUser() &&
-            this.validatePosition() &&
-            this.validateOrganization() &&
-            this.validateStartAndEnd() &&
-            this.validateDescription()
+            validateEmail(this.user) &&
+            this.position.length > 0 &&
+            this.organization.length > 0 &&
+            this.validateStartAndEnd()
         );
     }
 
-    private validateUser(): boolean {
-        return validateEmail(this.user);
-    }
-
-    private validatePosition(): boolean {
-        return this.position.length > 0;
-    }
-
-    private validateOrganization(): boolean {
-        return this.organization.length > 0;
-    }
-
+    /**
+     * Checks if the stard and end dates are in the format mm/YYYY (end can be left blank)
+     *
+     * @returns True if start and end dates are valid; false otherwise
+     */
     private validateStartAndEnd(): boolean {
         return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
-    }
-
-    private validateDescription(): boolean {
-        return this.description.length > 0;
     }
 }
