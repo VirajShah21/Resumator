@@ -44,12 +44,19 @@ export default class Address implements IAddress {
     }
 
     /**
+     * Validate street, city, state, and zip
+     *
      * @returns True if all fields are valid; false otherwise
      */
     public validate(): boolean {
         return this.validateStreet() && this.validateCityAndState() && this.validateZip();
     }
 
+    /**
+     * Checks if the street provides a number as the first item
+     *
+     * @returns True if the address line 1 is valid; false otherwise
+     */
     private validateStreet(): boolean {
         try {
             const number = this.line1.split(" ")[0];
@@ -61,10 +68,20 @@ export default class Address implements IAddress {
         }
     }
 
+    /**
+     * Checks if the city has any length, and the state has an abbreviation length of 2
+     *
+     * @returns True if the city and state are valid; false otherwise
+     */
     private validateCityAndState(): boolean {
         return this.city.length > 0 && this.state.length === 2;
     }
 
+    /**
+     * Checks if the zip code has a length of exactly 5
+     *
+     * @returns True if the zip code is valid; false otherwise
+     */
     private validateZip(): boolean {
         return this.zip.length === 5;
     }
