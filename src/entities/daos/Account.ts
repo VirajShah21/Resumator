@@ -52,35 +52,46 @@ export default class Account implements IAccount {
     }
 
     /**
+     * Checks if name, email, address, and phone numbers are valid entries
+     *
      * @returns True if all fields are valid
      */
     public validate(): boolean {
-        return (
-            this.validateName() &&
-            this.validateEmail() &&
-            this.validatePassword() &&
-            this.validateAddress() &&
-            this.validatePhone()
-        );
+        return this.validateName() && this.validateEmail() && this.validateAddress() && this.validatePhone();
     }
 
+    /**
+     * Checks if the first and last name do not contain spaces and if their length is is greater than 0
+     *
+     * @returns True if the name field is valid
+     */
     private validateName(): boolean {
         return this.fname.indexOf(" ") < 0 && this.lname.indexOf(" ") < 0;
     }
 
+    /**
+     * Checks if the email is valid based on the format <user>@<domain>.<tld>
+     *
+     * @returns True if the email is valid
+     */
     private validateEmail(): boolean {
         return validateEmail(this.email);
     }
 
-    private validatePassword(): boolean {
-        // TODO: Ensure that the password is a bcrypt hash
-        return true;
-    }
-
+    /**
+     * Checks if the address fields are valid based on the Address DAO
+     *
+     * @returns True if all address fields are valid or no address was provided
+     */
     private validateAddress(): boolean {
         return this.address ? this.address.validate() : true;
     }
 
+    /**
+     * Checks if the phone number is valid
+     *
+     * @returns True if the phone number follows the format (XXX) XXX - XXXX or if it is not provided
+     */
     private validatePhone(): boolean {
         if (this.phone)
             return (
@@ -97,7 +108,7 @@ export default class Account implements IAccount {
      * @param callback The function to call upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validateEmail() && this.validateName() && this.validatePassword()) {
+        if (this.validateEmail() && this.validateName()) {
             database.collection(ACCOUNTS_COLLECTION).findOne({ email: this.email }, (err, result) => {
                 if (err) {
                     throw err;
@@ -115,6 +126,11 @@ export default class Account implements IAccount {
         }
     }
 
+    /**
+     * Updates this DAO
+     *
+     * @param callback The function call upon completion
+     */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
             database.collection(ACCOUNTS_COLLECTION).updateOne(
