@@ -118,12 +118,9 @@ The linter rules for TypeScript
 
 ## Tasklist
 
--   Implement add goals
--   Implement remove goals
--   Implement calculator for individual category scores
--   Implement calculator for overall score
--   Implement bootstrap progress bar for displaying scores
--   Add object statement input to "Goals" card
+-   Completely document all source code
+-   Create better system for resume analysis
+-   Combine resume analysis with ResumeInfo puggable
 
 ### MongoDB
 
