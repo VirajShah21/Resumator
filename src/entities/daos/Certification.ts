@@ -12,7 +12,7 @@ export interface ICertification {
     _id: ObjectId;
     institution: string;
     certification: string;
-    details: string;
+    details?: string;
     examDate: string;
     user: string;
 }
@@ -30,34 +30,15 @@ export default class Certification implements ICertification {
 
     /**
      * Constructs a Certification DAO
-     * @param institution The institution which the certification belongs to
-     * @param certification The name of the certification
-     * @param details Additional details about the certification
-     * @param examDate The date which the certification exam was taken
-     * @param user The user's email
+     * @param certification The certification object to construct
      */
-    constructor(
-        institution: string | ICertification,
-        certification?: string,
-        details?: string,
-        examDate?: string,
-        user?: string
-    ) {
-        if (typeof institution == "string") {
-            this._id = new ObjectId();
-            this.institution = institution;
-            this.certification = certification || "";
-            this.details = details || "";
-            this.examDate = examDate || "";
-            this.user = user || "";
-        } else {
-            this._id = new ObjectId(institution._id);
-            this.institution = institution.institution;
-            this.certification = institution.certification;
-            this.details = institution.details;
-            this.examDate = institution.examDate;
-            this.user = institution.user;
-        }
+    constructor(certification: ICertification) {
+        this._id = certification._id;
+        this.institution = certification.institution;
+        this.certification = certification.certification;
+        this.details = certification.details || "";
+        this.examDate = certification.examDate;
+        this.user = certification.user;
     }
 
     /**

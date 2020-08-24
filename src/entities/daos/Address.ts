@@ -3,7 +3,7 @@
  */
 export interface IAddress {
     line1: string;
-    line2: string;
+    line2?: string;
     city: string;
     state: string;
     zip: string;
@@ -21,26 +21,14 @@ export default class Address implements IAddress {
 
     /**
      *
-     * @param line1 Address line 1
-     * @param line2 Address line 2
-     * @param city City/Township/Municipality
-     * @param state The two letter state abbreviation
-     * @param zip Zip code
+     * @param address The address object to construct
      */
-    constructor(line1: string | IAddress, line2?: string, city?: string, state?: string, zip?: string) {
-        if (typeof line1 == "string") {
-            this.line1 = line1;
-            this.line2 = line2 || "";
-            this.city = city || "";
-            this.state = state || "";
-            this.zip = zip || "";
-        } else {
-            this.line1 = line1.line1;
-            this.line2 = line1.line2;
-            this.city = line1.city;
-            this.state = line1.state;
-            this.zip = line1.zip;
-        }
+    constructor(address: IAddress) {
+        this.line1 = address.line1;
+        this.line2 = address.line2 || "";
+        this.city = address.city;
+        this.state = address.state;
+        this.zip = address.zip;
     }
 
     /**
