@@ -42,6 +42,11 @@ export default class Skill implements ISkill {
         }
     }
 
+    /**
+     * Insert the DAO to the database
+     *
+     * @param callback Takes one argument based on the success of the insert operation
+     */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
         database.collection(SKILLS_COLLECTION).insertOne(this, (err) => {
             if (err) callback(false);
@@ -49,6 +54,11 @@ export default class Skill implements ISkill {
         });
     }
 
+    /**
+     * Updates the skill DAO in the database
+     *
+     * @param callback Takes one argument based on the success of the update operation
+     */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         database.collection(SKILLS_COLLECTION).updateOne(
             {
@@ -64,6 +74,10 @@ export default class Skill implements ISkill {
         );
     }
 
+    /**
+     * Deletes the skill from the database (via _id)
+     * @param callback Takes one argument based on the success of the delete operation
+     */
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
         database.collection(SKILLS_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
             if (err) callback(false);
@@ -71,6 +85,12 @@ export default class Skill implements ISkill {
         });
     }
 
+    /**
+     * Load all of a user's skills
+     *
+     * @param user The user's email
+     * @param callback Passes a list of skills belonging to the specified user
+     */
     public static loadFromDatabase(user: string, callback: (skills: ISkill[]) => void): void {
         database
             .collection(SKILLS_COLLECTION)
