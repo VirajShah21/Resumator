@@ -37,16 +37,16 @@ export default class ResumeAnalyzerPuggable {
         results.requirements.forEach((requirement) => {
             switch (requirement.for) {
                 case "education":
-                    strength.education /= 2;
+                    strength.education /= 2.5;
                     break;
                 case "work":
-                    strength.work /= 2;
+                    strength.work /= 2.5;
                     break;
                 case "skills":
-                    strength.skills /= 2;
+                    strength.skills /= 2.5;
                     break;
                 case "certifications":
-                    strength.certifications /= 2;
+                    strength.certifications /= 2.5;
                     break;
                 default:
                     break;
@@ -56,16 +56,16 @@ export default class ResumeAnalyzerPuggable {
         results.tips.forEach((tip) => {
             switch (tip.for) {
                 case "education":
-                    strength.education /= 1.5;
+                    strength.education /= 1.1;
                     break;
                 case "work":
-                    strength.work /= 1.5;
+                    strength.work /= 1.1;
                     break;
                 case "skills":
-                    strength.skills /= 1.5;
+                    strength.skills /= 1.1;
                     break;
                 case "certifications":
-                    strength.certifications /= 1.5;
+                    strength.certifications /= 1.1;
                     break;
                 default:
                     break;

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.3] - UNDATED
+
+### Improvements
+
+-   **Goals** - Added certification goal for undergraduate internships
+-   **Resume Strength** - Adjusted point deductions
+-   **Technical improvements**
+    -   Better development practices & enforcement
+    -   Reorganized project
+    -   Enhanced validation
+
 ## [0.0.2] - 2020-08-23
 
 ### Added
