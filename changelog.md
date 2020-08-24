@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.2] - UNDATED
+## [0.0.2] - 2020-08-23
 
 ### Added
 
 -   **Lazy Ass Help** - Provides components on the help page so features can be directly accessed
+-   **Sticky Footer** - Added a sticky footer to the bottom
 
 ### Improvements
 
@@ -16,15 +17,12 @@ All notable changes to this project will be documented in this file.
     -   Added icons
     -   Blue active nav links
     -   Redesigned Alpha badge
--   **Dashboard**
-    -   Moved goals below "Personal Information"
-    -   Added bootstrap fluidity to dashboard cards
 -   **Help Pages** - New Help Pages
     -   Add, Edit, or Delete work experience
     -   Add, Edit, or Delete certifications
 -   **Resume Strength** - UI Improvements
     -   Fixed alert box padding
-    -   Added thumbs indicators to resume strength labels
+    -   Added red, yellow, and green thumbs indicators to resume strength labels
 
 ## [0.0.1] - 2020-08-20
 
