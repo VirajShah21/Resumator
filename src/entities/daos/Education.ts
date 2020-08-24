@@ -126,6 +126,11 @@ export default class Education implements IEducation {
         }
     }
 
+    /**
+     * Delete the DAO from the database (based on _id)
+     *
+     * @param callback Takes an argument based on the success of the delete operation
+     */
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
         database.collection(EDUCATION_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
             if (err) {
@@ -164,23 +169,24 @@ export default class Education implements IEducation {
      * @returns True if all fields are valid; false otherwise
      */
     public validate(): boolean {
-        return (
-            validateEmail(this.user) &&
-            this.validateRequiredStrings() &&
-            this.validateStartAndEnd() &&
-            this.validateGpa()
-        );
+        return validateEmail(this.user) && this.validateRequiredStrings() && this.validateStartAndEnd();
     }
 
+    /**
+     * Checks if the institution, level, and degree were provided
+     *
+     * @returns True if none of the required strings fields are blank; false otherwise
+     */
     private validateRequiredStrings(): boolean {
         return this.institution.length > 0 && this.level.length > 0 && this.degree.length > 0;
     }
 
+    /**
+     * Checks if the start date and end date is a valid mm/YYYY; end date can optionally be blank
+     *
+     * @returns True if the start and end date are valid; false otherwise
+     */
     private validateStartAndEnd(): boolean {
         return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
-    }
-
-    private validateGpa(): boolean {
-        return this.gpa > 0 && this.gpa <= 5;
     }
 }
