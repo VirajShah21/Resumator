@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
     -   Better development practices & enforcement
     -   Reorganized project
     -   Enhanced validation
+    -   Better documentation
+-   **Bug Fixes** - SonarCloud CSS bugfix
+-   **UI Improvements** - Changed thumbs up indicators for resume strength to smaller circles
 
 ## [0.0.2] - 2020-08-23
 

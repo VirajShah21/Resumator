@@ -5,16 +5,16 @@ include components/dashboard/skillset
 include components/dashboard/certifications
 include components/dashboard/goals
 
-mixin thumbs-indicator(strength)
+mixin strength-indicator-dot(strength)
     if strength <= 55
-        .btn.btn-lg.text-danger
-            ion-icon(name='thumbs-down-outline')
+        .btn.text-danger
+            ion-icon(name='ellipse')
     else if strength <= 75
-        .btn.btn-lg.text-warning
-            ion-icon(name='thumbs-down-outline')
+        .btn.text-warning
+            ion-icon(name='ellipse')
     else
-        .btn.btn-lg.text-success
-            ion-icon(name='thumbs-up-outline')
+        .btn.text-success
+            ion-icon(name='ellipse')
 
 doctype html
 
@@ -62,32 +62,32 @@ html(lang='en-US')
                 .row
                     .col-12
                         h5 Overall Stregth
-                            +thumbs-indicator(analysis.strength.overall)
+                            +strength-indicator-dot(analysis.strength.overall)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.overall}%`)
                                 = `${Math.floor(analysis.strength.overall)}%`
                 .row
                     .col-12.col-md-6.col-lg-3
                         h5 Education
-                            +thumbs-indicator(analysis.strength.education)
+                            +strength-indicator-dot(analysis.strength.education)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.education}%`)
                                 = `${Math.floor(analysis.strength.education)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Work Experience
-                            +thumbs-indicator(analysis.strength.work)
+                            +strength-indicator-dot(analysis.strength.work)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.work}%`)
                                 = `${Math.floor(analysis.strength.work)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Skills
-                            +thumbs-indicator(analysis.strength.skills)
+                            +strength-indicator-dot(analysis.strength.skills)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.skills}%`)
                                 = `${Math.floor(analysis.strength.skills)}%`
                     .col-12.col-md-6.col-lg-3
                         h5 Certifications
-                            +thumbs-indicator(analysis.strength.certifications)
+                            +strength-indicator-dot(analysis.strength.certifications)
                         .progress.mb-4
                             .progress-bar.bg-primary.text-right.pr-1(style=`width:${analysis.strength.certifications}%`)
                                 = `${Math.floor(analysis.strength.certifications)}%`
@@ -125,6 +125,5 @@ html(lang='en-US')
                                         else if suggestion.for == 'certifications'
                                             ion-icon(name='document-outline')
                                     span= suggestion.message
-
         include components/footer
         include components/scripts
