@@ -43,9 +43,9 @@ export default class User {
 
 This directory contains three main files:
 
-    - `constants.ts`: This file `export`s string or number constants
-    - `functions.ts`: This file contains miscellaneous functions (usually utility methods)
-    - `Logger.ts`: This exports a logger which should be used instead of `console.log` on the server side
+-   `constants.ts`: This file `export`s string or number constants
+-   `functions.ts`: This file contains miscellaneous functions (usually utility methods)
+-   `Logger.ts`: This exports a logger which should be used instead of `console.log` on the server side
 
 -   `src` - this contains the files pertaining to the main process of the server application
 
@@ -129,7 +129,7 @@ The linter rules for TypeScript
 
 If you get this:
 
-```bash
+```
 info: Express server started on port: 3000
 
 /Users/viraj/Desktop/Resumator/node_modules/mongodb/lib/core/sdam/topology.js:430
