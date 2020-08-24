@@ -28,14 +28,14 @@ export default class Session implements ISession {
     constructor(sessionOrAccount: ISession | IAccount) {
         if ("key" in sessionOrAccount) {
             // if is of type `ISession`
-            this.key = sessionOrAccount.key;
+            this.key = sessionOrAccount.key.trim();
             this.timestamp = sessionOrAccount.timestamp;
-            this.user = sessionOrAccount.user;
+            this.user = sessionOrAccount.user.trim();
         } else {
             // is of type `IAccount`
             this.key = generateKey();
             this.timestamp = new Date().getTime();
-            this.user = sessionOrAccount.email;
+            this.user = sessionOrAccount.email.trim();
         }
     }
 

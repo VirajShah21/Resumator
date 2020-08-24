@@ -49,20 +49,20 @@ export default class WorkExperience {
     ) {
         if (typeof position == "string") {
             this._id = new ObjectId();
-            this.position = position;
-            this.organization = organization || "";
-            this.description = description || "";
-            this.user = user || "";
-            this.start = start || "";
-            this.end = end || "";
+            this.position = position.trim();
+            this.organization = organization?.trim() || "";
+            this.description = description?.trim() || "";
+            this.user = user?.trim() || "";
+            this.start = start?.trim() || "";
+            this.end = end?.trim() || "";
         } else {
             this._id = position._id;
-            this.position = position.position;
-            this.organization = position.organization;
-            this.start = position.start;
-            this.end = position.end;
-            this.description = position.description;
-            this.user = position.user;
+            this.position = position.position.trim();
+            this.organization = position.organization.trim();
+            this.start = position.start.trim();
+            this.end = position.end.trim();
+            this.description = position.description.trim();
+            this.user = position.user.trim();
         }
     }
 

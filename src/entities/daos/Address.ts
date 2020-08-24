@@ -24,11 +24,11 @@ export default class Address implements IAddress {
      * @param address The address object to construct
      */
     constructor(address: IAddress) {
-        this.line1 = address.line1;
-        this.line2 = address.line2 || "";
-        this.city = address.city;
-        this.state = address.state;
-        this.zip = address.zip;
+        this.line1 = address.line1.trim();
+        this.line2 = address.line2?.trim() || "";
+        this.city = address.city.trim();
+        this.state = address.state.trim();
+        this.zip = address.zip.trim();
     }
 
     /**

@@ -34,11 +34,11 @@ export default class Certification implements ICertification {
      */
     constructor(certification: ICertification) {
         this._id = certification._id;
-        this.institution = certification.institution;
-        this.certification = certification.certification;
-        this.details = certification.details || "";
-        this.examDate = certification.examDate;
-        this.user = certification.user;
+        this.institution = certification.institution.trim();
+        this.certification = certification.certification.trim();
+        this.details = certification.details?.trim() || "";
+        this.examDate = certification.examDate.trim();
+        this.user = certification.user.trim();
     }
 
     /**

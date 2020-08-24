@@ -32,14 +32,14 @@ export default class Skill implements ISkill {
     constructor(name: string | ISkill, proficiency?: number, user?: string) {
         if (typeof name == "string") {
             this._id = new ObjectId();
-            this.name = name;
+            this.name = name.trim();
             this.proficiency = proficiency || 1;
-            this.user = user || "";
+            this.user = user?.trim() || "";
         } else {
             this._id = name._id;
-            this.name = name.name;
+            this.name = name.name.trim();
             this.proficiency = name.proficiency;
-            this.user = name.user;
+            this.user = name.user.trim();
         }
     }
 

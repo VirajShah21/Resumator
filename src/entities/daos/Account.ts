@@ -41,14 +41,14 @@ export default class Account implements IAccount {
      */
     constructor(accountObject: IAccount) {
         this._id = accountObject._id;
-        this.fname = accountObject.fname;
-        this.lname = accountObject.lname;
-        this.email = accountObject.email;
+        this.fname = accountObject.fname.trim();
+        this.lname = accountObject.lname.trim();
+        this.email = accountObject.email.trim();
         this.password = accountObject.password;
         this.address = accountObject.address ? new Address(accountObject.address) : undefined;
-        this.phone = accountObject.phone;
-        this.currentGoal = accountObject.currentGoal;
-        this.objective = accountObject.objective;
+        this.phone = accountObject.phone?.trim();
+        this.currentGoal = accountObject.currentGoal?.trim();
+        this.objective = accountObject.objective?.trim();
     }
 
     /**

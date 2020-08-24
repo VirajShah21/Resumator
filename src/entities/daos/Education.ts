@@ -46,14 +46,14 @@ export default class Education implements IEducation {
      * @param description Description of study at the institution
      */
     constructor(education: IEducation) {
-        this.user = education.user;
-        this.institution = education.institution;
-        this.level = education.level;
-        this.degree = education.degree;
-        this.start = education.start;
-        this.end = education.end || "";
+        this.user = education.user.trim();
+        this.institution = education.institution.trim();
+        this.level = education.level.trim();
+        this.degree = education.degree.trim();
+        this.start = education.start.trim();
+        this.end = education.end?.trim() || "";
         this.gpa = education.gpa;
-        this.description = education.description || "";
+        this.description = education.description?.trim() || "";
         this._id = new ObjectId(education._id);
     }
 
