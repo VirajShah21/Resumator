@@ -49,13 +49,25 @@ This directory contains three main files:
 
 -   `src` - this contains the files pertaining to the main process of the server application
 
-## Code Style
+## Development Standards
 
 This project is being scanned on SonarCloud. Crappy code is frowned upon.
 
 Analysis by **SonarCloud**
 
 Linter (for IDEs) **TSLint, SonarLint**
+
+### The Changelog
+
+-   Every commit where a visible feature is changed, there should be a matching reference in the changelog
+-   Previous sections of the changelog should not be modified. The changelog will be truncated when it becomes very long.
+
+### Build Releases
+
+-   All releases should pass SonarCloud Scans — starting from v0.0.3 (Alpha 3)
+-   Releases should contain all changes described in `changelog.md` for **ONLY** the current release
+-   Nightly releases should not include an archive of `./dist`
+-   Major, Minor, and non-nightly patches should include an archive of `./dist`
 
 ### Data Access Objects
 
