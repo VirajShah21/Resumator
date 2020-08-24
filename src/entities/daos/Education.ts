@@ -15,9 +15,9 @@ export interface IEducation {
     level: string;
     degree: string;
     start: string;
-    end: string;
-    gpa: number;
-    description: string;
+    end?: string;
+    gpa?: number;
+    description?: string;
 }
 
 /**
@@ -31,7 +31,7 @@ export default class Education implements IEducation {
     public degree: string;
     public start: string;
     public end: string;
-    public gpa: number;
+    public gpa?: number;
     public description: string;
 
     /**
@@ -45,37 +45,16 @@ export default class Education implements IEducation {
      * @param gpa Grade Point Average
      * @param description Description of study at the institution
      */
-    constructor(
-        user: string | IEducation,
-        institution?: string,
-        level?: string,
-        degree?: string,
-        start?: string,
-        end?: string,
-        gpa?: number,
-        description?: string
-    ) {
-        if (typeof user == "string") {
-            this.user = user;
-            this.institution = institution || "";
-            this.level = level || "";
-            this.degree = degree || "";
-            this.start = start || "";
-            this.end = end || "";
-            this.gpa = gpa || 0;
-            this.description = description || "";
-            this._id = new ObjectId();
-        } else {
-            this.user = user.user;
-            this.institution = user.institution;
-            this.level = user.level;
-            this.degree = user.degree;
-            this.start = user.start;
-            this.end = user.end;
-            this.gpa = user.gpa;
-            this.description = user.description;
-            this._id = new ObjectId(user._id);
-        }
+    constructor(education: IEducation) {
+        this.user = education.user;
+        this.institution = education.institution;
+        this.level = education.level;
+        this.degree = education.degree;
+        this.start = education.start;
+        this.end = education.end || "";
+        this.gpa = education.gpa;
+        this.description = education.description || "";
+        this._id = new ObjectId(education._id);
     }
 
     /**

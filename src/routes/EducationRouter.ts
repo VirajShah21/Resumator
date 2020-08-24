@@ -13,16 +13,17 @@ const jsonParser = bodyParserJson();
 EducationRouter.post("/add", (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            const education = new Education(
-                accountSession.account.email,
-                req.body.institution,
-                req.body.level,
-                req.body.degree,
-                req.body["start-date"],
-                req.body["end-date"],
-                req.body.gpa,
-                req.body.description
-            );
+            const education = new Education({
+                _id: new ObjectId(),
+                user: accountSession.account.email,
+                institution: req.body.institution,
+                level: req.body.level,
+                degree: req.body.degree,
+                start: req.body["start-date"],
+                end: req.body["end-date"],
+                gpa: req.body.gpa,
+                description: req.body.description,
+            });
             education.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.education);
                 else
@@ -38,17 +39,17 @@ EducationRouter.post("/add", (req, res) => {
 EducationRouter.post("/update", (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            const education = new Education(
-                accountSession.account.email,
-                req.body.institution,
-                req.body.level,
-                req.body.degree,
-                req.body["start-date"],
-                req.body["end-date"],
-                req.body.gpa,
-                req.body.description
-            );
-            education._id = req.body._id;
+            const education = new Education({
+                _id: req.body._id,
+                user: accountSession.account.email,
+                institution: req.body.institution,
+                level: req.body.level,
+                degree: req.body.degree,
+                start: req.body["start-date"],
+                end: req.body["end-date"],
+                gpa: req.body.gpa,
+                description: req.body.description,
+            });
 
             if (req.body.delete === "on") {
                 education.deleteDatabaseItem((success) => {
