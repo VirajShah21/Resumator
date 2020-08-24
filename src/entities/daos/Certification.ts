@@ -67,28 +67,11 @@ export default class Certification implements ICertification {
      */
     public validate(): boolean {
         return (
-            this.validateInstitution() && this.validateCertification && this.validateExamDate() && this.validateUser()
+            this.institution.length > 0 &&
+            this.certification.length > 0 &&
+            validateMonthYearString(this.examDate) &&
+            validateEmail(this.user)
         );
-    }
-
-    private validateInstitution(): boolean {
-        logger.info(`Validate Institution (${this.institution} = ${this.institution.length > 0})`);
-        return this.institution.length > 0;
-    }
-
-    private validateCertification(): boolean {
-        logger.info(`Validate Certification (${this.certification} = ${this.certification.length > 0})`);
-        return this.certification.length > 0;
-    }
-
-    private validateExamDate(): boolean {
-        logger.info(`Validate Exam Date (${this.examDate} = ${validateMonthYearString(this.examDate)})`);
-        return validateMonthYearString(this.examDate);
-    }
-
-    private validateUser(): boolean {
-        logger.info(`Validate User (${this.user} = ${validateEmail(this.user)})`);
-        return validateEmail(this.user);
     }
 
     /**
