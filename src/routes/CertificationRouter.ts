@@ -13,13 +13,15 @@ const jsonParser = bodyParserJson();
 CertificationRouter.post("/add", jsonParser, (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            const certification = new Certification(
-                req.body.institution,
-                req.body.certification,
-                req.body.details,
-                req.body["exam-date"],
-                accountSession.account.email
-            );
+            const certification = new Certification({
+                _id: new ObjectId(),
+                institution: req.body.institution,
+                certification: req.body.certification,
+                details: req.body.details,
+                examDate: req.body["exam-date"],
+                user: accountSession.account.email,
+            });
+
             certification.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
                 else res.render(views.genericError, new DatabaseErrorPuggable("Could not add your certification."));
@@ -33,14 +35,14 @@ CertificationRouter.post("/add", jsonParser, (req, res) => {
 CertificationRouter.post("/update", jsonParser, (req, res) => {
     AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            const certification = new Certification(
-                req.body.institution,
-                req.body.certification,
-                req.body.details,
-                req.body["exam-date"],
-                accountSession.account.email
-            );
-            certification._id = new ObjectId(req.body._id);
+            const certification = new Certification({
+                _id: req.body._id,
+                institution: req.body.institution,
+                certification: req.body.certification,
+                details: req.body.details,
+                examDate: req.body["exam-date"],
+                user: accountSession.account.email,
+            });
 
             if (req.body.delete === "on") {
                 certification.deleteDatabaseItem((success) => {

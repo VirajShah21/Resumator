@@ -61,10 +61,15 @@ export default class Certification implements ICertification {
      * @param callback The callback once inserting is complete
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(CERT_COLLECTION).insertOne(this, (err) => {
-            if (err) callback(false);
-            else callback(true);
-        });
+        if (this.validate()) {
+            database.collection(CERT_COLLECTION).insertOne(this, (err) => {
+                if (err) callback(false);
+                else callback(true);
+            });
+        } else {
+            logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
+            callback(false);
+        }
     }
 
     /**
@@ -81,7 +86,7 @@ export default class Certification implements ICertification {
                 },
                 (err) => {
                     if (err) {
-                        logger.info(`Could not update certification ${JSON.stringify(this, null, 4)} Database Error`);
+                        logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Database Error`);
                         logger.error(err);
                         callback(false);
                     } else {

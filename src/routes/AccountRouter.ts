@@ -80,9 +80,17 @@ AccountRouter.post("/update", jsonParser, (req, res) => {
             accountSession.account.fname = req.body.fname || accountSession.account.fname;
             accountSession.account.lname = req.body.lname || accountSession.account.lname;
             accountSession.account.email = req.body.email || accountSession.account.email;
-            accountSession.account.address = req.body.line1
-                ? new Address(req.body.line1, req.body.line2, req.body.city, req.body.state, req.body.zip)
-                : accountSession.account.address;
+
+            if (req.body.line1) {
+                accountSession.account.address = new Address({
+                    line1: req.body.line1,
+                    line2: req.body.line2,
+                    city: req.body.city,
+                    state: req.body.state,
+                    zip: req.body.zip,
+                });
+            }
+
             accountSession.account.phone = req.body.phone;
 
             accountSession.account.updateDatabaseItem((success) => {

@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
+import { validateEmail } from "@shared/functions";
 
 export const SKILLS_COLLECTION = "skills";
 
@@ -43,15 +44,28 @@ export default class Skill implements ISkill {
     }
 
     /**
+     * Checks if name, proficiency, and email are valid
+     *
+     * @returns True if fields are valid; false otherwise
+     */
+    public validate(): boolean {
+        return this.name !== "" && this.proficiency > 0 && this.proficiency <= 100 && validateEmail(this.user);
+    }
+
+    /**
      * Insert the DAO to the database
      *
      * @param callback Takes one argument based on the success of the insert operation
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(SKILLS_COLLECTION).insertOne(this, (err) => {
-            if (err) callback(false);
-            else callback(true);
-        });
+        if (this.validate()) {
+            database.collection(SKILLS_COLLECTION).insertOne(this, (err) => {
+                if (err) callback(false);
+                else callback(true);
+            });
+        } else {
+            callback(false);
+        }
     }
 
     /**
@@ -60,18 +74,22 @@ export default class Skill implements ISkill {
      * @param callback Takes one argument based on the success of the update operation
      */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(SKILLS_COLLECTION).updateOne(
-            {
-                _id: this._id,
-            },
-            {
-                $set: this,
-            },
-            (err) => {
-                if (err) callback(false);
-                else callback(true);
-            }
-        );
+        if (this.validate()) {
+            database.collection(SKILLS_COLLECTION).updateOne(
+                {
+                    _id: this._id,
+                },
+                {
+                    $set: this,
+                },
+                (err) => {
+                    if (err) callback(false);
+                    else callback(true);
+                }
+            );
+        } else {
+            callback(false);
+        }
     }
 
     /**
