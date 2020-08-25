@@ -65,6 +65,16 @@ class UGInternship {
             "Adding a certification to your resume will make you stand out, especially as an undergrad. Find a course online, learn a little, and get certified!",
     };
 
+    public static readonly requiredEducation: ISuggestion = {
+        for: "education",
+        message: "You don't have any education! Nobody will hire you for an internship.",
+    };
+
+    public static readonly requiredHighschool: ISuggestion = {
+        for: "education",
+        message: "Your resume isn't strong enough to hide your high school education.",
+    };
+
     /**
      * Handles parsing resumes for undergraduate internships
      *
@@ -74,8 +84,9 @@ class UGInternship {
     public static handle(resumeInfo: ResumeInfo): IGoalResults {
         const results: IGoalResults = { requirements: [], tips: [] };
 
+        if (resumeInfo.educationHistory.length === 0) results.requirements.push(UGInternship.requiredEducation);
+
         if (
-            resumeInfo.educationHistory.length === 0 ||
             resumeInfo.educationHistory.filter((edu) => {
                 return edu.level === "Undergraduate";
             }).length === 0
@@ -96,6 +107,15 @@ class UGInternship {
             resumeInfo.educationHistory.length > 0
         )
             results.tips.push(UGInternship.highSchoolTip);
+
+        if (
+            resumeInfo.educationHistory.filter((edu) => {
+                return edu.level === "High School";
+            }).length === 0 &&
+            resumeInfo.educationHistory.length < 2 &&
+            resumeInfo.certifications.length === 0
+        )
+            results.requirements.push(UGInternship.requiredHighschool);
 
         if (resumeInfo.workExperience.length === 0) results.tips.push(UGInternship.previousWorkTip);
 
