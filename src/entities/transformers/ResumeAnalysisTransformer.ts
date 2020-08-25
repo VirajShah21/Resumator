@@ -1,6 +1,6 @@
 import Account from "@entities/Account";
 import GoalParser, { IGoalResults, ISuggestion } from "@shared/util/GoalParser";
-import ResumeInfoPuggable from "@entities/ResumeInfoTransformer";
+import ResumeInfo from "@entities/ResumeInfoTransformer";
 
 export default class ResumeAnalyzerPuggable {
     public requirements: ISuggestion[];
@@ -13,14 +13,14 @@ export default class ResumeAnalyzerPuggable {
         overall: number;
     };
 
-    constructor(account: Account, resumeInfo: ResumeInfoPuggable) {
-        let parser: (resumeInfo: ResumeInfoPuggable) => IGoalResults;
+    constructor(account: Account, resumeInfo: ResumeInfo) {
+        let parser: (resumeInfo: ResumeInfo) => IGoalResults;
 
         // If a goal is set, then set the parser to the defined parser, otherwise set
         // it to a function which returns NO requirement errors or tips.
         if (account.currentGoal) parser = GoalParser.getGoalParser(account.currentGoal);
         else
-            parser = (reusmeInfo: ResumeInfoPuggable) => {
+            parser = (reusmeInfo: ResumeInfo) => {
                 return {
                     requirements: [],
                     tips: [],
