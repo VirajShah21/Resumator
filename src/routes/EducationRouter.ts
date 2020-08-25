@@ -3,9 +3,9 @@ import { json as bodyParserJson } from "body-parser";
 import Education from "@entities/Education";
 import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
-import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import SessionErrorPuggable from "@entities/SessionErrorTransformer";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorTransformer";
+import AccountSessionPuggable from "@entities/AccountSessionTransformer";
 
 const EducationRouter = Router();
 const jsonParser = bodyParserJson();

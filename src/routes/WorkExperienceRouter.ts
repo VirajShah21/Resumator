@@ -3,9 +3,9 @@ import { json as bodyParserJson } from "body-parser";
 import WorkExperience from "@entities/WorkExperience";
 import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
-import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorTransformer";
+import SessionErrorPuggable from "@entities/SessionErrorTransformer";
+import AccountSessionPuggable from "@entities/AccountSessionTransformer";
 
 const WorkExperienceRouter = Router();
 const jsonParser = bodyParserJson();

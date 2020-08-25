@@ -5,9 +5,9 @@ import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
 import Address from "src/entities/models/Address";
 import { views, routes } from "@shared/constants";
-import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import DatabaseErrorPuggable from "@entities/DatabaseErrorPuggable";
-import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import SessionErrorPuggable from "@entities/SessionErrorTransformer";
+import DatabaseErrorPuggable from "@entities/DatabaseErrorTransformer";
+import AccountSessionPuggable from "@entities/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
 
 const AccountRouter = Router();

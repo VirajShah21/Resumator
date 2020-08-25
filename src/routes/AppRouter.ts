@@ -7,12 +7,12 @@ import SkillsRouter from "./SkillsRouter";
 import CertificationRouter from "./CertificationRouter";
 import ThemesRouter from "./ThemesRouter";
 import { views } from "@shared/constants";
-import SessionErrorPuggable from "@entities/SessionErrorPuggable";
-import ResumeInfoPuggable from "@entities/ResumeInfoPuggable";
+import SessionErrorPuggable from "@entities/SessionErrorTransformer";
+import ResumeInfoPuggable from "@entities/ResumeInfoTransformer";
 import { addToObject } from "@shared/functions";
-import AccountSessionPuggable from "@entities/AccountSessionPuggable";
+import AccountSessionPuggable from "@entities/AccountSessionTransformer";
 import { goalsList } from "@shared/util/GoalParser";
-import ResumeAnalyzerPuggable from "@entities/ResumeAnalyzerPuggable";
+import ResumeAnalyzerPuggable from "@entities/ResumeAnalysisTransformer";
 import fs from "fs";
 import path from "path";
 
