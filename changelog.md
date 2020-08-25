@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Improvements
 
--   **Goals** - Added certification goal for undergraduate internships
+-   **Goals** - Added more requirements for undergraduate internship resumes
 -   **Resume Strength** - Adjusted point deductions
 -   **Technical improvements**
     -   Better development practices & enforcement

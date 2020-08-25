@@ -125,6 +125,12 @@ class UGInternship {
     }
 }
 
+class UGJob {
+    public static handle(resumeInfo: ResumeInfo) {
+        // TODO: Complete this
+    }
+}
+
 /**
  *
  * @param resumeInfo Returns blank requirements and tips
