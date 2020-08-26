@@ -1,4 +1,4 @@
-import ResumeInfo from "@entities/ResumeInfoTransformer";
+import ResumeInfo from "@transformers/ResumeInfoTransformer";
 
 /**
  * The Suggestion interface

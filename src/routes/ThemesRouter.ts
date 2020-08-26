@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { views } from "@shared/constants";
-import SessionErrorPuggable from "@entities/SessionErrorTransformer";
-import ResumeInfoPuggable from "@entities/ResumeInfoTransformer";
-import AccountSessionPuggable from "@entities/AccountSessionTransformer";
+import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
+import ResumeInfoPuggable from "@transformers/ResumeInfoTransformer";
+import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
 
 const ThemesRouter = Router();
 

@@ -13,7 +13,8 @@
         "target": "es6",
         "moduleResolution": "node",
         "paths": {
-            "@entities/*": ["src/entities/daos/*", "src/entities/transformers/*", "src/entities/models/*"],
+            "@entities/*": ["src/entities/daos/*", "src/entities/models/*"],
+            "@transformers/*": ["src/transformers/*"],
             "@shared/*": ["src/shared/*"],
             "@server": ["src/Server"]
         },

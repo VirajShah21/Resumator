@@ -3,9 +3,9 @@ import { json as bodyParserJson } from "body-parser";
 import { ObjectId } from "mongodb";
 import Skill from "@entities/Skill";
 import { views, routes } from "@shared/constants";
-import SessionErrorPuggable from "@entities/SessionErrorTransformer";
-import DatabaseErrorPuggable from "@entities/DatabaseErrorTransformer";
-import AccountSessionPuggable from "@entities/AccountSessionTransformer";
+import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
+import DatabaseErrorPuggable from "@transformers/DatabaseErrorTransformer";
+import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
 
 const DB_ERR = "Could not delete skill.";
 const SkillsRouter = Router();

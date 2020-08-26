@@ -2,9 +2,9 @@ import { Router } from "express";
 import { json as bodyParserJson } from "body-parser";
 import Certification from "@entities/Certification";
 import { views, routes } from "@shared/constants";
-import SessionErrorPuggable from "@entities/SessionErrorTransformer";
-import DatabaseErrorPuggable from "@entities/DatabaseErrorTransformer";
-import AccountSessionPuggable from "@entities/AccountSessionTransformer";
+import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
+import DatabaseErrorPuggable from "@transformers/DatabaseErrorTransformer";
+import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
 
 const CertificationRouter = Router();

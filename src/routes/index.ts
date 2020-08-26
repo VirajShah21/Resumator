@@ -2,7 +2,7 @@ import { Router } from "express";
 import AppRouter from "./AppRouter";
 import ApiRouter from "./api";
 import { views } from "@shared/constants";
-import AccountSessionPuggable from "@entities/AccountSessionTransformer";
+import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
 import logger from "@shared/Logger";
 
 export const PREFIX = "/";

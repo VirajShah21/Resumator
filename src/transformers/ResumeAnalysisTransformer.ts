@@ -1,6 +1,6 @@
 import Account from "@entities/Account";
 import GoalParser, { IGoalResults, ISuggestion } from "@shared/util/GoalParser";
-import ResumeInfo from "@entities/ResumeInfoTransformer";
+import ResumeInfo from "@transformers/ResumeInfoTransformer";
 
 export default class ResumeAnalyzerPuggable {
     public requirements: ISuggestion[];
