@@ -130,6 +130,10 @@ The linter rules for TypeScript
 
 ## Tasklist
 
+-   Add upload image
+-   Improve the `Budgie Blue` Template
+-   Add Undergraduate Job goal analyzer
+
 ## MongoDB
 
 If you get this:
