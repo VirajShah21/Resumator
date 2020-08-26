@@ -7,12 +7,12 @@ import SkillsRouter from "./SkillsRouter";
 import CertificationRouter from "./CertificationRouter";
 import ThemesRouter from "./ThemesRouter";
 import { views } from "@shared/constants";
-import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
-import ResumeInfoPuggable from "@transformers/ResumeInfoTransformer";
+import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
+import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 import { addToObject } from "@shared/functions";
-import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
+import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { goalsList } from "@shared/util/GoalParser";
-import ResumeAnalyzerPuggable from "@transformers/ResumeAnalysisTransformer";
+import ResumeAnalyzerTransformer from "@transformers/ResumeAnalysisTransformer";
 import fs from "fs";
 import path from "path";
 
@@ -30,9 +30,9 @@ AppRouter.use("/certifications", CertificationRouter);
 AppRouter.use("/themes", ThemesRouter);
 
 AppRouter.get("/dashboard", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
         if (sessionAccount) {
-            ResumeInfoPuggable.fetch(sessionAccount.account.email, (resumeInfo) => {
+            ResumeInfoTransformer.fetch(sessionAccount.account.email, (resumeInfo) => {
                 res.render(
                     views.dashboard,
                     addToObject(
@@ -41,22 +41,22 @@ AppRouter.get("/dashboard", (req, res) => {
                             account: sessionAccount.account,
                             nav: "Dashboard",
                             goalsList,
-                            analysis: new ResumeAnalyzerPuggable(sessionAccount.account, resumeInfo),
+                            analysis: new ResumeAnalyzerTransformer(sessionAccount.account, resumeInfo),
                         },
                         resumeInfo
                     )
                 );
             });
         } else {
-            res.render(views.genericError, new SessionErrorPuggable());
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });
 
 AppRouter.get("/help", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
         if (sessionAccount) {
-            ResumeInfoPuggable.fetch(sessionAccount?.account.email, (resumeInfo) => {
+            ResumeInfoTransformer.fetch(sessionAccount?.account.email, (resumeInfo) => {
                 if (req.query.page) {
                     // Route to specific help page
                     res.render("help", addToObject({ helpPage: req.query.page, nav: "Help" }, resumeInfo));
@@ -73,11 +73,11 @@ AppRouter.get("/help", (req, res) => {
 
 AppRouter.get("/resume-strength", (req, res) => {
     // TODO: Finish this route
-    AccountSessionPuggable.fetch(req.cookies.session, (sessionAccount) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
         if (sessionAccount) {
-            ResumeInfoPuggable.fetch(sessionAccount.account.email, (resumeInfo) => {});
+            ResumeInfoTransformer.fetch(sessionAccount.account.email, (resumeInfo) => {});
         } else {
-            res.render(views.genericError, new SessionErrorPuggable());
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });

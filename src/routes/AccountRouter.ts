@@ -5,9 +5,9 @@ import Account from "@entities/Account";
 import { hashPassword, comparePasswordWithHash } from "@shared/functions";
 import Address from "@entities/Address";
 import { views, routes } from "@shared/constants";
-import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
-import DatabaseErrorPuggable from "@transformers/DatabaseErrorTransformer";
-import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
+import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
+import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
+import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
 
 const AccountRouter = Router();
@@ -15,7 +15,7 @@ const jsonParser = bodyParserJson();
 
 AccountRouter.get("/", (req, res) => {
     if (req.cookies.session) {
-        AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+        AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
             if (accountSession && accountSession.account) {
                 res.render("manage-account", {
                     nav: "Account",
@@ -54,14 +54,14 @@ AccountRouter.post("/signup", jsonParser, (req, res) => {
                         } else {
                             res.render(
                                 views.genericError,
-                                new DatabaseErrorPuggable(
+                                new DatabaseErrorTransformer(
                                     "Could not create a new session. Your account was created, however, you will need to login manually."
                                 )
                             );
                         }
                     });
                 } else {
-                    res.render(views.genericError, new DatabaseErrorPuggable("Could not create a new account."));
+                    res.render(views.genericError, new DatabaseErrorTransformer("Could not create a new account."));
                 }
             });
         });
@@ -75,7 +75,7 @@ AccountRouter.post("/signup", jsonParser, (req, res) => {
 });
 
 AccountRouter.post("/update", jsonParser, (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.fname = req.body.fname || accountSession.account.fname;
             accountSession.account.lname = req.body.lname || accountSession.account.lname;
@@ -95,16 +95,16 @@ AccountRouter.post("/update", jsonParser, (req, res) => {
 
             accountSession.account.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboard);
-                else res.render(views.genericError, new DatabaseErrorPuggable("Could not update account info"));
+                else res.render(views.genericError, new DatabaseErrorTransformer("Could not update account info"));
             });
         } else {
-            res.render(views.genericError, new SessionErrorPuggable());
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });
 
 AccountRouter.post("/update-goal", jsonParser, (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.currentGoal = req.body.goal;
             accountSession.account.objective = req.body.objective;
@@ -112,11 +112,11 @@ AccountRouter.post("/update-goal", jsonParser, (req, res) => {
                 if (success) {
                     res.redirect(routes.dashboardCard.goals);
                 } else {
-                    res.render(views.genericError, new DatabaseErrorPuggable("Could not update goal "));
+                    res.render(views.genericError, new DatabaseErrorTransformer("Could not update goal "));
                 }
             });
         } else {
-            res.render(views.genericError, new SessionErrorPuggable());
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });
@@ -133,7 +133,7 @@ AccountRouter.post("/login", jsonParser, (req, res) => {
                         else
                             res.render(
                                 views.genericError,
-                                new DatabaseErrorPuggable("Could not create a new session.")
+                                new DatabaseErrorTransformer("Could not create a new session.")
                             );
                     });
                 } else {
@@ -144,7 +144,7 @@ AccountRouter.post("/login", jsonParser, (req, res) => {
                 }
             });
         } else {
-            res.render(views.genericError, new SessionErrorPuggable());
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });

@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { views } from "@shared/constants";
-import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
-import ResumeInfoPuggable from "@transformers/ResumeInfoTransformer";
-import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
+import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
+import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
+import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 
 const ThemesRouter = Router();
 
 ThemesRouter.get("/", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession && accountSession.account) {
             res.render("themes", {
                 nav: "Themes",
@@ -22,9 +22,9 @@ ThemesRouter.get("/", (req, res) => {
 });
 
 ThemesRouter.get("/preview", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            ResumeInfoPuggable.fetch(accountSession.account.email, (resumeInfo) => {
+            ResumeInfoTransformer.fetch(accountSession.account.email, (resumeInfo) => {
                 if (resumeInfo) {
                     res.render(`resume-templates/${req.query.theme}`, {
                         account: accountSession.account,
@@ -34,7 +34,7 @@ ThemesRouter.get("/preview", (req, res) => {
                         certifications: resumeInfo.certifications,
                     });
                 } else {
-                    res.render(views.genericError, new SessionErrorPuggable());
+                    res.render(views.genericError, new SessionErrorTransformer());
                 }
             });
         }

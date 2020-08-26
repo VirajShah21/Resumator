@@ -3,15 +3,15 @@ import { json as bodyParserJson } from "body-parser";
 import Education from "@entities/Education";
 import { ObjectId } from "mongodb";
 import { views, routes } from "@shared/constants";
-import SessionErrorPuggable from "@transformers/SessionErrorTransformer";
-import DatabaseErrorPuggable from "@transformers/DatabaseErrorTransformer";
-import AccountSessionPuggable from "@transformers/AccountSessionTransformer";
+import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
+import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
+import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 
 const EducationRouter = Router();
 const jsonParser = bodyParserJson();
 
 EducationRouter.post("/add", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const education = new Education({
                 _id: new ObjectId(),
@@ -29,7 +29,7 @@ EducationRouter.post("/add", (req, res) => {
                 else
                     res.render(
                         views.genericError,
-                        new DatabaseErrorPuggable("Could not add the education to your dashboard.")
+                        new DatabaseErrorTransformer("Could not add the education to your dashboard.")
                     );
             });
         }
@@ -37,7 +37,7 @@ EducationRouter.post("/add", (req, res) => {
 });
 
 EducationRouter.post("/update", (req, res) => {
-    AccountSessionPuggable.fetch(req.cookies.session, (accountSession) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             const education = new Education({
                 _id: req.body._id,
@@ -57,18 +57,18 @@ EducationRouter.post("/update", (req, res) => {
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorPuggable("Could not not delete this education.")
+                            new DatabaseErrorTransformer("Could not not delete this education.")
                         );
                 });
             } else {
                 education._id = new ObjectId(req.body._id);
                 education.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.education);
-                    else res.render(views.genericError, new DatabaseErrorPuggable("Could not update education."));
+                    else res.render(views.genericError, new DatabaseErrorTransformer("Could not update education."));
                 });
             }
         } else {
-            res.render(views.genericError, new SessionErrorPuggable());
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });

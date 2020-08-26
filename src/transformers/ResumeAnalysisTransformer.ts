@@ -2,7 +2,7 @@ import Account from "@entities/Account";
 import GoalParser, { IGoalResults, ISuggestion } from "@shared/util/GoalParser";
 import ResumeInfo from "@transformers/ResumeInfoTransformer";
 
-export default class ResumeAnalyzerPuggable {
+export default class ResumeAnalyzerTransformer {
     public requirements: ISuggestion[];
     public tips: ISuggestion[];
     public strength: {

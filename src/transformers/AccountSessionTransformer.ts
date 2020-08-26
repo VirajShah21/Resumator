@@ -1,7 +1,7 @@
 import Account, { IAccount } from "@entities/Account";
 import Session, { ISession } from "@entities/Session";
 
-export default class AccountSessionPuggable {
+export default class AccountSessionTransformer {
     account: Account;
     session: Session;
 
@@ -10,11 +10,11 @@ export default class AccountSessionPuggable {
         this.session = new Session(session);
     }
 
-    public static fetch(sessionKey: string, callback: (puggable?: AccountSessionPuggable) => void): void {
+    public static fetch(sessionKey: string, callback: (Transformer?: AccountSessionTransformer) => void): void {
         Session.loadFromDatabase(sessionKey, (session) => {
             if (session) {
                 Account.loadFromDatabase(session.user, (account) => {
-                    if (account) callback(new AccountSessionPuggable(account, session));
+                    if (account) callback(new AccountSessionTransformer(account, session));
                     else callback(undefined);
                 });
             } else {
