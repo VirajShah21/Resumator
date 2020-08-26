@@ -16,6 +16,20 @@ mixin strength-indicator-dot(strength)
         .btn.text-success
             ion-icon(name='ellipse')
 
+mixin overview-card(account)
+    #certifications-card.card.w-100.mb-4
+        .card-body.p-4
+            .row
+                .col
+                .col-10.col-md-8.col-lg-6
+                    .row
+                        .col-12.text-center
+                            img.rounded-pill(src='https://placehold.it/300x300' style='height: 2em; width: 2em;')
+                    .row
+                        .col-12
+                            h4.card-title.text-center.mt-2= `${account.fname} ${account.lname}`
+                .col
+
 doctype html
 
 html(lang='en-US')
@@ -41,10 +55,7 @@ html(lang='en-US')
         .container.mt-4
             .row
                 .col-12
-                    span= `${account.fname} ${account.lname} (${account.email})`
-            .row
-                .col-12
-                    hr
+                    +overview-card(account)
             .row
                 .col-12.col-lg-6
                     +personal-info-card(account)

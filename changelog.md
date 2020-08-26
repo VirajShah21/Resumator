@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - UNDATED
+
+### Added
+
+-   **Overview Card** - Added an overview card with name and profile image
+
 ## [0.0.3] - 2020-08-25
 
 ### Improvements
