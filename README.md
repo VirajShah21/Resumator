@@ -130,10 +130,6 @@ The linter rules for TypeScript
 
 ## Tasklist
 
--   Completely document all source code
--   Create better system for resume analysis
--   Combine resume analysis with ResumeInfo puggable
-
 ### MongoDB
 
 If you get this:
