@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.3] - UNDATED
+## [0.0.3] - 2020-08-25
 
 ### Improvements
 
