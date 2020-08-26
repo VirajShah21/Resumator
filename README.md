@@ -132,7 +132,7 @@ The linter rules for TypeScript
 
 (Test)[v0.0.1]
 
-### MongoDB
+## MongoDB
 
 If you get this:
 
