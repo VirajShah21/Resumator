@@ -130,7 +130,7 @@ The linter rules for TypeScript
 
 ## Tasklist
 
-(Test)[v0.0.1]
+[Test](v0.0.1)
 
 ## MongoDB
 
