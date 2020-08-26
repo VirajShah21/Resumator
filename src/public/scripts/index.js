@@ -219,7 +219,8 @@ const AllInput = {
                     let target = event.target;
                     let formatter = target.getAttribute("data-type") || target.type;
 
-                    if (target.value.trim().length > 0 && formatter) target.value = formatters[formatter](target.value);
+                    if (target.value.trim().length > 0 && formatter)
+                        target.value = AllInput.formatters[formatter](target.value);
                 });
             }
         });

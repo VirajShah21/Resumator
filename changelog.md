@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 -   **Overview Card** - Added an overview card with name and profile image
 
+### Technical Improvements
+
+-   Moved input formatting/validation functions to `AllInput` module
+
 ## [0.0.3] - 2020-08-25
 
 ### Improvements
