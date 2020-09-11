@@ -226,3 +226,24 @@ const AllInput = {
         });
     },
 };
+
+/**
+ * The controller for the profile overview
+ */
+const ProfileOverviewController = {
+    /**
+     * Initializes the profile overview card
+     */
+    initialize: function () {
+        let icon = document.getElementById("profile-icon");
+
+        icon.addEventListener("click", () => {
+            document.getElementById("change-profile-pic-wrapper").hidden = false;
+        });
+
+        let dropzone = new Dropzone("div#profile-pic-dropzone", { url: "/app/account/profile-pic/change" });
+    },
+};
+
+AllInput.initializePassiveValidator();
+ProfileOverviewController.initialize();

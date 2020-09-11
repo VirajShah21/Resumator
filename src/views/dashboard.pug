@@ -24,10 +24,16 @@ mixin overview-card(account)
                 .col-10.col-md-8.col-lg-6
                     .row
                         .col-12.text-center
-                            img.rounded-pill(src='https://placehold.it/300x300' style='height: 2em; width: 2em;')
+                            img#profile-icon.rounded-pill(src='https://placehold.it/300x300' style='height: 2em; width: 2em;')
                     .row
                         .col-12
                             h4.card-title.text-center.mt-2= `${account.fname} ${account.lname}`
+                    .row#change-profile-pic-wrapper(hidden)
+                        .col-12
+                            h5 Change Profile Image
+                            div#profile-pic-dropzone.w-100.p-4.bg-light
+                                h4 Drag image to upload
+                                p or click here to browse
                 .col
 
 doctype html
