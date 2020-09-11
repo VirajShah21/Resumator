@@ -9,9 +9,17 @@ import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
+import multer from "multer";
 
 const AccountRouter = Router();
 const jsonParser = bodyParserJson();
+const profilePictureStorageEngine = multer.diskStorage({
+    destination: "./tmp",
+    filename: (req, file, fn) => {
+        fn(null);
+    },
+});
+const profilePictureUploader = multer({ dest: "/tmp" });
 
 AccountRouter.get("/", (req, res) => {
     if (req.cookies.session) {
@@ -152,6 +160,10 @@ AccountRouter.post("/login", jsonParser, (req, res) => {
 AccountRouter.get("/logout", (req, res) => {
     res.cookie("session", { expires: Date.now() });
     res.redirect("/app/account");
+});
+
+AccountRouter.post("/profile-pic/change", (req, res) => {
+    re;
 });
 
 export default AccountRouter;
