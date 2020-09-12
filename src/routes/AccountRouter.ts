@@ -9,6 +9,7 @@ import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
+import Logger from "@shared/Logger";
 
 const AccountRouter = Router();
 const jsonParser = bodyParserJson();
@@ -154,8 +155,8 @@ AccountRouter.get("/logout", (req, res) => {
     res.redirect("/app/account");
 });
 
-AccountRouter.post("/profile-pic/change", (req, res) => {
-    // Upload profile picture
+AccountRouter.post("/profile-pic/change", multerUpload.single("photo"), (req, res) => {
+    Logger.info(`Req: ${JSON.stringify(req.body, null, 4)}`);
 });
 
 export default AccountRouter;
