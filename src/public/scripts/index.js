@@ -241,7 +241,7 @@ const ProfileOverviewController = {
             document.getElementById("change-profile-pic-wrapper").hidden = false;
         });
 
-        let dropzone = new Dropzone("div#profile-pic-dropzone", { url: "/app/account/profile-pic/change" });
+        new Dropzone("div#profile-pic-dropzone", { url: "/app/account/profile-pic/change" });
     },
 };
 

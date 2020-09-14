@@ -3,7 +3,7 @@ import Education, { IEducation } from "@entities/Education";
 import Skill, { ISkill } from "@entities/Skill";
 import Certification, { ICertification } from "@entities/Certification";
 
-export default class ResumeInfo {
+export default class ResumeInfoTransformer {
     public workExperience: WorkExperience[];
     public educationHistory: Education[];
     public skillset: Skill[];
@@ -29,12 +29,12 @@ export default class ResumeInfo {
         });
     }
 
-    public static fetch(email: string, callback: (resumeInfo: ResumeInfo) => void): void {
+    public static fetch(email: string, callback: (resumeInfo: ResumeInfoTransformer) => void): void {
         WorkExperience.loadFromDatabase(email, (workExperience) => {
             Education.loadFromDatabase(email, (educationHistory) => {
                 Skill.loadFromDatabase(email, (skillset) => {
                     Certification.loadFromDatabase(email, (certifications) => {
-                        callback(new ResumeInfo(workExperience, educationHistory, skillset, certifications));
+                        callback(new ResumeInfoTransformer(workExperience, educationHistory, skillset, certifications));
                     });
                 });
             });

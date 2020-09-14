@@ -12,8 +12,7 @@ import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 import { addToObject } from "@shared/functions";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { goalsList } from "@shared/util/GoalParser";
-import ResumeAnalyzerTransformer from "@transformers/ResumeAnalysisTransformer";
-import fs from "fs";
+import ResumeAnalysisTransformer from "@transformers/ResumeAnalysisTransformer";
 import path from "path";
 
 export const PREFIX = "/app";
@@ -41,7 +40,7 @@ AppRouter.get("/dashboard", (req, res) => {
                             account: sessionAccount.account,
                             nav: "Dashboard",
                             goalsList,
-                            analysis: new ResumeAnalyzerTransformer(sessionAccount.account, resumeInfo),
+                            analysis: new ResumeAnalysisTransformer(sessionAccount.account, resumeInfo),
                         },
                         resumeInfo
                     )

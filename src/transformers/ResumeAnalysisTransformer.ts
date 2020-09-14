@@ -1,8 +1,8 @@
 import Account from "@entities/Account";
 import GoalParser, { IGoalResults, ISuggestion } from "@shared/util/GoalParser";
-import ResumeInfo from "@transformers/ResumeInfoTransformer";
+import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 
-export default class ResumeAnalyzerTransformer {
+export default class ResumeAnalysisTransformer {
     public requirements: ISuggestion[];
     public tips: ISuggestion[];
     public strength: {
@@ -13,14 +13,14 @@ export default class ResumeAnalyzerTransformer {
         overall: number;
     };
 
-    constructor(account: Account, resumeInfo: ResumeInfo) {
-        let parser: (resumeInfo: ResumeInfo) => IGoalResults;
+    constructor(account: Account, resumeInfo: ResumeInfoTransformer) {
+        let parser: (resumeInfo: ResumeInfoTransformer) => IGoalResults;
 
         // If a goal is set, then set the parser to the defined parser, otherwise set
         // it to a function which returns NO requirement errors or tips.
         if (account.currentGoal) parser = GoalParser.getGoalParser(account.currentGoal);
         else
-            parser = (reusmeInfo: ResumeInfo) => {
+            parser = (reusmeInfo: ResumeInfoTransformer) => {
                 return {
                     requirements: [],
                     tips: [],

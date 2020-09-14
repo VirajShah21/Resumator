@@ -3,9 +3,6 @@ import AppRouter from "./AppRouter";
 import ApiRouter from "./api";
 import { views } from "@shared/constants";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
-import logger from "@shared/Logger";
-import multer from "multer";
-import path from "path";
 
 export const PREFIX = "/";
 

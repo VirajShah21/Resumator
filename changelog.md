@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ### Technical Improvements
 
 -   Moved input formatting/validation functions to `AllInput` module
+-   Full SonarCloud cleanup
 
 ## [0.0.3] - 2020-08-25
 
