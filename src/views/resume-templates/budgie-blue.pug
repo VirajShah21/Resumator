@@ -3,6 +3,7 @@ doctype html
 mixin section-title(label)
     h2= label
     .blue-bar &nbsp;
+    br
 
 mixin work-experience(experience)
     h3= `${experience.position} // ${experience.organization}`
@@ -26,30 +27,55 @@ html(lang='en-US')
         link(rel='stylesheet' href='/stylesheets/resumes/budgie-blue.css')
     body
         .page
+            #left-col
+                img#profile-photo(src='/app/account/my-photo')
+
+                #contact-section
+                    .contact-info
+                        h3 Phone
+                        .white-bar
+                        p= account.phone
+                    .contact-info
+                        h3 Email
+                        .white-bar
+                        p= account.email
+                    .contact-info
+                        h3 Address
+                        .white-bar
+                        p
+                            = account.address.line1
+                            br
+                            = account.address.line2
+                            br
+                            = `${account.address.city}, ${account.address.state} ${account.address.zip}`
             #white-box
                 h1= `${account.fname} ${account.lname}`
                 #main-section
-                    +section-title('Objective')
-                    p(style='margin-top:5pt') Your objective will appear here
-                    if workExperience.length > 0
-                        +section-title('Work Experience')
-                        each experience in workExperience
-                            +work-experience(experience)
-                    if educationHistory.length > 0
-                        +section-title('Education')
-                        each education in educationHistory
-                            +education(education)
-                    if certifications.length > 0
-                        +section-title('Certifications')
-                        each certification in certifications
-                            +certification(certification)
-                    if skillset.length > 0
-                        +section-title('Skills')
-                        p
-                            each skill, n in skillset
-                                if n < skillset.length - 1
-                                    = `${skill.name}, `
-                                else
-                                    = skill.name
+                    .resume-section
+                        +section-title('Objective')
+                        p Your objective will appear here
+                        if workExperience.length > 0
+                            +section-title('Work Experience')
+                            each experience in workExperience
+                                +work-experience(experience)
+                    .resume-section
+                        if educationHistory.length > 0
+                            +section-title('Education')
+                            each education in educationHistory
+                                +education(education)
+                    .resume-section
+                        if certifications.length > 0
+                            +section-title('Certifications')
+                            each certification in certifications
+                                +certification(certification)
+                    .resume-section
+                        if skillset.length > 0
+                            +section-title('Skills')
+                            p
+                                each skill, n in skillset
+                                    if n < skillset.length - 1
+                                        = `${skill.name}, `
+                                    else
+                                        = skill.name
 
         script(src='https://unpkg.com/ionicons@5.1.2/dist/ionicons.js')
