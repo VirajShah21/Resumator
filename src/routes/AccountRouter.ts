@@ -10,9 +10,33 @@ import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
 import Logger from "@shared/Logger";
+import multer from "multer";
+import path from "path";
+import { exec } from "child_process";
+import fs from "fs";
+import { uploadProfilePhoto } from "@shared/cloud";
 
 const AccountRouter = Router();
-const jsonParser = bodyParserJson();
+
+AccountRouter.use(bodyParserJson());
+
+const profilePhotoUploads: any = {};
+
+// Setup temp storage directory
+exec("mkdir /tmp", () => {
+    if (!fs.existsSync("/tmp")) {
+        Logger.error("Could not create /tmp");
+    } else {
+        Logger.info("Created /tmp");
+        exec("mkdir /tmp/profile_photos", () => {
+            if (!fs.existsSync("/tmp/profile_photos")) {
+                Logger.error("Could not create /tmp/profile_photos");
+            } else {
+                Logger.info("Created /tmp/profile_photos");
+            }
+        });
+    }
+});
 
 AccountRouter.get("/", (req, res) => {
     if (req.cookies.session) {
@@ -35,7 +59,7 @@ AccountRouter.get("/", (req, res) => {
     }
 });
 
-AccountRouter.post("/signup", jsonParser, (req, res) => {
+AccountRouter.post("/signup", (req, res) => {
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
             const account = new Account({
@@ -75,7 +99,7 @@ AccountRouter.post("/signup", jsonParser, (req, res) => {
     }
 });
 
-AccountRouter.post("/update", jsonParser, (req, res) => {
+AccountRouter.post("/update", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.fname = req.body.fname || accountSession.account.fname;
@@ -104,7 +128,7 @@ AccountRouter.post("/update", jsonParser, (req, res) => {
     });
 });
 
-AccountRouter.post("/update-goal", jsonParser, (req, res) => {
+AccountRouter.post("/update-goal", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
             accountSession.account.currentGoal = req.body.goal;
@@ -122,7 +146,7 @@ AccountRouter.post("/update-goal", jsonParser, (req, res) => {
     });
 });
 
-AccountRouter.post("/login", jsonParser, (req, res) => {
+AccountRouter.post("/login", (req, res) => {
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {
             comparePasswordWithHash(req.body.password, account.password, (correctPassword) => {
@@ -155,8 +179,42 @@ AccountRouter.get("/logout", (req, res) => {
     res.redirect("/app/account");
 });
 
-AccountRouter.post("/profile-pic/change", multerUpload.single("photo"), (req, res) => {
-    Logger.info(`Req: ${JSON.stringify(req.body, null, 4)}`);
+AccountRouter.post(
+    "/profile-pic/change",
+    multer({
+        storage: multer.diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, "/tmp/profile_photos");
+            },
+            filename: (req, file, cb) => {
+                const filename = `${Date.now()}-${file.filename}`;
+                profilePhotoUploads[req.cookies.session] = filename;
+                cb(null, filename);
+            },
+        }),
+    }).single("file"),
+    (req, res) => {
+        const destination = "/tmp/profile_photos";
+        const filename = profilePhotoUploads[req.cookies.session];
+        const fullpath = path.join(destination, filename);
+
+        AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+            if (accountSession) {
+                uploadProfilePhoto(fullpath, accountSession.account._id);
+                res.send("Great! Your profile photo has been updated!");
+            } else {
+                res.send("There seems to be an issue with your account.");
+            }
+        });
+    }
+);
+
+AccountRouter.get("/my-photo", (req, res) => {
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        res.redirect(
+            `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${accountSession?.account._id}.jpg`
+        );
+    });
 });
 
 export default AccountRouter;
