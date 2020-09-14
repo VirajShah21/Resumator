@@ -1,4 +1,4 @@
-import ResumeInfo from "@transformers/ResumeInfoTransformer";
+import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 
 /**
  * The Suggestion interface
@@ -20,7 +20,7 @@ export const goalsList: { name: string; label: string }[] = [
 ];
 
 export default class GoalParser {
-    public static getGoalParser(name: string): (resumeInfo: ResumeInfo) => IGoalResults {
+    public static getGoalParser(name: string): (resumeInfo: ResumeInfoTransformer) => IGoalResults {
         switch (name) {
             case "ug-internship":
                 return UGInternship.handle;
@@ -81,7 +81,7 @@ class UGInternship {
      * @param resumeInfo The user's resume information
      * @returns The suggestions for the resume
      */
-    public static handle(resumeInfo: ResumeInfo): IGoalResults {
+    public static handle(resumeInfo: ResumeInfoTransformer): IGoalResults {
         const results: IGoalResults = { requirements: [], tips: [] };
 
         if (resumeInfo.educationHistory.length === 0) results.requirements.push(UGInternship.requiredEducation);
@@ -126,7 +126,7 @@ class UGInternship {
 }
 
 class UGJob {
-    public static handle(resumeInfo: ResumeInfo) {
+    public static handle(resumeInfo: ResumeInfoTransformer) {
         // TODO: Complete this
     }
 }
@@ -135,6 +135,6 @@ class UGJob {
  *
  * @param resumeInfo Returns blank requirements and tips
  */
-function handleUndefinedGoal(resumeInfo: ResumeInfo): IGoalResults {
+function handleUndefinedGoal(resumeInfo: ResumeInfoTransformer): IGoalResults {
     return { requirements: [], tips: [] };
 }
