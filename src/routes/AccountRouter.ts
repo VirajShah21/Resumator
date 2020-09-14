@@ -211,9 +211,15 @@ AccountRouter.post(
 
 AccountRouter.get("/my-photo", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        res.redirect(
-            `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${accountSession?.account._id}.jpg`
-        );
+        if (accountSession) {
+            if (accountSession.account.photo)
+                res.redirect(
+                    `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${accountSession?.account._id}.jpg`
+                );
+            else res.redirect("https://placehold.it/300x300");
+        } else {
+            res.redirect("https://placehold.it/300x300");
+        }
     });
 });
 

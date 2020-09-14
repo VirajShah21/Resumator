@@ -37,6 +37,8 @@ ThemesRouter.get("/preview", (req, res) => {
                     res.render(views.genericError, new SessionErrorTransformer());
                 }
             });
+        } else {
+            res.render(views.genericError, new SessionErrorTransformer());
         }
     });
 });

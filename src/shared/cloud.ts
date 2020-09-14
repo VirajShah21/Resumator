@@ -3,8 +3,6 @@ import { ObjectId } from "mongodb";
 import Logger from "@shared/Logger";
 import path from "path";
 
-Logger.warn(process.env.CLOUDINARY_API_KEY);
-
 cloudinary.config({
     cloud_name: "virajshah",
     api_key: process.env.CLOUDINARY_API_KEY,

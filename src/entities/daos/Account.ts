@@ -19,6 +19,7 @@ export interface IAccount {
     phone?: string;
     currentGoal?: string;
     objective?: string;
+    photo?: boolean;
 }
 
 /**
@@ -34,6 +35,7 @@ export default class Account implements IAccount {
     public phone?: string;
     public currentGoal?: string;
     public objective?: string;
+    public photo: boolean;
 
     /**
      *
@@ -49,6 +51,7 @@ export default class Account implements IAccount {
         this.phone = accountObject.phone?.trim();
         this.currentGoal = accountObject.currentGoal?.trim();
         this.objective = accountObject.objective?.trim();
+        this.photo = accountObject.photo || false;
     }
 
     /**
