@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 -   **Overview Card** - Added an overview card with name and profile image
+-   **Profile Photo Upload** - Upload a profile photo to be associated with your account and included in the resumes
 
 ### Technical Improvements
 
