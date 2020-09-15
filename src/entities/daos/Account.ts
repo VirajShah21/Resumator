@@ -2,7 +2,7 @@ import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import Address, { IAddress } from "../models/Address";
 import { validateEmail } from "@shared/functions";
-import logger from "@shared/Logger";
+import Logger from "@shared/Logger";
 
 const ACCOUNTS_COLLECTION = "accounts";
 
@@ -112,19 +112,28 @@ export default class Account implements IAccount {
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validateEmail() && this.validateName()) {
+            Logger.info(`User account (${this._id}) is validated`);
             database.collection(ACCOUNTS_COLLECTION).findOne({ email: this.email }, (err, result) => {
                 if (err) {
                     throw err;
                 } else if (result) {
+                    Logger.info(`Could not insert account (${this._id}) because email already exists`);
                     callback(false);
                 } else {
                     database.collection(ACCOUNTS_COLLECTION).insertOne(this, (err2) => {
-                        if (err2) callback(false);
-                        else callback(true);
+                        if (err2) {
+                            Logger.warn(`Mongo threw an error while inserting account (${this._id})`);
+                            Logger.error(err2);
+                            callback(false);
+                        } else {
+                            Logger.info(`Account inserted (${this._id})`);
+                            callback(true);
+                        }
                     });
                 }
             });
         } else {
+            Logger.info(`User account contains invalid email and name (${this._id})`);
             callback(false);
         }
     }
@@ -145,16 +154,16 @@ export default class Account implements IAccount {
                 },
                 (err) => {
                     if (err) {
-                        logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Database Error`);
+                        Logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Database Error`);
                         callback(false);
                     } else {
-                        logger.info(`Updated account ${JSON.stringify(this, null, 4)}`);
+                        Logger.info(`Updated account ${JSON.stringify(this, null, 4)}`);
                         callback(true);
                     }
                 }
             );
         } else {
-            logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Invalid data`);
+            Logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Invalid data`);
             callback(false);
         }
     }
@@ -167,8 +176,17 @@ export default class Account implements IAccount {
      */
     public static loadFromDatabase(email: string, callback: (account?: Account) => void): void {
         database.collection(ACCOUNTS_COLLECTION).findOne({ email }, (err, result) => {
-            if (err || !result) callback(undefined);
-            callback(new Account(result));
+            if (err) {
+                Logger.warn(`Mongo passed an error while loading user (${email}) from database`);
+                Logger.error(err);
+                callback(undefined);
+            } else if (!result) {
+                Logger.warn(`No result returned from database for user: ${email}`);
+                callback(undefined);
+            } else {
+                Logger.info(`Found + loading account: ${email}`);
+                callback(result ? new Account(result) : undefined);
+            }
         });
     }
 }

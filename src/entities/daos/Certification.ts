@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
 import { validateMonthYearString, validateEmail } from "@shared/functions";
-import logger from "@shared/Logger";
+import Logger from "@shared/Logger";
 
 const CERT_COLLECTION = "certifications";
 
@@ -67,7 +67,7 @@ export default class Certification implements ICertification {
                 else callback(true);
             });
         } else {
-            logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
+            Logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
             callback(false);
         }
     }
@@ -79,6 +79,7 @@ export default class Certification implements ICertification {
      */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
+            Logger.info(`Certification (${this._id}) is valid and will be updated`);
             database.collection(CERT_COLLECTION).updateOne(
                 { _id: new ObjectId(this._id) },
                 {
@@ -86,17 +87,17 @@ export default class Certification implements ICertification {
                 },
                 (err) => {
                     if (err) {
-                        logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Database Error`);
-                        logger.error(err);
+                        Logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Database Error`);
+                        Logger.error(err);
                         callback(false);
                     } else {
-                        logger.info(`Updated certification ${JSON.stringify(this, null, 4)}`);
+                        Logger.info(`Updated certification ${JSON.stringify(this, null, 4)}`);
                         callback(true);
                     }
                 }
             );
         } else {
-            logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
+            Logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
             callback(false);
         }
     }
