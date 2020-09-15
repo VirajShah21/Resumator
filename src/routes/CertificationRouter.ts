@@ -50,7 +50,7 @@ CertificationRouter.post("/update", jsonParser, (req, res) => {
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorTransformer("Could not update the certificate.")
+                            new DatabaseErrorTransformer("Could not delete the certificate.")
                         );
                 });
             } else {

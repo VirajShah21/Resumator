@@ -39,50 +39,12 @@ export default class ResumeAnalysisTransformer {
 
         // Cut strength by 2.5 for missing requirements
         results.requirements.forEach((requirement) => {
-            switch (requirement.for) {
-                case "education":
-                    if (requirement.penalty) strength.education /= requirement.penalty;
-                    else strength.education /= 2.5;
-                    break;
-                case "work":
-                    if (requirement.penalty) strength.work /= requirement.penalty;
-                    else strength.work /= 2.5;
-                    break;
-                case "skills":
-                    if (requirement.penalty) strength.skills /= requirement.penalty;
-                    else strength.skills /= 2.5;
-                    break;
-                case "certifications":
-                    if (requirement.penalty) strength.certifications /= requirement.penalty;
-                    else strength.certifications /= 2.5;
-                    break;
-                default:
-                    break;
-            }
+            this.penalize(requirement.for, requirement.penalty || 2.5);
         });
 
-        // Cut strength by a mere 1.1 for passive tips
+        // Cut strength by a mere 1.5 for passive tips
         results.tips.forEach((tip) => {
-            switch (tip.for) {
-                case "education":
-                    if (tip.penalty) strength.education /= tip.penalty;
-                    else strength.education /= 1.5;
-                    break;
-                case "work":
-                    if (tip.penalty) strength.work /= tip.penalty;
-                    else strength.work /= 1.5;
-                    break;
-                case "skills":
-                    if (tip.penalty) strength.skills /= tip.penalty;
-                    else strength.skills /= 1.5;
-                    break;
-                case "certifications":
-                    if (tip.penalty) strength.certifications /= tip.penalty;
-                    else strength.certifications /= 1.5;
-                    break;
-                default:
-                    break;
-            }
+            this.penalize(tip.for, tip.penalty || 1.5);
         });
 
         this.requirements = results.requirements;
@@ -95,5 +57,24 @@ export default class ResumeAnalysisTransformer {
                 this.strength.skills +
                 this.strength.certifications) /
             4;
+    }
+
+    public penalize(category: string, penalty: number): void {
+        switch (category) {
+            case "education":
+                this.strength.education /= penalty;
+                break;
+            case "work":
+                this.strength.work /= penalty;
+                break;
+            case "skills":
+                this.strength.skills /= penalty;
+                break;
+            case "certifications":
+                this.strength.certifications /= penalty;
+                break;
+            default:
+                break;
+        }
     }
 }
