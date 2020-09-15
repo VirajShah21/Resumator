@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 -   **Overview Card** - Added an overview card with name and profile image
 -   **Profile Photo Upload** - Upload a profile photo to be associated with your account and included in the resumes
 
-## Improvements
+### Improvements
 
 -   **Theme: Budgie Blue** - Design improvements and added more fields to preview
 -   **Theme Page** - Design improvements
