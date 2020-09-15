@@ -6,6 +6,7 @@ export interface ISuggestion {
     message: string;
     helpLink?: string;
     helpMessage?: string;
+    penalty?: number;
 }
 
 /**

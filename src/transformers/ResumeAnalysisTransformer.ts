@@ -41,16 +41,20 @@ export default class ResumeAnalysisTransformer {
         results.requirements.forEach((requirement) => {
             switch (requirement.for) {
                 case "education":
-                    strength.education /= 2.5;
+                    if (requirement.penalty) strength.education /= requirement.penalty;
+                    else strength.education /= 2.5;
                     break;
                 case "work":
-                    strength.work /= 2.5;
+                    if (requirement.penalty) strength.work /= requirement.penalty;
+                    else strength.work /= 2.5;
                     break;
                 case "skills":
-                    strength.skills /= 2.5;
+                    if (requirement.penalty) strength.skills /= requirement.penalty;
+                    else strength.skills /= 2.5;
                     break;
                 case "certifications":
-                    strength.certifications /= 2.5;
+                    if (requirement.penalty) strength.certifications /= requirement.penalty;
+                    else strength.certifications /= 2.5;
                     break;
                 default:
                     break;
@@ -61,16 +65,20 @@ export default class ResumeAnalysisTransformer {
         results.tips.forEach((tip) => {
             switch (tip.for) {
                 case "education":
-                    strength.education /= 1.1;
+                    if (tip.penalty) strength.education /= tip.penalty;
+                    else strength.education /= 1.5;
                     break;
                 case "work":
-                    strength.work /= 1.1;
+                    if (tip.penalty) strength.work /= tip.penalty;
+                    else strength.work /= 1.5;
                     break;
                 case "skills":
-                    strength.skills /= 1.1;
+                    if (tip.penalty) strength.skills /= tip.penalty;
+                    else strength.skills /= 1.5;
                     break;
                 case "certifications":
-                    strength.certifications /= 1.1;
+                    if (tip.penalty) strength.certifications /= tip.penalty;
+                    else strength.certifications /= 1.5;
                     break;
                 default:
                     break;

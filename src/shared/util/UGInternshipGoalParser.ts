@@ -4,7 +4,7 @@ import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 /**
  * Undergraduate Internship Goal Parser
  */
-export default class UGInternship {
+export default class UGInternshipGoalParser {
     public static readonly requiredUndergrad: ISuggestion = {
         for: "education",
         message:
@@ -55,21 +55,22 @@ export default class UGInternship {
     public static handle(resumeInfo: ResumeInfoTransformer): IGoalResults {
         const results: IGoalResults = { requirements: [], tips: [] };
 
-        if (resumeInfo.educationHistory.length === 0) results.requirements.push(UGInternship.requiredEducation);
+        if (resumeInfo.educationHistory.length === 0)
+            results.requirements.push(UGInternshipGoalParser.requiredEducation);
 
         if (
             resumeInfo.educationHistory.filter((edu) => {
                 return edu.level === "Undergraduate";
             }).length === 0
         )
-            results.requirements.push(UGInternship.requiredUndergrad);
+            results.requirements.push(UGInternshipGoalParser.requiredUndergrad);
 
         if (
             resumeInfo.skillset.filter((skill) => {
                 return skill.proficiency >= 0.67;
             }).length < 5
         )
-            results.requirements.push(UGInternship.requiredSkills);
+            results.requirements.push(UGInternshipGoalParser.requiredSkills);
 
         if (
             resumeInfo.educationHistory.filter((edu) => {
@@ -77,7 +78,7 @@ export default class UGInternship {
             }).length === 0 &&
             resumeInfo.educationHistory.length > 0
         )
-            results.tips.push(UGInternship.highSchoolTip);
+            results.tips.push(UGInternshipGoalParser.highSchoolTip);
 
         if (
             resumeInfo.educationHistory.filter((edu) => {
@@ -86,11 +87,11 @@ export default class UGInternship {
             resumeInfo.educationHistory.length < 2 &&
             resumeInfo.certifications.length === 0
         )
-            results.requirements.push(UGInternship.requiredHighschool);
+            results.requirements.push(UGInternshipGoalParser.requiredHighschool);
 
-        if (resumeInfo.workExperience.length === 0) results.tips.push(UGInternship.previousWorkTip);
+        if (resumeInfo.workExperience.length === 0) results.tips.push(UGInternshipGoalParser.previousWorkTip);
 
-        if (resumeInfo.certifications.length === 0) results.tips.push(UGInternship.certificationTip);
+        if (resumeInfo.certifications.length === 0) results.tips.push(UGInternshipGoalParser.certificationTip);
 
         return results;
     }
