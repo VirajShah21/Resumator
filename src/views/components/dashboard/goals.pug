@@ -17,6 +17,9 @@ mixin goals-card(account)
                             if !account
                                 option(value='' defaultselected)
                             each goal in goalsList
-                                option(value=goal.name defaultselected=(account.currentGoal == goal.name))= goal.label
+                                if account.currentGoal == goal.name
+                                    option(value=goal.name defaultselected selected)= goal.label
+                                else
+                                    option(value=goal.name)= goal.label
                     .col-12.col-md-4.text-center
                         button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Save
