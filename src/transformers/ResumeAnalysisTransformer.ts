@@ -1,5 +1,6 @@
 import Account from "@entities/Account";
-import GoalParser, { IGoalResults, ISuggestion } from "@shared/util/GoalParser";
+import GoalParser from "@shared/util/GoalParser";
+import { IGoalResults, ISuggestion } from "@shared/util/GoalInterfaces";
 import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 
 export default class ResumeAnalysisTransformer {
