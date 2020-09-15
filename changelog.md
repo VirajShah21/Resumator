@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.4] - UNDATED
+## [0.0.4] - 2020-09-15
 
 ### Added
 
@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 ## Improvements
 
 -   **Theme: Budgie Blue** - Design improvements and added more fields to preview
+-   **Theme Page** - Design improvements
+    -   Removed "Buy" button (for now) and made the "preview" button blue
+    -   Added thumbnails for themes
 
 ### Technical Improvements
 
