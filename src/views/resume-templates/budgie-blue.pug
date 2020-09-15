@@ -31,23 +31,29 @@ html(lang='en-US')
                 img#profile-photo(src='/app/account/my-photo')
 
                 #contact-section
-                    .contact-info
-                        h3 Phone
-                        .white-bar
-                        p= account.phone
-                    .contact-info
-                        h3 Email
-                        .white-bar
-                        p= account.email
-                    .contact-info
-                        h3 Address
-                        .white-bar
-                        p
-                            = account.address.line1
-                            br
-                            = account.address.line2
-                            br
-                            = `${account.address.city}, ${account.address.state} ${account.address.zip}`
+                    if account.phone
+                        .contact-info
+                            h3 Phone
+                            .white-bar
+                            p= account.phone
+                    if account.email
+                        .contact-info
+                            h3 Email
+                            .white-bar
+                            p= account.email
+                    if account.address
+                        .contact-info
+                            h3 Address
+                            .white-bar
+                            p
+                                if account.addres.line1
+                                    = account.address.line1
+                                    br
+                                if account.address.line2
+                                    = account.address.line2
+                                    br
+                                if account.address.city && account.address.state && account.address.zip
+                                    = `${account.address.city}, ${account.address.state} ${account.address.zip}`
             #white-box
                 h1= `${account.fname} ${account.lname}`
                 #main-section
