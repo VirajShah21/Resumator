@@ -1,5 +1,5 @@
 import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
-import { IGoalResults, ISuggestion } from "./GoalInterfaces";
+import { IGoalResults } from "./GoalInterfaces";
 import ProgrammingJobGoalParser from "./ProgrammingJobGoalParser";
 import UGInternshipGoalParser from "./UGInternshipGoalParser";
 

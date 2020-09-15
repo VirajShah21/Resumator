@@ -70,15 +70,4 @@ AppRouter.get("/help", (req, res) => {
     });
 });
 
-AppRouter.get("/resume-strength", (req, res) => {
-    // TODO: Finish this route
-    AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
-        if (sessionAccount) {
-            ResumeInfoTransformer.fetch(sessionAccount.account.email, (resumeInfo) => {});
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
-        }
-    });
-});
-
 export default AppRouter;
