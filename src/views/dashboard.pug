@@ -16,6 +16,18 @@ mixin strength-indicator-dot(strength)
         .btn.text-success
             ion-icon(name='ellipse')
 
+mixin strength-progress-fill(strength)
+    .progress.mb-4.bg-dark
+        if strength <= 33
+            .progress-bar.progress-bar-striped.bg-danger.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+        else if strength <= 66
+            .progress-bar.progress-bar-striped.bg-warning.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+        else
+            .progress-bar.progress-bar-striped.bg-primary.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+
 mixin overview-card(account)
     #certifications-card.card.w-100.mb-4
         .card-body.p-4
@@ -80,30 +92,20 @@ html(lang='en-US')
                     .col-12
                         h5 Overall Stregth
                             +strength-indicator-dot(analysis.strength.overall)
-                        .progress.mb-4.bg-dark
-                            .progress-bar.progress-bar-striped.bg-secondary.text-right.pr-1(style=`width:${analysis.strength.overall}%`)
-                                = `${Math.floor(analysis.strength.overall)}%`
+                        +strength-progress-fill(analysis.strength.overall)
                 .row
                     .col-12.col-md-6.col-lg-3
                         h5 Education
-                        .progress.mb-4.bg-dark
-                            .progress-bar.progress-bar-striped.bg-secondary.text-right.pr-1(style=`width:${analysis.strength.education}%`)
-                                = `${Math.floor(analysis.strength.education)}%`
+                        +strength-progress-fill(analysis.strength.education)
                     .col-12.col-md-6.col-lg-3
                         h5 Work Experience
-                        .progress.mb-4.bg-dark
-                            .progress-bar.progress-bar-striped.bg-secondary.text-right.pr-1(style=`width:${analysis.strength.work}%`)
-                                = `${Math.floor(analysis.strength.work)}%`
+                        +strength-progress-fill(analysis.strength.work)
                     .col-12.col-md-6.col-lg-3
                         h5 Skills
-                        .progress.mb-4.bg-dark
-                            .progress-bar.progress-bar-striped.bg-secondary.text-right.pr-1(style=`width:${analysis.strength.skills}%`)
-                                = `${Math.floor(analysis.strength.skills)}%`
+                        +strength-progress-fill(analysis.strength.skills)
                     .col-12.col-md-6.col-lg-3
                         h5 Certifications
-                        .progress.mb-4.bg-dark
-                            .progress-bar.progress-bar-striped.bg-secondary.text-right.pr-1(style=`width:${analysis.strength.certifications}%`)
-                                = `${Math.floor(analysis.strength.certifications)}%`
+                        +strength-progress-fill(analysis.strength.certification)
                 if analysis.requirements.length > 0
                     br
                     h5 Requirements
