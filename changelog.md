@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.5] - 2020-12-02
+
+### Added
+
+-   **API Access to Profile Image** - Images hosted on cloudinary will now show up on the user's dashboard
+
+### Improvements
+
+-   **Flatter UI Style** - Removed borders and shadows. The UI instead uses contrasting colors
+-   **Redesigned Modal** - Lighter and more fluid and blurry modals
+-   **Resigned Resume Strength** - Background on requirement information and tips are lighter; they blend better. Strength meters are redesigned
+
 ## [0.0.4] - 2020-09-15
 
 ### Added
