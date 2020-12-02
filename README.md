@@ -103,31 +103,31 @@ The linter rules for TypeScript
 
 ## Features List
 
-|                    | Feature                                     | Version Added                 | Version Updated               |
-| ------------------ | ------------------------------------------- | ----------------------------- | ----------------------------- |
-| :white_check_mark: | Sign Up                                     | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Login                                       | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Dashboard View                              | [v0.0.1](releases/tag/v0.0.1) | [v0.0.2](releases/tag/v0.0.2) |
-| :white_check_mark: | Edit Name                                   | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Edit Phone Number                           | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Edit Address                                | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Add Education                               | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Add Work Experience                         | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Add Skills                                  | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Add Certifications                          | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Edit/Delete Education                       | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Edit/Delete Work Experience                 | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Edit/Delete Skill                           | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Edit/Delete Certification                   | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Preview Resume Theme                        | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Add/Modify Goal                             | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Set Objective Statement                     | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | View Resume Strength Meter                  | [v0.0.1](releases/tag/v0.0.1) | [v0.0.2](releases/tag/v0.0.2) |
-| :white_check_mark: | View Resume Suggestions (Requirements/Tips) | [v0.0.1](releases/tag/v0.0.1) | [v0.0.2](releases/tag/v0.0.2) |
-| :white_check_mark: | Help Page(s)                                | [v0.0.1](releases/tag/v0.0.1) | [v0.0.2](releases/tag/v0.0.2) |
-| :white_check_mark: | Manage Account                              | [v0.0.1](releases/tag/v0.0.1) |                               |
-| :white_check_mark: | Lazy Ass Help Pages                         | [v0.0.2](releases/tag/v0.0.2) | [v0.0.2](releases/tag/v0.0.2) |
-| :white_check_mark: | Upload Profile Photos                       | [v0.0.3](releases/tag/v0.0.3) |                               |
+|                    | Feature                                     | Version Added | Version Updated |
+| ------------------ | ------------------------------------------- | ------------- | --------------- |
+| :white_check_mark: | Sign Up                                     | v0.0.1        |                 |
+| :white_check_mark: | Login                                       | v0.0.1        |                 |
+| :white_check_mark: | Dashboard View                              | v0.0.1        | v0.0.2          |
+| :white_check_mark: | Edit Name                                   | v0.0.1        |                 |
+| :white_check_mark: | Edit Phone Number                           | v0.0.1        |                 |
+| :white_check_mark: | Edit Address                                | v0.0.1        |                 |
+| :white_check_mark: | Add Education                               | v0.0.1        |                 |
+| :white_check_mark: | Add Work Experience                         | v0.0.1        |                 |
+| :white_check_mark: | Add Skills                                  | v0.0.1        |                 |
+| :white_check_mark: | Add Certifications                          | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Education                       | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Work Experience                 | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Skill                           | v0.0.1        |                 |
+| :white_check_mark: | Edit/Delete Certification                   | v0.0.1        |                 |
+| :white_check_mark: | Preview Resume Theme                        | v0.0.1        |                 |
+| :white_check_mark: | Add/Modify Goal                             | v0.0.1        |                 |
+| :white_check_mark: | Set Objective Statement                     | v0.0.1        |                 |
+| :white_check_mark: | View Resume Strength Meter                  | v0.0.1        | v0.0.2          |
+| :white_check_mark: | View Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.0.2          |
+| :white_check_mark: | Help Page(s)                                | v0.0.1        | v0.0.2          |
+| :white_check_mark: | Manage Account                              | v0.0.1        |                 |
+| :white_check_mark: | Lazy Ass Help Pages                         | v0.0.2        | v0.0.2          |
+| :white_check_mark: | Upload Profile Photos                       | v0.0.3        |                 |
 
 ## Tasklist
 
