@@ -29,7 +29,8 @@ export default class ResumeAnalysisTransformer {
             };
 
         const results: IGoalResults = parser(resumeInfo);
-        const strength = {
+
+        this.strength = {
             education: 100,
             work: 100,
             skills: 100,
@@ -49,7 +50,6 @@ export default class ResumeAnalysisTransformer {
 
         this.requirements = results.requirements;
         this.tips = results.tips;
-        this.strength = strength;
 
         this.strength.overall =
             (this.strength.certifications +

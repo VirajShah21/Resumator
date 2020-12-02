@@ -196,12 +196,18 @@ AccountRouter.post(
     (req, res) => {
         const destination = "/tmp/profile_photos";
         const filename = profilePhotoUploads[req.cookies.session];
-        const fullpath = path.join(destination, filename);
+        const fullpath = path.join(destination, filename);  
 
         AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
             if (accountSession) {
                 uploadProfilePhoto(fullpath, accountSession.account._id);
-                res.send("Great! Your profile photo has been updated!");
+                accountSession.account.photo = true;
+                accountSession.account.updateDatabaseItem((success) => {
+                    if (success)
+                        res.send("Great! Your profile photo has been updated!");
+                    else
+                        res.send("There seems to be an issue with your account.");
+                });       
             } else {
                 res.send("There seems to be an issue with your account.");
             }

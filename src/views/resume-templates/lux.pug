@@ -1,0 +1,49 @@
+doctype html
+
+mixin section-title(label)
+    h2= label
+    .blue-bar &nbsp;
+    br
+
+mixin work-experience(experience)
+    h3= `${experience.position} // ${experience.organization}`
+        small= `${experience.start} - ${experience.end}`
+    p= experience.description
+
+mixin education(edu)
+    h3= edu.institution
+        small= `${edu.end.split("/")[2]}`
+    p= `${edu.level} // ${edu.degree}`
+    p= edu.description
+
+mixin certification(cert)
+    h3= cert.name
+        small= ` at ${cert.institution}`
+
+
+html(lang='en-US')
+    head
+        meta(charset='utf-8')
+        link(rel='stylesheet' href='/stylesheets/resumes/resume.css')
+        style.
+            :root {
+                --primary: #d9bf71;
+                --bg: white;
+            }
+
+            .float-left {
+                float: left;
+            }
+
+            h1 {
+                color: var(--primary);
+            }
+    body
+        .page
+            div
+                .float-left.text-right(style='width:2in')
+                    img(src='/app/account/my-photo' style='width:50%;border-radius:50%')
+                .float-left(style='padding-left:0.25in')
+                    h1(style='font-weight:normal')= `${account.fname} ${account.lname}`
+
+        script(src='https://unpkg.com/ionicons@5.1.2/dist/ionicons.js')
