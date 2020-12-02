@@ -42,10 +42,11 @@ a {
     border: none;
     padding: 0;
     transition: 0.25s padding;
+    background: none;
 }
 
 .pop-input:placeholder-shown {
-    background: var(--bs-light);
+    background: rgb(0, 0, 0, 0.05);
 }
 
 .pop-input:active,
@@ -74,6 +75,13 @@ blockquote p {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+#profile-icon {
+    border: 10px solid white;
+    height: 4em;
+    width: 4em;
+    box-sizing: content-box;
+}
+
 /***************************************************
 ************** BOOTSTRAP OVERRIDES *****************
 ***************************************************/
@@ -88,10 +96,6 @@ blockquote p {
     padding: 5px 10px;
 }
 
-.form-control {
-    background: rgba(255, 255, 255, 0.5);
-}
-
 .fade {
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
@@ -102,8 +106,8 @@ blockquote p {
 }
 
 .card {
-    border-radius: 0;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border: none;
+    background: var(--bs-light);
 }
 
 .alert {
