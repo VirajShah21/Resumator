@@ -114,7 +114,7 @@ html(lang='en-US')
                     each suggestion in analysis.requirements
                         .row
                             .col-12
-                                .alert.alert-danger(style='font-size:0.9em;vertical-align:middle')
+                                .alert.alert-light(style='font-size:0.9em;vertical-align:middle')
                                     .btn.mr-2.text-danger
                                         if suggestion.for == 'education'
                                             ion-icon(name='school-outline')
@@ -131,7 +131,7 @@ html(lang='en-US')
                     each suggestion in analysis.tips
                         .row
                             .col-12
-                                .alert.alert-info(style='font-size:0.9em;vertical-align:middle')
+                                .alert.alert-light(style='font-size:0.9em;vertical-align:middle')
                                     .btn.mr-2.text-info
                                         if suggestion.for == 'education'
                                             ion-icon(name='school-outline')
