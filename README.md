@@ -131,6 +131,14 @@ The linter rules for TypeScript
 
 ## Tasklist
 
+-   UI Improvements
+    -   Remove border and shadows from components
+    -   More suble background color changes
+    -   Larger profile image on dashboard
+    -   Add contrasting border to profile image
+
+**Backburner:**
+
 -   Improve the `Budgie Blue` Template
 -   Add Undergraduate Job goal analyzer
 
