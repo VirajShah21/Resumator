@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 -   **API Access to Profile Image** - Images hosted on cloudinary will now show up on the user's dashboard
+-   **Beta Flag** - Added the `beta` flag next to the Resumator logo on the navbar
 
 ### Improvements
 
