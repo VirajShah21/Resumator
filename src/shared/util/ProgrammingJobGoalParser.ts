@@ -11,7 +11,7 @@ export default class ProgrammingJobGoalParser {
 
     public static readonly requiredSkills: ISuggestion = {
         for: "skills",
-        message: "You can't get a job without any skills you're proficient in",
+        message: "You can't get a job without any skills you're proficient in! List more proficient skills",
     };
 
     public static readonly skillsTip: ISuggestion = {
@@ -26,13 +26,18 @@ export default class ProgrammingJobGoalParser {
 
     public static readonly educationTip: ISuggestion = {
         for: "education",
-        message: "An education is not required for a programming job... but it certainly helps a lot.",
+        message: "A strong education is not required for a programming job... but it certainly helps a lot.",
     };
 
     public static readonly certificationsTip: ISuggestion = {
         for: "certifications",
         message:
             "Certifications help prove you qualification to potential employers. Consider signing up for some coding bootcamps or certification exams/programs.",
+    };
+
+    public static readonly requiredProgrammingLanguages: ISuggestion = {
+        for: "skills",
+        message: "Add 5 programming languages, frameworks, or libraries which you are proficient in."
     };
 
     public static handle(resumeInfo: ResumeInfoTransformer): IGoalResults {
@@ -64,6 +69,8 @@ export default class ProgrammingJobGoalParser {
         if (resumeInfo.workExperience.length < 2) results.tips.push(ProgrammingJobGoalParser.workExperienceTip);
 
         if (resumeInfo.certifications.length === 0) results.tips.push(ProgrammingJobGoalParser.certificationsTip);
+
+        if (resumeInfo.certifications.length < 5) results.requirements.push(ProgrammingJobGoalParser.requiredProgrammingLanguages);
 
         return results;
     }
