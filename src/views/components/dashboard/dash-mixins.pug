@@ -1,6 +1,55 @@
+mixin strength-indicator-dot(strength)
+    if strength <= 55
+        .btn.text-danger
+            ion-icon(name='ellipse')
+    else if strength <= 75
+        .btn.text-warning
+            ion-icon(name='ellipse')
+    else
+        .btn.text-success
+            ion-icon(name='ellipse')
+
+mixin strength-progress-fill(strength)
+    .progress.mb-4.bg-dark
+        if strength <= 33
+            .progress-bar.progress-bar-striped.bg-danger.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+        else if strength <= 66
+            .progress-bar.progress-bar-striped.bg-warning.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+        else
+            .progress-bar.progress-bar-striped.bg-primary.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+
+mixin overview-card(account)
+    #certifications-card.card.w-100.mb-4
+        .card-body.p-4
+            .row
+                .col
+                .col-10.col-md-8.col-lg-6
+                    .row
+                        .col-12.text-center
+                            img#profile-icon.rounded-pill(src='/app/account/my-photo')
+                    .row
+                        .col-12
+                            h4.card-title.text-center.mt-2= `${account.fname} ${account.lname}`
+                    .row#change-profile-pic-wrapper(hidden)
+                        .col-12
+                            h5 Change Profile Image
+                            div#profile-pic-dropzone.w-100.p-4.bg-white
+                                h4 Drag image to upload
+                                p or click here to browse
+                .col
+
 mixin resume-card-title(title, icon)
     h4.card-title.text-center
         if icon
             ion-icon.text-primary(name=icon)
             br
         = title
+
+mixin resume-strength-progress-bar(label, strength)
+    .col-12.col-md-6.col-lg-3
+        h5= label
+        +strength-progress-fill(strength)
+        
