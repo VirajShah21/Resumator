@@ -122,7 +122,7 @@ The linter rules for TypeScript
 | :white_check_mark: | Preview Resume Theme                   | v0.0.1        |                 |
 | :white_check_mark: | Set Goal                               | v0.0.1        |                 |
 | :white_check_mark: | Set Objective Statement                | v0.0.1        |                 |
-| :white_check_mark: | Resume Strength Meter                  | v0.0.1        | v0.0.2          |
+| :white_check_mark: | Resume Strength Meter                  | v0.0.1        | v0.1.0          |
 | :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.0.2          |
 | :white_check_mark: | Help Page(s)                           | v0.0.1        | v0.0.2          |
 | :white_check_mark: | Manage Account                         | v0.0.1        |                 |
@@ -136,8 +136,6 @@ The linter rules for TypeScript
 -   Finish the `Budgie Blue` theme
 -   Add more suggestions for a `Software Programming Job`
 -   Fix navigation menu when on help page (should show us)p
--   Change browser page title
--   Fix `NaN%` under `Certifications` strength meter
 
 ## MongoDB
 
