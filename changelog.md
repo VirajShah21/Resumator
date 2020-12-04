@@ -11,11 +11,16 @@ All notable changes to this project will be documented in this file.
 
 ### Improvements
 
--   Colored (black background) and striped resume strength meters.
-    -   Red, Yellow, and Blue (symbolic for the resume's strength)
 -   Fixed `NaN%` issue on certifications strength meter
 -   Finished the `Budgie Blue` theme
 -   Regular account menu items on help page, when signed in
+-   Major UI improvements
+    -   Flat navigation bar
+    -   Striped resume strength meters
+    -   Red/yellow/blue resume strength meters
+    -   Redesigned cards for themes page
+    -   "Preview" cursor when hovering a theme
+    -   Drag & Drop profile picture is bordered with a white fill
 
 ## [0.0.5] - 2020-12-02
 

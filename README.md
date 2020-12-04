@@ -107,31 +107,85 @@ The linter rules for TypeScript
 | ------------------ | -------------------------------------- | ------------- | --------------- |
 | :white_check_mark: | Sign Up                                | v0.0.1        |                 |
 | :white_check_mark: | Login                                  | v0.0.1        |                 |
-| :white_check_mark: | Dashboard View                         | v0.0.1        | v0.0.5          |
-| :white_check_mark: | Edit Name                              | v0.0.1        |                 |
-| :white_check_mark: | Edit Phone Number                      | v0.0.1        |                 |
-| :white_check_mark: | Edit Address                           | v0.0.1        |                 |
-| :white_check_mark: | Add Education                          | v0.0.1        |                 |
-| :white_check_mark: | Add Work Experience                    | v0.0.1        |                 |
-| :white_check_mark: | Add Skills                             | v0.0.1        |                 |
-| :white_check_mark: | Add Certifications                     | v0.0.1        |                 |
-| :white_check_mark: | Edit/Delete Education                  | v0.0.1        |                 |
-| :white_check_mark: | Edit/Delete Work Experience            | v0.0.1        |                 |
-| :white_check_mark: | Edit/Delete Skill                      | v0.0.1        |                 |
-| :white_check_mark: | Edit/Delete Certification              | v0.0.1        |                 |
-| :white_check_mark: | Preview Resume Theme                   | v0.0.1        |                 |
-| :white_check_mark: | Set Goal                               | v0.0.1        |                 |
-| :white_check_mark: | Set Objective Statement                | v0.0.1        |                 |
+| :white_check_mark: | Dashboard View                         | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Edit Name / Phone / Address            | v0.0.1        |                 |
+| :x:                | Edit email address                     | v0.0.1        |                 |
+| :white_check_mark: | Education Card                         | v0.0.1        |                 |
+| :white_check_mark: | Work Experience Card                   | v0.0.1        |                 |
+| :white_check_mark: | Skills Card                            | v0.0.1        |                 |
+| :x:                | Certifications Card                    | v0.0.1        |                 |
+| :white_check_mark: | Theme Gallery                          | V0.0.1        | V0.1.0          |
+| :white_check_mark: | Preview Resume Theme                   | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Set Objective / Goal                   | v0.0.1        |                 |
 | :white_check_mark: | Resume Strength Meter                  | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.0.2          |
-| :white_check_mark: | Help Page(s)                           | v0.0.1        | v0.0.2          |
-| :white_check_mark: | Manage Account                         | v0.0.1        |                 |
-| :white_check_mark: | Lazy Ass Help Pages                    | v0.0.2        | v0.0.2          |
-| :white_check_mark: | Upload Profile Photos                  | v0.0.3        | v0.0.5          |
+| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.5.0          |
+| :white_check_mark: | Help Page/s                            | v0.0.1        | v0.0.2          |
+| :x:                | Manage Account                         | v0.0.1        |                 |
+| :white_check_mark: | Upload Profile Photos                  | v0.0.3        | v0.1.0          |
+
+## Major Functionality Issues
+
+-   Updating email causes: (Edit email address / Manage Account in features list)
+    -   Session error
+    -   When logging in with the new email, all other affiliated data is lost
+    -   Existing accounts can be shadowed due to no email conflict-checking
+    -   Resume info is lost (because it is associated by email rather than user ID)
+    -   **Must create a databse synchronization process**
+-   Updating a certification results in a database error
+    -   Deletion works properly
+
+## Minor Functionality Issues
+
+> No minor functionality issues
+
+## UI / UX List
+
+|                    | Component                              | Version Updated |
+| ------------------ | -------------------------------------- | --------------- |
+| :white_check_mark: | Navigation Bar                         | v0.1.0          |
+| :white_check_mark: | Navigation Brand                       | v0.1.0          |
+| :white_check_mark: | Navigation Links (active/inactive)     | v0.1.0          |
+| :white_check_mark: | Overview Card                          | v0.1.0          |
+| :white_check_mark: | Change Profile Picture (Dropzone)      | v0.1.0          |
+| :white_check_mark: | Personal Information Card              | v0.1.0          |
+| :white_check_mark: | Goals Card                             | v0.1.0          |
+| :white_check_mark: | Education Card                         | v0.1.0          |
+| :white_check_mark: | Work Experience Card                   | v0.1.0          |
+| :white_check_mark: | Skills Card                            | v0.1.0          |
+| :white_check_mark: | Certifications Card                    | v0.1.0          |
+| :white_check_mark: | Skills Pill Badges                     | V0.1.0          |
+| :white_check_mark: | Card Heading Icons                     | v0.1.0          |
+| :white_check_mark: | Resume Strength Panel                  | v0.1.0          |
+| :white_check_mark: | Resume Strength Meters/Overall dot     | v0.1.0          |
+| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.1.0          |
+| :white_check_mark: | Theme Gallery Card                     | v0.1.0          |
+
+## Major UI Issues
+
+> No major UI issues
+
+## Minor UI Issues
+
+> No minor UI Issues
+
+## Pages List
+
+|                    | Component                    |
+| ------------------ | ---------------------------- |
+| :white_check_mark: | Home / Login / Signup Page   |
+| :white_check_mark: | Dashboard                    |
+| :white_check_mark: | Theme Gallery                |
+| :white_check_mark: | Theme Previews               |
+| :white_check_mark: | Help Dashboard               |
+| :white_check_mark: | Help pages (except markdown) |
+| :white_check_mark: | Manage Account               |
+| :white_check_mark: | Error page                   |
 
 ## Tasklist
 
 **For Version 0.1.0**
+
+_Code improvements_
 
 -   Implement mixins on the budgie blue theme
 -   Refactor code for the goals parser
