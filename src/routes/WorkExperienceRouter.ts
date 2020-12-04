@@ -23,7 +23,11 @@ WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
             );
             experience.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.workExperience);
-                else res.render(views.genericError, new DatabaseErrorTransformer("Could not add work experience."));
+                else
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer("Could not add work experience.")
+                    );
             });
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
@@ -37,8 +41,8 @@ WorkExperienceRouter.post("/update", (req, res) => {
             const experience = new WorkExperience(
                 req.body.position,
                 req.body.organization,
-                req.body.start,
-                req.body.end,
+                req.body["start-date"],
+                req.body["end-date"],
                 req.body.description,
                 accountSession.account.email
             );
