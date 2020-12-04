@@ -8,17 +8,17 @@ mixin skills-card(skillset)
             .row.mt-4
                 .col-12.text-center
                     each skill in skillset
-                        if skill.proficiency > 66
+                        if skill.proficiency >= 66
                             span.badge.bg-primary.rounded-pill.p-2.mr-1.mb-1(
                                 data-toggle='modal'
                                 data-target=`#edit-skill-modal-${skill._id}`)= skill.name
                     each skill in skillset
-                        if skill.proficiency > 33 && skill.proficiency <= 66
+                        if skill.proficiency >= 33 && skill.proficiency < 66
                             span.badge.bg-warning.rounded-pill.p-2.mr-1.mb-1(
                                 data-toggle='modal'
                                 data-target=`#edit-skill-modal-${skill._id}`)= skill.name
                     each skill in skillset
-                        if skill.proficiency <= 33
+                        if skill.proficiency < 33
                             span.badge.bg-danger.rounded-pill.p-2.mr-1.mb-1(
                                 data-toggle='modal'
                                 data-target=`#edit-skill-modal-${skill._id}`)= skill.name
