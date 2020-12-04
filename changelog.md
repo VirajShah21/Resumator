@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 ### Technical Improvements
 
 -   Created component mixins for resume information cards
+-   Created component mixins for progress bar and labels
 
 ## [0.0.5] - 2020-12-02
 
