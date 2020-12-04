@@ -40,7 +40,10 @@ AppRouter.get("/dashboard", (req, res) => {
                             account: sessionAccount.account,
                             nav: "Dashboard",
                             goalsList,
-                            analysis: new ResumeAnalysisTransformer(sessionAccount.account, resumeInfo),
+                            analysis: new ResumeAnalysisTransformer(
+                                sessionAccount.account,
+                                resumeInfo
+                            ),
                         },
                         resumeInfo
                     )
@@ -58,10 +61,20 @@ AppRouter.get("/help", (req, res) => {
             ResumeInfoTransformer.fetch(sessionAccount?.account.email, (resumeInfo) => {
                 if (req.query.page) {
                     // Route to specific help page
-                    res.render("help", addToObject({ helpPage: req.query.page, nav: "Help" }, resumeInfo));
+                    res.render(
+                        "help",
+                        addToObject(
+                            {
+                                helpPage: req.query.page,
+                                nav: "Help",
+                                account: sessionAccount.account,
+                            },
+                            resumeInfo
+                        )
+                    );
                 } else {
                     // Route to main help page
-                    res.render("help", { nav: "Help" });
+                    res.render("help", { nav: "Help", account: sessionAccount.account });
                 }
             });
         } else {
