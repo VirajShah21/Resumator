@@ -137,7 +137,7 @@ The linter rules for TypeScript
 -   Add more suggestions for a `Software Programming Job`
 -   Fix navigation menu when on help page (should show us)p
 -   Change browser page title
--   Fix NaN% under `Certifications` strength meter
+-   Fix `NaN%` under `Certifications` strength meter
 
 ## MongoDB
 
