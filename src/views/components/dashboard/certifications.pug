@@ -1,10 +1,10 @@
+include dash-mixins
+
 mixin certifications-card(certifications)
     #certifications-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center
-                ion-icon.text-primary(name='document-outline')
-                br
-                | Certifications
+            +resume-card-title('Certifications', 'document-outline')
+
             ul.list-group.list-group-flush
                 each certification in certifications
                     +certification-item(certification)

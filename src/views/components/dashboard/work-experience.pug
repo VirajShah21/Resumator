@@ -1,10 +1,10 @@
+include dash-mixins
+
 mixin work-experience-card(experiences)
     #work-experience-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center
-                ion-icon.text-primary(name='briefcase-outline')
-                br
-                | Work Experience
+            +resume-card-title('Work Experience', 'briefcase-outline')
+
             ul.list-group.list-group-flush
                 each experience in experiences
                     +work-experience-item(experience)

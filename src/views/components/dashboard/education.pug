@@ -1,10 +1,10 @@
+include dash-mixins
+
 mixin education-card(educationHistory)
     #education-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center
-                ion-icon.text-primary(name='school-outline')
-                br
-                | Education
+            +resume-card-title('Education', 'school-outline')
+            
             ul.list-group.list-group-flush
                 each education in educationHistory
                     +education-item(education)

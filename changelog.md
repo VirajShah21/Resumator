@@ -22,6 +22,10 @@ All notable changes to this project will be documented in this file.
     -   "Preview" cursor when hovering a theme
     -   Drag & Drop profile picture is bordered with a white fill
 
+### Technical Improvements
+
+-   Created component mixins for resume information cards
+
 ## [0.0.5] - 2020-12-02
 
 ### Added

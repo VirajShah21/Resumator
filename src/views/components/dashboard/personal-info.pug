@@ -1,10 +1,10 @@
+include dash-mixins
+
 mixin personal-info-card(account)
     #personal-info-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center
-                ion-icon.text-primary(name='finger-print-outline')
-                br
-                | Personal Information
+            +resume-card-title('Personal Information', 'finger-print-outline')
+
             form(action='/app/account/update' method='POST')
                 .row
                     .col-12.col-md-6

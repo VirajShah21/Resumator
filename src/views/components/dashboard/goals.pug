@@ -1,10 +1,10 @@
+include dash-mixins
+
 mixin goals-card(account)
     #goals-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center
-                ion-icon.text-primary(name='trending-up-outline')
-                br
-                | Goals
+            +resume-card-title('Goals', 'trending-up-outline')
+            
             form(action='/app/account/update-goal' method='POST')
                 .row
                     .col-12

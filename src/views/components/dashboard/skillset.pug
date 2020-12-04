@@ -1,10 +1,10 @@
+include dash-mixins
+
 mixin skills-card(skillset)
     #skills-card.card.w-100.mb-4
         .card-body
-            h4.card-title.text-center
-                ion-icon.text-primary(name='checkmark-done-outline')
-                br
-                | Skills
+            +resume-card-title('Skills', 'checkmark-done-outline')
+
             .row.mt-4
                 .col-12.text-center
                     each skill in skillset
