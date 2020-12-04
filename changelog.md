@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [0.1.0] - 2020-12-03
 
+### Added
+
+-   Website page title (`Resumator` on every page)
+-   One more requirement for a software programming job
+
+### Improvements
+
+-   Colored (black background) and striped resume strength meters.
+    -   Red, Yellow, and Blue (symbolic for the resume's strength)
+-   Fixed `NaN%` issue on certifications strength meter
+-   Finished the `Budgie Blue` theme
+-   Regular account menu items on help page, when signed in
+
 ## [0.0.5] - 2020-12-02
 
 ### Added

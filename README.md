@@ -133,9 +133,8 @@ The linter rules for TypeScript
 
 **For Version 0.1.0**
 
--   Finish the `Budgie Blue` theme
--   Add more suggestions for a `Software Programming Job`
--   Fix navigation menu when on help page (should show us)p
+-   Implement mixins on the budgie blue theme
+-   Refactor code for the goals parser
 
 ## MongoDB
 
