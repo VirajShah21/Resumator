@@ -19,7 +19,8 @@ export default class UGInternshipGoalParser {
 
     public static readonly highSchoolTip: ISuggestion = {
         for: "education",
-        message: "Adding a high school to your resume would strengthen your education history",
+        message:
+            "Adding a high school to your resume would strengthen your education history",
     };
 
     public static readonly previousWorkTip: ISuggestion = {
@@ -38,12 +39,14 @@ export default class UGInternshipGoalParser {
 
     public static readonly requiredEducation: ISuggestion = {
         for: "education",
-        message: "You don't have any education! Nobody will hire you for an internship.",
+        message:
+            "You don't have any education! Nobody will hire you for an internship.",
     };
 
     public static readonly requiredHighschool: ISuggestion = {
         for: "education",
-        message: "Your resume isn't strong enough to hide your high school education.",
+        message:
+            "Your resume isn't strong enough to hide your high school education.",
     };
 
     /**
@@ -87,11 +90,15 @@ export default class UGInternshipGoalParser {
             resumeInfo.educationHistory.length < 2 &&
             resumeInfo.certifications.length === 0
         )
-            results.requirements.push(UGInternshipGoalParser.requiredHighschool);
+            results.requirements.push(
+                UGInternshipGoalParser.requiredHighschool
+            );
 
-        if (resumeInfo.workExperience.length === 0) results.tips.push(UGInternshipGoalParser.previousWorkTip);
+        if (resumeInfo.workExperience.length === 0)
+            results.tips.push(UGInternshipGoalParser.previousWorkTip);
 
-        if (resumeInfo.certifications.length === 0) results.tips.push(UGInternshipGoalParser.certificationTip);
+        if (resumeInfo.certifications.length === 0)
+            results.tips.push(UGInternshipGoalParser.certificationTip);
 
         return results;
     }

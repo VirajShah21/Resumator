@@ -24,19 +24,25 @@ ThemesRouter.get("/", (req, res) => {
 ThemesRouter.get("/preview", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            ResumeInfoTransformer.fetch(accountSession.account.email, (resumeInfo) => {
-                if (resumeInfo) {
-                    res.render(`resume-templates/${req.query.theme}`, {
-                        account: accountSession.account,
-                        workExperience: resumeInfo.workExperience,
-                        educationHistory: resumeInfo.educationHistory,
-                        skillset: resumeInfo.skillset,
-                        certifications: resumeInfo.certifications,
-                    });
-                } else {
-                    res.render(views.genericError, new SessionErrorTransformer());
+            ResumeInfoTransformer.fetch(
+                accountSession.account.email,
+                (resumeInfo) => {
+                    if (resumeInfo) {
+                        res.render(`resume-templates/${req.query.theme}`, {
+                            account: accountSession.account,
+                            workExperience: resumeInfo.workExperience,
+                            educationHistory: resumeInfo.educationHistory,
+                            skillset: resumeInfo.skillset,
+                            certifications: resumeInfo.certifications,
+                        });
+                    } else {
+                        res.render(
+                            views.genericError,
+                            new SessionErrorTransformer()
+                        );
+                    }
                 }
-            });
+            );
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
         }

@@ -73,18 +73,38 @@ export default class WorkExperience {
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
-            database.collection(WORK_EXPERIENCE_COLLECTION).insertOne(this, (err, result) => {
-                if (err) {
-                    Logger.info(`Could not add work experience. ${JSON.stringify(this, null, 4)} Database Error`);
-                    Logger.error(err);
-                    callback(false);
-                } else {
-                    Logger.info(`Work experience added: ${JSON.stringify(this, null, 4)} All data is valid`);
-                    callback(true);
-                }
-            });
+            database
+                .collection(WORK_EXPERIENCE_COLLECTION)
+                .insertOne(this, (err, result) => {
+                    if (err) {
+                        Logger.info(
+                            `Could not add work experience. ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )} Database Error`
+                        );
+                        Logger.error(err);
+                        callback(false);
+                    } else {
+                        Logger.info(
+                            `Work experience added: ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )} All data is valid`
+                        );
+                        callback(true);
+                    }
+                });
         } else {
-            Logger.warn(`Could not add work experience: ${JSON.stringify(this, null, 4)} Found invalid data`);
+            Logger.warn(
+                `Could not add work experience: ${JSON.stringify(
+                    this,
+                    null,
+                    4
+                )} Found invalid data`
+            );
             callback(false);
         }
     }
@@ -105,17 +125,35 @@ export default class WorkExperience {
                 },
                 (err) => {
                     if (err) {
-                        Logger.info(`Could not add work experience: ${JSON.stringify(this, null, 4)} Database Error`);
+                        Logger.info(
+                            `Could not add work experience: ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )} Database Error`
+                        );
                         Logger.error(err);
                         callback(false);
                     } else {
-                        Logger.info(`Work experience added: ${JSON.stringify(this, null, 4)}`);
+                        Logger.info(
+                            `Work experience added: ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )}`
+                        );
                         callback(true);
                     }
                 }
             );
         } else {
-            Logger.info(`Could not add work experience: ${JSON.stringify(this, null, 4)} Found invalid data`);
+            Logger.info(
+                `Could not add work experience: ${JSON.stringify(
+                    this,
+                    null,
+                    4
+                )} Found invalid data`
+            );
             callback(false);
         }
     }
@@ -126,10 +164,12 @@ export default class WorkExperience {
      * @param callback The callback upon deleting database item
      */
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(WORK_EXPERIENCE_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-            if (err) callback(false);
-            else callback(true);
-        });
+        database
+            .collection(WORK_EXPERIENCE_COLLECTION)
+            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+                if (err) callback(false);
+                else callback(true);
+            });
     }
 
     /**
@@ -138,7 +178,10 @@ export default class WorkExperience {
      * @param email The user's email to lookup
      * @param callback The callback passing all work history as an array upon completion
      */
-    public static loadFromDatabase(email: string, callback: (workExperiences: WorkExperience[]) => void): void {
+    public static loadFromDatabase(
+        email: string,
+        callback: (workExperiences: WorkExperience[]) => void
+    ): void {
         database
             .collection(WORK_EXPERIENCE_COLLECTION)
             .find({ user: email })
@@ -171,6 +214,9 @@ export default class WorkExperience {
      * @returns True if start and end dates are valid; false otherwise
      */
     private validateStartAndEnd(): boolean {
-        return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
+        return (
+            validateMonthYearString(this.start) &&
+            (validateMonthYearString(this.end) || this.end === "")
+        );
     }
 }

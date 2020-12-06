@@ -29,12 +29,22 @@ export default class ResumeInfoTransformer {
         });
     }
 
-    public static fetch(email: string, callback: (resumeInfo: ResumeInfoTransformer) => void): void {
+    public static fetch(
+        email: string,
+        callback: (resumeInfo: ResumeInfoTransformer) => void
+    ): void {
         WorkExperience.loadFromDatabase(email, (workExperience) => {
             Education.loadFromDatabase(email, (educationHistory) => {
                 Skill.loadFromDatabase(email, (skillset) => {
                     Certification.loadFromDatabase(email, (certifications) => {
-                        callback(new ResumeInfoTransformer(workExperience, educationHistory, skillset, certifications));
+                        callback(
+                            new ResumeInfoTransformer(
+                                workExperience,
+                                educationHistory,
+                                skillset,
+                                certifications
+                            )
+                        );
                     });
                 });
             });

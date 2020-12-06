@@ -29,7 +29,9 @@ EducationRouter.post("/add", (req, res) => {
                 else
                     res.render(
                         views.genericError,
-                        new DatabaseErrorTransformer("Could not add the education to your dashboard.")
+                        new DatabaseErrorTransformer(
+                            "Could not add the education to your dashboard."
+                        )
                     );
             });
         }
@@ -57,14 +59,22 @@ EducationRouter.post("/update", (req, res) => {
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorTransformer("Could not not delete this education.")
+                            new DatabaseErrorTransformer(
+                                "Could not not delete this education."
+                            )
                         );
                 });
             } else {
                 education._id = new ObjectId(req.body._id);
                 education.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.education);
-                    else res.render(views.genericError, new DatabaseErrorTransformer("Could not update education."));
+                    else
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorTransformer(
+                                "Could not update education."
+                            )
+                        );
                 });
             }
         } else {

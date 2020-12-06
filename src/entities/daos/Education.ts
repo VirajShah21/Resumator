@@ -63,18 +63,24 @@ export default class Education implements IEducation {
      * @param callback Callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        logger.info(`Adding education to database: ${JSON.stringify(this, null, 4)}`);
+        logger.info(
+            `Adding education to database: ${JSON.stringify(this, null, 4)}`
+        );
         if (this.validate()) {
             logger.info("All data is valid");
-            database.collection(EDUCATION_COLLECTION).insertOne(this, (err, result) => {
-                if (err) {
-                    logger.error(err);
-                    callback(false);
-                } else {
-                    logger.info(`Education added: ${JSON.stringify(this, null, 4)}`);
-                    callback(true);
-                }
-            });
+            database
+                .collection(EDUCATION_COLLECTION)
+                .insertOne(this, (err, result) => {
+                    if (err) {
+                        logger.error(err);
+                        callback(false);
+                    } else {
+                        logger.info(
+                            `Education added: ${JSON.stringify(this, null, 4)}`
+                        );
+                        callback(true);
+                    }
+                });
         } else {
             logger.info(`Found invalid data: ${JSON.stringify(this, null, 4)}`);
             callback(false);
@@ -111,16 +117,26 @@ export default class Education implements IEducation {
      * @param callback Takes an argument based on the success of the delete operation
      */
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(EDUCATION_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-            if (err) {
-                logger.info(`Could not delete education: ${JSON.stringify(this, null, 4)} Database Error`);
-                logger.error(err);
-                callback(false);
-            } else {
-                logger.info(`Deleted education: ${JSON.stringify(this, null, 4)}`);
-                callback(true);
-            }
-        });
+        database
+            .collection(EDUCATION_COLLECTION)
+            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+                if (err) {
+                    logger.info(
+                        `Could not delete education: ${JSON.stringify(
+                            this,
+                            null,
+                            4
+                        )} Database Error`
+                    );
+                    logger.error(err);
+                    callback(false);
+                } else {
+                    logger.info(
+                        `Deleted education: ${JSON.stringify(this, null, 4)}`
+                    );
+                    callback(true);
+                }
+            });
     }
 
     /**
@@ -129,7 +145,10 @@ export default class Education implements IEducation {
      * @param email The email to lookup
      * @param callback The callback passing the education history for the user
      */
-    public static loadFromDatabase(email: string, callback: (eduHistory: Education[]) => void): void {
+    public static loadFromDatabase(
+        email: string,
+        callback: (eduHistory: Education[]) => void
+    ): void {
         database
             .collection(EDUCATION_COLLECTION)
             .find({ user: email })
@@ -148,7 +167,11 @@ export default class Education implements IEducation {
      * @returns True if all fields are valid; false otherwise
      */
     public validate(): boolean {
-        return validateEmail(this.user) && this.validateRequiredStrings() && this.validateStartAndEnd();
+        return (
+            validateEmail(this.user) &&
+            this.validateRequiredStrings() &&
+            this.validateStartAndEnd()
+        );
     }
 
     /**
@@ -157,7 +180,11 @@ export default class Education implements IEducation {
      * @returns True if none of the required strings fields are blank; false otherwise
      */
     private validateRequiredStrings(): boolean {
-        return this.institution.length > 0 && this.level.length > 0 && this.degree.length > 0;
+        return (
+            this.institution.length > 0 &&
+            this.level.length > 0 &&
+            this.degree.length > 0
+        );
     }
 
     /**
@@ -166,6 +193,9 @@ export default class Education implements IEducation {
      * @returns True if the start and end date are valid; false otherwise
      */
     private validateStartAndEnd(): boolean {
-        return validateMonthYearString(this.start) && (validateMonthYearString(this.end) || this.end === "");
+        return (
+            validateMonthYearString(this.start) &&
+            (validateMonthYearString(this.end) || this.end === "")
+        );
     }
 }

@@ -17,7 +17,9 @@ function handleUndefinedGoal(resumeInfo: ResumeInfoTransformer): IGoalResults {
 }
 
 export default class GoalParser {
-    public static getGoalParser(name: string): (resumeInfo: ResumeInfoTransformer) => IGoalResults {
+    public static getGoalParser(
+        name: string
+    ): (resumeInfo: ResumeInfoTransformer) => IGoalResults {
         switch (name) {
             case "ug-internship":
                 return UGInternshipGoalParser.handle;

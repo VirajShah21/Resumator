@@ -19,7 +19,8 @@ export default class ResumeAnalysisTransformer {
 
         // If a goal is set, then set the parser to the defined parser, otherwise set
         // it to a function which returns NO requirement errors or tips.
-        if (account.currentGoal) parser = GoalParser.getGoalParser(account.currentGoal);
+        if (account.currentGoal)
+            parser = GoalParser.getGoalParser(account.currentGoal);
         else
             parser = (reusmeInfo: ResumeInfoTransformer) => {
                 return {

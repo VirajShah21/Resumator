@@ -12,13 +12,16 @@ const router = Router();
 // Base Routes
 router.get("/", (req, res) => {
     if (req.cookies.session) {
-        AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-            if (accountSession && accountSession.account) {
-                res.redirect("/app/dashboard");
-            } else {
-                res.redirect("/app/account");
+        AccountSessionTransformer.fetch(
+            req.cookies.session,
+            (accountSession) => {
+                if (accountSession && accountSession.account) {
+                    res.redirect("/app/dashboard");
+                } else {
+                    res.redirect("/app/account");
+                }
             }
-        });
+        );
     } else {
         res.render(views.landingPage, {
             nav: "Home",

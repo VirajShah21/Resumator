@@ -31,24 +31,27 @@ AppRouter.use("/themes", ThemesRouter);
 AppRouter.get("/dashboard", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
         if (sessionAccount) {
-            ResumeInfoTransformer.fetch(sessionAccount.account.email, (resumeInfo) => {
-                res.render(
-                    views.dashboard,
-                    addToObject(
-                        {
-                            session: sessionAccount.session,
-                            account: sessionAccount.account,
-                            nav: "Dashboard",
-                            goalsList,
-                            analysis: new ResumeAnalysisTransformer(
-                                sessionAccount.account,
-                                resumeInfo
-                            ),
-                        },
-                        resumeInfo
-                    )
-                );
-            });
+            ResumeInfoTransformer.fetch(
+                sessionAccount.account.email,
+                (resumeInfo) => {
+                    res.render(
+                        views.dashboard,
+                        addToObject(
+                            {
+                                session: sessionAccount.session,
+                                account: sessionAccount.account,
+                                nav: "Dashboard",
+                                goalsList,
+                                analysis: new ResumeAnalysisTransformer(
+                                    sessionAccount.account,
+                                    resumeInfo
+                                ),
+                            },
+                            resumeInfo
+                        )
+                    );
+                }
+            );
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
         }
@@ -58,25 +61,31 @@ AppRouter.get("/dashboard", (req, res) => {
 AppRouter.get("/help", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
         if (sessionAccount) {
-            ResumeInfoTransformer.fetch(sessionAccount?.account.email, (resumeInfo) => {
-                if (req.query.page) {
-                    // Route to specific help page
-                    res.render(
-                        "help",
-                        addToObject(
-                            {
-                                helpPage: req.query.page,
-                                nav: "Help",
-                                account: sessionAccount.account,
-                            },
-                            resumeInfo
-                        )
-                    );
-                } else {
-                    // Route to main help page
-                    res.render("help", { nav: "Help", account: sessionAccount.account });
+            ResumeInfoTransformer.fetch(
+                sessionAccount?.account.email,
+                (resumeInfo) => {
+                    if (req.query.page) {
+                        // Route to specific help page
+                        res.render(
+                            "help",
+                            addToObject(
+                                {
+                                    helpPage: req.query.page,
+                                    nav: "Help",
+                                    account: sessionAccount.account,
+                                },
+                                resumeInfo
+                            )
+                        );
+                    } else {
+                        // Route to main help page
+                        res.render("help", {
+                            nav: "Help",
+                            account: sessionAccount.account,
+                        });
+                    }
                 }
-            });
+            );
         } else {
             res.redirect("/");
         }

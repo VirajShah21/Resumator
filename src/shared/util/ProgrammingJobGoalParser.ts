@@ -53,7 +53,9 @@ export default class ProgrammingJobGoalParser {
             resumeInfo.workExperience.length <= 2 &&
             resumeInfo.certifications.length <= 2
         )
-            results.requirements.push(ProgrammingJobGoalParser.requiredEducation);
+            results.requirements.push(
+                ProgrammingJobGoalParser.requiredEducation
+            );
 
         if (resumeInfo.educationHistory.length === 0)
             results.tips.push(ProgrammingJobGoalParser.educationTip);
@@ -79,7 +81,9 @@ export default class ProgrammingJobGoalParser {
             results.tips.push(ProgrammingJobGoalParser.certificationsTip);
 
         if (resumeInfo.skillset.length < 5)
-            results.requirements.push(ProgrammingJobGoalParser.requiredProgrammingLanguages);
+            results.requirements.push(
+                ProgrammingJobGoalParser.requiredProgrammingLanguages
+            );
 
         return results;
     }

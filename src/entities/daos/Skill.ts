@@ -49,7 +49,12 @@ export default class Skill implements ISkill {
      * @returns True if fields are valid; false otherwise
      */
     public validate(): boolean {
-        return this.name !== "" && this.proficiency > 0 && this.proficiency <= 100 && validateEmail(this.user);
+        return (
+            this.name !== "" &&
+            this.proficiency > 0 &&
+            this.proficiency <= 100 &&
+            validateEmail(this.user)
+        );
     }
 
     /**
@@ -97,10 +102,12 @@ export default class Skill implements ISkill {
      * @param callback Takes one argument based on the success of the delete operation
      */
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(SKILLS_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-            if (err) callback(false);
-            else callback(true);
-        });
+        database
+            .collection(SKILLS_COLLECTION)
+            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+                if (err) callback(false);
+                else callback(true);
+            });
     }
 
     /**
@@ -109,7 +116,10 @@ export default class Skill implements ISkill {
      * @param user The user's email
      * @param callback Passes a list of skills belonging to the specified user
      */
-    public static loadFromDatabase(user: string, callback: (skills: ISkill[]) => void): void {
+    public static loadFromDatabase(
+        user: string,
+        callback: (skills: ISkill[]) => void
+    ): void {
         database
             .collection(SKILLS_COLLECTION)
             .find({ user })

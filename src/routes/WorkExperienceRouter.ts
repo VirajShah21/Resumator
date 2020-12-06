@@ -26,7 +26,9 @@ WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
                 else
                     res.render(
                         views.genericError,
-                        new DatabaseErrorTransformer("Could not add work experience.")
+                        new DatabaseErrorTransformer(
+                            "Could not add work experience."
+                        )
                     );
             });
         } else {
@@ -49,20 +51,26 @@ WorkExperienceRouter.post("/update", (req, res) => {
             experience._id = new ObjectId(req.body.dbid);
             if (req.body.delete === "on") {
                 experience.deleteDatabaseItem((success) => {
-                    if (success) res.redirect(routes.dashboardCard.workExperience);
+                    if (success)
+                        res.redirect(routes.dashboardCard.workExperience);
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorTransformer("Could not delete work experience.")
+                            new DatabaseErrorTransformer(
+                                "Could not delete work experience."
+                            )
                         );
                 });
             } else {
                 experience.updateDatabaseItem((success) => {
-                    if (success) res.redirect(routes.dashboardCard.workExperience);
+                    if (success)
+                        res.redirect(routes.dashboardCard.workExperience);
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorTransformer("Could not update work experience.")
+                            new DatabaseErrorTransformer(
+                                "Could not update work experience."
+                            )
                         );
                 });
             }

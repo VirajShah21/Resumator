@@ -24,7 +24,13 @@ CertificationRouter.post("/add", jsonParser, (req, res) => {
 
             certification.insertDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboardCard.certification);
-                else res.render(views.genericError, new DatabaseErrorTransformer("Could not add your certification."));
+                else
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer(
+                            "Could not add your certification."
+                        )
+                    );
             });
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
@@ -46,20 +52,26 @@ CertificationRouter.post("/update", jsonParser, (req, res) => {
 
             if (req.body.delete === "on") {
                 certification.deleteDatabaseItem((success) => {
-                    if (success) res.redirect(routes.dashboardCard.certification);
+                    if (success)
+                        res.redirect(routes.dashboardCard.certification);
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorTransformer("Could not delete the certificate.")
+                            new DatabaseErrorTransformer(
+                                "Could not delete the certificate."
+                            )
                         );
                 });
             } else {
                 certification.updateDatabaseItem((success) => {
-                    if (success) res.redirect(routes.dashboardCard.certification);
+                    if (success)
+                        res.redirect(routes.dashboardCard.certification);
                     else
                         res.render(
                             views.genericError,
-                            new DatabaseErrorTransformer("Could not update the certificate.")
+                            new DatabaseErrorTransformer(
+                                "Could not update the certificate."
+                            )
                         );
                 });
             }

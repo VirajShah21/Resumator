@@ -47,7 +47,9 @@ export default class Account implements IAccount {
         this.lname = accountObject.lname.trim();
         this.email = accountObject.email.trim();
         this.password = accountObject.password;
-        this.address = accountObject.address ? new Address(accountObject.address) : undefined;
+        this.address = accountObject.address
+            ? new Address(accountObject.address)
+            : undefined;
         this.phone = accountObject.phone?.trim();
         this.currentGoal = accountObject.currentGoal?.trim();
         this.objective = accountObject.objective?.trim();
@@ -60,7 +62,12 @@ export default class Account implements IAccount {
      * @returns True if all fields are valid
      */
     public validate(): boolean {
-        return this.validateName() && this.validateEmail() && this.validateAddress() && this.validatePhone();
+        return (
+            this.validateName() &&
+            this.validateEmail() &&
+            this.validateAddress() &&
+            this.validatePhone()
+        );
     }
 
     /**
@@ -113,27 +120,39 @@ export default class Account implements IAccount {
     public insertDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validateEmail() && this.validateName()) {
             Logger.info(`User account (${this._id}) is validated`);
-            database.collection(ACCOUNTS_COLLECTION).findOne({ email: this.email }, (err, result) => {
-                if (err) {
-                    throw err;
-                } else if (result) {
-                    Logger.info(`Could not insert account (${this._id}) because email already exists`);
-                    callback(false);
-                } else {
-                    database.collection(ACCOUNTS_COLLECTION).insertOne(this, (err2) => {
-                        if (err2) {
-                            Logger.warn(`Mongo threw an error while inserting account (${this._id})`);
-                            Logger.error(err2);
-                            callback(false);
-                        } else {
-                            Logger.info(`Account inserted (${this._id})`);
-                            callback(true);
-                        }
-                    });
-                }
-            });
+            database
+                .collection(ACCOUNTS_COLLECTION)
+                .findOne({ email: this.email }, (err, result) => {
+                    if (err) {
+                        throw err;
+                    } else if (result) {
+                        Logger.info(
+                            `Could not insert account (${this._id}) because email already exists`
+                        );
+                        callback(false);
+                    } else {
+                        database
+                            .collection(ACCOUNTS_COLLECTION)
+                            .insertOne(this, (err2) => {
+                                if (err2) {
+                                    Logger.warn(
+                                        `Mongo threw an error while inserting account (${this._id})`
+                                    );
+                                    Logger.error(err2);
+                                    callback(false);
+                                } else {
+                                    Logger.info(
+                                        `Account inserted (${this._id})`
+                                    );
+                                    callback(true);
+                                }
+                            });
+                    }
+                });
         } else {
-            Logger.info(`User account contains invalid email and name (${this._id})`);
+            Logger.info(
+                `User account contains invalid email and name (${this._id})`
+            );
             callback(false);
         }
     }
@@ -154,16 +173,30 @@ export default class Account implements IAccount {
                 },
                 (err) => {
                     if (err) {
-                        Logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Database Error`);
+                        Logger.info(
+                            `Could not update account ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )} Database Error`
+                        );
                         callback(false);
                     } else {
-                        Logger.info(`Updated account ${JSON.stringify(this, null, 4)}`);
+                        Logger.info(
+                            `Updated account ${JSON.stringify(this, null, 4)}`
+                        );
                         callback(true);
                     }
                 }
             );
         } else {
-            Logger.info(`Could not update account ${JSON.stringify(this, null, 4)} Invalid data`);
+            Logger.info(
+                `Could not update account ${JSON.stringify(
+                    this,
+                    null,
+                    4
+                )} Invalid data`
+            );
             callback(false);
         }
     }
@@ -174,19 +207,28 @@ export default class Account implements IAccount {
      * @param email Lookup email
      * @param callback The callback passing the user's account
      */
-    public static loadFromDatabase(email: string, callback: (account?: Account) => void): void {
-        database.collection(ACCOUNTS_COLLECTION).findOne({ email }, (err, result) => {
-            if (err) {
-                Logger.warn(`Mongo passed an error while loading user (${email}) from database`);
-                Logger.error(err);
-                callback(undefined);
-            } else if (!result) {
-                Logger.warn(`No result returned from database for user: ${email}`);
-                callback(undefined);
-            } else {
-                Logger.info(`Found + loading account: ${email}`);
-                callback(result ? new Account(result) : undefined);
-            }
-        });
+    public static loadFromDatabase(
+        email: string,
+        callback: (account?: Account) => void
+    ): void {
+        database
+            .collection(ACCOUNTS_COLLECTION)
+            .findOne({ email }, (err, result) => {
+                if (err) {
+                    Logger.warn(
+                        `Mongo passed an error while loading user (${email}) from database`
+                    );
+                    Logger.error(err);
+                    callback(undefined);
+                } else if (!result) {
+                    Logger.warn(
+                        `No result returned from database for user: ${email}`
+                    );
+                    callback(undefined);
+                } else {
+                    Logger.info(`Found + loading account: ${email}`);
+                    callback(result ? new Account(result) : undefined);
+                }
+            });
     }
 }

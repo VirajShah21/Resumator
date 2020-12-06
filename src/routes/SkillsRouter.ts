@@ -14,16 +14,28 @@ const jsonParser = bodyParserJson();
 SkillsRouter.post("/add", jsonParser, (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
+            const skill = new Skill(
+                req.body.skill,
+                req.body.proficiency,
+                accountSession.account.email
+            );
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorTransformer(DB_ERR));
+                    else
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorTransformer(DB_ERR)
+                        );
                 });
             } else {
                 skill.insertDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorTransformer(DB_ERR));
+                    else
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorTransformer(DB_ERR)
+                        );
                 });
             }
         } else {
@@ -35,18 +47,30 @@ SkillsRouter.post("/add", jsonParser, (req, res) => {
 SkillsRouter.post("/update", jsonParser, (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            const skill = new Skill(req.body.skill, req.body.proficiency, accountSession.account.email);
+            const skill = new Skill(
+                req.body.skill,
+                req.body.proficiency,
+                accountSession.account.email
+            );
             skill._id = new ObjectId(req.body._id);
 
             if (req.body.delete === "on") {
                 skill.deleteDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorTransformer(DB_ERR));
+                    else
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorTransformer(DB_ERR)
+                        );
                 });
             } else {
                 skill.updateDatabaseItem((success) => {
                     if (success) res.redirect(routes.dashboardCard.skills);
-                    else res.render(views.genericError, new DatabaseErrorTransformer(DB_ERR));
+                    else
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorTransformer(DB_ERR)
+                        );
                 });
             }
         } else {

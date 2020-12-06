@@ -10,11 +10,17 @@ export default class AccountSessionTransformer {
         this.session = new Session(session);
     }
 
-    public static fetch(sessionKey: string, callback: (Transformer?: AccountSessionTransformer) => void): void {
+    public static fetch(
+        sessionKey: string,
+        callback: (Transformer?: AccountSessionTransformer) => void
+    ): void {
         Session.loadFromDatabase(sessionKey, (session) => {
             if (session) {
                 Account.loadFromDatabase(session.user, (account) => {
-                    if (account) callback(new AccountSessionTransformer(account, session));
+                    if (account)
+                        callback(
+                            new AccountSessionTransformer(account, session)
+                        );
                     else callback(undefined);
                 });
             } else {

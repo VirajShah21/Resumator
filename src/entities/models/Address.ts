@@ -37,7 +37,11 @@ export default class Address implements IAddress {
      * @returns True if all fields are valid; false otherwise
      */
     public validate(): boolean {
-        return this.validateStreet() && this.validateCityAndState() && this.validateZip();
+        return (
+            this.validateStreet() &&
+            this.validateCityAndState() &&
+            this.validateZip()
+        );
     }
 
     /**

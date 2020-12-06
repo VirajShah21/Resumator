@@ -67,7 +67,13 @@ export default class Certification implements ICertification {
                 else callback(true);
             });
         } else {
-            Logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
+            Logger.warn(
+                `Could not update certification ${JSON.stringify(
+                    this,
+                    null,
+                    4
+                )} Invalid Data`
+            );
             callback(false);
         }
     }
@@ -79,7 +85,9 @@ export default class Certification implements ICertification {
      */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
-            Logger.info(`Certification (${this._id}) is valid and will be updated`);
+            Logger.info(
+                `Certification (${this._id}) is valid and will be updated`
+            );
             database.collection(CERT_COLLECTION).updateOne(
                 { _id: new ObjectId(this._id) },
                 {
@@ -87,17 +95,35 @@ export default class Certification implements ICertification {
                 },
                 (err) => {
                     if (err) {
-                        Logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Database Error`);
+                        Logger.warn(
+                            `Could not update certification ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )} Database Error`
+                        );
                         Logger.error(err);
                         callback(false);
                     } else {
-                        Logger.info(`Updated certification ${JSON.stringify(this, null, 4)}`);
+                        Logger.info(
+                            `Updated certification ${JSON.stringify(
+                                this,
+                                null,
+                                4
+                            )}`
+                        );
                         callback(true);
                     }
                 }
             );
         } else {
-            Logger.warn(`Could not update certification ${JSON.stringify(this, null, 4)} Invalid Data`);
+            Logger.warn(
+                `Could not update certification ${JSON.stringify(
+                    this,
+                    null,
+                    4
+                )} Invalid Data`
+            );
             callback(false);
         }
     }
@@ -107,10 +133,12 @@ export default class Certification implements ICertification {
      * @param callback The callback once deletion is done
      */
     public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database.collection(CERT_COLLECTION).deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-            if (err) callback(false);
-            else callback(true);
-        });
+        database
+            .collection(CERT_COLLECTION)
+            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
+                if (err) callback(false);
+                else callback(true);
+            });
     }
 
     /**
@@ -119,7 +147,10 @@ export default class Certification implements ICertification {
      * @param user The user's email
      * @param callback The callback containing a list of certifications as the only argument
      */
-    public static loadFromDatabase(user: string, callback: (certifications: Certification[]) => void): void {
+    public static loadFromDatabase(
+        user: string,
+        callback: (certifications: Certification[]) => void
+    ): void {
         database
             .collection(CERT_COLLECTION)
             .find({ user })

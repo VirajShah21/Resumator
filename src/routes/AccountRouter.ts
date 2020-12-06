@@ -40,18 +40,21 @@ exec("mkdir /tmp", () => {
 
 AccountRouter.get("/", (req, res) => {
     if (req.cookies.session) {
-        AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-            if (accountSession && accountSession.account) {
-                res.render("manage-account", {
-                    nav: "Account",
-                    account: accountSession.account,
-                });
-            } else {
-                res.render(views.accountPage, {
-                    nav: "Account",
-                });
+        AccountSessionTransformer.fetch(
+            req.cookies.session,
+            (accountSession) => {
+                if (accountSession && accountSession.account) {
+                    res.render("manage-account", {
+                        nav: "Account",
+                        account: accountSession.account,
+                    });
+                } else {
+                    res.render(views.accountPage, {
+                        nav: "Account",
+                    });
+                }
             }
-        });
+        );
     } else {
         res.render(views.accountPage, {
             nav: "Account",
@@ -86,7 +89,12 @@ AccountRouter.post("/signup", (req, res) => {
                         }
                     });
                 } else {
-                    res.render(views.genericError, new DatabaseErrorTransformer("Could not create a new account."));
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer(
+                            "Could not create a new account."
+                        )
+                    );
                 }
             });
         });
@@ -102,9 +110,12 @@ AccountRouter.post("/signup", (req, res) => {
 AccountRouter.post("/update", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            accountSession.account.fname = req.body.fname || accountSession.account.fname;
-            accountSession.account.lname = req.body.lname || accountSession.account.lname;
-            accountSession.account.email = req.body.email || accountSession.account.email;
+            accountSession.account.fname =
+                req.body.fname || accountSession.account.fname;
+            accountSession.account.lname =
+                req.body.lname || accountSession.account.lname;
+            accountSession.account.email =
+                req.body.email || accountSession.account.email;
 
             if (req.body.line1) {
                 accountSession.account.address = new Address({
@@ -120,7 +131,13 @@ AccountRouter.post("/update", (req, res) => {
 
             accountSession.account.updateDatabaseItem((success) => {
                 if (success) res.redirect(routes.dashboard);
-                else res.render(views.genericError, new DatabaseErrorTransformer("Could not update account info"));
+                else
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer(
+                            "Could not update account info"
+                        )
+                    );
             });
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
@@ -137,7 +154,10 @@ AccountRouter.post("/update-goal", (req, res) => {
                 if (success) {
                     res.redirect(routes.dashboardCard.goals);
                 } else {
-                    res.render(views.genericError, new DatabaseErrorTransformer("Could not update goal "));
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer("Could not update goal ")
+                    );
                 }
             });
         } else {
@@ -149,25 +169,32 @@ AccountRouter.post("/update-goal", (req, res) => {
 AccountRouter.post("/login", (req, res) => {
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {
-            comparePasswordWithHash(req.body.password, account.password, (correctPassword) => {
-                if (correctPassword) {
-                    const session: Session = new Session(account);
-                    res.cookie("session", session.key);
-                    session.insertDatabaseItem((isSessionAdded) => {
-                        if (isSessionAdded) res.redirect(routes.dashboard);
-                        else
-                            res.render(
-                                views.genericError,
-                                new DatabaseErrorTransformer("Could not create a new session.")
-                            );
-                    });
-                } else {
-                    res.render(views.genericError, {
-                        error: "Wrong Password",
-                        message: "You entered an incorrect password. Passwords are case sensitive",
-                    });
+            comparePasswordWithHash(
+                req.body.password,
+                account.password,
+                (correctPassword) => {
+                    if (correctPassword) {
+                        const session: Session = new Session(account);
+                        res.cookie("session", session.key);
+                        session.insertDatabaseItem((isSessionAdded) => {
+                            if (isSessionAdded) res.redirect(routes.dashboard);
+                            else
+                                res.render(
+                                    views.genericError,
+                                    new DatabaseErrorTransformer(
+                                        "Could not create a new session."
+                                    )
+                                );
+                        });
+                    } else {
+                        res.render(views.genericError, {
+                            error: "Wrong Password",
+                            message:
+                                "You entered an incorrect password. Passwords are case sensitive",
+                        });
+                    }
                 }
-            });
+            );
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
         }
@@ -196,22 +223,29 @@ AccountRouter.post(
     (req, res) => {
         const destination = "/tmp/profile_photos";
         const filename = profilePhotoUploads[req.cookies.session];
-        const fullpath = path.join(destination, filename);  
+        const fullpath = path.join(destination, filename);
 
-        AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-            if (accountSession) {
-                uploadProfilePhoto(fullpath, accountSession.account._id);
-                accountSession.account.photo = true;
-                accountSession.account.updateDatabaseItem((success) => {
-                    if (success)
-                        res.send("Great! Your profile photo has been updated!");
-                    else
-                        res.send("There seems to be an issue with your account.");
-                });       
-            } else {
-                res.send("There seems to be an issue with your account.");
+        AccountSessionTransformer.fetch(
+            req.cookies.session,
+            (accountSession) => {
+                if (accountSession) {
+                    uploadProfilePhoto(fullpath, accountSession.account._id);
+                    accountSession.account.photo = true;
+                    accountSession.account.updateDatabaseItem((success) => {
+                        if (success)
+                            res.send(
+                                "Great! Your profile photo has been updated!"
+                            );
+                        else
+                            res.send(
+                                "There seems to be an issue with your account."
+                            );
+                    });
+                } else {
+                    res.send("There seems to be an issue with your account.");
+                }
             }
-        });
+        );
     }
 );
 

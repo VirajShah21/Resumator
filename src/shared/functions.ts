@@ -9,7 +9,10 @@ export const KEYLENGTH = 15;
  * @param plaintextPassword Plaintext password
  * @param callback Passes one argument: the password hash
  */
-export function hashPassword(plaintextPassword: string, callback?: (hash: string) => void) {
+export function hashPassword(
+    plaintextPassword: string,
+    callback?: (hash: string) => void
+) {
     Bcrypt.hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
         if (callback) callback(hash);
     });
@@ -38,7 +41,8 @@ export function comparePasswordWithHash(
 export function generateKey(): string {
     let key = "";
 
-    while (key.length < KEYLENGTH) key += keygenChars.charAt(Math.random() * keygenChars.length);
+    while (key.length < KEYLENGTH)
+        key += keygenChars.charAt(Math.random() * keygenChars.length);
 
     return key;
 }
@@ -51,7 +55,10 @@ export function generateKey(): string {
  */
 export function validateEmail(email: string): boolean {
     try {
-        return email.split("@").length === 2 && email.split("@")[1].split(".").length === 2;
+        return (
+            email.split("@").length === 2 &&
+            email.split("@")[1].split(".").length === 2
+        );
     } catch (e) {
         return false;
     }
@@ -82,6 +89,7 @@ export function validateMonthYearString(date: string): boolean {
  * @returns The resulting object (base)
  */
 export function addToObject(toAdd: any, base: any): any {
-    for (const prop in toAdd) if (toAdd.hasOwnProperty(prop)) base[prop] = toAdd[prop];
+    for (const prop in toAdd)
+        if (toAdd.hasOwnProperty(prop)) base[prop] = toAdd[prop];
     return base;
 }

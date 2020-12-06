@@ -17,7 +17,10 @@ const AllInput = {
                 const tld = domain.split(".")[1].trim();
 
                 return (
-                    user.length > 0 && domain.length > 0 && domainName.length > 0 && tld.length > 1
+                    user.length > 0 &&
+                    domain.length > 0 &&
+                    domainName.length > 0 &&
+                    tld.length > 1
                 );
             } catch (e) {
                 return false;
@@ -73,7 +76,13 @@ const AllInput = {
                 let day = parseInt(date.split("/")[1]);
                 let year = date.split("/")[2];
 
-                return month > 0 && month < 13 && day > 0 && day < 32 && year.length == 4;
+                return (
+                    month > 0 &&
+                    month < 13 &&
+                    day > 0 &&
+                    day < 32 &&
+                    year.length == 4
+                );
             } catch (e) {
                 return false;
             }
@@ -122,10 +131,10 @@ const AllInput = {
                     return "1234567890".indexOf(digit) >= 0;
                 })
                 .join("");
-            return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)} - ${digits.substring(
-                6,
-                10
-            )}`;
+            return `(${digits.substring(0, 3)}) ${digits.substring(
+                3,
+                6
+            )} - ${digits.substring(6, 10)}`;
         },
 
         /**
@@ -149,17 +158,26 @@ const AllInput = {
                 })
                 .join("");
 
-            if (digits.length > 6 && digits.charAt(0) == 0 && digits.charAt(1) == 1)
+            if (
+                digits.length > 6 &&
+                digits.charAt(0) == 0 &&
+                digits.charAt(1) == 1
+            )
                 digits = digits.substring(1);
-            else if (digits.length > 6) digits = digits.substring(0, digits.length - 1);
+            else if (digits.length > 6)
+                digits = digits.substring(0, digits.length - 1);
 
             if (
                 (digits.length == 1 && digits.charAt(0) > 1) ||
-                (digits.length == 2 && digits.charAt(0) > 2 && digits.charAt(0) != 0)
+                (digits.length == 2 &&
+                    digits.charAt(0) > 2 &&
+                    digits.charAt(0) != 0)
             )
                 digits = "0" + digits;
 
-            return digits.length >= 2 ? `${digits.substring(0, 2)}/${digits.substring(2)}` : digits;
+            return digits.length >= 2
+                ? `${digits.substring(0, 2)}/${digits.substring(2)}`
+                : digits;
         },
     },
 
@@ -213,10 +231,17 @@ const AllInput = {
                 // Validate
                 input.addEventListener("change", (event) => {
                     let target = event.target;
-                    let validator = target.getAttribute("data-type") || target.type || "text";
+                    let validator =
+                        target.getAttribute("data-type") ||
+                        target.type ||
+                        "text";
 
-                    if (target.required && target.value.trim().length == 0) notifyInvalid(target);
-                    else if (!target.required && target.value.trim().length == 0)
+                    if (target.required && target.value.trim().length == 0)
+                        notifyInvalid(target);
+                    else if (
+                        !target.required &&
+                        target.value.trim().length == 0
+                    )
                         clearValidation(target);
                     else if (validators.hasOwnProperty(validator))
                         validators[validator](target.value)
@@ -232,10 +257,13 @@ const AllInput = {
                 // Format
                 input.addEventListener("keyup", (event) => {
                     let target = event.target;
-                    let formatter = target.getAttribute("data-type") || target.type;
+                    let formatter =
+                        target.getAttribute("data-type") || target.type;
 
                     if (target.value.trim().length > 0 && formatter)
-                        target.value = AllInput.formatters[formatter](target.value);
+                        target.value = AllInput.formatters[formatter](
+                            target.value
+                        );
                 });
             }
         });
@@ -253,7 +281,9 @@ const ProfileOverviewController = {
         let icon = document.getElementById("profile-icon");
 
         icon.addEventListener("click", () => {
-            document.getElementById("change-profile-pic-wrapper").hidden = false;
+            document.getElementById(
+                "change-profile-pic-wrapper"
+            ).hidden = false;
         });
 
         let dropzone = new Dropzone("div#profile-pic-dropzone", {
