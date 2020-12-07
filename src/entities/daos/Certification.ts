@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
 import { validateMonthYearString, validateEmail } from "@shared/functions";
 import Logger from "@shared/Logger";
+import logger from "@shared/Logger";
 
 const CERT_COLLECTION = "certifications";
 
@@ -33,7 +34,7 @@ export default class Certification implements ICertification {
      * @param certification The certification object to construct
      */
     constructor(certification: ICertification) {
-        this._id = certification._id;
+        this._id = new ObjectId(certification._id);
         this.institution = certification.institution.trim();
         this.certification = certification.certification.trim();
         this.details = certification.details?.trim() || "";
@@ -89,7 +90,7 @@ export default class Certification implements ICertification {
                 `Certification (${this._id}) is valid and will be updated`
             );
             database.collection(CERT_COLLECTION).updateOne(
-                { _id: new ObjectId(this._id) },
+                { _id: this._id },
                 {
                     $set: this,
                 },
