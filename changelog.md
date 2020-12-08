@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file.
 
 -   Created component mixins for resume information cards
 -   Created component mixins for progress bar and labels
+-   Fixed validators
+    -   Entities automatically validate all fields now. Super-class `Entity.ts` automatically finds the validator functions.
 
 ## [0.0.5] - 2020-12-02
 
