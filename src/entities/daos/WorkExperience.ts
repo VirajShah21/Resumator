@@ -2,6 +2,7 @@ import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import { validateEmail, validateMonthYearString } from "@shared/functions";
 import Logger from "@shared/Logger";
+import Entity from "../Entity";
 
 const WORK_EXPERIENCE_COLLECTION = "work-experience";
 
@@ -21,7 +22,7 @@ export interface IWorkExperience {
 /**
  * Work experience class
  */
-export default class WorkExperience {
+export default class WorkExperience extends Entity implements IWorkExperience {
     public _id: ObjectId;
     public user: string;
     public position: string;
@@ -47,6 +48,7 @@ export default class WorkExperience {
         description?: string,
         user?: string
     ) {
+        super();
         if (typeof position == "string") {
             this._id = new ObjectId();
             this.position = position.trim();
@@ -196,27 +198,27 @@ export default class WorkExperience {
             });
     }
 
-    /**
-     * @returns True if all fields are valid; false otherwise
-     */
-    public validate(): boolean {
-        return (
-            validateEmail(this.user) &&
-            this.position.length > 0 &&
-            this.organization.length > 0 &&
-            this.validateStartAndEnd()
-        );
+    protected validateDescription(): boolean {
+        return true;
     }
 
-    /**
-     * Checks if the stard and end dates are in the format mm/YYYY (end can be left blank)
-     *
-     * @returns True if start and end dates are valid; false otherwise
-     */
-    private validateStartAndEnd(): boolean {
-        return (
-            validateMonthYearString(this.start) &&
-            (validateMonthYearString(this.end) || this.end === "")
-        );
+    protected validateEnd(): boolean {
+        return validateMonthYearString(this.end) || this.end === "";
+    }
+
+    protected validateOrganization(): boolean {
+        return this.organization.length > 0;
+    }
+
+    protected validatePosition(): boolean {
+        return this.position.length > 0;
+    }
+
+    protected validateStart(): boolean {
+        return validateMonthYearString(this.start);
+    }
+
+    protected validateUser(): boolean {
+        return validateEmail(this.user);
     }
 }

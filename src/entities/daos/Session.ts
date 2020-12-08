@@ -1,4 +1,4 @@
-import { generateKey, KEYLENGTH } from "@shared/functions";
+import { generateKey, KEYLENGTH, validateEmail } from "@shared/functions";
 import { database } from "@shared/database";
 import { IAccount } from "@entities/Account";
 
@@ -79,5 +79,17 @@ export default class Session implements ISession {
      */
     public validate(): boolean {
         return this.key.length === KEYLENGTH;
+    }
+
+    protected validateKey(): boolean {
+        return this.key.length === KEYLENGTH;
+    }
+
+    protected validateTimestamp(): boolean {
+        return true;
+    }
+
+    protected validateUser(): boolean {
+        return validateEmail(this.user);
     }
 }

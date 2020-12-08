@@ -3,6 +3,7 @@ import { database } from "@shared/database";
 import { validateMonthYearString, validateEmail } from "@shared/functions";
 import Logger from "@shared/Logger";
 import logger from "@shared/Logger";
+import Entity from "../Entity";
 
 const CERT_COLLECTION = "certifications";
 
@@ -21,7 +22,7 @@ export interface ICertification {
 /**
  * Certification class
  */
-export default class Certification implements ICertification {
+export default class Certification extends Entity implements ICertification {
     public _id: ObjectId;
     public institution: string;
     public certification: string;
@@ -34,26 +35,13 @@ export default class Certification implements ICertification {
      * @param certification The certification object to construct
      */
     constructor(certification: ICertification) {
+        super();
         this._id = new ObjectId(certification._id);
         this.institution = certification.institution.trim();
         this.certification = certification.certification.trim();
         this.details = certification.details?.trim() || "";
         this.examDate = certification.examDate.trim();
         this.user = certification.user.trim();
-    }
-
-    /**
-     * Checks if the certifications fields are valid
-     *
-     * @returns True if all fields are valid; false otherwise
-     */
-    public validate(): boolean {
-        return (
-            this.institution.length > 0 &&
-            this.certification.length > 0 &&
-            validateMonthYearString(this.examDate) &&
-            validateEmail(this.user)
-        );
     }
 
     /**
@@ -165,5 +153,25 @@ export default class Certification implements ICertification {
                         })
                     );
             });
+    }
+
+    protected validateCertification(): boolean {
+        return this.certification.length > 0;
+    }
+
+    protected validateDetails(): boolean {
+        return true;
+    }
+
+    protected validateExamDate(): boolean {
+        return validateMonthYearString(this.examDate);
+    }
+
+    protected validateInstitution(): boolean {
+        return this.institution.length > 0;
+    }
+
+    protected validateUser(): boolean {
+        return validateEmail(this.user);
     }
 }

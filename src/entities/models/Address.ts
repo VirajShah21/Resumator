@@ -1,3 +1,5 @@
+import Entity from "../Entity";
+
 /**
  * Address interface
  */
@@ -12,7 +14,7 @@ export interface IAddress {
 /**
  * Address class
  */
-export default class Address implements IAddress {
+export default class Address extends Entity implements IAddress {
     public line1: string;
     public line2: string;
     public city: string;
@@ -24,6 +26,7 @@ export default class Address implements IAddress {
      * @param address The address object to construct
      */
     constructor(address: IAddress) {
+        super();
         this.line1 = address.line1.trim();
         this.line2 = address.line2?.trim() || "";
         this.city = address.city.trim();
@@ -31,25 +34,11 @@ export default class Address implements IAddress {
         this.zip = address.zip.trim();
     }
 
-    /**
-     * Validate street, city, state, and zip
-     *
-     * @returns True if all fields are valid; false otherwise
-     */
-    public validate(): boolean {
-        return (
-            this.validateStreet() &&
-            this.validateCityAndState() &&
-            this.validateZip()
-        );
+    protected validateCity(): boolean {
+        return this.city.length > 0;
     }
 
-    /**
-     * Checks if the street provides a number as the first item
-     *
-     * @returns True if the address line 1 is valid; false otherwise
-     */
-    private validateStreet(): boolean {
+    protected validateLine1(): boolean {
         try {
             const number = this.line1.split(" ")[0];
             parseInt(number, 10); // will throw an exception if NaN
@@ -60,21 +49,15 @@ export default class Address implements IAddress {
         }
     }
 
-    /**
-     * Checks if the city has any length, and the state has an abbreviation length of 2
-     *
-     * @returns True if the city and state are valid; false otherwise
-     */
-    private validateCityAndState(): boolean {
-        return this.city.length > 0 && this.state.length === 2;
+    protected validateLine2(): boolean {
+        return true;
     }
 
-    /**
-     * Checks if the zip code has a length of exactly 5
-     *
-     * @returns True if the zip code is valid; false otherwise
-     */
-    private validateZip(): boolean {
-        return this.zip.length === 5;
+    protected validateState(): boolean {
+        return this.state.length == 2;
+    }
+
+    protected validateZip(): boolean {
+        return this.zip.length == 5;
     }
 }

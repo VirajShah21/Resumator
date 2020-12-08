@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
 import { validateEmail } from "@shared/functions";
+import Entity from "../Entity";
 
 export const SKILLS_COLLECTION = "skills";
 
@@ -17,7 +18,7 @@ export interface ISkill {
 /**
  * Skill class
  */
-export default class Skill implements ISkill {
+export default class Skill extends Entity implements ISkill {
     public _id: ObjectId;
     public name: string;
     public proficiency: number;
@@ -30,6 +31,7 @@ export default class Skill implements ISkill {
      * @param user The user's email address
      */
     constructor(name: string | ISkill, proficiency?: number, user?: string) {
+        super();
         if (typeof name == "string") {
             this._id = new ObjectId();
             this.name = name.trim();
@@ -41,20 +43,6 @@ export default class Skill implements ISkill {
             this.proficiency = name.proficiency;
             this.user = name.user.trim();
         }
-    }
-
-    /**
-     * Checks if name, proficiency, and email are valid
-     *
-     * @returns True if fields are valid; false otherwise
-     */
-    public validate(): boolean {
-        return (
-            this.name !== "" &&
-            this.proficiency > 0 &&
-            this.proficiency <= 100 &&
-            validateEmail(this.user)
-        );
     }
 
     /**
@@ -127,5 +115,17 @@ export default class Skill implements ISkill {
                 if (err) callback([]);
                 else callback(skillset || []);
             });
+    }
+
+    protected validateName(): boolean {
+        return this.name.length > 0;
+    }
+
+    protected validateProficiency(): boolean {
+        return this.proficiency >= 0 && this.proficiency <= 100;
+    }
+
+    protected validateUser(): boolean {
+        return validateEmail(this.user);
     }
 }

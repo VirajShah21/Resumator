@@ -2,6 +2,7 @@ import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import { validateEmail, validateMonthYearString } from "@shared/functions";
 import logger from "@shared/Logger";
+import Entity from "../Entity";
 
 const EDUCATION_COLLECTION = "education";
 
@@ -23,7 +24,7 @@ export interface IEducation {
 /**
  * Education class
  */
-export default class Education implements IEducation {
+export default class Education extends Entity implements IEducation {
     public _id: ObjectId;
     public user: string;
     public institution: string;
@@ -46,13 +47,14 @@ export default class Education implements IEducation {
      * @param description Description of study at the institution
      */
     constructor(education: IEducation) {
+        super();
         this.user = education.user.trim();
         this.institution = education.institution.trim();
         this.level = education.level.trim();
         this.degree = education.degree.trim();
         this.start = education.start.trim();
         this.end = education.end?.trim() || "";
-        this.gpa = education.gpa;
+        this.gpa = education.gpa ? +education.gpa : undefined;
         this.description = education.description?.trim() || "";
         this._id = new ObjectId(education._id);
     }
@@ -63,26 +65,16 @@ export default class Education implements IEducation {
      * @param callback Callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        logger.info(
-            `Adding education to database: ${JSON.stringify(this, null, 4)}`
-        );
         if (this.validate()) {
-            logger.info("All data is valid");
             database
                 .collection(EDUCATION_COLLECTION)
                 .insertOne(this, (err, result) => {
                     if (err) {
                         logger.error(err);
                         callback(false);
-                    } else {
-                        logger.info(
-                            `Education added: ${JSON.stringify(this, null, 4)}`
-                        );
-                        callback(true);
-                    }
+                    } else callback(true);
                 });
         } else {
-            logger.info(`Found invalid data: ${JSON.stringify(this, null, 4)}`);
             callback(false);
         }
     }
@@ -102,8 +94,10 @@ export default class Education implements IEducation {
                     $set: this,
                 },
                 (err, result) => {
-                    if (err) callback(false);
-                    else callback(true);
+                    if (err) {
+                        logger.error(err);
+                        callback(false);
+                    } else callback(true);
                 }
             );
         } else {
@@ -121,19 +115,9 @@ export default class Education implements IEducation {
             .collection(EDUCATION_COLLECTION)
             .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
                 if (err) {
-                    logger.info(
-                        `Could not delete education: ${JSON.stringify(
-                            this,
-                            null,
-                            4
-                        )} Database Error`
-                    );
                     logger.error(err);
                     callback(false);
                 } else {
-                    logger.info(
-                        `Deleted education: ${JSON.stringify(this, null, 4)}`
-                    );
                     callback(true);
                 }
             });
@@ -153,6 +137,7 @@ export default class Education implements IEducation {
             .collection(EDUCATION_COLLECTION)
             .find({ user: email })
             .toArray((err, result) => {
+                if (err) logger.error(err);
                 if (callback) {
                     callback(
                         result.map((item) => {
@@ -163,39 +148,36 @@ export default class Education implements IEducation {
             });
     }
 
-    /**
-     * @returns True if all fields are valid; false otherwise
-     */
-    public validate(): boolean {
-        return (
-            validateEmail(this.user) &&
-            this.validateRequiredStrings() &&
-            this.validateStartAndEnd()
-        );
+    protected validateUser(): boolean {
+        return validateEmail(this.user);
     }
 
-    /**
-     * Checks if the institution, level, and degree were provided
-     *
-     * @returns True if none of the required strings fields are blank; false otherwise
-     */
-    private validateRequiredStrings(): boolean {
-        return (
-            this.institution.length > 0 &&
-            this.level.length > 0 &&
-            this.degree.length > 0
-        );
+    protected validateInstitution(): boolean {
+        return this.institution.length > 0;
     }
 
-    /**
-     * Checks if the start date and end date is a valid mm/YYYY; end date can optionally be blank
-     *
-     * @returns True if the start and end date are valid; false otherwise
-     */
-    private validateStartAndEnd(): boolean {
-        return (
-            validateMonthYearString(this.start) &&
-            (validateMonthYearString(this.end) || this.end === "")
-        );
+    protected validateLevel(): boolean {
+        return this.level.length > 0;
+    }
+
+    protected validateDegree(): boolean {
+        return this.degree.length > 0;
+    }
+
+    protected validateStart(): boolean {
+        return validateMonthYearString(this.start);
+    }
+
+    protected validateEnd(): boolean {
+        return validateMonthYearString(this.end) || this.end === "";
+    }
+
+    protected validateGpa(): boolean {
+        if (this.gpa === undefined) return true;
+        return +this.gpa > 0 && +this.gpa < 5;
+    }
+
+    protected validateDescription(): boolean {
+        return true;
     }
 }
