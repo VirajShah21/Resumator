@@ -17,6 +17,24 @@ html(lang='en-US')
             .row
                 .col-12
                     hr
+            if !account.emailVerified
+                .row.mb-4
+                    .col-12
+                        .card.w-100.p-4
+                            h3.text-center Email Verification
+                            p.text-center.mt-4.mb-4
+                                | Please enter your email verification code.
+                                | You should have received an email from&nbsp;
+                                em Viraj at Resumator.
+                            .mt-4.mb-4.text-center
+                                form(action='/app/account/verify')
+                                    | Code:
+                                    input.pop-input.p-2.ml-4(style='font-size:1em' name='token' placeholder=' ')
+                                    button.btn.btn-primary(type='submit') Verify
+                            .mt-4.text-center
+                                i To resend the verification code, click&nbsp;
+                                i
+                                    a(href='/app/account/resend-verification') here
             .row
                 .col-10.col-md-8
                     +personal-info-card(account)

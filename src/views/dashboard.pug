@@ -28,6 +28,16 @@ html(lang='en-US')
         each certification in certifications
             +edit-certification-modal(certification)
         
+        if !account.emailVerified
+            .container-fluid.mt-4.text-dark.pt-4.pb-4
+                .container
+                    .row
+                        .col-12
+                            .alert.alert-warning
+                                strong Warning
+                                span.ml-3 You still need to verify your email. Please verify it in the&nbsp;
+                                    a(href='/app/account') Account
+                                    | &nbsp;tab.
         .container.mt-4
             .row
                 .col-12
