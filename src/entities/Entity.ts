@@ -11,8 +11,13 @@ export default abstract class Entity {
                 let funcName: string = `validate${key.charAt(0).toUpperCase()}`;
                 if (key.length > 1) funcName += key.substring(1);
 
+                let validateFunction: Function = (this as any)[funcName];
+
                 // call the validate function
-                if (!((this as any)[funcName] as Function)()) {
+                if (
+                    typeof validateFunction == "function" &&
+                    !(this as any)[funcName]()
+                ) {
                     isValid = false;
                     logger.info(
                         `Invalid field: ${key} -> ${JSON.stringify(

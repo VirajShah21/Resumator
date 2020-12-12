@@ -21,6 +21,7 @@ export interface IAccount {
     currentGoal?: string;
     objective?: string;
     photo?: boolean;
+    emailVerified: boolean;
 }
 
 /**
@@ -37,6 +38,7 @@ export default class Account extends Entity implements IAccount {
     public currentGoal?: string;
     public objective?: string;
     public photo: boolean;
+    public emailVerified: boolean;
 
     /**
      *
@@ -44,7 +46,7 @@ export default class Account extends Entity implements IAccount {
      */
     constructor(accountObject: IAccount) {
         super();
-        this._id = accountObject._id;
+        this._id = new ObjectId(accountObject._id);
         this.fname = accountObject.fname.trim();
         this.lname = accountObject.lname.trim();
         this.email = accountObject.email.trim();
@@ -56,6 +58,7 @@ export default class Account extends Entity implements IAccount {
         this.currentGoal = accountObject.currentGoal?.trim();
         this.objective = accountObject.objective?.trim();
         this.photo = accountObject.photo || false;
+        this.emailVerified = accountObject.emailVerified || false;
     }
 
     /**
@@ -182,6 +185,31 @@ export default class Account extends Entity implements IAccount {
             });
     }
 
+    public static loadFromDatabaseById(
+        oid: ObjectId,
+        callback: (account?: Account) => void
+    ): void {
+        database
+            .collection(ACCOUNTS_COLLECTION)
+            .findOne({ _id: oid }, (err, result) => {
+                if (err) {
+                    Logger.warn(
+                        `Mongo passed an error while loading user (${oid.toString()}) from`
+                    );
+                    Logger.error(err);
+                    callback(undefined);
+                } else if (!result) {
+                    Logger.warn(
+                        `No result returned from database for user: ${oid.toString()}`
+                    );
+                    callback(result ? new Account(result) : undefined);
+                } else {
+                    Logger.info(`Found + loading account: ${oid.toString()}`);
+                    callback(result ? new Account(result) : undefined);
+                }
+            });
+    }
+
     protected validateAddress(): boolean {
         return this.address ? this.address.validate() : true;
     }
@@ -218,5 +246,9 @@ export default class Account extends Entity implements IAccount {
                 }).length === 0 && this.phone.length === 16
             );
         else return true;
+    }
+
+    protected validateEmailVerified(): boolean {
+        return typeof this.emailVerified == "boolean";
     }
 }

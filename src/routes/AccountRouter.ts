@@ -15,12 +15,14 @@ import path from "path";
 import { exec } from "child_process";
 import fs from "fs";
 import { uploadProfilePhoto } from "@shared/cloud";
+import logger from "@shared/Logger";
 
 const AccountRouter = Router();
 
 AccountRouter.use(bodyParserJson());
 
 const profilePhotoUploads: any = {};
+const verifyEmailTokens: { email: string; _id: ObjectId; token: string }[] = [];
 
 // Setup temp storage directory
 exec("mkdir /tmp", () => {
@@ -71,6 +73,7 @@ AccountRouter.post("/signup", (req, res) => {
                 lname: req.body.lname,
                 email: req.body.email,
                 password: hash,
+                emailVerified: false,
             });
             account.insertDatabaseItem((accountSuccess) => {
                 if (accountSuccess) {
@@ -114,31 +117,62 @@ AccountRouter.post("/update", (req, res) => {
                 req.body.fname || accountSession.account.fname;
             accountSession.account.lname =
                 req.body.lname || accountSession.account.lname;
-            accountSession.account.email =
-                req.body.email || accountSession.account.email;
 
-            if (req.body.line1) {
-                accountSession.account.address = new Address({
-                    line1: req.body.line1,
-                    line2: req.body.line2,
-                    city: req.body.city,
-                    state: req.body.state,
-                    zip: req.body.zip,
+            if (req.body.email != accountSession.account.email) {
+                req.body.emailVerified = false;
+                accountSession.account.email =
+                    req.body.email || accountSession.account.email;
+                let newSession = new Session(accountSession.account);
+                newSession.insertDatabaseItem((success) => {
+                    if (success) res.cookie("session", newSession.key);
+
+                    if (req.body.line1) {
+                        accountSession.account.address = new Address({
+                            line1: req.body.line1,
+                            line2: req.body.line2,
+                            city: req.body.city,
+                            state: req.body.state,
+                            zip: req.body.zip,
+                        });
+                    }
+
+                    accountSession.account.phone = req.body.phone;
+
+                    accountSession.account.updateDatabaseItem((success) => {
+                        if (success) res.redirect(routes.dashboard);
+                        else
+                            res.render(
+                                views.genericError,
+                                new DatabaseErrorTransformer(
+                                    "Could not update account info"
+                                )
+                            );
+                    });
+                });
+            } else {
+                if (req.body.line1) {
+                    accountSession.account.address = new Address({
+                        line1: req.body.line1,
+                        line2: req.body.line2,
+                        city: req.body.city,
+                        state: req.body.state,
+                        zip: req.body.zip,
+                    });
+                }
+
+                accountSession.account.phone = req.body.phone;
+
+                accountSession.account.updateDatabaseItem((success) => {
+                    if (success) res.redirect(routes.dashboard);
+                    else
+                        res.render(
+                            views.genericError,
+                            new DatabaseErrorTransformer(
+                                "Could not update account info"
+                            )
+                        );
                 });
             }
-
-            accountSession.account.phone = req.body.phone;
-
-            accountSession.account.updateDatabaseItem((success) => {
-                if (success) res.redirect(routes.dashboard);
-                else
-                    res.render(
-                        views.genericError,
-                        new DatabaseErrorTransformer(
-                            "Could not update account info"
-                        )
-                    );
-            });
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
         }
@@ -261,6 +295,48 @@ AccountRouter.get("/my-photo", (req, res) => {
             res.redirect("https://placehold.it/300x300");
         }
     });
+});
+
+/**
+ * /app/account/verify?token=<token>
+ */
+AccountRouter.get("/verify", (req, res) => {
+    let token: string = req.body.string;
+
+    let tokenInfo = verifyEmailTokens.find((verifyObject) => {
+        if (verifyObject.token == token) {
+            return true;
+        }
+    });
+
+    if (tokenInfo) {
+        AccountSessionTransformer.fetch(
+            req.cookies.session,
+            (accountSession) => {
+                if (accountSession && accountSession.account) {
+                    if (
+                        accountSession.account._id == tokenInfo?._id &&
+                        accountSession.account.email == tokenInfo.email
+                    ) {
+                        accountSession.account.emailVerified = true;
+                        accountSession.account.updateDatabaseItem((success) => {
+                            if (success) {
+                                res.redirect("/app/dashboard");
+                            } else {
+                                res.render("errors/UnknownError");
+                            }
+                        });
+                    } else {
+                        res.render("errors/UnknownError");
+                    }
+                } else {
+                    res.render("errors/UnknownError");
+                }
+            }
+        );
+    } else {
+        res.render("errors/UnknownError");
+    }
 });
 
 export default AccountRouter;

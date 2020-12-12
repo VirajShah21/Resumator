@@ -11,6 +11,7 @@ MongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
     if (err) {
         logger.error(err);
         logger.error(`Could not connect to the database ${url}`);
+        throw err;
     } else {
         logger.info("Connected to database @ds339648.mlab.com:39648/resumator");
         database = db.db("resumator");
