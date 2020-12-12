@@ -122,6 +122,7 @@ The linter rules for TypeScript
 | :white_check_mark: | Help Page/s                            | v0.0.1        | v0.0.2          |
 | :x:                | Manage Account                         | v0.0.1        |                 |
 | :white_check_mark: | Upload Profile Photos                  | v0.0.3        | v0.1.0          |
+| :white_check_mark: | Email Verification                     | v0.1.0        |                 |
 
 ## Major Functionality Issues
 
@@ -161,6 +162,7 @@ The linter rules for TypeScript
 | :white_check_mark: | Resume Strength Meters/Overall dot     | v0.1.0          |
 | :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.1.0          |
 | :white_check_mark: | Theme Gallery Card                     | v0.1.0          |
+| :white_check_mark: | Verify Email Card                      | v0.1.0          |
 
 ## Major UI Issues
 

@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 -   Website page title (`Resumator` on every page)
 -   One more requirement for a software programming job
+-   Email verification
 
 ### Improvements
 
