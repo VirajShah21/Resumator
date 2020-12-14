@@ -49,10 +49,6 @@ export default class Address extends Entity implements IAddress {
         }
     }
 
-    protected validateLine2(): boolean {
-        return true;
-    }
-
     protected validateState(): boolean {
         return this.state.length == 2;
     }

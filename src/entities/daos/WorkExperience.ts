@@ -198,10 +198,6 @@ export default class WorkExperience extends Entity implements IWorkExperience {
             });
     }
 
-    protected validateDescription(): boolean {
-        return true;
-    }
-
     protected validateEnd(): boolean {
         return validateMonthYearString(this.end) || this.end === "";
     }

@@ -6,12 +6,12 @@ export default abstract class Entity {
 
         logger.info(`Validating ${JSON.stringify(this, null, 4)}`);
 
-        for (let key in this) {
+        for (const key in this) {
             if (this.hasOwnProperty(key)) {
                 let funcName: string = `validate${key.charAt(0).toUpperCase()}`;
                 if (key.length > 1) funcName += key.substring(1);
 
-                let validateFunction: Function = (this as any)[funcName];
+                const validateFunction: Function = (this as any)[funcName];
 
                 // call the validate function
                 if (
@@ -35,9 +35,5 @@ export default abstract class Entity {
         else logger.info(`INVALID ${JSON.stringify(this, null, 4)} INVALID`);
 
         return isValid;
-    }
-
-    public validate_id(): boolean {
-        return true;
     }
 }

@@ -159,10 +159,6 @@ export default class Certification extends Entity implements ICertification {
         return this.certification.length > 0;
     }
 
-    protected validateDetails(): boolean {
-        return true;
-    }
-
     protected validateExamDate(): boolean {
         return validateMonthYearString(this.examDate);
     }

@@ -214,10 +214,6 @@ export default class Account extends Entity implements IAccount {
         return this.address ? this.address.validate() : true;
     }
 
-    protected validateCurrentGoal(): boolean {
-        return true;
-    }
-
     protected validateEmail(): boolean {
         return validateEmail(this.email);
     }
@@ -228,10 +224,6 @@ export default class Account extends Entity implements IAccount {
 
     protected validateLname(): boolean {
         return this.lname.indexOf(" ") < 0;
-    }
-
-    protected validateObjective(): boolean {
-        return true;
     }
 
     protected validatePassword(): boolean {

@@ -30,14 +30,6 @@ export default class EmailTransition
         this.newEmail = newEmail;
     }
 
-    public validateOldEmail(): boolean {
-        return validateEmail(this.oldEmail);
-    }
-
-    public validateNewEmail(): boolean {
-        return validateEmail(this.newEmail);
-    }
-
     /**
      * Inserts this object to the email transition database
      *
@@ -120,5 +112,13 @@ export default class EmailTransition
                     );
                 }
             });
+    }
+
+    public validateOldEmail(): boolean {
+        return validateEmail(this.oldEmail);
+    }
+
+    public validateNewEmail(): boolean {
+        return validateEmail(this.newEmail);
     }
 }

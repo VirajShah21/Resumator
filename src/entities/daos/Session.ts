@@ -85,10 +85,6 @@ export default class Session implements ISession {
         return this.key.length === KEYLENGTH;
     }
 
-    protected validateTimestamp(): boolean {
-        return true;
-    }
-
     protected validateUser(): boolean {
         return validateEmail(this.user);
     }

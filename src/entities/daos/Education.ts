@@ -176,8 +176,4 @@ export default class Education extends Entity implements IEducation {
         if (this.gpa === undefined) return true;
         return +this.gpa > 0 && +this.gpa < 5;
     }
-
-    protected validateDescription(): boolean {
-        return true;
-    }
 }
