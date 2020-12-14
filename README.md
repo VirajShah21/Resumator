@@ -105,33 +105,28 @@ The linter rules for TypeScript
 
 |                    | Feature                                | Version Added | Version Updated |
 | ------------------ | -------------------------------------- | ------------- | --------------- |
-| :white_check_mark: | Sign Up                                | v0.0.1        |                 |
-| :white_check_mark: | Login                                  | v0.0.1        |                 |
+| :white_check_mark: | Sign Up                                | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Login                                  | v0.0.1        | v0.1.0          |
 | :white_check_mark: | Dashboard View                         | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Edit Name / Phone / Address            | v0.0.1        |                 |
-| :x:                | Edit email address                     | v0.0.1        |                 |
-| :white_check_mark: | Education Card                         | v0.0.1        |                 |
-| :white_check_mark: | Work Experience Card                   | v0.0.1        |                 |
-| :white_check_mark: | Skills Card                            | v0.0.1        |                 |
-| :white_check_mark: | Certifications Card                    | v0.0.1        |                 |
+| :white_check_mark: | Edit Name / Phone / Address            | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Edit email address                     | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Education Card                         | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Work Experience Card                   | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Skills Card                            | v0.0.1        | v0.1.0          |
+| :white_check_mark: | Certifications Card                    | v0.0.1        | v0.1.0          |
 | :white_check_mark: | Theme Gallery                          | V0.0.1        | V0.1.0          |
 | :white_check_mark: | Preview Resume Theme                   | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Set Objective / Goal                   | v0.0.1        |                 |
+| :white_check_mark: | Set Objective / Goal                   | v0.0.1        | v0.1.0          |
 | :white_check_mark: | Resume Strength Meter                  | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.5.0          |
+| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.1.0          |
 | :white_check_mark: | Help Page/s                            | v0.0.1        | v0.0.2          |
-| :x:                | Manage Account                         | v0.0.1        |                 |
+| :white_check_mark: | Manage Account                         | v0.0.1        | v0.1.0          |
 | :white_check_mark: | Upload Profile Photos                  | v0.0.3        | v0.1.0          |
 | :white_check_mark: | Email Verification                     | v0.1.0        |                 |
 
 ## Major Functionality Issues
 
--   Updating email causes: (Edit email address / Manage Account in features list)
-    -   Session error
-    -   When logging in with the new email, all other affiliated data is lost
-    -   Existing accounts can be shadowed due to no email conflict-checking
-    -   Resume info is lost (because it is associated by email rather than user ID)
-    -   **Must create a databse synchronization process**
+> No major functionality issues
 
 ## Minor Functionality Issues
 
@@ -155,7 +150,7 @@ The linter rules for TypeScript
 | :white_check_mark: | Education Modals (Add/Edit)            | v0.1.0          |
 | :white_check_mark: | Work Experience Modals (Add/Edit)      | v0.1.0          |
 | :white_check_mark: | Skills Modals (Add/Edit)               | v0.1.0          |
-| :x:                | Certifications Modals (Add/Edit)       | v0.1.0          |
+| :white_check_mark: | Certifications Modals (Add/Edit)       | v0.1.0          |
 | :white_check_mark: | Skills Pill Badges                     | V0.1.0          |
 | :white_check_mark: | Card Heading Icons                     | v0.1.0          |
 | :white_check_mark: | Resume Strength Panel                  | v0.1.0          |
@@ -174,16 +169,17 @@ The linter rules for TypeScript
 
 ## Pages List
 
-|                    | Component                    |
-| ------------------ | ---------------------------- |
-| :white_check_mark: | Home / Login / Signup Page   |
-| :white_check_mark: | Dashboard                    |
-| :white_check_mark: | Theme Gallery                |
-| :white_check_mark: | Theme Previews               |
-| :white_check_mark: | Help Dashboard               |
-| :white_check_mark: | Help pages (except markdown) |
-| :white_check_mark: | Manage Account               |
-| :white_check_mark: | Error page                   |
+|                    | Component                    | Notes            |
+| ------------------ | ---------------------------- | ---------------- |
+| :white_check_mark: | Homepage                     |                  |
+| :white_check_mark: | Login/Signup                 | Same as homepage |
+| :white_check_mark: | Dashboard                    |                  |
+| :white_check_mark: | Theme Gallery                |                  |
+| :white_check_mark: | Theme Previews               |                  |
+| :white_check_mark: | Help Dashboard               |                  |
+| :white_check_mark: | Help pages (except markdown) |                  |
+| :white_check_mark: | Manage Account               |                  |
+| :white_check_mark: | Error page                   |                  |
 
 ## Tasklist
 
