@@ -62,7 +62,8 @@ mixin edit-certification-modal(certification)
                             .col-12.col-md-8
                                 label Insitution
                                 input.form-control.mb-2(name='institution' value=certification.institution data-validate required)
-                            .col-12.col-md-4 Examination Date
+                            .col-12.col-md-4
+                                label Examination Date
                                 input.form-control.mb-2(name='exam-date' value=certification.examDate placeholder='mm/yyyy' data-type='mmyyyy' required)
                         .row
                             .col-12
