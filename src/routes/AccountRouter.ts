@@ -9,7 +9,6 @@ import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
-import Logger from "@shared/Logger";
 import multer from "multer";
 import path from "path";
 import { exec } from "child_process";
@@ -37,14 +36,14 @@ const verifyEmailTokens: {
 // Setup temp storage directory
 exec("mkdir /tmp", () => {
     if (!fs.existsSync("/tmp")) {
-        Logger.error("Could not create /tmp");
+        logger.error("Could not create /tmp");
     } else {
-        Logger.info("Created /tmp");
+        logger.info("Created /tmp");
         exec("mkdir /tmp/profile_photos", () => {
             if (!fs.existsSync("/tmp/profile_photos")) {
-                Logger.error("Could not create /tmp/profile_photos");
+                logger.error("Could not create /tmp/profile_photos");
             } else {
-                Logger.info("Created /tmp/profile_photos");
+                logger.info("Created /tmp/profile_photos");
             }
         });
     }
@@ -91,7 +90,7 @@ AccountRouter.post("/signup", (req, res) => {
                     session.insertDatabaseItem((sessionSuccess) => {
                         if (sessionSuccess) {
                             // Send an email verification email
-                            let emailer = new VerifyEmailer(account._id);
+                            const emailer = new VerifyEmailer(account._id);
                             let verifyPin =
                                 Math.round(Math.random() * 1000000) + "";
                             while (verifyPin.length < 6)
@@ -136,20 +135,20 @@ AccountRouter.post("/signup", (req, res) => {
 AccountRouter.post("/update", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession) {
-            let account: Account = accountSession.account;
+            const account: Account = accountSession.account;
             account.fname = req.body.fname || account.fname;
             account.lname = req.body.lname || account.lname;
 
             // If the email address has changed
-            if (req.body.email != account.email) {
-                let oldEmail: string = account.email;
-                let newEmail: string = req.body.email;
+            if (req.body.email !== account.email) {
+                const oldEmail: string = account.email;
+                const newEmail: string = req.body.email;
 
                 account.emailVerified = false;
                 account.email = newEmail || oldEmail;
 
                 // Create new session cookie and db item for the new account email
-                let newSession = new Session(account);
+                const newSession = new Session(account);
                 newSession.insertDatabaseItem((success) => {
                     if (success) res.cookie("session", newSession.key);
 
@@ -166,7 +165,7 @@ AccountRouter.post("/update", (req, res) => {
                     account.phone = req.body.phone;
 
                     // Send an email verification email
-                    let emailer = new VerifyEmailer(account._id);
+                    const emailer = new VerifyEmailer(account._id);
                     let verifyPin = Math.round(Math.random() * 1000000) + "";
                     while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
                     emailer.sendVerifyEmail(verifyPin);
@@ -362,14 +361,12 @@ AccountRouter.get("/my-photo", (req, res) => {
  * /app/account/verify?token=<token>
  */
 AccountRouter.get("/verify", (req, res) => {
-    let token: string = req.query.token as string;
+    const token: string = req.query.token as string;
 
     logger.info(`Verifying account with PIN ${token}`);
 
-    let tokenInfo = verifyEmailTokens.find((verifyObject) => {
-        if (verifyObject.token == token) {
-            return true;
-        }
+    const tokenInfo = verifyEmailTokens.find((verifyObject) => {
+        return verifyObject.token == token;
     });
 
     if (tokenInfo) {
@@ -526,7 +523,7 @@ AccountRouter.get("/resend-verification", (req, res) => {
             let account = accountSession.account;
 
             // Send an email verification email
-            let emailer = new VerifyEmailer(account._id);
+            const emailer = new VerifyEmailer(account._id);
             let verifyPin = Math.round(Math.random() * 1000000) + "";
             while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
             emailer.sendVerifyEmail(verifyPin);
