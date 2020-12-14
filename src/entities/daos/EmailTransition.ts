@@ -26,8 +26,8 @@ export default class EmailTransition
     ) {
         super();
         this._id = objectId ? new ObjectId(objectId) : new ObjectId();
-        this.oldEmail = oldEmail;
-        this.newEmail = newEmail;
+        this.oldEmail = oldEmail.trim();
+        this.newEmail = newEmail.trim();
     }
 
     /**
