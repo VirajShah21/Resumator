@@ -17,6 +17,11 @@ import fs from "fs";
 import { uploadProfilePhoto } from "@shared/cloud";
 import logger from "@shared/Logger";
 import { VerifyEmailer } from "@shared/util/Emailer";
+import EmailTransition from "@entities/EmailTransition";
+import Certification from "@entities/Certification";
+import Education from "@entities/Education";
+import Skill from "@entities/Skill";
+import WorkExperience from "@entities/WorkExperience";
 
 const AccountRouter = Router();
 
@@ -135,9 +140,13 @@ AccountRouter.post("/update", (req, res) => {
             account.fname = req.body.fname || account.fname;
             account.lname = req.body.lname || account.lname;
 
+            // If the email address has changed
             if (req.body.email != account.email) {
-                req.body.emailVerified = false;
-                account.email = req.body.email || account.email;
+                let oldEmail: string = account.email;
+                let newEmail: string = req.body.email;
+
+                account.emailVerified = false;
+                account.email = newEmail || oldEmail;
 
                 // Create new session cookie and db item for the new account email
                 let newSession = new Session(account);
@@ -162,15 +171,37 @@ AccountRouter.post("/update", (req, res) => {
                     while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
                     emailer.sendVerifyEmail(verifyPin);
                     verifyEmailTokens.push({
-                        email: account.email,
+                        email: newEmail,
                         userId: new ObjectId(account._id),
                         token: verifyPin,
                     });
 
                     // Update item in the database
                     account.updateDatabaseItem((success) => {
-                        if (success) res.redirect(routes.dashboard);
-                        else
+                        if (success) {
+                            res.redirect(routes.dashboard);
+
+                            // Begin the email transition
+                            let emailTransition = new EmailTransition(
+                                oldEmail,
+                                newEmail
+                            );
+                            emailTransition.insertDatabaseItem((success) => {
+                                if (success) {
+                                    logger.info(
+                                        `Email transition setup from ${oldEmail} -> ${newEmail}`
+                                    );
+                                } else {
+                                    logger.warn(
+                                        `Some database error with inserting EmailTransition ${JSON.stringify(
+                                            emailTransition,
+                                            null,
+                                            4
+                                        )}`
+                                    );
+                                }
+                            });
+                        } else
                             res.render(
                                 views.genericError,
                                 new DatabaseErrorTransformer(
@@ -363,6 +394,9 @@ AccountRouter.get("/verify", (req, res) => {
                                 logger.info(
                                     `Account ${accountSession.account.email} has been verified`
                                 );
+
+                                // Transition all database documents to use the new email
+
                                 res.redirect("/app/dashboard");
                             } else {
                                 logger.info(
@@ -371,6 +405,105 @@ AccountRouter.get("/verify", (req, res) => {
                                 res.render("errors/UnknownError");
                             }
                         });
+
+                        // Begin transition of all database items with the verified email
+                        EmailTransition.loadFromDatabase(
+                            accountSession.account.email,
+                            (emailTransitionObj) => {
+                                if (emailTransitionObj) {
+                                    let oldEmail: string =
+                                        emailTransitionObj.oldEmail;
+                                    let newEmail: string =
+                                        emailTransitionObj.newEmail;
+
+                                    // Transition all certifications
+                                    Certification.loadFromDatabase(
+                                        oldEmail,
+                                        (certifications) => {
+                                            certifications.forEach(
+                                                (certification) => {
+                                                    certification.user = newEmail;
+                                                    certification.updateDatabaseItem(
+                                                        (success) => {
+                                                            logger.info(
+                                                                `Transitioned certification ${JSON.stringify(
+                                                                    certification,
+                                                                    null,
+                                                                    4
+                                                                )}`
+                                                            );
+                                                        }
+                                                    );
+                                                }
+                                            );
+                                        }
+                                    );
+
+                                    // Transition all education
+                                    Education.loadFromDatabase(
+                                        oldEmail,
+                                        (edus) => {
+                                            edus.forEach((edu) => {
+                                                edu.user = newEmail;
+                                                edu.updateDatabaseItem(
+                                                    (success) => {
+                                                        logger.info(
+                                                            `Transitioned education ${JSON.stringify(
+                                                                edu,
+                                                                null,
+                                                                4
+                                                            )}`
+                                                        );
+                                                    }
+                                                );
+                                            });
+                                        }
+                                    );
+
+                                    // Transition all skills
+                                    Skill.loadFromDatabase(
+                                        oldEmail,
+                                        (skills) => {
+                                            skills.forEach((skill) => {
+                                                skill.user = newEmail;
+                                                skill.updateDatabaseItem(
+                                                    (success) => {
+                                                        logger.info(
+                                                            `Transitioned skill ${JSON.stringify(
+                                                                skill,
+                                                                null,
+                                                                4
+                                                            )}`
+                                                        );
+                                                    }
+                                                );
+                                            });
+                                        }
+                                    );
+
+                                    // Transition all work experience
+                                    WorkExperience.loadFromDatabase(
+                                        oldEmail,
+                                        (workHistory) => {
+                                            workHistory.forEach((workExp) => {
+                                                workExp.user = newEmail;
+                                                workExp.updateDatabaseItem(
+                                                    (success) => {
+                                                        logger.info(
+                                                            `Transitioned work experience ${JSON.stringify(
+                                                                workExp,
+                                                                null,
+                                                                4
+                                                            )}`
+                                                        );
+                                                    }
+                                                );
+                                            });
+                                        }
+                                    );
+                                }
+                            }
+                        );
                     } else {
                         logger.info(
                             `Account ${accountSession.account.email} did not match the verification ID`

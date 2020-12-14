@@ -106,14 +106,19 @@ export default class Skill extends Entity implements ISkill {
      */
     public static loadFromDatabase(
         user: string,
-        callback: (skills: ISkill[]) => void
+        callback: (skills: Skill[]) => void
     ): void {
         database
             .collection(SKILLS_COLLECTION)
             .find({ user })
             .toArray((err, skillset) => {
                 if (err) callback([]);
-                else callback(skillset || []);
+                else
+                    callback(
+                        skillset.map((skill) => {
+                            return new Skill(skill);
+                        }) || []
+                    );
             });
     }
 
