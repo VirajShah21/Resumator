@@ -50,7 +50,7 @@ export default class Account extends Entity implements IAccount {
         this.fname = accountObject.fname.trim();
         this.lname = accountObject.lname.trim();
         this.email = accountObject.email.trim();
-        this.password = accountObject.password;
+        this.password = accountObject.password.trim();
         this.address = accountObject.address
             ? new Address(accountObject.address)
             : undefined;

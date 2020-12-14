@@ -1,7 +1,6 @@
 import { ObjectId } from "mongodb";
 import { database } from "@shared/database";
 import { validateMonthYearString, validateEmail } from "@shared/functions";
-import Logger from "@shared/Logger";
 import logger from "@shared/Logger";
 import Entity from "../Entity";
 
@@ -56,7 +55,7 @@ export default class Certification extends Entity implements ICertification {
                 else callback(true);
             });
         } else {
-            Logger.warn(
+            logger.warn(
                 `Could not update certification ${JSON.stringify(
                     this,
                     null,
@@ -74,7 +73,7 @@ export default class Certification extends Entity implements ICertification {
      */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
-            Logger.info(
+            logger.info(
                 `Certification (${this._id}) is valid and will be updated`
             );
             database.collection(CERT_COLLECTION).updateOne(
@@ -84,17 +83,17 @@ export default class Certification extends Entity implements ICertification {
                 },
                 (err) => {
                     if (err) {
-                        Logger.warn(
+                        logger.warn(
                             `Could not update certification ${JSON.stringify(
                                 this,
                                 null,
                                 4
                             )} Database Error`
                         );
-                        Logger.error(err);
+                        logger.error(err);
                         callback(false);
                     } else {
-                        Logger.info(
+                        logger.info(
                             `Updated certification ${JSON.stringify(
                                 this,
                                 null,
@@ -106,7 +105,7 @@ export default class Certification extends Entity implements ICertification {
                 }
             );
         } else {
-            Logger.warn(
+            logger.warn(
                 `Could not update certification ${JSON.stringify(
                     this,
                     null,
