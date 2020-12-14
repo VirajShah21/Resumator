@@ -1,6 +1,5 @@
 import Account from "@entities/Account";
 import logger from "@shared/Logger";
-import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
 import nodemailer from "nodemailer";
 import fs from "fs";
@@ -39,7 +38,7 @@ export class VerifyEmailer {
                 while (html.indexOf("${verifylink}") >= 0)
                     html = html.replace("${verifylink}", tokenString);
 
-                let emailInfo = {
+                const emailInfo = {
                     from: "Viraj Shah at Resumator",
                     to: account.email,
                     subject: "Please Verify Your Email",

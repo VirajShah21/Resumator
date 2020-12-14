@@ -1,4 +1,3 @@
-import logger from "@shared/Logger";
 import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 import { ISuggestion, IGoalResults } from "./GoalInterfaces";
 
