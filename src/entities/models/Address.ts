@@ -50,10 +50,10 @@ export default class Address extends Entity implements IAddress {
     }
 
     protected validateState(): boolean {
-        return this.state.length == 2;
+        return this.state.length === 2;
     }
 
     protected validateZip(): boolean {
-        return this.zip.length == 5;
+        return this.zip.length === 5;
     }
 }
