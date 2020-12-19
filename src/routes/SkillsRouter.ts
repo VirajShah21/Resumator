@@ -6,13 +6,16 @@ import { views, routes } from "@shared/constants";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
+import { RouterLogger } from "@shared/util/LogUtils";
 
 const DB_ERR = "Could not delete skill.";
 const SkillsRouter = Router();
 const jsonParser = bodyParserJson();
 
 SkillsRouter.post("/add", jsonParser, (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/skills/add", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const skill = new Skill(
                 req.body.skill,
@@ -45,7 +48,9 @@ SkillsRouter.post("/add", jsonParser, (req, res) => {
 });
 
 SkillsRouter.post("/update", jsonParser, (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/skills/update", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const skill = new Skill(
                 req.body.skill,

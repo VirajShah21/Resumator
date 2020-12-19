@@ -6,12 +6,18 @@ import { views, routes } from "@shared/constants";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
+import { RouterLogger } from "@shared/util/LogUtils";
 
 const WorkExperienceRouter = Router();
 const jsonParser = bodyParserJson();
 
 WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/work-experience/add",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const experience = new WorkExperience(
                 req.body.position,
@@ -38,7 +44,12 @@ WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
 });
 
 WorkExperienceRouter.post("/update", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/work-experience/update",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const experience = new WorkExperience(
                 req.body.position,

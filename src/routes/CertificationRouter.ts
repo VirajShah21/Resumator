@@ -6,12 +6,18 @@ import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { ObjectId } from "mongodb";
+import { RouterLogger } from "@shared/util/LogUtils";
 
 const CertificationRouter = Router();
 const jsonParser = bodyParserJson();
 
 CertificationRouter.post("/add", jsonParser, (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/certifications/add",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const certification = new Certification({
                 _id: new ObjectId(),
@@ -39,7 +45,12 @@ CertificationRouter.post("/add", jsonParser, (req, res) => {
 });
 
 CertificationRouter.post("/update", jsonParser, (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/certifications/add",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const certification = new Certification({
                 _id: req.body._id,

@@ -3,11 +3,14 @@ import { views } from "@shared/constants";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
+import { RouterLogger } from "@shared/util/LogUtils";
 
 const ThemesRouter = Router();
 
 ThemesRouter.get("/", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/themes/", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession && accountSession.account) {
             res.render("themes", {
                 nav: "Themes",
@@ -22,7 +25,9 @@ ThemesRouter.get("/", (req, res) => {
 });
 
 ThemesRouter.get("/preview", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/themes/preview", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             ResumeInfoTransformer.fetch(
                 accountSession.account.email,

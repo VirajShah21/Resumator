@@ -21,6 +21,7 @@ import Certification from "@entities/Certification";
 import Education from "@entities/Education";
 import Skill from "@entities/Skill";
 import WorkExperience from "@entities/WorkExperience";
+import { RouterLogger } from "@shared/util/LogUtils";
 
 const AccountRouter = Router();
 
@@ -50,10 +51,12 @@ exec("mkdir /tmp", () => {
 });
 
 AccountRouter.get("/", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account/", req);
     if (req.cookies.session) {
         AccountSessionTransformer.fetch(
             req.cookies.session,
             (accountSession) => {
+                routeLog.logAccountAndSessionFetchResult(accountSession);
                 if (accountSession && accountSession.account) {
                     res.render("manage-account", {
                         nav: "Account",
@@ -74,6 +77,7 @@ AccountRouter.get("/", (req, res) => {
 });
 
 AccountRouter.post("/signup", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account/signup", req);
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
             const account = new Account({
@@ -133,7 +137,9 @@ AccountRouter.post("/signup", (req, res) => {
 });
 
 AccountRouter.post("/update", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account/update", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const account: Account = accountSession.account;
             account.fname = req.body.fname || account.fname;
@@ -230,7 +236,9 @@ AccountRouter.post("/update", (req, res) => {
 });
 
 AccountRouter.post("/update-goal", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             accountSession.account.currentGoal = req.body.goal;
             accountSession.account.objective = req.body.objective;
@@ -251,6 +259,7 @@ AccountRouter.post("/update-goal", (req, res) => {
 });
 
 AccountRouter.post("/login", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account/login", req);
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {
             comparePasswordWithHash(
@@ -286,6 +295,7 @@ AccountRouter.post("/login", (req, res) => {
 });
 
 AccountRouter.get("/logout", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account/logout", req);
     res.cookie("session", { expires: Date.now() });
     res.redirect("/app/account");
 });
@@ -305,6 +315,10 @@ AccountRouter.post(
         }),
     }).single("file"),
     (req, res) => {
+        const routeLog: RouterLogger = new RouterLogger(
+            "/app/account/profile-pic/change",
+            req
+        );
         const destination = "/tmp/profile_photos";
         const filename = profilePhotoUploads[req.cookies.session];
         const fullpath = path.join(destination, filename);
@@ -312,6 +326,7 @@ AccountRouter.post(
         AccountSessionTransformer.fetch(
             req.cookies.session,
             (accountSession) => {
+                routeLog.logAccountAndSessionFetchResult(accountSession);
                 if (accountSession) {
                     uploadProfilePhoto(fullpath, accountSession.account._id);
                     accountSession.account.photo = true;
@@ -334,7 +349,12 @@ AccountRouter.post(
 );
 
 AccountRouter.get("/my-photo", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/account/my-photo",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             if (accountSession.account.photo)
                 res.redirect(
@@ -351,6 +371,7 @@ AccountRouter.get("/my-photo", (req, res) => {
  * /app/account/verify?token=<token>
  */
 AccountRouter.get("/verify", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/account/verify", req);
     const token: string = req.query.token as string;
 
     // logger.info(`Verifying account with PIN ${token}`);
@@ -364,6 +385,7 @@ AccountRouter.get("/verify", (req, res) => {
         AccountSessionTransformer.fetch(
             req.cookies.session,
             (accountSession) => {
+                routeLog.logAccountAndSessionFetchResult(accountSession);
                 if (accountSession && accountSession.account) {
                     //             logger.info(
                     //                 `Found account (${accountSession.account.email}) associated with PIN ${token}
@@ -508,7 +530,12 @@ AccountRouter.get("/verify", (req, res) => {
 });
 
 AccountRouter.get("/resend-verification", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/account/resend-verification",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession && accountSession.account) {
             const account = accountSession.account;
 

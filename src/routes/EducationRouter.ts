@@ -6,12 +6,15 @@ import { views, routes } from "@shared/constants";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
+import { RouterLogger } from "@shared/util/LogUtils";
 
 const EducationRouter = Router();
 const jsonParser = bodyParserJson();
 
 EducationRouter.post("/add", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger("/app/education/add", req);
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const education = new Education({
                 _id: new ObjectId(),
@@ -39,7 +42,12 @@ EducationRouter.post("/add", (req, res) => {
 });
 
 EducationRouter.post("/update", (req, res) => {
+    const routeLog: RouterLogger = new RouterLogger(
+        "/app/education/update",
+        req
+    );
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        routeLog.logAccountAndSessionFetchResult(accountSession);
         if (accountSession) {
             const education = new Education({
                 _id: req.body._id,
