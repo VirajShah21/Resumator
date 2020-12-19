@@ -176,17 +176,17 @@ AccountRouter.post("/update", (req, res) => {
                     });
 
                     // Update item in the database
-                    account.updateDatabaseItem((success) => {
-                        if (success) {
+                    account.updateDatabaseItem((success2) => {
+                        if (success2) {
                             res.redirect(routes.dashboard);
 
                             // Begin the email transition
-                            let emailTransition = new EmailTransition(
+                            const emailTransition = new EmailTransition(
                                 oldEmail,
                                 newEmail
                             );
-                            emailTransition.insertDatabaseItem((success) => {
-                                if (success) {
+                            emailTransition.insertDatabaseItem((success3) => {
+                                if (success3) {
                                     logger.info(
                                         `Email transition setup from ${oldEmail} -> ${newEmail}`
                                     );
@@ -366,7 +366,7 @@ AccountRouter.get("/verify", (req, res) => {
     logger.info(`Verifying account with PIN ${token}`);
 
     const tokenInfo = verifyEmailTokens.find((verifyObject) => {
-        return verifyObject.token == token;
+        return verifyObject.token === token;
     });
 
     if (tokenInfo) {
@@ -381,9 +381,9 @@ AccountRouter.get("/verify", (req, res) => {
         Comparing: ${accountSession.account.email} and ${tokenInfo?.email}`
                     );
                     if (
-                        accountSession.account._id.toString() ==
+                        accountSession.account._id.toString() ===
                             tokenInfo?.userId.toString() &&
-                        accountSession.account.email == tokenInfo?.email
+                        accountSession.account.email === tokenInfo?.email
                     ) {
                         accountSession.account.emailVerified = true;
                         accountSession.account.updateDatabaseItem((success) => {
@@ -408,9 +408,9 @@ AccountRouter.get("/verify", (req, res) => {
                             accountSession.account.email,
                             (emailTransitionObj) => {
                                 if (emailTransitionObj) {
-                                    let oldEmail: string =
+                                    const oldEmail: string =
                                         emailTransitionObj.oldEmail;
-                                    let newEmail: string =
+                                    const newEmail: string =
                                         emailTransitionObj.newEmail;
 
                                     // Transition all certifications
@@ -520,7 +520,7 @@ AccountRouter.get("/verify", (req, res) => {
 AccountRouter.get("/resend-verification", (req, res) => {
     AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
         if (accountSession && accountSession.account) {
-            let account = accountSession.account;
+            const account = accountSession.account;
 
             // Send an email verification email
             const emailer = new VerifyEmailer(account._id);
