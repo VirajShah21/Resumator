@@ -72,40 +72,26 @@ export default class Account extends Entity implements IAccount {
             this.validateFname() &&
             this.validateLname()
         ) {
-            Logger.info(`User account (${this._id}) is validated`);
             database
                 .collection(ACCOUNTS_COLLECTION)
                 .findOne({ email: this.email }, (err, result) => {
                     if (err) {
                         throw err;
                     } else if (result) {
-                        Logger.info(
-                            `Could not insert account (${this._id}) because email already exists`
-                        );
                         callback(false);
                     } else {
                         database
                             .collection(ACCOUNTS_COLLECTION)
                             .insertOne(this, (err2) => {
                                 if (err2) {
-                                    Logger.warn(
-                                        `Mongo threw an error while inserting account (${this._id})`
-                                    );
-                                    Logger.error(err2);
                                     callback(false);
                                 } else {
-                                    Logger.info(
-                                        `Account inserted (${this._id})`
-                                    );
                                     callback(true);
                                 }
                             });
                     }
                 });
         } else {
-            Logger.info(
-                `User account contains invalid email and name (${this._id})`
-            );
             callback(false);
         }
     }
@@ -126,30 +112,13 @@ export default class Account extends Entity implements IAccount {
                 },
                 (err) => {
                     if (err) {
-                        Logger.info(
-                            `Could not update account ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )} Database Error`
-                        );
                         callback(false);
                     } else {
-                        Logger.info(
-                            `Updated account ${JSON.stringify(this, null, 4)}`
-                        );
                         callback(true);
                     }
                 }
             );
         } else {
-            Logger.info(
-                `Could not update account ${JSON.stringify(
-                    this,
-                    null,
-                    4
-                )} Invalid data`
-            );
             callback(false);
         }
     }
@@ -168,18 +137,10 @@ export default class Account extends Entity implements IAccount {
             .collection(ACCOUNTS_COLLECTION)
             .findOne({ email }, (err, result) => {
                 if (err) {
-                    Logger.warn(
-                        `Mongo passed an error while loading user (${email}) from database`
-                    );
-                    Logger.error(err);
                     callback(undefined);
                 } else if (!result) {
-                    Logger.warn(
-                        `No result returned from database for user: ${email}`
-                    );
                     callback(undefined);
                 } else {
-                    Logger.info(`Found + loading account: ${email}`);
                     callback(result ? new Account(result) : undefined);
                 }
             });
@@ -193,18 +154,10 @@ export default class Account extends Entity implements IAccount {
             .collection(ACCOUNTS_COLLECTION)
             .findOne({ _id: oid }, (err, result) => {
                 if (err) {
-                    Logger.warn(
-                        `Mongo passed an error while loading user (${oid.toString()}) from`
-                    );
-                    Logger.error(err);
                     callback(undefined);
                 } else if (!result) {
-                    Logger.warn(
-                        `No result returned from database for user: ${oid.toString()}`
-                    );
                     callback(result ? new Account(result) : undefined);
                 } else {
-                    Logger.info(`Found + loading account: ${oid.toString()}`);
                     callback(result ? new Account(result) : undefined);
                 }
             });

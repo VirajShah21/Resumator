@@ -187,17 +187,7 @@ AccountRouter.post("/update", (req, res) => {
                             );
                             emailTransition.insertDatabaseItem((success3) => {
                                 if (success3) {
-                                    logger.info(
-                                        `Email transition setup from ${oldEmail} -> ${newEmail}`
-                                    );
                                 } else {
-                                    logger.warn(
-                                        `Some database error with inserting EmailTransition ${JSON.stringify(
-                                            emailTransition,
-                                            null,
-                                            4
-                                        )}`
-                                    );
                                 }
                             });
                         } else
@@ -363,23 +353,23 @@ AccountRouter.get("/my-photo", (req, res) => {
 AccountRouter.get("/verify", (req, res) => {
     const token: string = req.query.token as string;
 
-    logger.info(`Verifying account with PIN ${token}`);
+    // logger.info(`Verifying account with PIN ${token}`);
 
     const tokenInfo = verifyEmailTokens.find((verifyObject) => {
         return verifyObject.token === token;
     });
 
     if (tokenInfo) {
-        logger.info(`Found valid token on server`);
+        // logger.info(`Found valid token on server`);
         AccountSessionTransformer.fetch(
             req.cookies.session,
             (accountSession) => {
                 if (accountSession && accountSession.account) {
-                    logger.info(
-                        `Found account (${accountSession.account.email}) associated with PIN ${token}
-        Comparing: ${accountSession.account._id} and ${tokenInfo?.userId}
-        Comparing: ${accountSession.account.email} and ${tokenInfo?.email}`
-                    );
+                    //             logger.info(
+                    //                 `Found account (${accountSession.account.email}) associated with PIN ${token}
+                    // Comparing: ${accountSession.account._id} and ${tokenInfo?.userId}
+                    // Comparing: ${accountSession.account.email} and ${tokenInfo?.email}`
+                    //             );
                     if (
                         accountSession.account._id.toString() ===
                             tokenInfo?.userId.toString() &&
@@ -388,17 +378,17 @@ AccountRouter.get("/verify", (req, res) => {
                         accountSession.account.emailVerified = true;
                         accountSession.account.updateDatabaseItem((success) => {
                             if (success) {
-                                logger.info(
-                                    `Account ${accountSession.account.email} has been verified`
-                                );
+                                // logger.info(
+                                //     `Account ${accountSession.account.email} has been verified`
+                                // );
 
                                 // Transition all database documents to use the new email
 
                                 res.redirect("/app/dashboard");
                             } else {
-                                logger.info(
-                                    `There was an error updating ${accountSession.account.email} to verify the email.`
-                                );
+                                // logger.info(
+                                //     `There was an error updating ${accountSession.account.email} to verify the email.`
+                                // );
                                 res.render("errors/UnknownError");
                             }
                         });
@@ -422,13 +412,13 @@ AccountRouter.get("/verify", (req, res) => {
                                                     certification.user = newEmail;
                                                     certification.updateDatabaseItem(
                                                         (success) => {
-                                                            logger.info(
-                                                                `Transitioned certification ${JSON.stringify(
-                                                                    certification,
-                                                                    null,
-                                                                    4
-                                                                )}`
-                                                            );
+                                                            // logger.info(
+                                                            //     `Transitioned certification ${JSON.stringify(
+                                                            //         certification,
+                                                            //         null,
+                                                            //         4
+                                                            //     )}`
+                                                            // );
                                                         }
                                                     );
                                                 }
@@ -444,13 +434,13 @@ AccountRouter.get("/verify", (req, res) => {
                                                 edu.user = newEmail;
                                                 edu.updateDatabaseItem(
                                                     (success) => {
-                                                        logger.info(
-                                                            `Transitioned education ${JSON.stringify(
-                                                                edu,
-                                                                null,
-                                                                4
-                                                            )}`
-                                                        );
+                                                        // logger.info(
+                                                        //     `Transitioned education ${JSON.stringify(
+                                                        //         edu,
+                                                        //         null,
+                                                        //         4
+                                                        //     )}`
+                                                        // );
                                                     }
                                                 );
                                             });
@@ -465,13 +455,13 @@ AccountRouter.get("/verify", (req, res) => {
                                                 skill.user = newEmail;
                                                 skill.updateDatabaseItem(
                                                     (success) => {
-                                                        logger.info(
-                                                            `Transitioned skill ${JSON.stringify(
-                                                                skill,
-                                                                null,
-                                                                4
-                                                            )}`
-                                                        );
+                                                        // logger.info(
+                                                        //     `Transitioned skill ${JSON.stringify(
+                                                        //         skill,
+                                                        //         null,
+                                                        //         4
+                                                        //     )}`
+                                                        // );
                                                     }
                                                 );
                                             });
@@ -486,13 +476,13 @@ AccountRouter.get("/verify", (req, res) => {
                                                 workExp.user = newEmail;
                                                 workExp.updateDatabaseItem(
                                                     (success) => {
-                                                        logger.info(
-                                                            `Transitioned work experience ${JSON.stringify(
-                                                                workExp,
-                                                                null,
-                                                                4
-                                                            )}`
-                                                        );
+                                                        // logger.info(
+                                                        //     `Transitioned work experience ${JSON.stringify(
+                                                        //         workExp,
+                                                        //         null,
+                                                        //         4
+                                                        //     )}`
+                                                        // );
                                                     }
                                                 );
                                             });
@@ -502,9 +492,9 @@ AccountRouter.get("/verify", (req, res) => {
                             }
                         );
                     } else {
-                        logger.info(
-                            `Account ${accountSession.account.email} did not match the verification ID`
-                        );
+                        // logger.info(
+                        //     `Account ${accountSession.account.email} did not match the verification ID`
+                        // );
                         res.render("errors/UnknownError");
                     }
                 } else {

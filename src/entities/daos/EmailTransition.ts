@@ -41,34 +41,12 @@ export default class EmailTransition
                 .collection(EMAIL_TRANSITION_COLLECTION)
                 .insertOne(this, (err2) => {
                     if (err2) {
-                        logger.warn(
-                            `Mongo threw an error while inserting an email transition ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )}`
-                        );
-                        logger.error(err2);
                         callback(false);
                     } else {
-                        logger.info(
-                            `Transition could not be entered due to a database error ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )}`
-                        );
                         callback(true);
                     }
                 });
         } else {
-            logger.info(
-                `Email Transition contains an invalid email (${JSON.stringify(
-                    this,
-                    null,
-                    4
-                )})`
-            );
             callback(false);
         }
     }
@@ -87,20 +65,10 @@ export default class EmailTransition
             .collection(EMAIL_TRANSITION_COLLECTION)
             .findOne({ newEmail }, (err, result) => {
                 if (err) {
-                    logger.warn(
-                        `Mongo passed an error while loading email transition (${newEmail}) from database`
-                    );
-                    logger.error(err);
                     callback(undefined);
                 } else if (!result) {
-                    logger.warn(
-                        `No result returned from database for email transition: ${newEmail}`
-                    );
                     callback(undefined);
                 } else {
-                    logger.info(
-                        `Found + loading email transition: ${newEmail}`
-                    );
                     callback(
                         result
                             ? new EmailTransition(

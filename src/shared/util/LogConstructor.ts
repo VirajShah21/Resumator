@@ -10,7 +10,7 @@ export function logInvalidEntityData(entityType: string, entity: Object): void {
     );
 }
 
-export function logDatabaseError(
+export function logUnknownDatabaseError(
     entityType: string,
     entity: Object,
     error?: any

@@ -73,9 +73,6 @@ export default class Certification extends Entity implements ICertification {
      */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate()) {
-            logger.info(
-                `Certification (${this._id}) is valid and will be updated`
-            );
             database.collection(CERT_COLLECTION).updateOne(
                 { _id: this._id },
                 {
@@ -83,35 +80,13 @@ export default class Certification extends Entity implements ICertification {
                 },
                 (err) => {
                     if (err) {
-                        logger.warn(
-                            `Could not update certification ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )} Database Error`
-                        );
-                        logger.error(err);
                         callback(false);
                     } else {
-                        logger.info(
-                            `Updated certification ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )}`
-                        );
                         callback(true);
                     }
                 }
             );
         } else {
-            logger.warn(
-                `Could not update certification ${JSON.stringify(
-                    this,
-                    null,
-                    4
-                )} Invalid Data`
-            );
             callback(false);
         }
     }

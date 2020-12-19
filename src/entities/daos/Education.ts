@@ -70,7 +70,6 @@ export default class Education extends Entity implements IEducation {
                 .collection(EDUCATION_COLLECTION)
                 .insertOne(this, (err, result) => {
                     if (err) {
-                        logger.error(err);
                         callback(false);
                     } else callback(true);
                 });

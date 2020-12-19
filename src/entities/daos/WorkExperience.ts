@@ -79,34 +79,12 @@ export default class WorkExperience extends Entity implements IWorkExperience {
                 .collection(WORK_EXPERIENCE_COLLECTION)
                 .insertOne(this, (err, result) => {
                     if (err) {
-                        Logger.info(
-                            `Could not add work experience. ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )} Database Error`
-                        );
-                        Logger.error(err);
                         callback(false);
                     } else {
-                        Logger.info(
-                            `Work experience added: ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )} All data is valid`
-                        );
                         callback(true);
                     }
                 });
         } else {
-            Logger.warn(
-                `Could not add work experience: ${JSON.stringify(
-                    this,
-                    null,
-                    4
-                )} Found invalid data`
-            );
             callback(false);
         }
     }
@@ -127,35 +105,13 @@ export default class WorkExperience extends Entity implements IWorkExperience {
                 },
                 (err) => {
                     if (err) {
-                        Logger.info(
-                            `Could not add work experience: ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )} Database Error`
-                        );
-                        Logger.error(err);
                         callback(false);
                     } else {
-                        Logger.info(
-                            `Work experience added: ${JSON.stringify(
-                                this,
-                                null,
-                                4
-                            )}`
-                        );
                         callback(true);
                     }
                 }
             );
         } else {
-            Logger.info(
-                `Could not add work experience: ${JSON.stringify(
-                    this,
-                    null,
-                    4
-                )} Found invalid data`
-            );
             callback(false);
         }
     }
