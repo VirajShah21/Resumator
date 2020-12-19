@@ -8,21 +8,36 @@ mixin personal-info-card(account)
             form(action='/app/account/update' method='POST')
                 .row
                     .col-12.col-md-6
-                        label First Name
+                        if account.fname
+                            label First Name
+                        else
+                            label.text-danger First Name
                         input.form-control.mb-2.pop-input(name='fname' value=account.fname placeholder=' ' data-validate required)
                     .col-12.col-md-6
-                        label Last Name
+                        if account.lname
+                            label Last Name
+                        else
+                            label.text-danger Last Name
                         input.form-control.mb-2.pop-input(name='lname' value=account.lname placeholder=' ' data-validate required)
                 .row
                     .col-12.col-md-6
-                        label Email
+                        if account.email
+                            label Email
+                        else
+                            label.text-danger Email
                         input.form-control.mb-2.pop-input(name='email' value=account.email placeholder=' ' data-type='email' required)
                     .col-12.col-md-6
-                        label Phone
+                        if account.phone
+                            label Phone
+                        else
+                            label.text-danger Phone
                         input.form-control.mb-2.pop-input(name='phone' value=account.phone placeholder=' ' data-type='phone')
                 .row
                     .col-12
-                        label Address Line 1
+                        if account.address && account.address.line1
+                            label Address Line 1
+                        else
+                            label.text-danger Address Line 1
                         input.form-control.mb-2.pop-input(name='line1' value=(account.address ? account.address.line1 : '') placeholder=' ' data-validate)
                 .row
                     .col-12
@@ -30,12 +45,21 @@ mixin personal-info-card(account)
                         input.form-control.mb-2.pop-input(name='line2' value=(account.address ? account.address.line2 : '') placeholder=' ' data-validate)
                 .row
                     .col-12.col-md-5
-                        label City
+                        if account.address && account.address.city
+                            label City
+                        else
+                            label.text-danger City
                         input.form-control.mb-2.pop-input(name='city' value=(account.address ? account.address.city : '') placeholder=' ' data-validate)
                     .col-6.col-md-3
-                        label State
+                        if account.address && account.address.state
+                            label State
+                        else
+                            label.text-danger State
                         input.form-control.mb-2.pop-input(name='state' value=(account.address ? account.address.state : '') placeholder=' ' data-validate)
                     .col-6.col-md-4
-                        label Zip Code
+                        if account.address && account.address.zip
+                            label Zip Code
+                        else
+                            label.text-danger Zip Code
                         input.form-control.mb-2.pop-input(name='zip' value=(account.address ? account.address.zip : '') placeholder=' ' data-type='zip')
                 button.btn.btn-outline-primary.btn-block.mt-4(type='submit') Update

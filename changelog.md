@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## NEXT VERSION
+
+### Added
+
+-   Changes font color for personal information — required for the resume labels turn red.
+
+### Technical Improvements
+
+-   Using log objects for routers
+    -   removed the bulk of logging from the server-side
+
 ## [0.1.0] - 2020-12-19
 
 ### Added
