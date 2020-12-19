@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 
 -   Changes font color for personal information — required for the resume labels turn red.
 
+### Improvements
+
+-   Dashboard profile photo border
+    -   Changed from thick white to light blue
+
 ### Technical Improvements
 
 -   Using log objects for routers

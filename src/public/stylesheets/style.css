@@ -76,7 +76,7 @@ blockquote p {
 }
 
 #profile-icon {
-    border: 10px solid white;
+    border: 3px solid var(--bs-primary);
     height: 4em;
     width: 4em;
     box-sizing: content-box;
