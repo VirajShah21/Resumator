@@ -101,7 +101,7 @@ export function getClient(
           resumeInfo: ResumeInfoTransformer;
       }
     | undefined {
-    let obj = Object.getOwnPropertyDescriptor(req, 'client');
+    const obj = Object.getOwnPropertyDescriptor(req, 'client');
     if (obj) return obj.value;
     else return undefined;
 }

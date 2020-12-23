@@ -55,7 +55,7 @@ exec('mkdir /tmp', () => {
 });
 
 AccountRouter.get('/', (req, res) => {
-    let client = getClient(req);
+    const client = getClient(req);
     if (client && client.account) {
         res.render('manage-account', {
             nav: 'Account',
@@ -322,7 +322,7 @@ AccountRouter.post(
 );
 
 AccountRouter.get('/my-photo', (req, res) => {
-    let client = getClient(req);
+    const client = getClient(req);
     if (client && client.account) {
         if (client.account.photo)
             res.redirect(

@@ -143,7 +143,7 @@ export default class Education extends Entity implements IEducation {
             this.level.length > 0 &&
             this.degree.length > 0 &&
             validateMonthYearString(this.start) &&
-            (validateMonthYearString(this.end) || this.end == '') &&
+            (validateMonthYearString(this.end) || this.end === '') &&
             this.validateGpa()
         );
     }
