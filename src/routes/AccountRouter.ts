@@ -25,7 +25,6 @@ import Certification from "@entities/Certification";
 import Education from "@entities/Education";
 import Skill from "@entities/Skill";
 import WorkExperience from "@entities/WorkExperience";
-import { RouterLogger } from "@shared/util/LogUtils";
 
 const AccountRouter = Router();
 
@@ -55,24 +54,11 @@ exec("mkdir /tmp", () => {
 });
 
 AccountRouter.get("/", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account/", req);
-    if (req.cookies.session) {
-        AccountSessionTransformer.fetch(
-            req.cookies.session,
-            (accountSession) => {
-                routeLog.logAccountAndSessionFetchResult(accountSession);
-                if (accountSession && accountSession.account) {
-                    res.render("manage-account", {
-                        nav: "Account",
-                        account: accountSession.account,
-                    });
-                } else {
-                    res.render(views.accountPage, {
-                        nav: "Account",
-                    });
-                }
-            }
-        );
+    if (req.body.client && req.body.client.account) {
+        res.render("manage-account", {
+            nav: "Account",
+            account: req.body.client.account,
+        });
     } else {
         res.render(views.accountPage, {
             nav: "Account",
@@ -81,7 +67,6 @@ AccountRouter.get("/", (req, res) => {
 });
 
 AccountRouter.post("/signup", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account/signup", req);
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
             const account = new Account({
@@ -138,120 +123,106 @@ AccountRouter.post("/signup", (req, res) => {
 });
 
 AccountRouter.post("/update", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account/update", req);
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession) {
-            const account: Account = accountSession.account;
-            account.fname = req.body.fname || account.fname;
-            account.lname = req.body.lname || account.lname;
+    const account: Account = req.body.client.account;
+    account.fname = req.body.fname || account.fname;
+    account.lname = req.body.lname || account.lname;
 
-            // If the email address has changed
-            if (req.body.email !== account.email) {
-                const oldEmail: string = account.email;
-                const newEmail: string = req.body.email;
+    // If the email address has changed
+    if (req.body.email !== account.email) {
+        const oldEmail: string = account.email;
+        const newEmail: string = req.body.email;
 
-                account.emailVerified = false;
-                account.email = newEmail || oldEmail;
+        account.emailVerified = false;
+        account.email = newEmail || oldEmail;
 
-                // Create new session cookie and db item for the new account email
-                const newSession = new Session(account);
-                newSession.insertDatabaseItem((success) => {
-                    if (success) res.cookie("session", newSession.key);
+        // Create new session cookie and db item for the new account email
+        const newSession = new Session(account);
+        newSession.insertDatabaseItem((success) => {
+            if (success) res.cookie("session", newSession.key);
 
-                    if (req.body.line1) {
-                        account.address = new Address({
-                            line1: req.body.line1,
-                            line2: req.body.line2,
-                            city: req.body.city,
-                            state: req.body.state,
-                            zip: req.body.zip,
-                        });
-                    }
-
-                    account.phone = req.body.phone;
-
-                    // Send an email verification email
-                    const emailer = new VerifyEmailer(account._id);
-                    let verifyPin = generateVerifyPin();
-                    emailer.sendVerifyEmail(verifyPin);
-                    verifyEmailTokens.push({
-                        email: newEmail,
-                        userId: new ObjectId(account._id),
-                        token: verifyPin,
-                    });
-
-                    // Update item in the database
-                    account.updateDatabaseItem((success2) => {
-                        if (success2) {
-                            res.redirect(routes.dashboard);
-
-                            // Begin the email transition
-                            const emailTransition = new EmailTransition(
-                                oldEmail,
-                                newEmail
-                            );
-                            emailTransition.insertDatabaseItem();
-                        } else
-                            res.render(
-                                views.genericError,
-                                new DatabaseErrorTransformer(
-                                    "Could not update account info"
-                                )
-                            );
-                    });
-                });
-            } else {
-                if (req.body.line1) {
-                    account.address = new Address({
-                        line1: req.body.line1,
-                        line2: req.body.line2,
-                        city: req.body.city,
-                        state: req.body.state,
-                        zip: req.body.zip,
-                    });
-                }
-
-                account.phone = req.body.phone;
-
-                account.updateDatabaseItem((success) => {
-                    if (success) res.redirect(routes.dashboard);
-                    else
-                        res.render(
-                            views.genericError,
-                            new DatabaseErrorTransformer(
-                                "Could not update account info"
-                            )
-                        );
+            if (req.body.line1) {
+                account.address = new Address({
+                    line1: req.body.line1,
+                    line2: req.body.line2,
+                    city: req.body.city,
+                    state: req.body.state,
+                    zip: req.body.zip,
                 });
             }
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
+
+            account.phone = req.body.phone;
+
+            // Send an email verification email
+            const emailer = new VerifyEmailer(account._id);
+            let verifyPin = generateVerifyPin();
+            emailer.sendVerifyEmail(verifyPin);
+            verifyEmailTokens.push({
+                email: newEmail,
+                userId: new ObjectId(account._id),
+                token: verifyPin,
+            });
+
+            // Update item in the database
+            account.updateDatabaseItem((success2) => {
+                if (success2) {
+                    res.redirect(routes.dashboard);
+
+                    // Begin the email transition
+                    const emailTransition = new EmailTransition(
+                        oldEmail,
+                        newEmail
+                    );
+                    emailTransition.insertDatabaseItem();
+                } else
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer(
+                            "Could not update account info"
+                        )
+                    );
+            });
+        });
+    } else {
+        if (req.body.line1) {
+            account.address = new Address({
+                line1: req.body.line1,
+                line2: req.body.line2,
+                city: req.body.city,
+                state: req.body.state,
+                zip: req.body.zip,
+            });
         }
-    });
+
+        account.phone = req.body.phone;
+
+        account.updateDatabaseItem((success) => {
+            if (success) res.redirect(routes.dashboard);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(
+                        "Could not update account info"
+                    )
+                );
+        });
+    }
 });
 
 AccountRouter.post("/update-goal", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account", req);
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession) {
-            accountSession.account.currentGoal = req.body.goal;
-            accountSession.account.objective = req.body.objective;
-            accountSession.account.updateDatabaseItem((success) => {
-                if (success) res.redirect(routes.dashboardCard.goals);
-                else
-                    res.render(
-                        views.genericError,
-                        new DatabaseErrorTransformer("Could not update goal ")
-                    );
-            });
-        } else res.render(views.genericError, new SessionErrorTransformer());
+    let account = req.body.client.account;
+    account.currentGoal = req.body.goal;
+    account.objective = req.body.objective;
+    account.updateDatabaseItem((success: boolean) => {
+        if (success) res.redirect(routes.dashboardCard.goals);
+        else
+            res.render(
+                views.genericError,
+                new DatabaseErrorTransformer("Could not update goal ")
+            );
     });
 });
 
 AccountRouter.post("/login", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account/login", req);
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {
             comparePasswordWithHash(
@@ -287,7 +258,6 @@ AccountRouter.post("/login", (req, res) => {
 });
 
 AccountRouter.get("/logout", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account/logout", req);
     res.cookie("session", { expires: Date.now() });
     res.redirect("/app/account");
 });
@@ -310,61 +280,35 @@ AccountRouter.post(
         },
     }).single("file"),
     (req, res) => {
-        const routeLog: RouterLogger = new RouterLogger(
-            "/app/account/profile-pic/change",
-            req
-        );
         const destination = "/tmp/profile_photos";
         const filename = profilePhotoUploads[req.cookies.session];
         const fullpath = path.join(destination, filename);
+        let account = req.body.client.account;
 
-        AccountSessionTransformer.fetch(
-            req.cookies.session,
-            (accountSession) => {
-                routeLog.logAccountAndSessionFetchResult(accountSession);
-                if (accountSession) {
-                    uploadProfilePhoto(fullpath, accountSession.account._id);
-                    accountSession.account.photo = true;
-                    accountSession.account.updateDatabaseItem((success) => {
-                        if (success)
-                            res.send(
-                                "Great! Your profile photo has been updated!"
-                            );
-                        else
-                            res.send(
-                                "There seems to be an issue with your account."
-                            );
-                    });
-                } else {
-                    res.send("There seems to be an issue with your account.");
-                }
-            }
-        );
+        uploadProfilePhoto(fullpath, account._id);
+        account.photo = true;
+        account.updateDatabaseItem((success: boolean) => {
+            if (success)
+                res.send("Great! Your profile photo has been updated!");
+            else res.send("There seems to be an issue with your account.");
+        });
     }
 );
 
 AccountRouter.get("/my-photo", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger(
-        "/app/account/my-photo",
-        req
-    );
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession) {
-            if (accountSession.account.photo)
-                res.redirect(
-                    `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${accountSession?.account._id}.jpg`
-                );
-            else res.redirect("https://placehold.it/300x300");
-        } else res.redirect("https://placehold.it/300x300");
-    });
+    if (req.body.client.account) {
+        if (req.body.client.account.photo)
+            res.redirect(
+                `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${req.body.client.account._id}.jpg`
+            );
+        else res.redirect("https://placehold.it/300x300");
+    } else res.redirect("https://placehold.it/300x300");
 });
 
 /**
  * /app/account/verify?token=<token>
  */
 AccountRouter.get("/verify", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/account/verify", req);
     const token: string = req.query.token as string;
 
     logger.info(`Verifying account with PIN ${token}`);
@@ -374,127 +318,99 @@ AccountRouter.get("/verify", (req, res) => {
     });
 
     if (tokenInfo) {
-        AccountSessionTransformer.fetch(
-            req.cookies.session,
-            (accountSession) => {
-                routeLog.logAccountAndSessionFetchResult(accountSession);
-                if (accountSession && accountSession.account) {
-                    if (
-                        accountSession.account._id.toString() ===
-                            tokenInfo?.userId.toString() &&
-                        accountSession.account.email === tokenInfo?.email
-                    ) {
-                        accountSession.account.emailVerified = true;
-                        accountSession.account.updateDatabaseItem((success) => {
-                            if (success) {
-                                logger.info(
-                                    `Account ${accountSession.account.email} has been verified`
-                                );
+        let account = req.body.client.account as Account;
 
-                                // Transition all database documents to use the new email
+        if (
+            account._id.toString() === tokenInfo?.userId.toString() &&
+            account.email === tokenInfo?.email
+        ) {
+            account.emailVerified = true;
+            account.updateDatabaseItem((success: boolean) => {
+                if (success) {
+                    logger.info(`Account ${account.email} has been verified`);
 
-                                res.redirect("/app/dashboard");
-                            } else {
-                                logger.info(
-                                    `There was an error updating ${accountSession.account.email} to verify the email.`
-                                );
-                                res.render("errors/UnknownError");
+                    // Transition all database documents to use the new email
+
+                    res.redirect("/app/dashboard");
+                } else {
+                    logger.info(
+                        `There was an error updating ${account.email} to verify the email.`
+                    );
+                    res.render("errors/UnknownError");
+                }
+            });
+
+            // Begin transition of all database items with the verified email
+            EmailTransition.loadFromDatabase(
+                account.email,
+                (emailTransitionObj) => {
+                    if (emailTransitionObj) {
+                        const oldEmail: string = emailTransitionObj.oldEmail;
+                        const newEmail: string = emailTransitionObj.newEmail;
+
+                        // Transition all certifications
+                        Certification.loadFromDatabase(
+                            oldEmail,
+                            (certifications) => {
+                                certifications.forEach((certification) => {
+                                    certification.user = newEmail;
+                                    certification.updateDatabaseItem();
+                                });
                             }
+                        );
+
+                        // Transition all education
+                        Education.loadFromDatabase(oldEmail, (edus) => {
+                            edus.forEach((edu) => {
+                                edu.user = newEmail;
+                                edu.updateDatabaseItem();
+                            });
                         });
 
-                        // Begin transition of all database items with the verified email
-                        EmailTransition.loadFromDatabase(
-                            accountSession.account.email,
-                            (emailTransitionObj) => {
-                                if (emailTransitionObj) {
-                                    const oldEmail: string =
-                                        emailTransitionObj.oldEmail;
-                                    const newEmail: string =
-                                        emailTransitionObj.newEmail;
+                        // Transition all skills
+                        Skill.loadFromDatabase(oldEmail, (skills) => {
+                            skills.forEach((skill) => {
+                                skill.user = newEmail;
+                                skill.updateDatabaseItem();
+                            });
+                        });
 
-                                    // Transition all certifications
-                                    Certification.loadFromDatabase(
-                                        oldEmail,
-                                        (certifications) => {
-                                            certifications.forEach(
-                                                (certification) => {
-                                                    certification.user = newEmail;
-                                                    certification.updateDatabaseItem();
-                                                }
-                                            );
-                                        }
-                                    );
-
-                                    // Transition all education
-                                    Education.loadFromDatabase(
-                                        oldEmail,
-                                        (edus) => {
-                                            edus.forEach((edu) => {
-                                                edu.user = newEmail;
-                                                edu.updateDatabaseItem();
-                                            });
-                                        }
-                                    );
-
-                                    // Transition all skills
-                                    Skill.loadFromDatabase(
-                                        oldEmail,
-                                        (skills) => {
-                                            skills.forEach((skill) => {
-                                                skill.user = newEmail;
-                                                skill.updateDatabaseItem();
-                                            });
-                                        }
-                                    );
-
-                                    // Transition all work experience
-                                    WorkExperience.loadFromDatabase(
-                                        oldEmail,
-                                        (workHistory) => {
-                                            workHistory.forEach((workExp) => {
-                                                workExp.user = newEmail;
-                                                workExp.updateDatabaseItem();
-                                            });
-                                        }
-                                    );
-                                }
+                        // Transition all work experience
+                        WorkExperience.loadFromDatabase(
+                            oldEmail,
+                            (workHistory) => {
+                                workHistory.forEach((workExp) => {
+                                    workExp.user = newEmail;
+                                    workExp.updateDatabaseItem();
+                                });
                             }
                         );
-                    } else {
-                        logger.info(
-                            `Account ${accountSession.account.email} did not match the verification ID`
-                        );
-                        res.render("errors/UnknownError");
                     }
-                } else res.render("errors/UnknownError");
-            }
-        );
+                }
+            );
+        } else {
+            logger.info(
+                `Account ${account.email} did not match the verification ID`
+            );
+            res.render("errors/UnknownError");
+        }
     } else res.render("errors/UnknownError");
 });
 
 AccountRouter.get("/resend-verification", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger(
-        "/app/account/resend-verification",
-        req
-    );
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession && accountSession.account) {
-            const account = accountSession.account;
+    const account = req.body.client.account;
 
-            // Send an email verification email
-            const emailer = new VerifyEmailer(account._id);
-            let verifyPin = generateVerifyPin();
-            emailer.sendVerifyEmail(verifyPin);
-            verifyEmailTokens.push({
-                email: account.email,
-                userId: new ObjectId(account._id),
-                token: verifyPin,
-            });
-
-            res.redirect("/app/account");
-        }
+    // Send an email verification email
+    const emailer = new VerifyEmailer(account._id);
+    let verifyPin = generateVerifyPin();
+    emailer.sendVerifyEmail(verifyPin);
+    verifyEmailTokens.push({
+        email: account.email,
+        userId: new ObjectId(account._id),
+        token: verifyPin,
     });
+
+    res.redirect("/app/account");
 });
 
 export default AccountRouter;

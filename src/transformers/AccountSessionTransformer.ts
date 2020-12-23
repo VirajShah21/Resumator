@@ -15,7 +15,7 @@ export default class AccountSessionTransformer {
         callback: (Transformer?: AccountSessionTransformer) => void
     ): void {
         Session.loadFromDatabase(sessionKey, (session) => {
-            if (session) {
+            if (session)
                 Account.loadFromDatabase(session.user, (account) => {
                     if (account)
                         callback(
@@ -23,9 +23,7 @@ export default class AccountSessionTransformer {
                         );
                     else callback(undefined);
                 });
-            } else {
-                callback(undefined);
-            }
+            else callback(undefined);
         });
     }
 }

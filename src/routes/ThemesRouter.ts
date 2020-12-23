@@ -3,51 +3,31 @@ import { views } from "@shared/constants";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
-import { RouterLogger } from "@shared/util/LogUtils";
 
 const ThemesRouter = Router();
 
 ThemesRouter.get("/", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/themes/", req);
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession && accountSession.account) {
-            res.render("themes", {
-                nav: "Themes",
-                account: accountSession.account,
-            });
-        } else {
-            res.render("themes", {
-                nav: "Themes",
-            });
-        }
-    });
+    if (req.body.client && req.body.client.account)
+        res.render("themes", {
+            nav: "Themes",
+            account: req.body.client.account,
+        });
+    else
+        res.render("themes", {
+            nav: "Themes",
+        });
 });
 
 ThemesRouter.get("/preview", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger("/app/themes/preview", req);
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession) {
-            ResumeInfoTransformer.fetch(
-                accountSession.account.email,
-                (resumeInfo) => {
-                    if (resumeInfo) {
-                        res.render(`resume-templates/${req.query.theme}`, {
-                            account: accountSession.account,
-                            workExperience: resumeInfo.workExperience,
-                            educationHistory: resumeInfo.educationHistory,
-                            skillset: resumeInfo.skillset,
-                            certifications: resumeInfo.certifications,
-                        });
-                    } else {
-                        res.render(
-                            views.genericError,
-                            new SessionErrorTransformer()
-                        );
-                    }
-                }
-            );
+    ResumeInfoTransformer.fetch(req.body.client.account.email, (resumeInfo) => {
+        if (resumeInfo) {
+            res.render(`resume-templates/${req.query.theme}`, {
+                account: req.body.client.account,
+                workExperience: resumeInfo.workExperience,
+                educationHistory: resumeInfo.educationHistory,
+                skillset: resumeInfo.skillset,
+                certifications: resumeInfo.certifications,
+            });
         } else {
             res.render(views.genericError, new SessionErrorTransformer());
         }

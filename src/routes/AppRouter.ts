@@ -14,6 +14,9 @@ import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
 import { goalsList } from "@shared/util/GoalParser";
 import ResumeAnalysisTransformer from "@transformers/ResumeAnalysisTransformer";
 import path from "path";
+import logger from "@shared/Logger";
+import Account from "@entities/Account";
+import Session from "@entities/Session";
 
 export const PREFIX = "/app";
 export const ROOT_DIR = path.join(__dirname, "..");
@@ -28,68 +31,84 @@ AppRouter.use("/skills", SkillsRouter);
 AppRouter.use("/certifications", CertificationRouter);
 AppRouter.use("/themes", ThemesRouter);
 
-AppRouter.get("/dashboard", (req, res) => {
-    AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
-        if (sessionAccount) {
-            ResumeInfoTransformer.fetch(
-                sessionAccount.account.email,
-                (resumeInfo) => {
+AppRouter.use((req, res, next) => {
+    if (req.cookies.session) {
+        AccountSessionTransformer.fetch(
+            req.cookies.session,
+            (accountSession) => {
+                if (accountSession) {
+                    let client: {
+                        account: Account;
+                        session: Session;
+                        resumeInfo: ResumeInfoTransformer;
+                    } = {
+                        account: accountSession.account,
+                        session: accountSession.session,
+                        resumeInfo: new ResumeInfoTransformer([], [], [], []),
+                    };
+                    ResumeInfoTransformer.fetch(
+                        accountSession.account.email,
+                        (resumeInfo) => {
+                            client.resumeInfo = resumeInfo;
+                            req.body.client = client;
+                            next();
+                        }
+                    );
+                } else {
                     res.render(
-                        views.dashboard,
-                        addToObject(
-                            {
-                                session: sessionAccount.session,
-                                account: sessionAccount.account,
-                                nav: "Dashboard",
-                                goalsList,
-                                analysis: new ResumeAnalysisTransformer(
-                                    sessionAccount.account,
-                                    resumeInfo
-                                ),
-                            },
-                            resumeInfo
-                        )
+                        views.genericError,
+                        new SessionErrorTransformer()
                     );
                 }
-            );
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
-        }
-    });
+            }
+        );
+    } else {
+        res.render(views.genericError, new SessionErrorTransformer());
+    }
+});
+
+AppRouter.get("/dashboard", (req, res) => {
+    res.render(
+        views.dashboard,
+        addToObject(
+            {
+                session: req.body.client.session,
+                account: req.body.client.account,
+                nav: "Dashboard",
+                goalsList,
+                analysis: new ResumeAnalysisTransformer(
+                    req.body.client.account,
+                    req.body.client.resumeInfo
+                ),
+            },
+            req.body.client.resumeInfo
+        )
+    );
 });
 
 AppRouter.get("/help", (req, res) => {
-    AccountSessionTransformer.fetch(req.cookies.session, (sessionAccount) => {
-        if (sessionAccount) {
-            ResumeInfoTransformer.fetch(
-                sessionAccount?.account.email,
-                (resumeInfo) => {
-                    if (req.query.page) {
-                        // Route to specific help page
-                        res.render(
-                            "help",
-                            addToObject(
-                                {
-                                    helpPage: req.query.page,
-                                    nav: "Help",
-                                    account: sessionAccount.account,
-                                },
-                                resumeInfo
-                            )
-                        );
-                    } else {
-                        // Route to main help page
-                        res.render("help", {
-                            nav: "Help",
-                            account: sessionAccount.account,
-                        });
-                    }
-                }
+    if (req.body.client.account && req.body.client.resumeInfo) {
+        if (req.query.page) {
+            // Route to specific help page
+            res.render(
+                "help",
+                addToObject(
+                    {
+                        helpPage: req.query.page,
+                        nav: "Help",
+                        account: req.body.client.account,
+                    },
+                    req.body.client.resumeInfo
+                )
             );
         } else {
-            res.redirect("/");
+            // Route to main help page
+            res.render("help", {
+                nav: "Help",
+                account: req.body.client.account,
+            });
         }
-    });
+    } else res.redirect("/");
 });
 
 export default AppRouter;

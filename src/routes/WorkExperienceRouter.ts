@@ -6,89 +6,62 @@ import { views, routes } from "@shared/constants";
 import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
 import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
-import { RouterLogger } from "@shared/util/LogUtils";
 
 const WorkExperienceRouter = Router();
 const jsonParser = bodyParserJson();
 
 WorkExperienceRouter.post("/add", jsonParser, (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger(
-        "/app/work-experience/add",
-        req
+    const experience = new WorkExperience(
+        req.body.position,
+        req.body.organization,
+        req.body["start-date"],
+        req.body["end-date"],
+        req.body.description,
+        req.body.client.account.email
     );
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession) {
-            const experience = new WorkExperience(
-                req.body.position,
-                req.body.organization,
-                req.body["start-date"],
-                req.body["end-date"],
-                req.body.description,
-                accountSession.account.email
+    experience.insertDatabaseItem((success) => {
+        if (success) res.redirect(routes.dashboardCard.workExperience);
+        else
+            res.render(
+                views.genericError,
+                new DatabaseErrorTransformer("Could not add work experience.")
             );
-            experience.insertDatabaseItem((success) => {
-                if (success) res.redirect(routes.dashboardCard.workExperience);
-                else
-                    res.render(
-                        views.genericError,
-                        new DatabaseErrorTransformer(
-                            "Could not add work experience."
-                        )
-                    );
-            });
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
-        }
     });
 });
 
 WorkExperienceRouter.post("/update", (req, res) => {
-    const routeLog: RouterLogger = new RouterLogger(
-        "/app/work-experience/update",
-        req
+    const experience = new WorkExperience(
+        req.body.position,
+        req.body.organization,
+        req.body["start-date"],
+        req.body["end-date"],
+        req.body.description,
+        req.body.client.account.email
     );
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        routeLog.logAccountAndSessionFetchResult(accountSession);
-        if (accountSession) {
-            const experience = new WorkExperience(
-                req.body.position,
-                req.body.organization,
-                req.body["start-date"],
-                req.body["end-date"],
-                req.body.description,
-                accountSession.account.email
-            );
-            experience._id = new ObjectId(req.body.dbid);
-            if (req.body.delete === "on") {
-                experience.deleteDatabaseItem((success) => {
-                    if (success)
-                        res.redirect(routes.dashboardCard.workExperience);
-                    else
-                        res.render(
-                            views.genericError,
-                            new DatabaseErrorTransformer(
-                                "Could not delete work experience."
-                            )
-                        );
-                });
-            } else {
-                experience.updateDatabaseItem((success) => {
-                    if (success)
-                        res.redirect(routes.dashboardCard.workExperience);
-                    else
-                        res.render(
-                            views.genericError,
-                            new DatabaseErrorTransformer(
-                                "Could not update work experience."
-                            )
-                        );
-                });
-            }
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
-        }
-    });
+    experience._id = new ObjectId(req.body.dbid);
+    if (req.body.delete === "on") {
+        experience.deleteDatabaseItem((success) => {
+            if (success) res.redirect(routes.dashboardCard.workExperience);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(
+                        "Could not delete work experience."
+                    )
+                );
+        });
+    } else {
+        experience.updateDatabaseItem((success) => {
+            if (success) res.redirect(routes.dashboardCard.workExperience);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(
+                        "Could not update work experience."
+                    )
+                );
+        });
+    }
 });
 
 export default WorkExperienceRouter;
