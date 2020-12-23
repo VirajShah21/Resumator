@@ -1,52 +1,50 @@
-import { ISuggestion, IGoalResults } from "./GoalInterfaces";
-import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
+import { ISuggestion, IGoalResults } from './GoalInterfaces';
+import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
 
 /**
  * Undergraduate Internship Goal Parser
  */
 export default class UGInternshipGoalParser {
     public static readonly requiredUndergrad: ISuggestion = {
-        for: "education",
+        for: 'education',
         message:
-            "When applying for an undergraduate internship, it is required that you have at least one undergraduate education listed",
+            'When applying for an undergraduate internship, it is required that you have at least one undergraduate education listed',
     };
 
     public static readonly requiredSkills: ISuggestion = {
-        for: "skills",
+        for: 'skills',
         message:
-            "You should have at least 5 skills... an internship is a job, where you use your existing skills to learn your field more in depth!",
+            'You should have at least 5 skills... an internship is a job, where you use your existing skills to learn your field more in depth!',
     };
 
     public static readonly highSchoolTip: ISuggestion = {
-        for: "education",
+        for: 'education',
         message:
-            "Adding a high school to your resume would strengthen your education history",
+            'Adding a high school to your resume would strengthen your education history',
     };
 
     public static readonly previousWorkTip: ISuggestion = {
-        for: "work",
+        for: 'work',
         message:
-            "Listing any previous work experience (even if irrelevant) could increase your chances of landing your next job",
-        helpLink: "#",
-        helpMessage: "What work experience should I list?",
+            'Listing any previous work experience (even if irrelevant) could increase your chances of landing your next job',
+        helpLink: '#',
+        helpMessage: 'What work experience should I list?',
     };
 
     public static readonly certificationTip: ISuggestion = {
-        for: "certifications",
+        for: 'certifications',
         message:
-            "Adding a certification to your resume will make you stand out, especially as an undergrad. Find a course online, learn a little, and get certified!",
+            'Adding a certification to your resume will make you stand out, especially as an undergrad. Find a course online, learn a little, and get certified!',
     };
 
     public static readonly requiredEducation: ISuggestion = {
-        for: "education",
-        message:
-            "You don't have any education! Nobody will hire you for an internship.",
+        for: 'education',
+        message: `You don't have any education! Nobody will hire you for an internship.`,
     };
 
     public static readonly requiredHighschool: ISuggestion = {
-        for: "education",
-        message:
-            "Your resume isn't strong enough to hide your high school education.",
+        for: 'education',
+        message: `Your resume isn't strong enough to hide your high school education.`,
     };
 
     /**
@@ -63,7 +61,7 @@ export default class UGInternshipGoalParser {
 
         if (
             resumeInfo.educationHistory.filter((edu) => {
-                return edu.level === "Undergraduate";
+                return edu.level === 'Undergraduate';
             }).length === 0
         )
             results.requirements.push(UGInternshipGoalParser.requiredUndergrad);
@@ -77,7 +75,7 @@ export default class UGInternshipGoalParser {
 
         if (
             resumeInfo.educationHistory.filter((edu) => {
-                return edu.level === "High School";
+                return edu.level === 'High School';
             }).length === 0 &&
             resumeInfo.educationHistory.length > 0
         )
@@ -85,7 +83,7 @@ export default class UGInternshipGoalParser {
 
         if (
             resumeInfo.educationHistory.filter((edu) => {
-                return edu.level === "High School";
+                return edu.level === 'High School';
             }).length === 0 &&
             resumeInfo.educationHistory.length < 2 &&
             resumeInfo.certifications.length === 0

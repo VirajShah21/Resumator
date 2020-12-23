@@ -1,23 +1,23 @@
-import { Router } from "express";
-import { json as bodyParserJson } from "body-parser";
-import { ObjectId } from "mongodb";
-import Skill from "@entities/Skill";
-import { views, routes } from "@shared/constants";
-import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
-import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
-import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
+import { Router } from 'express';
+import { json as bodyParserJson } from 'body-parser';
+import { ObjectId } from 'mongodb';
+import Skill from '@entities/Skill';
+import { views, routes } from '@shared/constants';
+import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
+import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
+import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 
-const DB_ERR = "Could not delete skill.";
+const DB_ERR = 'Could not delete skill.';
 const SkillsRouter = Router();
 const jsonParser = bodyParserJson();
 
-SkillsRouter.post("/add", jsonParser, (req, res) => {
+SkillsRouter.post('/add', jsonParser, (req, res) => {
     const skill = new Skill(
         req.body.skill,
         req.body.proficiency,
         req.body.client.account.email
     );
-    if (req.body.delete === "on") {
+    if (req.body.delete === 'on') {
         skill.deleteDatabaseItem((success) => {
             if (success) res.redirect(routes.dashboardCard.skills);
             else
@@ -38,7 +38,7 @@ SkillsRouter.post("/add", jsonParser, (req, res) => {
     }
 });
 
-SkillsRouter.post("/update", jsonParser, (req, res) => {
+SkillsRouter.post('/update', jsonParser, (req, res) => {
     const skill = new Skill(
         req.body.skill,
         req.body.proficiency,
@@ -46,7 +46,7 @@ SkillsRouter.post("/update", jsonParser, (req, res) => {
     );
     skill._id = new ObjectId(req.body._id);
 
-    if (req.body.delete === "on") {
+    if (req.body.delete === 'on') {
         skill.deleteDatabaseItem((success) => {
             if (success) res.redirect(routes.dashboardCard.skills);
             else

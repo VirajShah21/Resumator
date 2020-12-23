@@ -1,7 +1,7 @@
-import WorkExperience, { IWorkExperience } from "@entities/WorkExperience";
-import Education, { IEducation } from "@entities/Education";
-import Skill, { ISkill } from "@entities/Skill";
-import Certification, { ICertification } from "@entities/Certification";
+import WorkExperience, { IWorkExperience } from '@entities/WorkExperience';
+import Education, { IEducation } from '@entities/Education';
+import Skill, { ISkill } from '@entities/Skill';
+import Certification, { ICertification } from '@entities/Certification';
 
 export default class ResumeInfoTransformer {
     public workExperience: WorkExperience[];

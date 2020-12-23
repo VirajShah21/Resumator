@@ -1,7 +1,7 @@
-import Account from "@entities/Account";
-import GoalParser from "@shared/util/GoalParser";
-import { IGoalResults, ISuggestion } from "@shared/util/GoalInterfaces";
-import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
+import Account from '@entities/Account';
+import GoalParser from '@shared/util/GoalParser';
+import { IGoalResults, ISuggestion } from '@shared/util/GoalInterfaces';
+import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
 
 export default class ResumeAnalysisTransformer {
     public requirements: ISuggestion[];
@@ -62,16 +62,16 @@ export default class ResumeAnalysisTransformer {
 
     public penalize(category: string, penalty: number): void {
         switch (category) {
-            case "education":
+            case 'education':
                 this.strength.education /= penalty;
                 break;
-            case "work":
+            case 'work':
                 this.strength.work /= penalty;
                 break;
-            case "skills":
+            case 'skills':
                 this.strength.skills /= penalty;
                 break;
-            case "certifications":
+            case 'certifications':
                 this.strength.certifications /= penalty;
                 break;
             default:

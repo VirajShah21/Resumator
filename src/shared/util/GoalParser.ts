@@ -1,11 +1,11 @@
-import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
-import { IGoalResults } from "./GoalInterfaces";
-import ProgrammingJobGoalParser from "./ProgrammingJobGoalParser";
-import UGInternshipGoalParser from "./UGInternshipGoalParser";
+import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
+import { IGoalResults } from './GoalInterfaces';
+import ProgrammingJobGoalParser from './ProgrammingJobGoalParser';
+import UGInternshipGoalParser from './UGInternshipGoalParser';
 
 export const goalsList: { name: string; label: string }[] = [
-    { name: "ug-internship", label: "Undergraduate Internship" },
-    { name: "programming-job", label: "Software Programming Job" },
+    { name: 'ug-internship', label: 'Undergraduate Internship' },
+    { name: 'programming-job', label: 'Software Programming Job' },
 ];
 
 /**
@@ -21,9 +21,9 @@ export default class GoalParser {
         name: string
     ): (resumeInfo: ResumeInfoTransformer) => IGoalResults {
         switch (name) {
-            case "ug-internship":
+            case 'ug-internship':
                 return UGInternshipGoalParser.handle;
-            case "programming-job":
+            case 'programming-job':
                 return ProgrammingJobGoalParser.handle;
             default:
                 return handleUndefinedGoal;

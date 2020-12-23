@@ -1,5 +1,5 @@
-import { MongoClient, Db } from "mongodb";
-import logger from "./Logger";
+import { MongoClient, Db } from 'mongodb';
+import logger from './Logger';
 
 const DB_USER = process.env.RESUMATOR_WEB_DB_USER;
 const DB_PASS = process.env.RESUMATOR_WEB_DB_PASS;
@@ -14,8 +14,8 @@ MongoClient.connect(url, { useUnifiedTopology: true }, (err, db) => {
         throw err;
     } else {
         logger.info(
-            "Connected to database @cluster0.3d31r.mongodb.net/resumator"
+            'Connected to database @cluster0.3d31r.mongodb.net/resumator'
         );
-        database = db.db("resumator");
+        database = db.db('resumator');
     }
 });

@@ -1,47 +1,46 @@
-import ResumeInfoTransformer from "@transformers/ResumeInfoTransformer";
-import { ISuggestion, IGoalResults } from "./GoalInterfaces";
+import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
+import { ISuggestion, IGoalResults } from './GoalInterfaces';
 
 export default class ProgrammingJobGoalParser {
     public static readonly requiredEducation: ISuggestion = {
-        for: "education",
+        for: 'education',
         message:
-            "Although an education is not required to land a programming job, it is when the rest of your resume is mostly empty.",
+            'Although an education is not required to land a programming job, it is when the rest of your resume is mostly empty.',
         penalty: 5,
     };
 
     public static readonly requiredSkills: ISuggestion = {
-        for: "skills",
-        message:
-            "You can't get a job without any skills you're proficient in! List more proficient skills",
+        for: 'skills',
+        message: `You can't get a job without any skills you're proficient in! List more proficient skills`,
     };
 
     public static readonly skillsTip: ISuggestion = {
-        for: "skills",
-        message: "You should add more skills to strengthen your resume",
+        for: 'skills',
+        message: 'You should add more skills to strengthen your resume',
     };
 
     public static readonly workExperienceTip: ISuggestion = {
-        for: "work",
+        for: 'work',
         message:
-            "Adding (more relative) prior work experience will significantly improve your resume",
+            'Adding (more relative) prior work experience will significantly improve your resume',
     };
 
     public static readonly educationTip: ISuggestion = {
-        for: "education",
+        for: 'education',
         message:
-            "A strong education is not required for a programming job... but it certainly helps a lot.",
+            'A strong education is not required for a programming job... but it certainly helps a lot.',
     };
 
     public static readonly certificationsTip: ISuggestion = {
-        for: "certifications",
+        for: 'certifications',
         message:
-            "Certifications help prove you qualification to potential employers. Consider signing up for some coding bootcamps or certification exams/programs.",
+            'Certifications help prove you qualification to potential employers. Consider signing up for some coding bootcamps or certification exams/programs.',
     };
 
     public static readonly requiredProgrammingLanguages: ISuggestion = {
-        for: "skills",
+        for: 'skills',
         message:
-            "Add 5 programming languages, frameworks, or libraries which you are proficient in.",
+            'Add 5 programming languages, frameworks, or libraries which you are proficient in.',
     };
 
     public static handle(resumeInfo: ResumeInfoTransformer): IGoalResults {

@@ -1,5 +1,5 @@
-import Bcrypt from "bcrypt";
-import { passwordSaltRounds, keygenChars } from "./constants";
+import Bcrypt from 'bcrypt';
+import { passwordSaltRounds, keygenChars } from './constants';
 
 export const KEYLENGTH = 15;
 
@@ -39,7 +39,7 @@ export function comparePasswordWithHash(
  * Generates a random key with a length of KEYLENGTH
  */
 export function generateKey(): string {
-    let key = "";
+    let key = '';
 
     while (key.length < KEYLENGTH)
         key += keygenChars.charAt(Math.random() * keygenChars.length);
@@ -56,8 +56,8 @@ export function generateKey(): string {
 export function validateEmail(email: string): boolean {
     try {
         return (
-            email.split("@").length === 2 &&
-            email.split("@")[1].split(".").length === 2
+            email.split('@').length === 2 &&
+            email.split('@')[1].split('.').length === 2
         );
     } catch (e) {
         return false;
@@ -72,8 +72,8 @@ export function validateEmail(email: string): boolean {
  */
 export function validateMonthYearString(date: string): boolean {
     try {
-        const month = parseInt(date.split("/")[0], 10);
-        const year = parseInt(date.split("/")[1], 10);
+        const month = parseInt(date.split('/')[0], 10);
+        const year = parseInt(date.split('/')[1], 10);
 
         return month > 0 && month <= 12 && year >= 1000 && year <= 9999;
     } catch (e) {
@@ -95,7 +95,7 @@ export function addToObject(toAdd: any, base: any): any {
 }
 
 export function generateVerifyPin(): string {
-    let verifyPin = Math.round(Math.random() * 1000000) + "";
-    while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
+    let verifyPin = Math.round(Math.random() * 1000000) + '';
+    while (verifyPin.length < 6) verifyPin = '0' + verifyPin;
     return verifyPin;
 }

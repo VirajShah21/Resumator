@@ -4,14 +4,14 @@
  * Documentation: https://github.com/winstonjs/winston
  */
 
-import { createLogger, format, transports } from "winston";
+import { createLogger, format, transports } from 'winston';
 
 // Import Functions
 const { File, Console } = transports;
 
 // Init Logger
 const logger = createLogger({
-    level: "info",
+    level: 'info',
 });
 
 /**
@@ -19,15 +19,15 @@ const logger = createLogger({
  * to `combined.log. Write all logs error (and below) to `error.log`.
  * For development, print to the console.
  */
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
     const fileFormat = format.combine(format.timestamp(), format.json());
     const errTransport = new File({
-        filename: "./logs/error.log",
+        filename: './logs/error.log',
         format: fileFormat,
-        level: "error",
+        level: 'error',
     });
     const infoTransport = new File({
-        filename: "./logs/combined.log",
+        filename: './logs/combined.log',
         format: fileFormat,
     });
     logger.add(errTransport);

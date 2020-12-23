@@ -1,30 +1,30 @@
-import { Router } from "express";
-import { json as bodyParserJson } from "body-parser";
-import Session from "@entities/Session";
-import Account from "@entities/Account";
+import { Router } from 'express';
+import { json as bodyParserJson } from 'body-parser';
+import Session from '@entities/Session';
+import Account from '@entities/Account';
 import {
     hashPassword,
     comparePasswordWithHash,
     generateVerifyPin,
-} from "@shared/functions";
-import Address from "@entities/Address";
-import { views, routes } from "@shared/constants";
-import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
-import DatabaseErrorTransformer from "@transformers/DatabaseErrorTransformer";
-import AccountSessionTransformer from "@transformers/AccountSessionTransformer";
-import { ObjectId } from "mongodb";
-import multer from "multer";
-import path from "path";
-import { exec } from "child_process";
-import fs from "fs";
-import { uploadProfilePhoto } from "@shared/cloud";
-import logger from "@shared/Logger";
-import { VerifyEmailer } from "@shared/util/Emailer";
-import EmailTransition from "@entities/EmailTransition";
-import Certification from "@entities/Certification";
-import Education from "@entities/Education";
-import Skill from "@entities/Skill";
-import WorkExperience from "@entities/WorkExperience";
+} from '@shared/functions';
+import Address from '@entities/Address';
+import { views, routes } from '@shared/constants';
+import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
+import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
+import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
+import { ObjectId } from 'mongodb';
+import multer from 'multer';
+import path from 'path';
+import { exec } from 'child_process';
+import fs from 'fs';
+import { uploadProfilePhoto } from '@shared/cloud';
+import logger from '@shared/Logger';
+import { VerifyEmailer } from '@shared/util/Emailer';
+import EmailTransition from '@entities/EmailTransition';
+import Certification from '@entities/Certification';
+import Education from '@entities/Education';
+import Skill from '@entities/Skill';
+import WorkExperience from '@entities/WorkExperience';
 
 const AccountRouter = Router();
 
@@ -38,35 +38,35 @@ const verifyEmailTokens: {
 }[] = [];
 
 // Setup temp storage directory
-exec("mkdir /tmp", () => {
-    if (!fs.existsSync("/tmp")) {
-        logger.error("Could not create /tmp");
+exec('mkdir /tmp', () => {
+    if (!fs.existsSync('/tmp')) {
+        logger.error('Could not create /tmp');
     } else {
-        logger.info("Created /tmp");
-        exec("mkdir /tmp/profile_photos", () => {
-            if (!fs.existsSync("/tmp/profile_photos")) {
-                logger.error("Could not create /tmp/profile_photos");
+        logger.info('Created /tmp');
+        exec('mkdir /tmp/profile_photos', () => {
+            if (!fs.existsSync('/tmp/profile_photos')) {
+                logger.error('Could not create /tmp/profile_photos');
             } else {
-                logger.info("Created /tmp/profile_photos");
+                logger.info('Created /tmp/profile_photos');
             }
         });
     }
 });
 
-AccountRouter.get("/", (req, res) => {
+AccountRouter.get('/', (req, res) => {
     if (req.body.client && req.body.client.account) {
-        res.render("manage-account", {
-            nav: "Account",
+        res.render('manage-account', {
+            nav: 'Account',
             account: req.body.client.account,
         });
     } else {
         res.render(views.accountPage, {
-            nav: "Account",
+            nav: 'Account',
         });
     }
 });
 
-AccountRouter.post("/signup", (req, res) => {
+AccountRouter.post('/signup', (req, res) => {
     if (req.body.password === req.body.passwordconf) {
         hashPassword(req.body.password, (hash) => {
             const account = new Account({
@@ -92,13 +92,13 @@ AccountRouter.post("/signup", (req, res) => {
                                 token: verifyPin,
                             });
 
-                            res.cookie("session", session.key);
+                            res.cookie('session', session.key);
                             res.redirect(routes.dashboard);
                         } else {
                             res.render(
                                 views.genericError,
                                 new DatabaseErrorTransformer(
-                                    "Could not create a new session. Your account was created, however, you will need to login manually."
+                                    'Could not create a new session. Your account was created, however, you will need to login manually.'
                                 )
                             );
                         }
@@ -107,7 +107,7 @@ AccountRouter.post("/signup", (req, res) => {
                     res.render(
                         views.genericError,
                         new DatabaseErrorTransformer(
-                            "Could not create a new account."
+                            'Could not create a new account.'
                         )
                     );
                 }
@@ -117,12 +117,12 @@ AccountRouter.post("/signup", (req, res) => {
         res.render(views.genericError, {
             error: "Passwords don't match",
             message:
-                "Your password and confirmation password do not match. Please make sure they are typed exactly the same. Passwords are case sensitive",
+                'Your password and confirmation password do not match. Please make sure they are typed exactly the same. Passwords are case sensitive',
         });
     }
 });
 
-AccountRouter.post("/update", (req, res) => {
+AccountRouter.post('/update', (req, res) => {
     const account: Account = req.body.client.account;
     account.fname = req.body.fname || account.fname;
     account.lname = req.body.lname || account.lname;
@@ -138,7 +138,7 @@ AccountRouter.post("/update", (req, res) => {
         // Create new session cookie and db item for the new account email
         const newSession = new Session(account);
         newSession.insertDatabaseItem((success) => {
-            if (success) res.cookie("session", newSession.key);
+            if (success) res.cookie('session', newSession.key);
 
             if (req.body.line1) {
                 account.address = new Address({
@@ -177,7 +177,7 @@ AccountRouter.post("/update", (req, res) => {
                     res.render(
                         views.genericError,
                         new DatabaseErrorTransformer(
-                            "Could not update account info"
+                            'Could not update account info'
                         )
                     );
             });
@@ -201,14 +201,14 @@ AccountRouter.post("/update", (req, res) => {
                 res.render(
                     views.genericError,
                     new DatabaseErrorTransformer(
-                        "Could not update account info"
+                        'Could not update account info'
                     )
                 );
         });
     }
 });
 
-AccountRouter.post("/update-goal", (req, res) => {
+AccountRouter.post('/update-goal', (req, res) => {
     let account = req.body.client.account;
     account.currentGoal = req.body.goal;
     account.objective = req.body.objective;
@@ -217,12 +217,12 @@ AccountRouter.post("/update-goal", (req, res) => {
         else
             res.render(
                 views.genericError,
-                new DatabaseErrorTransformer("Could not update goal ")
+                new DatabaseErrorTransformer('Could not update goal ')
             );
     });
 });
 
-AccountRouter.post("/login", (req, res) => {
+AccountRouter.post('/login', (req, res) => {
     Account.loadFromDatabase(req.body.email, (account) => {
         if (account) {
             comparePasswordWithHash(
@@ -231,22 +231,22 @@ AccountRouter.post("/login", (req, res) => {
                 (correctPassword) => {
                     if (correctPassword) {
                         const session: Session = new Session(account);
-                        res.cookie("session", session.key);
+                        res.cookie('session', session.key);
                         session.insertDatabaseItem((isSessionAdded) => {
                             if (isSessionAdded) res.redirect(routes.dashboard);
                             else
                                 res.render(
                                     views.genericError,
                                     new DatabaseErrorTransformer(
-                                        "Could not create a new session."
+                                        'Could not create a new session.'
                                     )
                                 );
                         });
                     } else {
                         res.render(views.genericError, {
-                            error: "Wrong Password",
+                            error: 'Wrong Password',
                             message:
-                                "You entered an incorrect password. Passwords are case sensitive",
+                                'You entered an incorrect password. Passwords are case sensitive',
                         });
                     }
                 }
@@ -257,17 +257,17 @@ AccountRouter.post("/login", (req, res) => {
     });
 });
 
-AccountRouter.get("/logout", (req, res) => {
-    res.cookie("session", { expires: Date.now() });
-    res.redirect("/app/account");
+AccountRouter.get('/logout', (req, res) => {
+    res.cookie('session', { expires: Date.now() });
+    res.redirect('/app/account');
 });
 
 AccountRouter.post(
-    "/profile-pic/change",
+    '/profile-pic/change',
     multer({
         storage: multer.diskStorage({
             destination: (req, file, cb) => {
-                cb(null, "/tmp/profile_photos");
+                cb(null, '/tmp/profile_photos');
             },
             filename: (req, file, cb) => {
                 const filename = `${Date.now()}-${file.filename}`;
@@ -278,9 +278,9 @@ AccountRouter.post(
         limits: {
             fileSize: 8000000, // Sensitive: 10MB is more than the recommended limit of 8MB
         },
-    }).single("file"),
+    }).single('file'),
     (req, res) => {
-        const destination = "/tmp/profile_photos";
+        const destination = '/tmp/profile_photos';
         const filename = profilePhotoUploads[req.cookies.session];
         const fullpath = path.join(destination, filename);
         let account = req.body.client.account;
@@ -289,26 +289,26 @@ AccountRouter.post(
         account.photo = true;
         account.updateDatabaseItem((success: boolean) => {
             if (success)
-                res.send("Great! Your profile photo has been updated!");
-            else res.send("There seems to be an issue with your account.");
+                res.send('Great! Your profile photo has been updated!');
+            else res.send('There seems to be an issue with your account.');
         });
     }
 );
 
-AccountRouter.get("/my-photo", (req, res) => {
+AccountRouter.get('/my-photo', (req, res) => {
     if (req.body.client.account) {
         if (req.body.client.account.photo)
             res.redirect(
                 `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${req.body.client.account._id}.jpg`
             );
-        else res.redirect("https://placehold.it/300x300");
-    } else res.redirect("https://placehold.it/300x300");
+        else res.redirect('https://placehold.it/300x300');
+    } else res.redirect('https://placehold.it/300x300');
 });
 
 /**
  * /app/account/verify?token=<token>
  */
-AccountRouter.get("/verify", (req, res) => {
+AccountRouter.get('/verify', (req, res) => {
     const token: string = req.query.token as string;
 
     logger.info(`Verifying account with PIN ${token}`);
@@ -331,12 +331,12 @@ AccountRouter.get("/verify", (req, res) => {
 
                     // Transition all database documents to use the new email
 
-                    res.redirect("/app/dashboard");
+                    res.redirect('/app/dashboard');
                 } else {
                     logger.info(
                         `There was an error updating ${account.email} to verify the email.`
                     );
-                    res.render("errors/UnknownError");
+                    res.render('errors/UnknownError');
                 }
             });
 
@@ -392,12 +392,12 @@ AccountRouter.get("/verify", (req, res) => {
             logger.info(
                 `Account ${account.email} did not match the verification ID`
             );
-            res.render("errors/UnknownError");
+            res.render('errors/UnknownError');
         }
-    } else res.render("errors/UnknownError");
+    } else res.render('errors/UnknownError');
 });
 
-AccountRouter.get("/resend-verification", (req, res) => {
+AccountRouter.get('/resend-verification', (req, res) => {
     const account = req.body.client.account;
 
     // Send an email verification email
@@ -410,7 +410,7 @@ AccountRouter.get("/resend-verification", (req, res) => {
         token: verifyPin,
     });
 
-    res.redirect("/app/account");
+    res.redirect('/app/account');
 });
 
 export default AccountRouter;

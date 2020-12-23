@@ -1,6 +1,6 @@
 export default class SessionErrorTransformer {
-    public error = "Session Error";
-    public message = "An account could not be found for this session.";
+    public error = 'Session Error';
+    public message = 'An account could not be found for this session.';
 
     constructor(altMessage?: string) {
         if (altMessage) this.message = altMessage;

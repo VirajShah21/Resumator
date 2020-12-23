@@ -1,9 +1,9 @@
-import Account from "@entities/Account";
-import logger from "@shared/Logger";
-import { ObjectId } from "mongodb";
-import nodemailer from "nodemailer";
-import fs from "fs";
-import path from "path";
+import Account from '@entities/Account';
+import logger from '@shared/Logger';
+import { ObjectId } from 'mongodb';
+import nodemailer from 'nodemailer';
+import fs from 'fs';
+import path from 'path';
 
 const NODEMAILER_SERVICE = process.env.NODEMAILER_SERVICE;
 const NODEMAILER_USER = process.env.NODEMAILER_USER;
@@ -30,18 +30,18 @@ export class VerifyEmailer {
                 let html = fs.readFileSync(
                     path.join(
                         process.cwd(),
-                        "email_templates/verifyEmail.html"
+                        'email_templates/verifyEmail.html'
                     ),
-                    "utf-8"
+                    'utf-8'
                 );
 
-                while (html.indexOf("${verifylink}") >= 0)
-                    html = html.replace("${verifylink}", tokenString);
+                while (html.indexOf('${verifylink}') >= 0)
+                    html = html.replace('${verifylink}', tokenString);
 
                 const emailInfo = {
-                    from: "Viraj Shah at Resumator",
+                    from: 'Viraj Shah at Resumator',
                     to: account.email,
-                    subject: "Please Verify Your Email",
+                    subject: 'Please Verify Your Email',
                     html,
                 };
 

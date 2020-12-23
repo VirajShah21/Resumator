@@ -1,5 +1,5 @@
 export default class DatabaseErrorTransformer {
-    public error = "Database Error";
+    public error = 'Database Error';
     public message: string;
 
     constructor(message: string) {
