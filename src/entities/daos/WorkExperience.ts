@@ -159,4 +159,14 @@ export default class WorkExperience extends Entity implements IWorkExperience {
     protected validateUser(): boolean {
         return validateEmail(this.user);
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [
+            this.validateEnd,
+            this.validateOrganization,
+            this.validatePosition,
+            this.validateStart,
+            this.validateUser,
+        ];
+    }
 }

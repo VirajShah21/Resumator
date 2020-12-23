@@ -10,7 +10,11 @@ cloudinary.config({
 
 export const uploadWatcher = {};
 
-export function uploadFile(file: string, filetype: string, pubId: string) {
+export function uploadFile(
+    file: string,
+    filetype: string,
+    pubId: string
+): void {
     cloudinary.uploader.upload(
         file,
         {
@@ -25,6 +29,6 @@ export function uploadFile(file: string, filetype: string, pubId: string) {
     );
 }
 
-export function uploadProfilePhoto(file: string, userId: ObjectId) {
+export function uploadProfilePhoto(file: string, userId: ObjectId): void {
     uploadFile(file, 'image', `profile_photos/${userId.toHexString()}`);
 }

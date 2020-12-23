@@ -6,27 +6,11 @@ export default abstract class Entity {
 
         logger.info(`Validating ${JSON.stringify(this, null, 4)}`);
 
-        for (const key in this) {
-            if (this.hasOwnProperty(key)) {
-                let funcName: string = `validate${key.charAt(0).toUpperCase()}`;
-                if (key.length > 1) funcName += key.substring(1);
-
-                // call the validate function
-                if (
-                    typeof (this as any)[funcName] === 'function' &&
-                    !(this as any)[funcName]()
-                ) {
-                    isValid = false;
-                    logger.info(
-                        `Invalid field: ${key} -> ${JSON.stringify(
-                            this,
-                            null,
-                            4
-                        )}`
-                    );
-                }
+        this.getValidators().forEach((validator) => {
+            if (validator()) {
+                isValid = false;
             }
-        }
+        });
 
         if (isValid)
             logger.info(`VALIDATED ${JSON.stringify(this, null, 4)} VALIDATED`);
@@ -34,4 +18,6 @@ export default abstract class Entity {
 
         return isValid;
     }
+
+    protected abstract getValidators(): (() => boolean)[];
 }

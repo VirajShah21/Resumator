@@ -6,18 +6,24 @@ import { views, routes } from '@shared/constants';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
 import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
+import { getClient } from '@shared/functions';
 
 const WorkExperienceRouter = Router();
 const jsonParser = bodyParserJson();
 
 WorkExperienceRouter.post('/add', jsonParser, (req, res) => {
+    const client = getClient(req);
+    if (!client) {
+        res.send('Access denied');
+        return;
+    }
     const experience = new WorkExperience(
         req.body.position,
         req.body.organization,
         req.body['start-date'],
         req.body['end-date'],
         req.body.description,
-        req.body.client.account.email
+        client.account.email
     );
     experience.insertDatabaseItem((success) => {
         if (success) res.redirect(routes.dashboardCard.workExperience);
@@ -30,13 +36,18 @@ WorkExperienceRouter.post('/add', jsonParser, (req, res) => {
 });
 
 WorkExperienceRouter.post('/update', (req, res) => {
+    const client = getClient(req);
+    if (!client) {
+        res.send('Access denied');
+        return;
+    }
     const experience = new WorkExperience(
         req.body.position,
         req.body.organization,
         req.body['start-date'],
         req.body['end-date'],
         req.body.description,
-        req.body.client.account.email
+        client.account.email
     );
     experience._id = new ObjectId(req.body.dbid);
     if (req.body.delete === 'on') {

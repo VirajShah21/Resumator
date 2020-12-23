@@ -3,14 +3,20 @@ import { views } from '@shared/constants';
 import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
 import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
+import { getClient } from '@shared/functions';
 
 const ThemesRouter = Router();
 
 ThemesRouter.get('/', (req, res) => {
-    if (req.body.client && req.body.client.account)
+    const client = getClient(req);
+    if (!client) {
+        res.send('Access denied');
+        return;
+    }
+    if (client && client.account)
         res.render('themes', {
             nav: 'Themes',
-            account: req.body.client.account,
+            account: client.account,
         });
     else
         res.render('themes', {
@@ -19,10 +25,15 @@ ThemesRouter.get('/', (req, res) => {
 });
 
 ThemesRouter.get('/preview', (req, res) => {
-    ResumeInfoTransformer.fetch(req.body.client.account.email, (resumeInfo) => {
+    const client = getClient(req);
+    if (!client) {
+        res.send('Access denied');
+        return;
+    }
+    ResumeInfoTransformer.fetch(client.account.email, (resumeInfo) => {
         if (resumeInfo) {
             res.render(`resume-templates/${req.query.theme}`, {
-                account: req.body.client.account,
+                account: client.account,
                 workExperience: resumeInfo.workExperience,
                 educationHistory: resumeInfo.educationHistory,
                 skillset: resumeInfo.skillset,

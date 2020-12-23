@@ -76,4 +76,8 @@ export default class EmailTransition
     public validateNewEmail(): boolean {
         return validateEmail(this.newEmail);
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [this.validateOldEmail, this.validateNewEmail];
+    }
 }

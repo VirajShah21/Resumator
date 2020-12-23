@@ -136,4 +136,13 @@ export default class Certification extends Entity implements ICertification {
     protected validateUser(): boolean {
         return validateEmail(this.user);
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [
+            this.validateCertification,
+            this.validateExamDate,
+            this.validateInstitution,
+            this.validateUser,
+        ];
+    }
 }

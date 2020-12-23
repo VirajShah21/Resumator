@@ -56,4 +56,13 @@ export default class Address extends Entity implements IAddress {
     protected validateZip(): boolean {
         return this.zip.length === 5;
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [
+            this.validateCity,
+            this.validateLine1,
+            this.validateState,
+            this.validateZip,
+        ];
+    }
 }

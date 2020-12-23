@@ -129,4 +129,8 @@ export default class Skill extends Entity implements ISkill {
     protected validateUser(): boolean {
         return validateEmail(this.user);
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [this.validateName, this.validateProficiency, this.validateUser];
+    }
 }

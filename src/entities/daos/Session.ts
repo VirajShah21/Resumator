@@ -83,4 +83,8 @@ export default class Session implements ISession {
     protected validateUser(): boolean {
         return validateEmail(this.user);
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [this.validateKey, this.validateUser];
+    }
 }

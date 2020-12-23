@@ -1,4 +1,9 @@
+import Account from '@entities/Account';
+import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
 import Bcrypt from 'bcrypt';
+import { Request } from 'express';
+import { Session } from 'inspector';
+import { ObjectId } from 'mongodb';
 import { passwordSaltRounds, keygenChars } from './constants';
 
 export const KEYLENGTH = 15;
@@ -12,7 +17,7 @@ export const KEYLENGTH = 15;
 export function hashPassword(
     plaintextPassword: string,
     callback?: (hash: string) => void
-) {
+): void {
     Bcrypt.hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
         if (callback) callback(hash);
     });
@@ -81,21 +86,22 @@ export function validateMonthYearString(date: string): boolean {
     }
 }
 
-/**
- * Adds elements from an object literal to a base object
- *
- * @param toAdd The elements to add
- * @param base The base object to which elements should be added to
- * @returns The resulting object (base)
- */
-export function addToObject(toAdd: any, base: any): any {
-    for (const prop in toAdd)
-        if (toAdd.hasOwnProperty(prop)) base[prop] = toAdd[prop];
-    return base;
-}
-
 export function generateVerifyPin(): string {
     let verifyPin = Math.round(Math.random() * 1000000) + '';
     while (verifyPin.length < 6) verifyPin = '0' + verifyPin;
     return verifyPin;
+}
+
+export function getClient(
+    req: Request
+):
+    | {
+          account: Account;
+          session: Session;
+          resumeInfo: ResumeInfoTransformer;
+      }
+    | undefined {
+    let obj = Object.getOwnPropertyDescriptor(req, 'client');
+    if (obj) return obj.value;
+    else return undefined;
 }

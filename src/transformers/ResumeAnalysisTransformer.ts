@@ -22,7 +22,7 @@ export default class ResumeAnalysisTransformer {
         if (account.currentGoal)
             parser = GoalParser.getGoalParser(account.currentGoal);
         else
-            parser = (reusmeInfo: ResumeInfoTransformer) => {
+            parser = (reusmeInfo: ResumeInfoTransformer): IGoalResults => {
                 return {
                     requirements: [],
                     tips: [],

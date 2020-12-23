@@ -109,24 +109,24 @@ The linter rules for ES6
 
 |                    | Feature                                | Version Added | Version Updated |
 | ------------------ | -------------------------------------- | ------------- | --------------- |
-| :white_check_mark: | Sign Up                                | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Login                                  | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Dashboard View                         | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Edit Name / Phone / Address            | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Edit email address                     | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Education Card                         | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Work Experience Card                   | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Skills Card                            | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Certifications Card                    | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Theme Gallery                          | V0.0.1        | V0.1.0          |
-| :white_check_mark: | Preview Resume Theme                   | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Set Objective / Goal                   | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Resume Strength Meter                  | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Help Page/s                            | v0.0.1        | v0.0.2          |
-| :white_check_mark: | Manage Account                         | v0.0.1        | v0.1.0          |
-| :white_check_mark: | Upload Profile Photos                  | v0.0.3        | v0.1.0          |
-| :white_check_mark: | Email Verification                     | v0.1.0        |                 |
+| :white_check_mark: | Sign Up                                | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Login                                  | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Dashboard View                         | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Edit Name / Phone / Address            | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Edit email address                     | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Education Card                         | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Work Experience Card                   | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Skills Card                            | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Certifications Card                    | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Theme Gallery                          | V0.0.1        | V0.1.1          |
+| :white_check_mark: | Preview Resume Theme                   | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Set Objective / Goal                   | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Resume Strength Meter                  | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Help Page/s                            | v0.0.1        | v0.1.1          |
+| :white_check_mark: | Manage Account                         | v0.0.1        | v0.1.1          |
+| :x:                | Upload Profile Photos                  | v0.0.3        | v0.1.1          |
+| :white_check_mark: | Email Verification                     | v0.1.0        | v0.1.1          |
 
 ## Major Functionality Issues
 
@@ -134,7 +134,7 @@ The linter rules for ES6
 
 ## Minor Functionality Issues
 
-> No minor functionality issues
+-   Image upload does not work anymore
 
 ## UI / UX List
 
@@ -189,6 +189,7 @@ The linter rules for ES6
 
 -   Add Awards, Acheivments, and Honors card
 -   Add volunteer work card
+-   Get image upload working again
 
 ## MongoDB
 

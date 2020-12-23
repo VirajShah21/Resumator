@@ -168,4 +168,16 @@ export default class Account extends Entity implements IAccount {
     protected validateEmailVerified(): boolean {
         return typeof this.emailVerified === 'boolean';
     }
+
+    protected getValidators(): (() => boolean)[] {
+        return [
+            this.validateAddress,
+            this.validateEmail,
+            this.validateEmailVerified,
+            this.validateFname,
+            this.validateLname,
+            this.validatePassword,
+            this.validatePhone,
+        ];
+    }
 }

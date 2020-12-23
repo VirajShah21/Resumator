@@ -6,6 +6,7 @@ import {
     hashPassword,
     comparePasswordWithHash,
     generateVerifyPin,
+    getClient,
 } from '@shared/functions';
 import Address from '@entities/Address';
 import { views, routes } from '@shared/constants';
@@ -30,7 +31,7 @@ const AccountRouter = Router();
 
 AccountRouter.use(bodyParserJson());
 
-const profilePhotoUploads: any = {};
+const profilePhotoUploads: unknown = {};
 const verifyEmailTokens: {
     email: string;
     userId: ObjectId;
@@ -54,10 +55,11 @@ exec('mkdir /tmp', () => {
 });
 
 AccountRouter.get('/', (req, res) => {
-    if (req.body.client && req.body.client.account) {
+    let client = getClient(req);
+    if (client && client.account) {
         res.render('manage-account', {
             nav: 'Account',
-            account: req.body.client.account,
+            account: client.account,
         });
     } else {
         res.render(views.accountPage, {
@@ -123,7 +125,12 @@ AccountRouter.post('/signup', (req, res) => {
 });
 
 AccountRouter.post('/update', (req, res) => {
-    const account: Account = req.body.client.account;
+    const client = getClient(req);
+    if (!client || !client.account) {
+        res.send('No account to update');
+        return;
+    }
+    const account: Account = client?.account;
     account.fname = req.body.fname || account.fname;
     account.lname = req.body.lname || account.lname;
 
@@ -209,17 +216,19 @@ AccountRouter.post('/update', (req, res) => {
 });
 
 AccountRouter.post('/update-goal', (req, res) => {
-    const account = req.body.client.account;
-    account.currentGoal = req.body.goal;
-    account.objective = req.body.objective;
-    account.updateDatabaseItem((success: boolean) => {
-        if (success) res.redirect(routes.dashboardCard.goals);
-        else
-            res.render(
-                views.genericError,
-                new DatabaseErrorTransformer('Could not update goal ')
-            );
-    });
+    const account = getClient(req)?.account;
+    if (account) {
+        account.currentGoal = req.body.goal;
+        account.objective = req.body.objective;
+        account.updateDatabaseItem((success: boolean) => {
+            if (success) res.redirect(routes.dashboardCard.goals);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer('Could not update goal ')
+                );
+        });
+    }
 });
 
 AccountRouter.post('/login', (req, res) => {
@@ -271,7 +280,16 @@ AccountRouter.post(
             },
             filename: (req, file, cb) => {
                 const filename = `${Date.now()}-${file.filename}`;
-                profilePhotoUploads[req.cookies.session] = filename;
+                Object.defineProperty(
+                    profilePhotoUploads,
+                    req.cookies.session,
+                    {
+                        value: filename,
+                        writable: true,
+                    }
+                );
+                // Below code replaced with Object.defineProperty(...)
+                // profilePhotoUploads[req.cookies.session] = filename;
                 cb(null, filename);
             },
         }),
@@ -280,26 +298,35 @@ AccountRouter.post(
         },
     }).single('file'),
     (req, res) => {
-        const destination = '/tmp/profile_photos';
-        const filename = profilePhotoUploads[req.cookies.session];
-        const fullpath = path.join(destination, filename);
-        const account = req.body.client.account;
+        const client = getClient(req);
 
-        uploadProfilePhoto(fullpath, account._id);
-        account.photo = true;
-        account.updateDatabaseItem((success: boolean) => {
-            if (success)
-                res.send('Great! Your profile photo has been updated!');
-            else res.send('There seems to be an issue with your account.');
-        });
+        if (client) {
+            const destination = '/tmp/profile_photos';
+            const filename = Object.getOwnPropertyDescriptor(
+                profilePhotoUploads,
+                req.cookies.session
+            )?.value;
+            // const filename = profilePhotoUploads[req.cookies.session];
+            const fullpath = path.join(destination, filename as string);
+            const account = client.account;
+
+            uploadProfilePhoto(fullpath, account._id);
+            account.photo = true;
+            account.updateDatabaseItem((success: boolean) => {
+                if (success)
+                    res.send('Great! Your profile photo has been updated!');
+                else res.send('There seems to be an issue with your account.');
+            });
+        }
     }
 );
 
 AccountRouter.get('/my-photo', (req, res) => {
-    if (req.body.client.account) {
-        if (req.body.client.account.photo)
+    let client = getClient(req);
+    if (client && client.account) {
+        if (client.account.photo)
             res.redirect(
-                `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${req.body.client.account._id}.jpg`
+                `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${client.account._id}.jpg`
             );
         else res.redirect('https://placehold.it/300x300');
     } else res.redirect('https://placehold.it/300x300');
@@ -310,6 +337,7 @@ AccountRouter.get('/my-photo', (req, res) => {
  */
 AccountRouter.get('/verify', (req, res) => {
     const token: string = req.query.token as string;
+    const client = getClient(req);
 
     logger.info(`Verifying account with PIN ${token}`);
 
@@ -317,8 +345,8 @@ AccountRouter.get('/verify', (req, res) => {
         return verifyObject.token === token;
     });
 
-    if (tokenInfo) {
-        const account = req.body.client.account as Account;
+    if (tokenInfo && client) {
+        const account = client.account as Account;
 
         if (
             account._id.toString() === tokenInfo?.userId.toString() &&
@@ -398,17 +426,19 @@ AccountRouter.get('/verify', (req, res) => {
 });
 
 AccountRouter.get('/resend-verification', (req, res) => {
-    const account = req.body.client.account;
+    const account = getClient(req)?.account;
 
-    // Send an email verification email
-    const emailer = new VerifyEmailer(account._id);
-    const verifyPin = generateVerifyPin();
-    emailer.sendVerifyEmail(verifyPin);
-    verifyEmailTokens.push({
-        email: account.email,
-        userId: new ObjectId(account._id),
-        token: verifyPin,
-    });
+    if (account) {
+        // Send an email verification email
+        const emailer = new VerifyEmailer(account._id);
+        const verifyPin = generateVerifyPin();
+        emailer.sendVerifyEmail(verifyPin);
+        verifyEmailTokens.push({
+            email: account.email,
+            userId: new ObjectId(account._id),
+            token: verifyPin,
+        });
+    }
 
     res.redirect('/app/account');
 });

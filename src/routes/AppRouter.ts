@@ -9,7 +9,6 @@ import ThemesRouter from './ThemesRouter';
 import { views } from '@shared/constants';
 import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
-import { addToObject } from '@shared/functions';
 import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { goalsList } from '@shared/util/GoalParser';
 import ResumeAnalysisTransformer from '@transformers/ResumeAnalysisTransformer';
@@ -17,6 +16,11 @@ import path from 'path';
 import logger from '@shared/Logger';
 import Account from '@entities/Account';
 import Session from '@entities/Session';
+import { getClient } from '@shared/functions';
+import WorkExperience from '@entities/WorkExperience';
+import Education from '@entities/Education';
+import Skill from '@entities/Skill';
+import Certification from '@entities/Certification';
 
 export const PREFIX = '/app';
 export const ROOT_DIR = path.join(__dirname, '..');
@@ -25,40 +29,68 @@ const AppRouter = Router();
 const jsonParser = bodyParserJson();
 
 AppRouter.use((req, res, next) => {
-    const client: {
-        account: Account;
-        session: Session;
-        resumeInfo: ResumeInfoTransformer;
-    } = {
-        account: req.body.client.account,
-        session: req.body.client.session,
-        resumeInfo: new ResumeInfoTransformer([], [], [], []),
-    };
+    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
+        if (
+            accountSession &&
+            accountSession.account &&
+            accountSession.session
+        ) {
+            const client: {
+                account: Account;
+                session: Session;
+                resumeInfo: ResumeInfoTransformer;
+            } = {
+                account: accountSession.account as Account,
+                session: accountSession.session as Session,
+                resumeInfo: new ResumeInfoTransformer([], [], [], []),
+            };
 
-    ResumeInfoTransformer.fetch(req.body.client.account.email, (resumeInfo) => {
-        client.resumeInfo = resumeInfo;
-        req.body.client = client;
-        next();
+            ResumeInfoTransformer.fetch(
+                accountSession.account.email,
+                (resumeInfo) => {
+                    client.resumeInfo = resumeInfo as ResumeInfoTransformer;
+                    Object.defineProperty(req, 'client', {
+                        value: client,
+                        writable: true,
+                    });
+                    next();
+                }
+            );
+        } else {
+            res.redirect('/');
+        }
     });
 });
 
 AppRouter.get('/dashboard', (req, res) => {
-    res.render(
-        views.dashboard,
-        addToObject(
-            {
-                session: req.body.client.session,
-                account: req.body.client.account,
-                nav: 'Dashboard',
-                goalsList,
-                analysis: new ResumeAnalysisTransformer(
-                    req.body.client.account,
-                    req.body.client.resumeInfo
-                ),
-            },
-            req.body.client.resumeInfo
-        )
+    const client = getClient(req);
+    console.log(client);
+    if (!client) {
+        res.redirect('/');
+        return;
+    }
+
+    const data: {
+        workExperience: WorkExperience[];
+        educationHistory: Education[];
+        skillset: Skill[];
+        certifications: Certification[];
+        session?: Session;
+        account?: Account;
+        nav?: string;
+        goalsList?: { name: string; label: string }[];
+        analysis?: ResumeAnalysisTransformer;
+    } = client.resumeInfo || {};
+    data.session = (client.session as unknown) as Session; // Hacky fix
+    data.account = client.account;
+    data.nav = 'Dashboard';
+    data.goalsList = goalsList;
+    data.analysis = new ResumeAnalysisTransformer(
+        client.account,
+        client.resumeInfo
     );
+
+    res.render(views.dashboard, data);
 });
 
 AppRouter.use('/account', AccountRouter);
@@ -69,25 +101,30 @@ AppRouter.use('/certifications', CertificationRouter);
 AppRouter.use('/themes', ThemesRouter);
 
 AppRouter.get('/help', (req, res) => {
-    if (req.body.client.account && req.body.client.resumeInfo) {
+    const client = getClient(req);
+
+    if (client && client.account && client.resumeInfo) {
         if (req.query.page) {
             // Route to specific help page
-            res.render(
-                'help',
-                addToObject(
-                    {
-                        helpPage: req.query.page,
-                        nav: 'Help',
-                        account: req.body.client.account,
-                    },
-                    req.body.client.resumeInfo
-                )
-            );
+            const data: {
+                workExperience: WorkExperience[];
+                educationHistory: Education[];
+                skillset: Skill[];
+                certifications: Certification[];
+                helpPage?: string;
+                nav?: string;
+                account?: Account;
+            } = client.resumeInfo;
+            data.helpPage = req.query.page as string;
+            data.nav = 'Help';
+            data.account = (client.account as unknown) as Account;
+
+            res.render('help', data);
         } else {
             // Route to main help page
             res.render('help', {
                 nav: 'Help',
-                account: req.body.client.account,
+                account: client.account,
             });
         }
     } else res.redirect('/');

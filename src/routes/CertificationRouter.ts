@@ -6,18 +6,24 @@ import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
 import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { ObjectId } from 'mongodb';
+import { getClient } from '@shared/functions';
 
 const CertificationRouter = Router();
 const jsonParser = bodyParserJson();
 
 CertificationRouter.post('/add', jsonParser, (req, res) => {
+    const client = getClient(req);
+    if (!client) {
+        res.send('Access denied');
+        return;
+    }
     const certification = new Certification({
         _id: new ObjectId(),
         institution: req.body.institution,
         certification: req.body.certification,
         details: req.body.details,
         examDate: req.body['exam-date'],
-        user: req.body.client.account.email,
+        user: client.account.email,
     });
 
     certification.insertDatabaseItem((success) => {
@@ -33,13 +39,18 @@ CertificationRouter.post('/add', jsonParser, (req, res) => {
 });
 
 CertificationRouter.post('/update', jsonParser, (req, res) => {
+    const client = getClient(req);
+    if (!client) {
+        res.send('Access denied');
+        return;
+    }
     const certification = new Certification({
         _id: req.body._id,
         institution: req.body.institution,
         certification: req.body.certification,
         details: req.body.details,
         examDate: req.body['exam-date'],
-        user: req.body.client.account.email,
+        user: client.account.email,
     });
 
     if (req.body.delete === 'on') {
