@@ -77,15 +77,9 @@ export default class WorkExperience extends Entity implements IWorkExperience {
             database
                 .collection(WORK_EXPERIENCE_COLLECTION)
                 .insertOne(this, (err, result) => {
-                    if (err) {
-                        callback(false);
-                    } else {
-                        callback(true);
-                    }
+                    callback(err ? false : true);
                 });
-        } else {
-            callback(false);
-        }
+        } else callback(false);
     }
 
     /**
@@ -103,10 +97,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
                     $set: this,
                 },
                 (err) => {
-                    if (callback) {
-                        if (err) callback(false);
-                        else callback(true);
-                    }
+                    if (callback) callback(err ? false : true);
                 }
             );
         } else if (callback) callback(false);
@@ -121,8 +112,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
         database
             .collection(WORK_EXPERIENCE_COLLECTION)
             .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                if (err) callback(false);
-                else callback(true);
+                callback(err ? false : true);
             });
     }
 

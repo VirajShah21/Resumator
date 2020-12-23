@@ -191,11 +191,7 @@ AccountRouter.post("/update", (req, res) => {
                                 oldEmail,
                                 newEmail
                             );
-                            emailTransition.insertDatabaseItem((success3) => {
-                                if (success3) {
-                                } else {
-                                }
-                            });
+                            emailTransition.insertDatabaseItem();
                         } else
                             res.render(
                                 views.genericError,
@@ -313,6 +309,9 @@ AccountRouter.post(
                 cb(null, filename);
             },
         }),
+        limits: {
+            fileSize: 10000000, // Sensitive: 10MB is more than the recommended limit of 8MB
+        },
     }).single("file"),
     (req, res) => {
         const routeLog: RouterLogger = new RouterLogger(

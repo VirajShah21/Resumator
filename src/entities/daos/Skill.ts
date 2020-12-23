@@ -76,10 +76,7 @@ export default class Skill extends Entity implements ISkill {
                     $set: this,
                 },
                 (err) => {
-                    if (callback) {
-                        if (err) callback(false);
-                        else callback(true);
-                    }
+                    if (callback) callback(err ? false : true);
                 }
             );
         } else if (callback) callback(false);
@@ -93,8 +90,7 @@ export default class Skill extends Entity implements ISkill {
         database
             .collection(SKILLS_COLLECTION)
             .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                if (err) callback(false);
-                else callback(true);
+                callback(err ? false : true);
             });
     }
 
@@ -112,13 +108,13 @@ export default class Skill extends Entity implements ISkill {
             .collection(SKILLS_COLLECTION)
             .find({ user })
             .toArray((err, skillset) => {
-                if (err) callback([]);
-                else
-                    callback(
-                        skillset.map((skill) => {
-                            return new Skill(skill);
-                        }) || []
-                    );
+                callback(
+                    err
+                        ? []
+                        : skillset.map((skill) => {
+                              return new Skill(skill);
+                          }) || []
+                );
             });
     }
 

@@ -79,10 +79,7 @@ export default class Certification extends Entity implements ICertification {
                     $set: this,
                 },
                 (err) => {
-                    if (callback) {
-                        if (err) callback(false);
-                        else callback(true);
-                    }
+                    if (callback) callback(err ? false : true);
                 }
             );
         } else if (callback) callback(false);
@@ -96,8 +93,7 @@ export default class Certification extends Entity implements ICertification {
         database
             .collection(CERT_COLLECTION)
             .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                if (err) callback(false);
-                else callback(true);
+                callback(err ? false : true);
             });
     }
 
@@ -115,14 +111,13 @@ export default class Certification extends Entity implements ICertification {
             .collection(CERT_COLLECTION)
             .find({ user })
             .toArray((err, results) => {
-                if (err) throw err;
-                else if (!results) callback([]);
-                else
-                    callback(
-                        results.map((cert) => {
-                            return new Certification(cert);
-                        })
-                    );
+                callback(
+                    err || !results
+                        ? []
+                        : results.map((cert) => {
+                              return new Certification(cert);
+                          })
+                );
             });
     }
 

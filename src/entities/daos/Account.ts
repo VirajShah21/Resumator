@@ -74,25 +74,16 @@ export default class Account extends Entity implements IAccount {
             database
                 .collection(ACCOUNTS_COLLECTION)
                 .findOne({ email: this.email }, (err, result) => {
-                    if (err) {
-                        throw err;
-                    } else if (result) {
-                        callback(false);
-                    } else {
+                    if (err) throw err;
+                    else if (result) callback(false);
+                    else
                         database
                             .collection(ACCOUNTS_COLLECTION)
                             .insertOne(this, (err2) => {
-                                if (err2) {
-                                    callback(false);
-                                } else {
-                                    callback(true);
-                                }
+                                callback(err2 ? false : true);
                             });
-                    }
                 });
-        } else {
-            callback(false);
-        }
+        } else callback(false);
     }
 
     /**
@@ -101,7 +92,7 @@ export default class Account extends Entity implements IAccount {
      * @param callback The function call upon completion
      */
     public updateDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
+        if (this.validate())
             database.collection(ACCOUNTS_COLLECTION).updateOne(
                 {
                     _id: this._id,
@@ -110,16 +101,10 @@ export default class Account extends Entity implements IAccount {
                     $set: this,
                 },
                 (err) => {
-                    if (err) {
-                        callback(false);
-                    } else {
-                        callback(true);
-                    }
+                    callback(err ? false : true);
                 }
             );
-        } else {
-            callback(false);
-        }
+        else callback(false);
     }
 
     /**
@@ -135,13 +120,7 @@ export default class Account extends Entity implements IAccount {
         database
             .collection(ACCOUNTS_COLLECTION)
             .findOne({ email }, (err, result) => {
-                if (err) {
-                    callback(undefined);
-                } else if (!result) {
-                    callback(undefined);
-                } else {
-                    callback(result ? new Account(result) : undefined);
-                }
+                callback(err || !result ? undefined : new Account(result));
             });
     }
 
@@ -152,13 +131,7 @@ export default class Account extends Entity implements IAccount {
         database
             .collection(ACCOUNTS_COLLECTION)
             .findOne({ _id: oid }, (err, result) => {
-                if (err) {
-                    callback(undefined);
-                } else if (!result) {
-                    callback(result ? new Account(result) : undefined);
-                } else {
-                    callback(result ? new Account(result) : undefined);
-                }
+                callback(err || !result ? undefined : new Account(result));
             });
     }
 

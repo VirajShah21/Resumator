@@ -45,14 +45,11 @@ export default class Session implements ISession {
      * @param callback Callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
+        if (this.validate())
             database.collection(SESSIONS_COLLECTION).insertOne(this, (err) => {
-                if (err) callback(false);
-                else callback(true);
+                callback(err ? false : true);
             });
-        } else {
-            callback(false);
-        }
+        else callback(false);
     }
 
     /**
@@ -68,9 +65,7 @@ export default class Session implements ISession {
         database
             .collection(SESSIONS_COLLECTION)
             .findOne({ key }, (err, result) => {
-                if (err) throw err;
-                else if (!result) callback(undefined);
-                else callback(new Session(result));
+                callback(err || !result ? undefined : new Session(result));
             });
     }
 

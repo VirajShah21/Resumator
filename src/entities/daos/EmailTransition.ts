@@ -34,20 +34,14 @@ export default class EmailTransition
      *
      * @param callback The function to call upon completion
      */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (super.validate()) {
+    public insertDatabaseItem(callback?: (success: boolean) => void): void {
+        if (super.validate())
             database
                 .collection(EMAIL_TRANSITION_COLLECTION)
                 .insertOne(this, (err2) => {
-                    if (err2) {
-                        callback(false);
-                    } else {
-                        callback(true);
-                    }
+                    if (callback) callback(err2 ? false : true);
                 });
-        } else {
-            callback(false);
-        }
+        else if (callback) callback(false);
     }
 
     /**
@@ -63,21 +57,15 @@ export default class EmailTransition
         database
             .collection(EMAIL_TRANSITION_COLLECTION)
             .findOne({ newEmail }, (err, result) => {
-                if (err) {
-                    callback(undefined);
-                } else if (!result) {
-                    callback(undefined);
-                } else {
-                    callback(
-                        result
-                            ? new EmailTransition(
-                                  result.oldEmail,
-                                  result.newEmail,
-                                  result._id
-                              )
-                            : undefined
-                    );
-                }
+                callback(
+                    err || !result
+                        ? undefined
+                        : new EmailTransition(
+                              result.oldEmail,
+                              result.newEmail,
+                              result._id
+                          )
+                );
             });
     }
 

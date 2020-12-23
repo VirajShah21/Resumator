@@ -65,17 +65,13 @@ export default class Education extends Entity implements IEducation {
      * @param callback Callback upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
+        if (this.validate())
             database
                 .collection(EDUCATION_COLLECTION)
                 .insertOne(this, (err, result) => {
-                    if (err) {
-                        callback(false);
-                    } else callback(true);
+                    callback(err ? false : true);
                 });
-        } else {
-            callback(false);
-        }
+        else callback(false);
     }
 
     /**
@@ -84,7 +80,7 @@ export default class Education extends Entity implements IEducation {
      * @param callback Callback upon completion
      */
     public updateDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate()) {
+        if (this.validate())
             database.collection(EDUCATION_COLLECTION).updateOne(
                 {
                     _id: this._id,
@@ -93,15 +89,10 @@ export default class Education extends Entity implements IEducation {
                     $set: this,
                 },
                 (err, result) => {
-                    if (callback) {
-                        if (err) {
-                            logger.error(err);
-                            callback(false);
-                        } else callback(true);
-                    }
+                    if (callback) callback(err ? false : true);
                 }
             );
-        } else if (callback) callback(false);
+        else if (callback) callback(false);
     }
 
     /**
@@ -113,12 +104,7 @@ export default class Education extends Entity implements IEducation {
         database
             .collection(EDUCATION_COLLECTION)
             .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                if (err) {
-                    logger.error(err);
-                    callback(false);
-                } else {
-                    callback(true);
-                }
+                callback(err ? false : true);
             });
     }
 
@@ -136,14 +122,13 @@ export default class Education extends Entity implements IEducation {
             .collection(EDUCATION_COLLECTION)
             .find({ user: email })
             .toArray((err, result) => {
-                if (err) logger.error(err);
-                if (callback) {
-                    callback(
-                        result.map((item) => {
-                            return new Education(item);
-                        })
-                    );
-                }
+                callback(
+                    err
+                        ? []
+                        : result.map((item) => {
+                              return new Education(item);
+                          })
+                );
             });
     }
 
