@@ -4,8 +4,6 @@ import WorkExperience from '@entities/WorkExperience';
 import { ObjectId } from 'mongodb';
 import { views, routes } from '@shared/constants';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { getClient } from '@shared/functions';
 
 const WorkExperienceRouter = Router();
