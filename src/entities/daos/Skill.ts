@@ -32,7 +32,7 @@ export default class Skill extends Entity implements ISkill {
      */
     constructor(name: string | ISkill, proficiency?: number, user?: string) {
         super();
-        if (typeof name == 'string') {
+        if (typeof name === 'string') {
             this._id = new ObjectId();
             this.name = name.trim();
             this.proficiency = proficiency || 1;

@@ -30,9 +30,9 @@ export default class User {
     public passwordHash: string;
 
     constructor(id?: string, email?: string, passwordHash?: string) {
-        this.id = id ? id : "";
-        this.email = email ? email : "";
-        this.passwordHash = passwordHash ? passwordHash : "";
+        this.id = id ? id : '';
+        this.email = email ? email : '';
+        this.passwordHash = passwordHash ? passwordHash : '';
     }
 }
 ```
@@ -100,6 +100,10 @@ The production configuration for TypeScript. Also used for `npm run test`
 **tslint.json**
 
 The linter rules for TypeScript
+
+**.eslintrc**
+
+The linter rules for ES6
 
 ## Features List
 

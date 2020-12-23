@@ -40,8 +40,8 @@ export default class Address extends Entity implements IAddress {
 
     protected validateLine1(): boolean {
         try {
-            const number = this.line1.split(' ')[0];
-            parseInt(number, 10); // will throw an exception if NaN
+            const num = this.line1.split(' ')[0];
+            parseInt(num, 10); // will throw an exception if NaN
             // checks if street name exists (and len > 1) (if blank throws an exception)
             return true;
         } catch (e) {

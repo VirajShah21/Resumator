@@ -11,11 +11,9 @@ export default abstract class Entity {
                 let funcName: string = `validate${key.charAt(0).toUpperCase()}`;
                 if (key.length > 1) funcName += key.substring(1);
 
-                const validateFunction: Function = (this as any)[funcName];
-
                 // call the validate function
                 if (
-                    typeof validateFunction == 'function' &&
+                    typeof (this as any)[funcName] === 'function' &&
                     !(this as any)[funcName]()
                 ) {
                     isValid = false;

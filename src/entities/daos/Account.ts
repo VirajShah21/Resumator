@@ -166,6 +166,6 @@ export default class Account extends Entity implements IAccount {
     }
 
     protected validateEmailVerified(): boolean {
-        return typeof this.emailVerified == 'boolean';
+        return typeof this.emailVerified === 'boolean';
     }
 }

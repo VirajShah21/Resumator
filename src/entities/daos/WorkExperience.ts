@@ -48,7 +48,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
         user?: string
     ) {
         super();
-        if (typeof position == 'string') {
+        if (typeof position === 'string') {
             this._id = new ObjectId();
             this.position = position.trim();
             this.organization = organization?.trim() || '';

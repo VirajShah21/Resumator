@@ -84,7 +84,7 @@ AccountRouter.post('/signup', (req, res) => {
                         if (sessionSuccess) {
                             // Send an email verification email
                             const emailer = new VerifyEmailer(account._id);
-                            let verifyPin = generateVerifyPin();
+                            const verifyPin = generateVerifyPin();
                             emailer.sendVerifyEmail(verifyPin);
                             verifyEmailTokens.push({
                                 email: account.email,
@@ -115,7 +115,7 @@ AccountRouter.post('/signup', (req, res) => {
         });
     } else {
         res.render(views.genericError, {
-            error: "Passwords don't match",
+            error: `Passwords don't match`,
             message:
                 'Your password and confirmation password do not match. Please make sure they are typed exactly the same. Passwords are case sensitive',
         });
@@ -154,7 +154,7 @@ AccountRouter.post('/update', (req, res) => {
 
             // Send an email verification email
             const emailer = new VerifyEmailer(account._id);
-            let verifyPin = generateVerifyPin();
+            const verifyPin = generateVerifyPin();
             emailer.sendVerifyEmail(verifyPin);
             verifyEmailTokens.push({
                 email: newEmail,
@@ -209,7 +209,7 @@ AccountRouter.post('/update', (req, res) => {
 });
 
 AccountRouter.post('/update-goal', (req, res) => {
-    let account = req.body.client.account;
+    const account = req.body.client.account;
     account.currentGoal = req.body.goal;
     account.objective = req.body.objective;
     account.updateDatabaseItem((success: boolean) => {
@@ -283,7 +283,7 @@ AccountRouter.post(
         const destination = '/tmp/profile_photos';
         const filename = profilePhotoUploads[req.cookies.session];
         const fullpath = path.join(destination, filename);
-        let account = req.body.client.account;
+        const account = req.body.client.account;
 
         uploadProfilePhoto(fullpath, account._id);
         account.photo = true;
@@ -318,7 +318,7 @@ AccountRouter.get('/verify', (req, res) => {
     });
 
     if (tokenInfo) {
-        let account = req.body.client.account as Account;
+        const account = req.body.client.account as Account;
 
         if (
             account._id.toString() === tokenInfo?.userId.toString() &&
@@ -402,7 +402,7 @@ AccountRouter.get('/resend-verification', (req, res) => {
 
     // Send an email verification email
     const emailer = new VerifyEmailer(account._id);
-    let verifyPin = generateVerifyPin();
+    const verifyPin = generateVerifyPin();
     emailer.sendVerifyEmail(verifyPin);
     verifyEmailTokens.push({
         email: account.email,

@@ -25,39 +25,21 @@ const AppRouter = Router();
 const jsonParser = bodyParserJson();
 
 AppRouter.use((req, res, next) => {
-    if (req.cookies.session) {
-        AccountSessionTransformer.fetch(
-            req.cookies.session,
-            (accountSession) => {
-                if (accountSession) {
-                    let client: {
-                        account: Account;
-                        session: Session;
-                        resumeInfo: ResumeInfoTransformer;
-                    } = {
-                        account: accountSession.account,
-                        session: accountSession.session,
-                        resumeInfo: new ResumeInfoTransformer([], [], [], []),
-                    };
-                    ResumeInfoTransformer.fetch(
-                        accountSession.account.email,
-                        (resumeInfo) => {
-                            client.resumeInfo = resumeInfo;
-                            req.body.client = client;
-                            next();
-                        }
-                    );
-                } else {
-                    res.render(
-                        views.genericError,
-                        new SessionErrorTransformer()
-                    );
-                }
-            }
-        );
-    } else {
-        res.render(views.genericError, new SessionErrorTransformer());
-    }
+    const client: {
+        account: Account;
+        session: Session;
+        resumeInfo: ResumeInfoTransformer;
+    } = {
+        account: req.body.client.account,
+        session: req.body.client.session,
+        resumeInfo: new ResumeInfoTransformer([], [], [], []),
+    };
+
+    ResumeInfoTransformer.fetch(req.body.client.account.email, (resumeInfo) => {
+        client.resumeInfo = resumeInfo;
+        req.body.client = client;
+        next();
+    });
 });
 
 AppRouter.get('/dashboard', (req, res) => {
