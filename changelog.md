@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## NEXT VERSION
 
+### Added
+
+-   Changes font color for personal information — required for the resume labels turn red.
+
 ### Improvements
 
 -   Fixed profile picture upload not working
@@ -15,20 +19,13 @@ All notable changes to this project will be documented in this file.
 -   Redesigned form validation
 -   TSLint + ESLint problems solved
 -   Setup ESLint + TypeScript rules
-
-### Added
-
--   Changes font color for personal information — required for the resume labels turn red.
+-   Upgraded npm packages with vulnerabilities
+-   Removed the bulk of logging from the server-side
 
 ### Improvements
 
 -   Dashboard profile photo border
     -   Changed from thick white to light blue
-
-### Technical Improvements
-
--   Using log objects for routers
-    -   removed the bulk of logging from the server-side
 
 ## [0.1.0] - 2020-12-19
 

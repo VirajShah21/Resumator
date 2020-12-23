@@ -18,7 +18,9 @@ router.get('/', (req, res) => {
                 if (accountSession && accountSession.account) {
                     res.redirect('/app/dashboard');
                 } else {
-                    res.redirect('/app/account');
+                    res.render(views.landingPage, {
+                        nav: 'Home',
+                    });
                 }
             }
         );

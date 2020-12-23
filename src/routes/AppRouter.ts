@@ -55,7 +55,8 @@ AppRouter.use((req, res, next) => {
                 }
             );
         } else {
-            res.redirect('/');
+            res.cookie('session', undefined);
+            next();
         }
     });
 });
