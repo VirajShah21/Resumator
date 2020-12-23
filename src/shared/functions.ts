@@ -93,3 +93,9 @@ export function addToObject(toAdd: any, base: any): any {
         if (toAdd.hasOwnProperty(prop)) base[prop] = toAdd[prop];
     return base;
 }
+
+export function generateVerifyPin(): string {
+    let verifyPin = Math.round(Math.random() * 1000000) + "";
+    while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
+    return verifyPin;
+}

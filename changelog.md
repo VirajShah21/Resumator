@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## NEXT VERSION
 
+### Technical Improvements
+
+-   Removed unused imports
+-   Minimized codebase
+
 ### Added
 
 -   Changes font color for personal information — required for the resume labels turn red.

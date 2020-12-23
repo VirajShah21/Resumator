@@ -2,7 +2,11 @@ import { Router } from "express";
 import { json as bodyParserJson } from "body-parser";
 import Session from "@entities/Session";
 import Account from "@entities/Account";
-import { hashPassword, comparePasswordWithHash } from "@shared/functions";
+import {
+    hashPassword,
+    comparePasswordWithHash,
+    generateVerifyPin,
+} from "@shared/functions";
 import Address from "@entities/Address";
 import { views, routes } from "@shared/constants";
 import SessionErrorTransformer from "@transformers/SessionErrorTransformer";
@@ -22,6 +26,7 @@ import Education from "@entities/Education";
 import Skill from "@entities/Skill";
 import WorkExperience from "@entities/WorkExperience";
 import { RouterLogger } from "@shared/util/LogUtils";
+import Entity from "src/entities/Entity";
 
 const AccountRouter = Router();
 
@@ -95,10 +100,7 @@ AccountRouter.post("/signup", (req, res) => {
                         if (sessionSuccess) {
                             // Send an email verification email
                             const emailer = new VerifyEmailer(account._id);
-                            let verifyPin =
-                                Math.round(Math.random() * 1000000) + "";
-                            while (verifyPin.length < 6)
-                                verifyPin = "0" + verifyPin;
+                            let verifyPin = generateVerifyPin();
                             emailer.sendVerifyEmail(verifyPin);
                             verifyEmailTokens.push({
                                 email: account.email,
@@ -172,8 +174,7 @@ AccountRouter.post("/update", (req, res) => {
 
                     // Send an email verification email
                     const emailer = new VerifyEmailer(account._id);
-                    let verifyPin = Math.round(Math.random() * 1000000) + "";
-                    while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
+                    let verifyPin = generateVerifyPin();
                     emailer.sendVerifyEmail(verifyPin);
                     verifyEmailTokens.push({
                         email: newEmail,
@@ -310,7 +311,7 @@ AccountRouter.post(
             },
         }),
         limits: {
-            fileSize: 10000000, // Sensitive: 10MB is more than the recommended limit of 8MB
+            fileSize: 8000000, // Sensitive: 10MB is more than the recommended limit of 8MB
         },
     }).single("file"),
     (req, res) => {
@@ -373,24 +374,18 @@ AccountRouter.get("/verify", (req, res) => {
     const routeLog: RouterLogger = new RouterLogger("/app/account/verify", req);
     const token: string = req.query.token as string;
 
-    // logger.info(`Verifying account with PIN ${token}`);
+    logger.info(`Verifying account with PIN ${token}`);
 
     const tokenInfo = verifyEmailTokens.find((verifyObject) => {
         return verifyObject.token === token;
     });
 
     if (tokenInfo) {
-        // logger.info(`Found valid token on server`);
         AccountSessionTransformer.fetch(
             req.cookies.session,
             (accountSession) => {
                 routeLog.logAccountAndSessionFetchResult(accountSession);
                 if (accountSession && accountSession.account) {
-                    //             logger.info(
-                    //                 `Found account (${accountSession.account.email}) associated with PIN ${token}
-                    // Comparing: ${accountSession.account._id} and ${tokenInfo?.userId}
-                    // Comparing: ${accountSession.account.email} and ${tokenInfo?.email}`
-                    //             );
                     if (
                         accountSession.account._id.toString() ===
                             tokenInfo?.userId.toString() &&
@@ -478,14 +473,10 @@ AccountRouter.get("/verify", (req, res) => {
                         );
                         res.render("errors/UnknownError");
                     }
-                } else {
-                    res.render("errors/UnknownError");
-                }
+                } else res.render("errors/UnknownError");
             }
         );
-    } else {
-        res.render("errors/UnknownError");
-    }
+    } else res.render("errors/UnknownError");
 });
 
 AccountRouter.get("/resend-verification", (req, res) => {
@@ -500,8 +491,7 @@ AccountRouter.get("/resend-verification", (req, res) => {
 
             // Send an email verification email
             const emailer = new VerifyEmailer(account._id);
-            let verifyPin = Math.round(Math.random() * 1000000) + "";
-            while (verifyPin.length < 6) verifyPin = "0" + verifyPin;
+            let verifyPin = generateVerifyPin();
             emailer.sendVerifyEmail(verifyPin);
             verifyEmailTokens.push({
                 email: account.email,
