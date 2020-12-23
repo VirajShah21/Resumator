@@ -1,9 +1,9 @@
-import { database } from "@shared/database";
-import { ObjectId } from "mongodb";
-import { validateEmail, validateMonthYearString } from "@shared/functions";
-import Entity from "../Entity";
+import { database } from '@shared/database';
+import { ObjectId } from 'mongodb';
+import { validateEmail, validateMonthYearString } from '@shared/functions';
+import Entity from '../Entity';
 
-const EDUCATION_COLLECTION = "education";
+const EDUCATION_COLLECTION = 'education';
 
 /**
  * Education interface
@@ -52,9 +52,9 @@ export default class Education extends Entity implements IEducation {
         this.level = education.level.trim();
         this.degree = education.degree.trim();
         this.start = education.start.trim();
-        this.end = education.end?.trim() || "";
+        this.end = education.end?.trim() || '';
         this.gpa = education.gpa ? +education.gpa : undefined;
-        this.description = education.description?.trim() || "";
+        this.description = education.description?.trim() || '';
         this._id = new ObjectId(education._id);
     }
 
@@ -152,7 +152,7 @@ export default class Education extends Entity implements IEducation {
     }
 
     protected validateEnd(): boolean {
-        return validateMonthYearString(this.end) || this.end === "";
+        return validateMonthYearString(this.end) || this.end === '';
     }
 
     protected validateGpa(): boolean {

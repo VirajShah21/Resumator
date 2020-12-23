@@ -1,4 +1,4 @@
-import Entity from "../Entity";
+import Entity from '../Entity';
 
 /**
  * Address interface
@@ -28,7 +28,7 @@ export default class Address extends Entity implements IAddress {
     constructor(address: IAddress) {
         super();
         this.line1 = address.line1.trim();
-        this.line2 = address.line2?.trim() || "";
+        this.line2 = address.line2?.trim() || '';
         this.city = address.city.trim();
         this.state = address.state.trim();
         this.zip = address.zip.trim();
@@ -40,7 +40,7 @@ export default class Address extends Entity implements IAddress {
 
     protected validateLine1(): boolean {
         try {
-            const number = this.line1.split(" ")[0];
+            const number = this.line1.split(' ')[0];
             parseInt(number, 10); // will throw an exception if NaN
             // checks if street name exists (and len > 1) (if blank throws an exception)
             return true;

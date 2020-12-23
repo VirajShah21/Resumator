@@ -1,9 +1,9 @@
-import { database } from "@shared/database";
-import { ObjectId } from "mongodb";
-import { validateEmail, validateMonthYearString } from "@shared/functions";
-import Entity from "../Entity";
+import { database } from '@shared/database';
+import { ObjectId } from 'mongodb';
+import { validateEmail, validateMonthYearString } from '@shared/functions';
+import Entity from '../Entity';
 
-const WORK_EXPERIENCE_COLLECTION = "work-experience";
+const WORK_EXPERIENCE_COLLECTION = 'work-experience';
 
 /**
  * Work experience interface
@@ -48,14 +48,14 @@ export default class WorkExperience extends Entity implements IWorkExperience {
         user?: string
     ) {
         super();
-        if (typeof position == "string") {
+        if (typeof position == 'string') {
             this._id = new ObjectId();
             this.position = position.trim();
-            this.organization = organization?.trim() || "";
-            this.description = description?.trim() || "";
-            this.user = user?.trim() || "";
-            this.start = start?.trim() || "";
-            this.end = end?.trim() || "";
+            this.organization = organization?.trim() || '';
+            this.description = description?.trim() || '';
+            this.user = user?.trim() || '';
+            this.start = start?.trim() || '';
+            this.end = end?.trim() || '';
         } else {
             this._id = position._id;
             this.position = position.position.trim();
@@ -141,7 +141,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
     }
 
     protected validateEnd(): boolean {
-        return validateMonthYearString(this.end) || this.end === "";
+        return validateMonthYearString(this.end) || this.end === '';
     }
 
     protected validateOrganization(): boolean {

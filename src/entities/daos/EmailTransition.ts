@@ -1,9 +1,9 @@
-import { database } from "@shared/database";
-import { validateEmail } from "@shared/functions";
-import { ObjectId } from "mongodb";
-import Entity from "../Entity";
+import { database } from '@shared/database';
+import { validateEmail } from '@shared/functions';
+import { ObjectId } from 'mongodb';
+import Entity from '../Entity';
 
-const EMAIL_TRANSITION_COLLECTION = "email-transition";
+const EMAIL_TRANSITION_COLLECTION = 'email-transition';
 
 export interface IEmailTransition {
     _id: ObjectId;

@@ -6,7 +6,8 @@
         "lint": "tslint --project \"tsconfig.json\"",
         "start": "node -r module-alias/register ./dist --env=production",
         "start:dev": "nodemon",
-        "test": "nodemon --config ./spec/nodemon.json"
+        "test": "nodemon --config ./spec/nodemon.json",
+        "eslint": "eslint . --ext .ts"
     },
     "nodemonConfig": {
         "watch": [
@@ -64,7 +65,10 @@
         "@types/multer": "^1.4.4",
         "@types/node": "^14.0.26",
         "@types/supertest": "^2.0.10",
+        "@typescript-eslint/eslint-plugin": "^4.11.0",
+        "@typescript-eslint/parser": "^4.11.0",
         "character-parser": "^3.1.0",
+        "eslint": "^7.16.0",
         "find": "^0.3.0",
         "fs-extra": "^9.0.1",
         "jasmine": "^3.6.0",
@@ -77,6 +81,7 @@
         "ts-node": "^8.10.2",
         "tsconfig-paths": "^3.9.0",
         "tslint": "^6.1.2",
-        "typescript": "^3.9.7"
+        "typescript": "^3.9.7",
+        "typescript-eslint": "0.0.1-alpha.0"
     }
 }

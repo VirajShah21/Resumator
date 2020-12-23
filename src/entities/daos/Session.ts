@@ -1,8 +1,8 @@
-import { generateKey, KEYLENGTH, validateEmail } from "@shared/functions";
-import { database } from "@shared/database";
-import { IAccount } from "@entities/Account";
+import { generateKey, KEYLENGTH, validateEmail } from '@shared/functions';
+import { database } from '@shared/database';
+import { IAccount } from '@entities/Account';
 
-const SESSIONS_COLLECTION = "sessions";
+const SESSIONS_COLLECTION = 'sessions';
 
 /**
  * Session interface
@@ -26,7 +26,7 @@ export default class Session implements ISession {
      * @param sessionOrAccount An object containing information for either a session or an account
      */
     constructor(sessionOrAccount: ISession | IAccount) {
-        if ("key" in sessionOrAccount) {
+        if ('key' in sessionOrAccount) {
             // if is of type `ISession`
             this.key = sessionOrAccount.key.trim();
             this.timestamp = sessionOrAccount.timestamp;

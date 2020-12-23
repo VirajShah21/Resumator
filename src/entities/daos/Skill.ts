@@ -1,9 +1,9 @@
-import { ObjectId } from "mongodb";
-import { database } from "@shared/database";
-import { validateEmail } from "@shared/functions";
-import Entity from "../Entity";
+import { ObjectId } from 'mongodb';
+import { database } from '@shared/database';
+import { validateEmail } from '@shared/functions';
+import Entity from '../Entity';
 
-export const SKILLS_COLLECTION = "skills";
+export const SKILLS_COLLECTION = 'skills';
 
 /**
  * Skill interface
@@ -32,11 +32,11 @@ export default class Skill extends Entity implements ISkill {
      */
     constructor(name: string | ISkill, proficiency?: number, user?: string) {
         super();
-        if (typeof name == "string") {
+        if (typeof name == 'string') {
             this._id = new ObjectId();
             this.name = name.trim();
             this.proficiency = proficiency || 1;
-            this.user = user?.trim() || "";
+            this.user = user?.trim() || '';
         } else {
             this._id = name._id;
             this.name = name.name.trim();

@@ -1,10 +1,10 @@
-import { database } from "@shared/database";
-import { ObjectId } from "mongodb";
-import Address, { IAddress } from "../models/Address";
-import { validateEmail } from "@shared/functions";
-import Entity from "../Entity";
+import { database } from '@shared/database';
+import { ObjectId } from 'mongodb';
+import Address, { IAddress } from '../models/Address';
+import { validateEmail } from '@shared/functions';
+import Entity from '../Entity';
 
-const ACCOUNTS_COLLECTION = "accounts";
+const ACCOUNTS_COLLECTION = 'accounts';
 
 /**
  * Account Interface (User accounts)
@@ -144,11 +144,11 @@ export default class Account extends Entity implements IAccount {
     }
 
     protected validateFname(): boolean {
-        return this.fname.indexOf(" ") < 0;
+        return this.fname.indexOf(' ') < 0;
     }
 
     protected validateLname(): boolean {
-        return this.lname.indexOf(" ") < 0;
+        return this.lname.indexOf(' ') < 0;
     }
 
     protected validatePassword(): boolean {
@@ -158,14 +158,14 @@ export default class Account extends Entity implements IAccount {
     protected validatePhone(): boolean {
         if (this.phone)
             return (
-                this.phone.split("").filter((digit) => {
-                    return "1234567890 ()-".indexOf(digit) < 0;
+                this.phone.split('').filter((digit) => {
+                    return '1234567890 ()-'.indexOf(digit) < 0;
                 }).length === 0 && this.phone.length === 16
             );
         else return true;
     }
 
     protected validateEmailVerified(): boolean {
-        return typeof this.emailVerified == "boolean";
+        return typeof this.emailVerified == 'boolean';
     }
 }

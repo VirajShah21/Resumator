@@ -1,4 +1,4 @@
-import logger from "@shared/Logger";
+import logger from '@shared/Logger';
 
 export default abstract class Entity {
     public validate(): boolean {
@@ -15,7 +15,7 @@ export default abstract class Entity {
 
                 // call the validate function
                 if (
-                    typeof validateFunction == "function" &&
+                    typeof validateFunction == 'function' &&
                     !(this as any)[funcName]()
                 ) {
                     isValid = false;

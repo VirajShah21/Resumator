@@ -1,10 +1,10 @@
-import { ObjectId } from "mongodb";
-import { database } from "@shared/database";
-import { validateMonthYearString, validateEmail } from "@shared/functions";
-import logger from "@shared/Logger";
-import Entity from "../Entity";
+import { ObjectId } from 'mongodb';
+import { database } from '@shared/database';
+import { validateMonthYearString, validateEmail } from '@shared/functions';
+import logger from '@shared/Logger';
+import Entity from '../Entity';
 
-const CERT_COLLECTION = "certifications";
+const CERT_COLLECTION = 'certifications';
 
 /**
  * Certification interface
@@ -38,7 +38,7 @@ export default class Certification extends Entity implements ICertification {
         this._id = new ObjectId(certification._id);
         this.institution = certification.institution.trim();
         this.certification = certification.certification.trim();
-        this.details = certification.details?.trim() || "";
+        this.details = certification.details?.trim() || '';
         this.examDate = certification.examDate.trim();
         this.user = certification.user.trim();
     }
