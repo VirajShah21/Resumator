@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 import Address, { IAddress } from '../models/Address';
 import { validateEmail } from '@shared/functions';
 import Entity from '../Entity';
+import logger from '@shared/Logger';
 
 const ACCOUNTS_COLLECTION = 'accounts';
 
@@ -67,9 +68,9 @@ export default class Account extends Entity implements IAccount {
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
         if (
-            this.validateEmail() &&
-            this.validateFname() &&
-            this.validateLname()
+            validateEmail(this.email) &&
+            this.fname.indexOf(' ') < 0 &&
+            this.lname.indexOf(' ') < 0
         ) {
             database
                 .collection(ACCOUNTS_COLLECTION)
@@ -135,26 +136,6 @@ export default class Account extends Entity implements IAccount {
             });
     }
 
-    protected validateAddress(): boolean {
-        return this.address ? this.address.validate() : true;
-    }
-
-    protected validateEmail(): boolean {
-        return validateEmail(this.email);
-    }
-
-    protected validateFname(): boolean {
-        return this.fname.indexOf(' ') < 0;
-    }
-
-    protected validateLname(): boolean {
-        return this.lname.indexOf(' ') < 0;
-    }
-
-    protected validatePassword(): boolean {
-        return this.password.length > 8;
-    }
-
     protected validatePhone(): boolean {
         if (this.phone)
             return (
@@ -165,19 +146,15 @@ export default class Account extends Entity implements IAccount {
         else return true;
     }
 
-    protected validateEmailVerified(): boolean {
-        return typeof this.emailVerified === 'boolean';
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [
-            this.validateAddress,
-            this.validateEmail,
-            this.validateEmailVerified,
-            this.validateFname,
-            this.validateLname,
-            this.validatePassword,
-            this.validatePhone,
-        ];
+    public validate(): boolean {
+        return (
+            (this.address ? this.address.validate() : true) &&
+            validateEmail(this.email) &&
+            this.fname.indexOf(' ') < 0 &&
+            this.lname.indexOf(' ') < 0 &&
+            this.password.length > 8 &&
+            this.validatePhone() &&
+            typeof this.emailVerified === 'boolean'
+        );
     }
 }

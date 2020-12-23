@@ -118,19 +118,12 @@ export default class Skill extends Entity implements ISkill {
             });
     }
 
-    protected validateName(): boolean {
-        return this.name.length > 0;
-    }
-
-    protected validateProficiency(): boolean {
-        return this.proficiency >= 0 && this.proficiency <= 100;
-    }
-
-    protected validateUser(): boolean {
-        return validateEmail(this.user);
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [this.validateName, this.validateProficiency, this.validateUser];
+    public validate(): boolean {
+        return (
+            this.name.length > 0 &&
+            this.proficiency >= 0 &&
+            this.proficiency <= 100 &&
+            validateEmail(this.user)
+        );
     }
 }

@@ -35,7 +35,7 @@ export default class EmailTransition
      * @param callback The function to call upon completion
      */
     public insertDatabaseItem(callback?: (success: boolean) => void): void {
-        if (super.validate())
+        if (this.validate())
             database
                 .collection(EMAIL_TRANSITION_COLLECTION)
                 .insertOne(this, (err2) => {
@@ -69,15 +69,7 @@ export default class EmailTransition
             });
     }
 
-    public validateOldEmail(): boolean {
-        return validateEmail(this.oldEmail);
-    }
-
-    public validateNewEmail(): boolean {
-        return validateEmail(this.newEmail);
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [this.validateOldEmail, this.validateNewEmail];
+    public validate(): boolean {
+        return validateEmail(this.oldEmail) && validateEmail(this.newEmail);
     }
 }

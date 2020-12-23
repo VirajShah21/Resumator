@@ -64,7 +64,7 @@ AppRouter.use((req, res, next) => {
 
 AppRouter.get('/dashboard', (req, res) => {
     const client = getClient(req);
-    console.log(client);
+
     if (!client) {
         res.redirect('/');
         return;

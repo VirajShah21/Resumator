@@ -140,33 +140,14 @@ export default class WorkExperience extends Entity implements IWorkExperience {
             });
     }
 
-    protected validateEnd(): boolean {
-        return validateMonthYearString(this.end) || this.end === '';
-    }
-
-    protected validateOrganization(): boolean {
-        return this.organization.length > 0;
-    }
-
-    protected validatePosition(): boolean {
-        return this.position.length > 0;
-    }
-
-    protected validateStart(): boolean {
-        return validateMonthYearString(this.start);
-    }
-
-    protected validateUser(): boolean {
-        return validateEmail(this.user);
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [
-            this.validateEnd,
-            this.validateOrganization,
-            this.validatePosition,
-            this.validateStart,
-            this.validateUser,
-        ];
+    public validate(): boolean {
+        return (
+            validateMonthYearString(this.end) ||
+            (this.end === '' &&
+                this.organization.length > 0 &&
+                this.position.length > 0 &&
+                validateMonthYearString(this.start) &&
+                validateEmail(this.user))
+        );
     }
 }

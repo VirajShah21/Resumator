@@ -75,16 +75,4 @@ export default class Session implements ISession {
     public validate(): boolean {
         return this.key.length === KEYLENGTH;
     }
-
-    protected validateKey(): boolean {
-        return this.key.length === KEYLENGTH;
-    }
-
-    protected validateUser(): boolean {
-        return validateEmail(this.user);
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [this.validateKey, this.validateUser];
-    }
 }

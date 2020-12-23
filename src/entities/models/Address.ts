@@ -34,10 +34,6 @@ export default class Address extends Entity implements IAddress {
         this.zip = address.zip.trim();
     }
 
-    protected validateCity(): boolean {
-        return this.city.length > 0;
-    }
-
     protected validateLine1(): boolean {
         try {
             const num = this.line1.split(' ')[0];
@@ -49,20 +45,12 @@ export default class Address extends Entity implements IAddress {
         }
     }
 
-    protected validateState(): boolean {
-        return this.state.length === 2;
-    }
-
-    protected validateZip(): boolean {
-        return this.zip.length === 5;
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [
-            this.validateCity,
-            this.validateLine1,
-            this.validateState,
-            this.validateZip,
-        ];
+    public validate(): boolean {
+        return (
+            this.city.length > 0 &&
+            this.validateLine1() &&
+            this.state.length === 2 &&
+            this.zip.length === 5
+        );
     }
 }

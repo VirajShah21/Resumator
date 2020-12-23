@@ -131,44 +131,20 @@ export default class Education extends Entity implements IEducation {
             });
     }
 
-    protected validateUser(): boolean {
-        return validateEmail(this.user);
-    }
-
-    protected validateInstitution(): boolean {
-        return this.institution.length > 0;
-    }
-
-    protected validateLevel(): boolean {
-        return this.level.length > 0;
-    }
-
-    protected validateDegree(): boolean {
-        return this.degree.length > 0;
-    }
-
-    protected validateStart(): boolean {
-        return validateMonthYearString(this.start);
-    }
-
-    protected validateEnd(): boolean {
-        return validateMonthYearString(this.end) || this.end === '';
-    }
-
     protected validateGpa(): boolean {
         if (this.gpa === undefined) return true;
         return +this.gpa > 0 && +this.gpa < 5;
     }
 
-    protected getValidators(): (() => boolean)[] {
-        return [
-            this.validateDegree,
-            this.validateEnd,
-            this.validateGpa,
-            this.validateInstitution,
-            this.validateLevel,
-            this.validateStart,
-            this.validateUser,
-        ];
+    public validate(): boolean {
+        return (
+            validateEmail(this.user) &&
+            this.institution.length > 0 &&
+            this.level.length > 0 &&
+            this.degree.length > 0 &&
+            validateMonthYearString(this.start) &&
+            (validateMonthYearString(this.end) || this.end == '') &&
+            this.validateGpa()
+        );
     }
 }

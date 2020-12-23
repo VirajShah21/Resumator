@@ -121,28 +121,12 @@ export default class Certification extends Entity implements ICertification {
             });
     }
 
-    protected validateCertification(): boolean {
-        return this.certification.length > 0;
-    }
-
-    protected validateExamDate(): boolean {
-        return validateMonthYearString(this.examDate);
-    }
-
-    protected validateInstitution(): boolean {
-        return this.institution.length > 0;
-    }
-
-    protected validateUser(): boolean {
-        return validateEmail(this.user);
-    }
-
-    protected getValidators(): (() => boolean)[] {
-        return [
-            this.validateCertification,
-            this.validateExamDate,
-            this.validateInstitution,
-            this.validateUser,
-        ];
+    public validate(): boolean {
+        return (
+            this.certification.length > 0 &&
+            validateMonthYearString(this.examDate) &&
+            this.institution.length > 0 &&
+            validateEmail(this.user)
+        );
     }
 }
