@@ -24,13 +24,6 @@ const AppRouter = Router();
 
 const jsonParser = bodyParserJson();
 
-AppRouter.use("/account", AccountRouter);
-AppRouter.use("/work-experience", WorkExperienceRouter);
-AppRouter.use("/education", EducationRouter);
-AppRouter.use("/skills", SkillsRouter);
-AppRouter.use("/certifications", CertificationRouter);
-AppRouter.use("/themes", ThemesRouter);
-
 AppRouter.use((req, res, next) => {
     if (req.cookies.session) {
         AccountSessionTransformer.fetch(
@@ -85,6 +78,13 @@ AppRouter.get("/dashboard", (req, res) => {
         )
     );
 });
+
+AppRouter.use("/account", AccountRouter);
+AppRouter.use("/work-experience", WorkExperienceRouter);
+AppRouter.use("/education", EducationRouter);
+AppRouter.use("/skills", SkillsRouter);
+AppRouter.use("/certifications", CertificationRouter);
+AppRouter.use("/themes", ThemesRouter);
 
 AppRouter.get("/help", (req, res) => {
     if (req.body.client.account && req.body.client.resumeInfo) {
