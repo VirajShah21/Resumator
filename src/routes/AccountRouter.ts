@@ -26,7 +26,6 @@ import Education from "@entities/Education";
 import Skill from "@entities/Skill";
 import WorkExperience from "@entities/WorkExperience";
 import { RouterLogger } from "@shared/util/LogUtils";
-import Entity from "src/entities/Entity";
 
 const AccountRouter = Router();
 
@@ -240,18 +239,14 @@ AccountRouter.post("/update-goal", (req, res) => {
             accountSession.account.currentGoal = req.body.goal;
             accountSession.account.objective = req.body.objective;
             accountSession.account.updateDatabaseItem((success) => {
-                if (success) {
-                    res.redirect(routes.dashboardCard.goals);
-                } else {
+                if (success) res.redirect(routes.dashboardCard.goals);
+                else
                     res.render(
                         views.genericError,
                         new DatabaseErrorTransformer("Could not update goal ")
                     );
-                }
             });
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
-        }
+        } else res.render(views.genericError, new SessionErrorTransformer());
     });
 });
 
@@ -361,9 +356,7 @@ AccountRouter.get("/my-photo", (req, res) => {
                     `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${accountSession?.account._id}.jpg`
                 );
             else res.redirect("https://placehold.it/300x300");
-        } else {
-            res.redirect("https://placehold.it/300x300");
-        }
+        } else res.redirect("https://placehold.it/300x300");
     });
 });
 
