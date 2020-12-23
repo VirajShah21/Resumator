@@ -1,4 +1,4 @@
-import { generateKey, KEYLENGTH, validateEmail } from '@shared/functions';
+import { generateKey, KEYLENGTH } from '@shared/functions';
 import { database } from '@shared/database';
 import { IAccount } from '@entities/Account';
 

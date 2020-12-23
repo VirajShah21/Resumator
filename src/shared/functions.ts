@@ -3,7 +3,6 @@ import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
 import Bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { Session } from 'inspector';
-import { ObjectId } from 'mongodb';
 import { passwordSaltRounds, keygenChars } from './constants';
 
 export const KEYLENGTH = 15;

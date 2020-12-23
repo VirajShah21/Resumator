@@ -4,10 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## NEXT VERSION
 
+### Improvements
+
+-   Fixed profile picture upload not working
+
 ### Technical Improvements
 
 -   Removed unused imports
 -   Minimized codebase
+-   Redesigned form validation
+-   TSLint + ESLint problems solved
+-   Setup ESLint + TypeScript rules
 
 ### Added
 

@@ -3,9 +3,7 @@ import { json as bodyParserJson } from 'body-parser';
 import Education from '@entities/Education';
 import { ObjectId } from 'mongodb';
 import { views, routes } from '@shared/constants';
-import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { getClient } from '@shared/functions';
 
 const EducationRouter = Router();

@@ -2,9 +2,7 @@ import { Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
 import Certification from '@entities/Certification';
 import { views, routes } from '@shared/constants';
-import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { ObjectId } from 'mongodb';
 import { getClient } from '@shared/functions';
 

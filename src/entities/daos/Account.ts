@@ -3,7 +3,6 @@ import { ObjectId } from 'mongodb';
 import Address, { IAddress } from '../models/Address';
 import { validateEmail } from '@shared/functions';
 import Entity from '../Entity';
-import logger from '@shared/Logger';
 
 const ACCOUNTS_COLLECTION = 'accounts';
 

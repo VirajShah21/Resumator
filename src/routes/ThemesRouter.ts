@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { views } from '@shared/constants';
 import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { getClient } from '@shared/functions';
 
 const ThemesRouter = Router();

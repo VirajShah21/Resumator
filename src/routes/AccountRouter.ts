@@ -12,7 +12,6 @@ import Address from '@entities/Address';
 import { views, routes } from '@shared/constants';
 import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { ObjectId } from 'mongodb';
 import multer from 'multer';
 import path from 'path';

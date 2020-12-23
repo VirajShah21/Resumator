@@ -3,9 +3,7 @@ import { json as bodyParserJson } from 'body-parser';
 import { ObjectId } from 'mongodb';
 import Skill from '@entities/Skill';
 import { views, routes } from '@shared/constants';
-import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
 import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 import { getClient } from '@shared/functions';
 
 const DB_ERR = 'Could not delete skill.';
