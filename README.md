@@ -183,12 +183,8 @@ The linter rules for TypeScript
 
 ## Tasklist
 
-**For Version 0.1.0**
-
-_Code improvements_
-
--   Implement mixins on the budgie blue theme
--   Refactor code for the goals parser
+-   Add Awards, Acheivments, and Honors card
+-   Add volunteer work card
 
 ## MongoDB
 
