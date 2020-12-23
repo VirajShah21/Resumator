@@ -1,7 +1,6 @@
 import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import { validateEmail, validateMonthYearString } from "@shared/functions";
-import Logger from "@shared/Logger";
 import Entity from "../Entity";
 
 const WORK_EXPERIENCE_COLLECTION = "work-experience";

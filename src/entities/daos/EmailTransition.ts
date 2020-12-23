@@ -1,6 +1,5 @@
 import { database } from "@shared/database";
 import { validateEmail } from "@shared/functions";
-import logger from "@shared/Logger";
 import { ObjectId } from "mongodb";
 import Entity from "../Entity";
 

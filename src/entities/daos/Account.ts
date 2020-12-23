@@ -2,7 +2,6 @@ import { database } from "@shared/database";
 import { ObjectId } from "mongodb";
 import Address, { IAddress } from "../models/Address";
 import { validateEmail } from "@shared/functions";
-import Logger from "@shared/Logger";
 import Entity from "../Entity";
 
 const ACCOUNTS_COLLECTION = "accounts";
