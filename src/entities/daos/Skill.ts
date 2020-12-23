@@ -66,7 +66,7 @@ export default class Skill extends Entity implements ISkill {
      *
      * @param callback Takes one argument based on the success of the update operation
      */
-    public updateDatabaseItem(callback: (success: boolean) => void): void {
+    public updateDatabaseItem(callback?: (success: boolean) => void): void {
         if (this.validate()) {
             database.collection(SKILLS_COLLECTION).updateOne(
                 {
@@ -76,13 +76,13 @@ export default class Skill extends Entity implements ISkill {
                     $set: this,
                 },
                 (err) => {
-                    if (err) callback(false);
-                    else callback(true);
+                    if (callback) {
+                        if (err) callback(false);
+                        else callback(true);
+                    }
                 }
             );
-        } else {
-            callback(false);
-        }
+        } else if (callback) callback(false);
     }
 
     /**

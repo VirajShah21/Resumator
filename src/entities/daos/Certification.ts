@@ -71,7 +71,7 @@ export default class Certification extends Entity implements ICertification {
      *
      * @param callback The callback once updating is complete
      */
-    public updateDatabaseItem(callback: (success: boolean) => void): void {
+    public updateDatabaseItem(callback?: (success: boolean) => void): void {
         if (this.validate()) {
             database.collection(CERT_COLLECTION).updateOne(
                 { _id: this._id },
@@ -79,16 +79,13 @@ export default class Certification extends Entity implements ICertification {
                     $set: this,
                 },
                 (err) => {
-                    if (err) {
-                        callback(false);
-                    } else {
-                        callback(true);
+                    if (callback) {
+                        if (err) callback(false);
+                        else callback(true);
                     }
                 }
             );
-        } else {
-            callback(false);
-        }
+        } else if (callback) callback(false);
     }
 
     /**

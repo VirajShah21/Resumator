@@ -93,7 +93,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
      *
      * @param callback The callback upon completion
      */
-    public updateDatabaseItem(callback: (success: boolean) => void): void {
+    public updateDatabaseItem(callback?: (success: boolean) => void): void {
         if (this.validate()) {
             database.collection(WORK_EXPERIENCE_COLLECTION).updateOne(
                 {
@@ -103,16 +103,13 @@ export default class WorkExperience extends Entity implements IWorkExperience {
                     $set: this,
                 },
                 (err) => {
-                    if (err) {
-                        callback(false);
-                    } else {
-                        callback(true);
+                    if (callback) {
+                        if (err) callback(false);
+                        else callback(true);
                     }
                 }
             );
-        } else {
-            callback(false);
-        }
+        } else if (callback) callback(false);
     }
 
     /**

@@ -83,7 +83,7 @@ export default class Education extends Entity implements IEducation {
      *
      * @param callback Callback upon completion
      */
-    public updateDatabaseItem(callback: (success: boolean) => void): void {
+    public updateDatabaseItem(callback?: (success: boolean) => void): void {
         if (this.validate()) {
             database.collection(EDUCATION_COLLECTION).updateOne(
                 {
@@ -93,15 +93,15 @@ export default class Education extends Entity implements IEducation {
                     $set: this,
                 },
                 (err, result) => {
-                    if (err) {
-                        logger.error(err);
-                        callback(false);
-                    } else callback(true);
+                    if (callback) {
+                        if (err) {
+                            logger.error(err);
+                            callback(false);
+                        } else callback(true);
+                    }
                 }
             );
-        } else {
-            callback(false);
-        }
+        } else if (callback) callback(false);
     }
 
     /**
