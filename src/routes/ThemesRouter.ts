@@ -29,19 +29,16 @@ ThemesRouter.get('/preview', (req, res) => {
         res.send('Access denied');
         return;
     }
-    ResumeInfoTransformer.fetch(client.account.email, (resumeInfo) => {
-        if (resumeInfo) {
-            res.render(`resume-templates/${req.query.theme}`, {
-                account: client.account,
-                workExperience: resumeInfo.workExperience,
-                educationHistory: resumeInfo.educationHistory,
-                skillset: resumeInfo.skillset,
-                certifications: resumeInfo.certifications,
-            });
-        } else {
-            res.render(views.genericError, new SessionErrorTransformer());
-        }
-    });
+
+    if (client.resumeInfo)
+        res.render(`resume-templates/${req.query.theme}`, {
+            account: client.account,
+            workExperience: client.resumeInfo.workExperience,
+            educationHistory: client.resumeInfo.educationHistory,
+            skillset: client.resumeInfo.skillset,
+            certifications: client.resumeInfo.certifications,
+        });
+    else res.render(views.genericError, new SessionErrorTransformer());
 });
 
 export default ThemesRouter;

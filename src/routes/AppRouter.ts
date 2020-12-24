@@ -27,38 +27,47 @@ const AppRouter = Router();
 const jsonParser = bodyParserJson();
 
 AppRouter.use((req, res, next) => {
-    AccountSessionTransformer.fetch(req.cookies.session, (accountSession) => {
-        if (
-            accountSession &&
-            accountSession.account &&
-            accountSession.session
-        ) {
-            const client: {
-                account: Account;
-                session: Session;
-                resumeInfo: ResumeInfoTransformer;
-            } = {
-                account: accountSession.account as Account,
-                session: accountSession.session as Session,
-                resumeInfo: new ResumeInfoTransformer([], [], [], []),
-            };
+    if (req.cookies.session) {
+        AccountSessionTransformer.fetch(
+            req.cookies.session,
+            (accountSession) => {
+                if (
+                    accountSession &&
+                    accountSession.account &&
+                    accountSession.session
+                ) {
+                    const client: {
+                        account: Account;
+                        session: Session;
+                        resumeInfo: ResumeInfoTransformer;
+                    } = {
+                        account: accountSession.account as Account,
+                        session: accountSession.session as Session,
+                        resumeInfo: new ResumeInfoTransformer([], [], [], []),
+                    };
 
-            ResumeInfoTransformer.fetch(
-                accountSession.account.email,
-                (resumeInfo) => {
-                    client.resumeInfo = resumeInfo as ResumeInfoTransformer;
-                    Object.defineProperty(req, 'client', {
-                        value: client,
-                        writable: true,
+                    ResumeInfoTransformer.fetch(
+                        accountSession.account.email,
+                        (resumeInfo) => {
+                            client.resumeInfo = resumeInfo as ResumeInfoTransformer;
+                            Object.defineProperty(req, 'client', {
+                                value: client,
+                                writable: true,
+                            });
+                            next();
+                        }
+                    );
+                } else {
+                    res.cookie('session', '', {
+                        expires: new Date(Date.now()),
                     });
-                    next();
+                    res.redirect('/');
                 }
-            );
-        } else {
-            res.cookie('session', undefined);
-            next();
-        }
-    });
+            }
+        );
+    } else {
+        next();
+    }
 });
 
 AppRouter.get('/dashboard', (req, res) => {

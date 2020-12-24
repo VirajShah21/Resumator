@@ -266,7 +266,9 @@ AccountRouter.post('/login', (req, res) => {
 });
 
 AccountRouter.get('/logout', (req, res) => {
-    res.cookie('session', { expires: Date.now() });
+    res.cookie('session', '', {
+        expires: new Date(Date.now()),
+    });
     res.redirect('/app/account');
 });
 
