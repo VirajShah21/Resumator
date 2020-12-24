@@ -140,12 +140,12 @@ The linter rules for ES6
 
 |                    | Component                              | Version Updated |
 | ------------------ | -------------------------------------- | --------------- |
-| :white_check_mark: | Navigation Bar                         | v0.1.0          |
+| :white_check_mark: | Navigation Bar                         | v0.1.1          |
 | :white_check_mark: | Navigation Brand                       | v0.1.0          |
 | :white_check_mark: | Navigation Links (active/inactive)     | v0.1.0          |
 | :white_check_mark: | Overview Card                          | v0.1.0          |
 | :white_check_mark: | Change Profile Picture (Dropzone)      | v0.1.0          |
-| :white_check_mark: | Personal Information Card              | v0.1.0          |
+| :white_check_mark: | Personal Information Card              | v0.1.1          |
 | :white_check_mark: | Goals Card                             | v0.1.0          |
 | :white_check_mark: | Education Card                         | v0.1.0          |
 | :white_check_mark: | Work Experience Card                   | v0.1.0          |
@@ -160,7 +160,7 @@ The linter rules for ES6
 | :white_check_mark: | Resume Strength Panel                  | v0.1.0          |
 | :white_check_mark: | Resume Strength Meters/Overall dot     | v0.1.0          |
 | :white_check_mark: | Resume Suggestions (Requirements/Tips) | v0.1.0          |
-| :white_check_mark: | Theme Gallery Card                     | v0.1.0          |
+| :white_check_mark: | Theme Gallery Card                     | v0.1.1          |
 | :white_check_mark: | Verify Email Card                      | v0.1.0          |
 
 ## Major UI Issues
