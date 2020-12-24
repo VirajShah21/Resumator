@@ -1,23 +1,82 @@
 doctype html
 
+mixin strength-progress-fill(strength)
+    .progress
+        if strength <= 33
+            .progress-bar.progress-bar-striped.bg-danger.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+        else if strength <= 66
+            .progress-bar.progress-bar-striped.bg-warning.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+        else
+            .progress-bar.progress-bar-striped.bg-primary.text-right.pr-1(style=`width:${strength}%`)
+                = `${Math.floor(strength)}%`
+
 html(lang='en-US')
     head
         include components/head
-    body
-        #window.container-fluid.text-primary
-            .row.pt-4.pl-4
+        style.
+            h1 {
+                font-weight: lighter;
+                font-size: 6rem;
+            }
+
+            h2 {
+                font-weight: lighter;
+                font-size: 4rem;
+            }
+
+            em {
+                font-weight: 500;
+                text-decoration: underline 0.3rem red;
+            }
+    body.bg-light
+        #window.container.text-primary
+            .row.text-center
+                .col-12
+                    h1.pt-4.mt-4 Resumator
+            .row.p-4
                 .col-12.col-md-8.pl-4.pt-4
-                    h1.m-0(style='font-size:4em;font-weight:900;text-transform:uppercase;text-shadow: 0 0 10px 10px black;')
+                    h2
                         | Create a stunning resume in less than 2 minutes!
                 .col
-            .row.pl-4.pt-4
+            .row.p-4
                 .col-12.col-md-3
-                    a.btn.btn-primary.p-4.rounded-pill.w-100(href='/app/account')
-                        strong Get Started
-            .row(style='position:fixed;bottom:0;z-index:-1')
+                    a.btn.btn-outline-primary.p-4.rounded-pill.w-100(href='/app/account')
+                        | Get Started
+            .row.p-4
                 .col
-                .col-7
-                    img.img-fluid(src='/images/landing.png' alt='Resume Grid')
-                
+                    strong Absolute Shit Resume
+                    +strength-progress-fill(25)
+                    br
+                    strong You're Making Progress
+                    +strength-progress-fill(50)
+                    br
+                    strong Looking Good
+                    +strength-progress-fill(100)
+                .col-12.col-md-8.pl-4
+                    h2 ... But Why Resumator?
+                    p 
+                        | There are so many online CV and Resume builders, but
+                        | why Resumator? The answer is simple:&nbsp;
+                        | We create the&nbsp;
+                        em strongest resumes!
+            .row.p-4
+                .col-12.col-md-8
+                    h2 What do we do better?
+                    em Everything.
+                    ul
+                        li Every feature is available to you&nbsp;
+                            em completely free of charge
+                        li We guide you through the process of generating your resume
+                        li We judge your resume harder than your employer... and tell you how you can improve it
+                        li No real human ever has to "review" your resume... a robot does it for you!&nbsp;
+                            em For free!
+                        li A&nbsp;
+                            em premium selection of handmade templates
+                            | &nbsp;to choose from.
+                        li No spam or marketing emails! (That would just cost us more money!)
+                        li Easy to use, fast, and reliable.
+                .col
 
         include components/scripts

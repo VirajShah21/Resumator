@@ -10,7 +10,7 @@ mixin strength-indicator-dot(strength)
             ion-icon(name='ellipse')
 
 mixin strength-progress-fill(strength)
-    .progress.mb-4.bg-dark
+    .progress.mb-4
         if strength <= 33
             .progress-bar.progress-bar-striped.bg-danger.text-right.pr-1(style=`width:${strength}%`)
                 = `${Math.floor(strength)}%`
