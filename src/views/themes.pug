@@ -3,6 +3,15 @@ include components/dashboard/education
 
 doctype html
 
+mixin theme-card(themeName, description, thumbnail)
+    .col-12.col-md-6.col-lg-3.mb-4
+        .card.preview-theme-card.p-4(style='height:100%')
+            img.card-img-top(src=`/images/theme-thumbs/${thumbnail}`)
+            .card-body
+                h5.card-title.text-center= themeName
+                hr
+                p(style='text-align:justify;text-justify:inter-character')= description
+
 html(lang='en-US')
     head
         include components/head
@@ -11,23 +20,45 @@ html(lang='en-US')
 
         .container.mt-4
             .row
-                .col-12.col-md-6.col-lg-3.mb-4
-                    .card.preview-theme-card.p-4(style='height:100%' onclick='window.location=`/app/themes/preview?theme=budgie-blue`')
-                        img.card-img-top(src='/images/theme-thumbs/BudgieBluePreview.png')
-                        .card-body
-                            h5.card-title.text-center Budgie Blue
-                            hr
-                            p(style='text-align:justify;text-justify:inter-character')
-                                | White on light blue. Black on white. Bold headingss. 
-                .col-12.col-md-6.col-lg-3.mb-4
-                    .card.preview-theme-card.p-4(style='height:100%')
-                        img.card-img-top(src='/images/theme-thumbs/LuxPreview.png')
-                        .card-body
-                            h5.card-title.text-center Lux
-                            hr
-                            p(style='text-align:justify;text-justify:inter-character')
-                                | Lux is a clean &amp; simple theme, providing
-                                | a touch of class to a boring resume.
+                .col-12
+                    h3 Black Typography
+                    hr
+            .row
+                +theme-card('Lux',
+                            'Lux is a clean and simple theme, providing a touch of class to an otherwise boring resume.',
+                            'LuxPreview.png')
+                +theme-card('Lux Condensed',
+                            'Lux Condensed is for the professionals with a lot to fit on their resume. Slick and packed with good Feng Shui.',
+                            'LuxCondensedPreview.png')
+                +theme-card('Ultrawide',
+                            'For when the paper needs more width, because there isn\'t enough height.',
+                            'UltrawidePreview.png')
+                +theme-card('Duplex',
+                            'For when the paper doesn\'t too much width, because there is enough height.',
+                            'DuplexPreview.png')
+                +theme-card('Stricly Business',
+                            'Doctors, lawyers, business professionals, auditors, and public servants... you must stick to the ugly theme.',
+                            'StrictlyBusinessPreview.png')
+            .row
+                .col-12
+                    h3 Fun & Artsy
+                    hr
+            .row
+                +theme-card('Budgie Blue',
+                            'White on light blue. Black on white. Bold heading. You get the jist.',
+                            'BudgieBluePreview.png')
+            .row
+                .col-12
+                    h3 Lux Suite
+                    hr
+            .row
+                +theme-card('Lux',
+                            'Lux is a clean and simple theme, providing a touch of class to an otherwise boring resume.',
+                            'LuxPreview.png')
+                +theme-card('Lux Condensed',
+                            'Lux Condensed is for the professionals with a lot to fit on their resume. Slick and packed with good Feng Shui.',
+                            'LuxCondensedPreview.png')
+                
                             
         include components/footer
         include components/scripts

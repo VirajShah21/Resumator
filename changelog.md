@@ -11,6 +11,12 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 
 -   Fixed profile picture upload not working
+-   Minor UI Tweaks
+    -   Signup/Login buttons
+    -   Progress bar background fills
+    -   Landing page
+-   Added more theme cards (no actual themes yet)
+    -   Created theme artwork for each theme
 
 ### Technical Improvements
 
