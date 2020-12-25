@@ -2,18 +2,22 @@ import WorkExperience, { IWorkExperience } from '@entities/WorkExperience';
 import Education, { IEducation } from '@entities/Education';
 import Skill, { ISkill } from '@entities/Skill';
 import Certification, { ICertification } from '@entities/Certification';
+import Award, { IAward } from '@entities/Award';
+import AwardsRouter from 'src/routes/AwardsRouter';
 
 export default class ResumeInfoTransformer {
     public workExperience: WorkExperience[];
     public educationHistory: Education[];
     public skillset: Skill[];
     public certifications: Certification[];
+    public awards: Award[];
 
     constructor(
         workExperience: IWorkExperience[],
         educationHistory: IEducation[],
         skillset: ISkill[],
-        certifications: ICertification[]
+        certifications: ICertification[],
+        awards: IAward[]
     ) {
         this.workExperience = workExperience.map((work) => {
             return new WorkExperience(work);
@@ -27,6 +31,9 @@ export default class ResumeInfoTransformer {
         this.certifications = certifications.map((certification) => {
             return new Certification(certification);
         });
+        this.awards = awards.map((award) => {
+            return new Award(award);
+        });
     }
 
     public static fetch(
@@ -37,14 +44,17 @@ export default class ResumeInfoTransformer {
             Education.loadFromDatabase(email, (educationHistory) => {
                 Skill.loadFromDatabase(email, (skillset) => {
                     Certification.loadFromDatabase(email, (certifications) => {
-                        callback(
-                            new ResumeInfoTransformer(
-                                workExperience,
-                                educationHistory,
-                                skillset,
-                                certifications
-                            )
-                        );
+                        Award.loadFromDatabase(email, (awards) => {
+                            callback(
+                                new ResumeInfoTransformer(
+                                    workExperience,
+                                    educationHistory,
+                                    skillset,
+                                    certifications,
+                                    awards
+                                )
+                            );
+                        });
                     });
                 });
             });

@@ -1,0 +1,63 @@
+include dash-mixins
+
+mixin awards-card(awards)
+    #awards-card.card.w-100.mb-4
+        .card-body
+            +resume-card-title('Awards & Honors', 'trophy-outline')
+            
+            ul.list-group.list-group-flush
+                each award in awards
+                    +award-item(award)
+            button.btn.btn-outline-primary.btn-block.mt-4(data-toggle='modal' data-target='#add-award-modal') Add Award
+
+mixin award-item(award)
+    li.list-group-item
+        button.btn.mr-4(data-toggle='modal' data-target=`#edit-award-modal-${award._id}`)
+            ion-icon(name='create-outline')
+        span= award.name
+
+mixin add-award-modal
+    #add-award-modal.modal.fade(tabindex='1')
+        .modal-dialog
+            .modal-content
+                form(action='/app/awards/add' method='POST')
+                    .modal-header
+                        h5.modal-title Add Award/Honor
+                        button.close(type='button' data-dismiss='modal')
+                            span &times;
+                    .modal-body
+                        .row
+                            .col-12
+                                label Award/Honor Name
+                                input.form-control.mb-2(name='award-name' data-validate required)
+                    .modal-footer
+                        button.btn.btn-secondary.btn-sm(
+                            type='button'
+                            data-dismiss='modal') Close
+                        button.btn.btn-primary.btn-sm(type='submit') Add
+
+mixin edit-award-modal(award)
+    .modal.fade(tabindex='1' id=`edit-award-modal-${award._id}`)
+        .modal-dialog
+            .modal-content
+                form(action='/app/awards/update' method='POST')
+                    .modal-header
+                        h5.modal-title Edit Award/Honor
+                        button.close(type='button' data-dismiss='modal')
+                            span &times;
+                    .modal-body
+                        input(name='_id' value=award._id hidden)
+                        .row
+                            .col-12
+                                label Level
+                                input.form-control.mb-2(name='award-name' value=award.name data-validate required)
+                        .row
+                            .col-12
+                                .alert.alert-danger
+                                    input(type='checkbox' name='delete')
+                                    span.ml-2 Delete
+                    .modal-footer
+                        button.btn.btn-secondary.btn-sm(
+                            type='button'
+                            data-dismiss='modal') Close
+                        button.btn.btn-primary.btn-sm(type='submit') Update

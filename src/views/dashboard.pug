@@ -4,6 +4,7 @@ include components/dashboard/personal-info
 include components/dashboard/skillset
 include components/dashboard/certifications
 include components/dashboard/goals
+include components/dashboard/awards
 include components/dashboard/dash-mixins
 
 doctype html
@@ -18,6 +19,7 @@ html(lang='en-US')
         +add-education-modal
         +add-skill-modal
         +add-certification-modal
+        +add-award-modal
 
         each job, index in workExperience
             +edit-work-experience-modal(job, index)
@@ -27,6 +29,8 @@ html(lang='en-US')
             +edit-skill-modal(skill)
         each certification in certifications
             +edit-certification-modal(certification)
+        each award in awards
+            +edit-award-modal(award)
         
         if !account.emailVerified
             .container-fluid.mt-4.text-dark.pt-4.pb-4
@@ -45,12 +49,14 @@ html(lang='en-US')
             .row
                 .col-12.col-lg-6
                     +personal-info-card(account)
-                    +education-card(educationHistory)
-                    +certifications-card(certifications)
-                .col-12.col-lg-6
                     +goals-card(account)
-                    +skills-card(skillset)
-                    +work-experience-card(workExperience)                    
+                    +certifications-card(certifications)
+                    +skills-card(skillset) 
+                .col-12.col-lg-6
+                    +education-card(educationHistory)
+                    +work-experience-card(workExperience) 
+                    +awards-card(awards)
+                                      
         .container-fluid.mt-4.text-dark.pt-4.pb-4.bg-light
             .container
                 .row

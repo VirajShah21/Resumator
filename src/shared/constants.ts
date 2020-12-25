@@ -18,5 +18,6 @@ export const routes = {
         certification: '/app/dashboard#certifications-card',
         skills: '/app/dashboard#skills-card',
         goals: '/app/dashboard#goals-card',
+        awards: '/app/dashboard#awards-card',
     },
 };

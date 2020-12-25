@@ -19,6 +19,7 @@ import WorkExperience from '@entities/WorkExperience';
 import Education from '@entities/Education';
 import Skill from '@entities/Skill';
 import Certification from '@entities/Certification';
+import AwardsRouter from './AwardsRouter';
 
 export const PREFIX = '/app';
 export const ROOT_DIR = path.join(__dirname, '..');
@@ -43,7 +44,13 @@ AppRouter.use((req, res, next) => {
                     } = {
                         account: accountSession.account as Account,
                         session: accountSession.session as Session,
-                        resumeInfo: new ResumeInfoTransformer([], [], [], []),
+                        resumeInfo: new ResumeInfoTransformer(
+                            [],
+                            [],
+                            [],
+                            [],
+                            []
+                        ),
                     };
 
                     ResumeInfoTransformer.fetch(
@@ -106,6 +113,7 @@ AppRouter.use('/work-experience', WorkExperienceRouter);
 AppRouter.use('/education', EducationRouter);
 AppRouter.use('/skills', SkillsRouter);
 AppRouter.use('/certifications', CertificationRouter);
+AppRouter.use('/awards', AwardsRouter);
 AppRouter.use('/themes', ThemesRouter);
 
 AppRouter.get('/help', (req, res) => {
