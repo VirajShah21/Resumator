@@ -1,6 +1,8 @@
 import { generateKey, KEYLENGTH } from '@shared/functions';
 import { database } from '@shared/database';
 import { IAccount } from '@entities/Account';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
+import { ObjectId } from 'mongodb';
 
 const SESSIONS_COLLECTION = 'sessions';
 
@@ -8,6 +10,7 @@ const SESSIONS_COLLECTION = 'sessions';
  * Session interface
  */
 export interface ISession {
+    _id: ObjectId;
     timestamp: number;
     key: string;
     user: string;
@@ -16,7 +19,8 @@ export interface ISession {
 /**
  * Session class
  */
-export default class Session implements ISession {
+export default class Session extends DataAccessObject implements ISession {
+    public static readonly _dao: IDaoConfig = { collection: 'sessions' };
     public timestamp: number;
     public key: string;
     public user: string;
@@ -28,11 +32,13 @@ export default class Session implements ISession {
     constructor(sessionOrAccount: ISession | IAccount) {
         if ('key' in sessionOrAccount) {
             // if is of type `ISession`
+            super(sessionOrAccount._id, Session._dao);
             this.key = sessionOrAccount.key.trim();
             this.timestamp = sessionOrAccount.timestamp;
             this.user = sessionOrAccount.user.trim();
         } else {
             // is of type `IAccount`
+            super(new ObjectId(), Session._dao);
             this.key = generateKey();
             this.timestamp = new Date().getTime();
             this.user = sessionOrAccount.email.trim();

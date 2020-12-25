@@ -2,6 +2,7 @@ import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
 import { validateEmail, validateMonthYearString } from '@shared/functions';
 import Entity from '../Entity';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
  * Education interface
@@ -15,12 +16,8 @@ export interface IAward {
 /**
  * Education class
  */
-export default class Award extends Entity implements IAward {
-    private static readonly mongodb = {
-        collection: 'awards',
-    };
-
-    public _id: ObjectId;
+export default class Award extends DataAccessObject implements IAward {
+    private static readonly _dao: IDaoConfig = { collection: 'award' };
     public user: string;
     public name: string;
 
@@ -29,59 +26,9 @@ export default class Award extends Entity implements IAward {
      * @param award
      */
     constructor(award: IAward) {
-        super();
-        this._id = new ObjectId(award._id);
+        super(award._id, Award._dao);
         this.user = award.user;
         this.name = award.name.trim();
-    }
-
-    /**
-     * Inserts this object to the education database
-     *
-     * @param callback Callback upon completion
-     */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate())
-            database
-                .collection(Award.mongodb.collection)
-                .insertOne(this, (err, result) => {
-                    callback(err ? false : true);
-                });
-        else callback(false);
-    }
-
-    /**
-     * Updates this item in the database
-     *
-     * @param callback Callback upon completion
-     */
-    public updateDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate())
-            database.collection(Award.mongodb.collection).updateOne(
-                {
-                    _id: this._id,
-                },
-                {
-                    $set: this,
-                },
-                (err, result) => {
-                    if (callback) callback(err ? false : true);
-                }
-            );
-        else if (callback) callback(false);
-    }
-
-    /**
-     * Delete the DAO from the database (based on _id)
-     *
-     * @param callback Takes an argument based on the success of the delete operation
-     */
-    public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database
-            .collection(Award.mongodb.collection)
-            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                callback(err ? false : true);
-            });
     }
 
     /**
@@ -95,7 +42,7 @@ export default class Award extends Entity implements IAward {
         callback: (awards: Award[]) => void
     ): void {
         database
-            .collection(Award.mongodb.collection)
+            .collection(Award._dao.collection)
             .find({ user: email })
             .toArray((err, result) => {
                 callback(

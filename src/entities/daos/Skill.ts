@@ -2,8 +2,7 @@ import { ObjectId } from 'mongodb';
 import { database } from '@shared/database';
 import { validateEmail } from '@shared/functions';
 import Entity from '../Entity';
-
-export const SKILLS_COLLECTION = 'skills';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
  * Skill interface
@@ -18,7 +17,8 @@ export interface ISkill {
 /**
  * Skill class
  */
-export default class Skill extends Entity implements ISkill {
+export default class Skill extends DataAccessObject implements ISkill {
+    private static readonly _dao: IDaoConfig = { collection: 'skills' };
     public _id: ObjectId;
     public name: string;
     public proficiency: number;
@@ -31,67 +31,19 @@ export default class Skill extends Entity implements ISkill {
      * @param user The user's email address
      */
     constructor(name: string | ISkill, proficiency?: number, user?: string) {
-        super();
         if (typeof name === 'string') {
+            super(new ObjectId(), Skill._dao);
             this._id = new ObjectId();
             this.name = name.trim();
             this.proficiency = proficiency || 1;
             this.user = user?.trim() || '';
         } else {
+            super(name._id, Skill._dao);
             this._id = name._id;
             this.name = name.name.trim();
             this.proficiency = name.proficiency;
             this.user = name.user.trim();
         }
-    }
-
-    /**
-     * Insert the DAO to the database
-     *
-     * @param callback Takes one argument based on the success of the insert operation
-     */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
-            database.collection(SKILLS_COLLECTION).insertOne(this, (err) => {
-                if (err) callback(false);
-                else callback(true);
-            });
-        } else {
-            callback(false);
-        }
-    }
-
-    /**
-     * Updates the skill DAO in the database
-     *
-     * @param callback Takes one argument based on the success of the update operation
-     */
-    public updateDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate()) {
-            database.collection(SKILLS_COLLECTION).updateOne(
-                {
-                    _id: this._id,
-                },
-                {
-                    $set: this,
-                },
-                (err) => {
-                    if (callback) callback(err ? false : true);
-                }
-            );
-        } else if (callback) callback(false);
-    }
-
-    /**
-     * Deletes the skill from the database (via _id)
-     * @param callback Takes one argument based on the success of the delete operation
-     */
-    public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database
-            .collection(SKILLS_COLLECTION)
-            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                callback(err ? false : true);
-            });
     }
 
     /**
@@ -105,7 +57,7 @@ export default class Skill extends Entity implements ISkill {
         callback: (skills: Skill[]) => void
     ): void {
         database
-            .collection(SKILLS_COLLECTION)
+            .collection(Skill._dao.collection)
             .find({ user })
             .toArray((err, skillset) => {
                 callback(

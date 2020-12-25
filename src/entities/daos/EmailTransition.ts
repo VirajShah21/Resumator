@@ -1,9 +1,8 @@
 import { database } from '@shared/database';
 import { validateEmail } from '@shared/functions';
 import { ObjectId } from 'mongodb';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 import Entity from '../Entity';
-
-const EMAIL_TRANSITION_COLLECTION = 'email-transition';
 
 export interface IEmailTransition {
     _id: ObjectId;
@@ -12,8 +11,11 @@ export interface IEmailTransition {
 }
 
 export default class EmailTransition
-    extends Entity
+    extends DataAccessObject
     implements IEmailTransition {
+    private static readonly _dao: IDaoConfig = {
+        collection: 'email-transition',
+    };
     public _id: ObjectId;
     public oldEmail: string;
     public newEmail: string;
@@ -23,25 +25,10 @@ export default class EmailTransition
         newEmail: string,
         objectId?: ObjectId
     ) {
-        super();
+        super(objectId ? objectId : new ObjectId(), EmailTransition._dao);
         this._id = objectId ? new ObjectId(objectId) : new ObjectId();
         this.oldEmail = oldEmail.trim();
         this.newEmail = newEmail.trim();
-    }
-
-    /**
-     * Inserts this object to the email transition database
-     *
-     * @param callback The function to call upon completion
-     */
-    public insertDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate())
-            database
-                .collection(EMAIL_TRANSITION_COLLECTION)
-                .insertOne(this, (err2) => {
-                    if (callback) callback(err2 ? false : true);
-                });
-        else if (callback) callback(false);
     }
 
     /**
@@ -55,7 +42,7 @@ export default class EmailTransition
         callback: (emailTransitionObj?: EmailTransition) => void
     ): void {
         database
-            .collection(EMAIL_TRANSITION_COLLECTION)
+            .collection(EmailTransition._dao.collection)
             .findOne({ newEmail }, (err, result) => {
                 callback(
                     err || !result

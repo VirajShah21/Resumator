@@ -2,8 +2,7 @@ import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
 import { validateEmail, validateMonthYearString } from '@shared/functions';
 import Entity from '../Entity';
-
-const WORK_EXPERIENCE_COLLECTION = 'work-experience';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
  * Work experience interface
@@ -21,8 +20,12 @@ export interface IWorkExperience {
 /**
  * Work experience class
  */
-export default class WorkExperience extends Entity implements IWorkExperience {
-    public _id: ObjectId;
+export default class WorkExperience
+    extends DataAccessObject
+    implements IWorkExperience {
+    private static readonly _dao: IDaoConfig = {
+        collection: 'work-experience',
+    };
     public user: string;
     public position: string;
     public organization: string;
@@ -47,9 +50,8 @@ export default class WorkExperience extends Entity implements IWorkExperience {
         description?: string,
         user?: string
     ) {
-        super();
         if (typeof position === 'string') {
-            this._id = new ObjectId();
+            super(new ObjectId(), WorkExperience._dao);
             this.position = position.trim();
             this.organization = organization?.trim() || '';
             this.description = description?.trim() || '';
@@ -57,7 +59,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
             this.start = start?.trim() || '';
             this.end = end?.trim() || '';
         } else {
-            this._id = position._id;
+            super(position._id, WorkExperience._dao);
             this.position = position.position.trim();
             this.organization = position.organization.trim();
             this.start = position.start.trim();
@@ -65,55 +67,6 @@ export default class WorkExperience extends Entity implements IWorkExperience {
             this.description = position.description.trim();
             this.user = position.user.trim();
         }
-    }
-
-    /**
-     * Insert this object to the work experiences database
-     *
-     * @param callback The callback upon completion
-     */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
-            database
-                .collection(WORK_EXPERIENCE_COLLECTION)
-                .insertOne(this, (err, result) => {
-                    callback(err ? false : true);
-                });
-        } else callback(false);
-    }
-
-    /**
-     * Update this item in the database
-     *
-     * @param callback The callback upon completion
-     */
-    public updateDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate()) {
-            database.collection(WORK_EXPERIENCE_COLLECTION).updateOne(
-                {
-                    _id: this._id,
-                },
-                {
-                    $set: this,
-                },
-                (err) => {
-                    if (callback) callback(err ? false : true);
-                }
-            );
-        } else if (callback) callback(false);
-    }
-
-    /**
-     * Deletes this object from the database
-     *
-     * @param callback The callback upon deleting database item
-     */
-    public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database
-            .collection(WORK_EXPERIENCE_COLLECTION)
-            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                callback(err ? false : true);
-            });
     }
 
     /**
@@ -127,7 +80,7 @@ export default class WorkExperience extends Entity implements IWorkExperience {
         callback: (workExperiences: WorkExperience[]) => void
     ): void {
         database
-            .collection(WORK_EXPERIENCE_COLLECTION)
+            .collection(WorkExperience._dao.collection)
             .find({ user: email })
             .toArray((err, work: IWorkExperience[]) => {
                 if (callback) {

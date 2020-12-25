@@ -3,6 +3,7 @@ import { database } from '@shared/database';
 import { validateMonthYearString, validateEmail } from '@shared/functions';
 import logger from '@shared/Logger';
 import Entity from '../Entity';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 const CERT_COLLECTION = 'certifications';
 
@@ -21,7 +22,10 @@ export interface ICertification {
 /**
  * Certification class
  */
-export default class Certification extends Entity implements ICertification {
+export default class Certification
+    extends DataAccessObject
+    implements ICertification {
+    private static readonly _dao: IDaoConfig = { collection: 'certifications' };
     public _id: ObjectId;
     public institution: string;
     public certification: string;
@@ -34,67 +38,13 @@ export default class Certification extends Entity implements ICertification {
      * @param certification The certification object to construct
      */
     constructor(certification: ICertification) {
-        super();
+        super(certification._id, Certification._dao);
         this._id = new ObjectId(certification._id);
         this.institution = certification.institution.trim();
         this.certification = certification.certification.trim();
         this.details = certification.details?.trim() || '';
         this.examDate = certification.examDate.trim();
         this.user = certification.user.trim();
-    }
-
-    /**
-     * Inserts the DAO to the database
-     *
-     * @param callback The callback once inserting is complete
-     */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate()) {
-            database.collection(CERT_COLLECTION).insertOne(this, (err) => {
-                if (err) callback(false);
-                else callback(true);
-            });
-        } else {
-            logger.warn(
-                `Could not update certification ${JSON.stringify(
-                    this,
-                    null,
-                    4
-                )} Invalid Data`
-            );
-            callback(false);
-        }
-    }
-
-    /**
-     * Updated the DAO in the databse
-     *
-     * @param callback The callback once updating is complete
-     */
-    public updateDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate()) {
-            database.collection(CERT_COLLECTION).updateOne(
-                { _id: this._id },
-                {
-                    $set: this,
-                },
-                (err) => {
-                    if (callback) callback(err ? false : true);
-                }
-            );
-        } else if (callback) callback(false);
-    }
-
-    /**
-     * Deletes the DAO (by ID) from the database
-     * @param callback The callback once deletion is done
-     */
-    public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database
-            .collection(CERT_COLLECTION)
-            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                callback(err ? false : true);
-            });
     }
 
     /**

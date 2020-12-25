@@ -2,8 +2,7 @@ import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
 import { validateEmail, validateMonthYearString } from '@shared/functions';
 import Entity from '../Entity';
-
-const EDUCATION_COLLECTION = 'education';
+import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
  * Education interface
@@ -23,8 +22,8 @@ export interface IEducation {
 /**
  * Education class
  */
-export default class Education extends Entity implements IEducation {
-    public _id: ObjectId;
+export default class Education extends DataAccessObject implements IEducation {
+    private static readonly _dao: IDaoConfig = { collection: 'education' };
     public user: string;
     public institution: string;
     public level: string;
@@ -35,18 +34,10 @@ export default class Education extends Entity implements IEducation {
     public description: string;
 
     /**
-     *
-     * @param user The user's email address
-     * @param institution The institution which this education object belongs to
-     * @param level The level of education acquired
-     * @param degree The degree/diploma received
-     * @param start Start date
-     * @param end End/Graduation Date
-     * @param gpa Grade Point Average
-     * @param description Description of study at the institution
+     * @param education The education object to construct
      */
     constructor(education: IEducation) {
-        super();
+        super(education._id, Education._dao);
         this.user = education.user.trim();
         this.institution = education.institution.trim();
         this.level = education.level.trim();
@@ -55,56 +46,6 @@ export default class Education extends Entity implements IEducation {
         this.end = education.end?.trim() || '';
         this.gpa = education.gpa ? +education.gpa : undefined;
         this.description = education.description?.trim() || '';
-        this._id = new ObjectId(education._id);
-    }
-
-    /**
-     * Inserts this object to the education database
-     *
-     * @param callback Callback upon completion
-     */
-    public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate())
-            database
-                .collection(EDUCATION_COLLECTION)
-                .insertOne(this, (err, result) => {
-                    callback(err ? false : true);
-                });
-        else callback(false);
-    }
-
-    /**
-     * Updates this item in the database
-     *
-     * @param callback Callback upon completion
-     */
-    public updateDatabaseItem(callback?: (success: boolean) => void): void {
-        if (this.validate())
-            database.collection(EDUCATION_COLLECTION).updateOne(
-                {
-                    _id: this._id,
-                },
-                {
-                    $set: this,
-                },
-                (err, result) => {
-                    if (callback) callback(err ? false : true);
-                }
-            );
-        else if (callback) callback(false);
-    }
-
-    /**
-     * Delete the DAO from the database (based on _id)
-     *
-     * @param callback Takes an argument based on the success of the delete operation
-     */
-    public deleteDatabaseItem(callback: (success: boolean) => void): void {
-        database
-            .collection(EDUCATION_COLLECTION)
-            .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                callback(err ? false : true);
-            });
     }
 
     /**
@@ -118,7 +59,7 @@ export default class Education extends Entity implements IEducation {
         callback: (eduHistory: Education[]) => void
     ): void {
         database
-            .collection(EDUCATION_COLLECTION)
+            .collection(Education._dao.collection)
             .find({ user: email })
             .toArray((err, result) => {
                 callback(

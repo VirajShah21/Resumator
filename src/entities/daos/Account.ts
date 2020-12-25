@@ -3,8 +3,7 @@ import { ObjectId } from 'mongodb';
 import Address, { IAddress } from '../models/Address';
 import { validateEmail } from '@shared/functions';
 import Entity from '../Entity';
-
-const ACCOUNTS_COLLECTION = 'accounts';
+import DataAccessObject from '../DataAccessObject';
 
 /**
  * Account Interface (User accounts)
@@ -26,8 +25,8 @@ export interface IAccount {
 /**
  * The Account class. Stores core user account information.
  */
-export default class Account extends Entity implements IAccount {
-    public _id: ObjectId;
+export default class Account extends DataAccessObject implements IAccount {
+    private static readonly _dao = { collection: 'accounts' };
     public fname: string;
     public lname: string;
     public email: string;
@@ -44,8 +43,7 @@ export default class Account extends Entity implements IAccount {
      * @param accountObject an implementation of IAccount
      */
     constructor(accountObject: IAccount) {
-        super();
-        this._id = new ObjectId(accountObject._id);
+        super(accountObject._id, { collection: 'accounts' });
         this.fname = accountObject.fname.trim();
         this.lname = accountObject.lname.trim();
         this.email = accountObject.email.trim();
@@ -72,39 +70,18 @@ export default class Account extends Entity implements IAccount {
             this.lname.indexOf(' ') < 0
         ) {
             database
-                .collection(ACCOUNTS_COLLECTION)
+                .collection(this._dao.collection)
                 .findOne({ email: this.email }, (err, result) => {
                     if (err) throw err;
                     else if (result) callback(false);
                     else
                         database
-                            .collection(ACCOUNTS_COLLECTION)
+                            .collection(this._dao.collection)
                             .insertOne(this, (err2) => {
                                 callback(err2 ? false : true);
                             });
                 });
         } else callback(false);
-    }
-
-    /**
-     * Updates this DAO
-     *
-     * @param callback The function call upon completion
-     */
-    public updateDatabaseItem(callback: (success: boolean) => void): void {
-        if (this.validate())
-            database.collection(ACCOUNTS_COLLECTION).updateOne(
-                {
-                    _id: this._id,
-                },
-                {
-                    $set: this,
-                },
-                (err) => {
-                    callback(err ? false : true);
-                }
-            );
-        else callback(false);
     }
 
     /**
@@ -118,7 +95,7 @@ export default class Account extends Entity implements IAccount {
         callback: (account?: Account) => void
     ): void {
         database
-            .collection(ACCOUNTS_COLLECTION)
+            .collection(Account._dao.collection)
             .findOne({ email }, (err, result) => {
                 callback(err || !result ? undefined : new Account(result));
             });
@@ -129,7 +106,7 @@ export default class Account extends Entity implements IAccount {
         callback: (account?: Account) => void
     ): void {
         database
-            .collection(ACCOUNTS_COLLECTION)
+            .collection(Account._dao.collection)
             .findOne({ _id: oid }, (err, result) => {
                 callback(err || !result ? undefined : new Account(result));
             });
