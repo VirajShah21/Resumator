@@ -27,6 +27,7 @@ All notable changes to this project will be documented in this file.
 -   Setup ESLint + TypeScript rules
 -   Upgraded npm packages with vulnerabilities
 -   Removed the bulk of logging from the server-side
+-   Removed duplicate code (not caught by SonarCloud)
 
 ### Improvements
 

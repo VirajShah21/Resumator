@@ -1,4 +1,5 @@
 import Account from '@entities/Account';
+import IClientWrapper from '@entities/IClientWrapper';
 import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
 import Bcrypt from 'bcrypt';
 import { Request } from 'express';
@@ -91,16 +92,22 @@ export function generateVerifyPin(): string {
     return verifyPin;
 }
 
-export function getClient(
-    req: Request
-):
-    | {
-          account: Account;
-          session: Session;
-          resumeInfo: ResumeInfoTransformer;
-      }
-    | undefined {
+export function getClient(req: Request): IClientWrapper | undefined {
     const obj = Object.getOwnPropertyDescriptor(req, 'client');
     if (obj) return obj.value;
     else return undefined;
+}
+
+export function assertGoodClient(
+    client?: IClientWrapper
+): asserts client is IClientWrapper {
+    if (!client || !client.account || !client.session || !client.resumeInfo)
+        throw `Client is not good ${JSON.stringify(client, null, 4)}`;
+}
+
+export function assertDefined<T>(
+    anything: T | undefined | null
+): asserts anything is T {
+    if (anything === undefined || anything === null)
+        throw `${anything} is not defined.`;
 }

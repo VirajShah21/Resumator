@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Response, Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
 import Session from '@entities/Session';
 import Account from '@entities/Account';
@@ -7,6 +7,8 @@ import {
     comparePasswordWithHash,
     generateVerifyPin,
     getClient,
+    assertGoodClient,
+    assertDefined,
 } from '@shared/functions';
 import Address from '@entities/Address';
 import { views, routes } from '@shared/constants';
@@ -25,6 +27,7 @@ import Certification from '@entities/Certification';
 import Education from '@entities/Education';
 import Skill from '@entities/Skill';
 import WorkExperience from '@entities/WorkExperience';
+import { assert } from 'console';
 
 const AccountRouter = Router();
 
@@ -123,13 +126,44 @@ AccountRouter.post('/signup', (req, res) => {
     }
 });
 
+/**
+ * Helper method to transition an account to a new email
+ *
+ * @param accountUpdated True if the account update was successful
+ * @param oldEmail The previous email
+ * @param newEmail The new email
+ * @param res The express response object, to send the final response to
+ */
+function beginEmailTransition(
+    accountUpdated: boolean,
+    oldEmail: string,
+    newEmail: string,
+    res: Response
+): void {
+    if (accountUpdated) {
+        res.redirect(routes.dashboard);
+
+        // Begin the email transition
+        const emailTransition = new EmailTransition(oldEmail, newEmail);
+        emailTransition.insertDatabaseItem(() => {
+            logger.info(
+                `Transitioning account from ${oldEmail} -> ${newEmail}`
+            );
+        });
+    } else
+        res.render(
+            views.genericError,
+            new DatabaseErrorTransformer('Could not update account info')
+        );
+}
+
 AccountRouter.post('/update', (req, res) => {
     const client = getClient(req);
-    if (!client || !client.account) {
-        res.send('No account to update');
-        return;
-    }
-    const account: Account = client?.account;
+
+    assertGoodClient(client);
+
+    const account: Account = client.account;
+
     account.fname = req.body.fname || account.fname;
     account.lname = req.body.lname || account.lname;
 
@@ -170,22 +204,8 @@ AccountRouter.post('/update', (req, res) => {
 
             // Update item in the database
             account.updateDatabaseItem((success2) => {
-                if (success2) {
-                    res.redirect(routes.dashboard);
-
-                    // Begin the email transition
-                    const emailTransition = new EmailTransition(
-                        oldEmail,
-                        newEmail
-                    );
-                    emailTransition.insertDatabaseItem();
-                } else
-                    res.render(
-                        views.genericError,
-                        new DatabaseErrorTransformer(
-                            'Could not update account info'
-                        )
-                    );
+                assertDefined(success2);
+                beginEmailTransition(success2, oldEmail, newEmail, res);
             });
         });
     } else {
@@ -219,7 +239,7 @@ AccountRouter.post('/update-goal', (req, res) => {
     if (account) {
         account.currentGoal = req.body.goal;
         account.objective = req.body.objective;
-        account.updateDatabaseItem((success: boolean) => {
+        account.updateDatabaseItem((success) => {
             if (success) res.redirect(routes.dashboardCard.goals);
             else
                 res.render(
@@ -289,8 +309,6 @@ AccountRouter.post(
                         writable: true,
                     }
                 );
-                // Below code replaced with Object.defineProperty(...)
-                // profilePhotoUploads[req.cookies.session] = filename;
                 cb(null, filename);
             },
         }),
@@ -313,7 +331,7 @@ AccountRouter.post(
 
             uploadProfilePhoto(fullpath, account._id);
             account.photo = true;
-            account.updateDatabaseItem((success: boolean) => {
+            account.updateDatabaseItem((success) => {
                 if (success)
                     res.send('Great! Your profile photo has been updated!');
                 else res.send('There seems to be an issue with your account.');
@@ -339,6 +357,7 @@ AccountRouter.get('/my-photo', (req, res) => {
 AccountRouter.get('/verify', (req, res) => {
     const token: string = req.query.token as string;
     const client = getClient(req);
+    assertGoodClient(client);
 
     logger.info(`Verifying account with PIN ${token}`);
 
@@ -346,15 +365,15 @@ AccountRouter.get('/verify', (req, res) => {
         return verifyObject.token === token;
     });
 
-    if (tokenInfo && client) {
-        const account = client.account as Account;
+    if (tokenInfo) {
+        const account: Account = client.account;
 
         if (
             account._id.toString() === tokenInfo?.userId.toString() &&
             account.email === tokenInfo?.email
         ) {
             account.emailVerified = true;
-            account.updateDatabaseItem((success: boolean) => {
+            account.updateDatabaseItem((success) => {
                 if (success) {
                     logger.info(`Account ${account.email} has been verified`);
 
@@ -383,7 +402,7 @@ AccountRouter.get('/verify', (req, res) => {
                             (certifications) => {
                                 certifications.forEach((certification) => {
                                     certification.user = newEmail;
-                                    certification.updateDatabaseItem();
+                                    certification.updateDatabaseItem(() => {});
                                 });
                             }
                         );
@@ -392,7 +411,7 @@ AccountRouter.get('/verify', (req, res) => {
                         Education.loadFromDatabase(oldEmail, (edus) => {
                             edus.forEach((edu) => {
                                 edu.user = newEmail;
-                                edu.updateDatabaseItem();
+                                edu.updateDatabaseItem(() => {});
                             });
                         });
 
@@ -400,7 +419,7 @@ AccountRouter.get('/verify', (req, res) => {
                         Skill.loadFromDatabase(oldEmail, (skills) => {
                             skills.forEach((skill) => {
                                 skill.user = newEmail;
-                                skill.updateDatabaseItem();
+                                skill.updateDatabaseItem(() => {});
                             });
                         });
 
@@ -410,7 +429,7 @@ AccountRouter.get('/verify', (req, res) => {
                             (workHistory) => {
                                 workHistory.forEach((workExp) => {
                                     workExp.user = newEmail;
-                                    workExp.updateDatabaseItem();
+                                    workExp.updateDatabaseItem(() => {});
                                 });
                             }
                         );

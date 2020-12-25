@@ -21,14 +21,14 @@ export default abstract class DataAccessObject extends Entity {
      *
      * @param callback The function to call upon completion
      */
-    public insertDatabaseItem(callback?: (success: boolean) => void): void {
+    public insertDatabaseItem(callback: (success?: boolean) => void): void {
         if (this.validate())
             database
                 .collection(this._dao.collection)
                 .insertOne(this, (err, result) => {
-                    if (callback) callback(err ? false : true);
+                    callback(err ? false : true);
                 });
-        else if (callback) callback(false);
+        else callback(false);
     }
 
     /**
@@ -36,7 +36,7 @@ export default abstract class DataAccessObject extends Entity {
      *
      * @param callback The function call upon completion
      */
-    public updateDatabaseItem(callback?: (success: boolean) => void): void {
+    public updateDatabaseItem(callback: (success?: boolean) => void): void {
         if (this.validate())
             database.collection(this._dao.collection).updateOne(
                 {
@@ -46,10 +46,10 @@ export default abstract class DataAccessObject extends Entity {
                     $set: this,
                 },
                 (err) => {
-                    if (callback) callback(err ? false : true);
+                    callback(err ? false : true);
                 }
             );
-        else if (callback) callback(false);
+        else callback(false);
     }
 
     /**
@@ -57,11 +57,11 @@ export default abstract class DataAccessObject extends Entity {
      *
      * @param callback Takes an argument based on the success of the delete operation
      */
-    public deleteDatabaseItem(callback?: (success: boolean) => void): void {
+    public deleteDatabaseItem(callback: (success?: boolean) => void): void {
         database
             .collection(this._dao.collection)
             .deleteOne({ _id: new ObjectId(this._id) }, (err) => {
-                if (callback) callback(err ? false : true);
+                callback(err ? false : true);
             });
     }
 }

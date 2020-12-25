@@ -1,7 +1,6 @@
 import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
 import { validateEmail, validateMonthYearString } from '@shared/functions';
-import Entity from '../Entity';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
@@ -72,20 +71,15 @@ export default class Education extends DataAccessObject implements IEducation {
             });
     }
 
-    protected validateGpa(): boolean {
-        if (this.gpa === undefined) return true;
-        return +this.gpa > 0 && +this.gpa < 5;
-    }
-
     public validate(): boolean {
-        return (
-            validateEmail(this.user) &&
+        const gpa: boolean = this.gpa ? +this.gpa > 0 && +this.gpa < 5 : true;
+        const correctLength: boolean =
             this.institution.length > 0 &&
             this.level.length > 0 &&
-            this.degree.length > 0 &&
+            this.degree.length > 0;
+        const dates: boolean =
             validateMonthYearString(this.start) &&
-            (validateMonthYearString(this.end) || this.end === '') &&
-            this.validateGpa()
-        );
+            (validateMonthYearString(this.end) || this.end === '');
+        return validateEmail(this.user) && gpa && correctLength && dates;
     }
 }

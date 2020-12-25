@@ -2,7 +2,6 @@ import { database } from '@shared/database';
 import { validateEmail } from '@shared/functions';
 import { ObjectId } from 'mongodb';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
-import Entity from '../Entity';
 
 export interface IEmailTransition {
     _id: ObjectId;

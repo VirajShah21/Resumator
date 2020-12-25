@@ -42,8 +42,8 @@ AppRouter.use((req, res, next) => {
                         session: Session;
                         resumeInfo: ResumeInfoTransformer;
                     } = {
-                        account: accountSession.account as Account,
-                        session: accountSession.session as Session,
+                        account: accountSession.account,
+                        session: accountSession.session,
                         resumeInfo: new ResumeInfoTransformer(
                             [],
                             [],
@@ -56,7 +56,7 @@ AppRouter.use((req, res, next) => {
                     ResumeInfoTransformer.fetch(
                         accountSession.account.email,
                         (resumeInfo) => {
-                            client.resumeInfo = resumeInfo as ResumeInfoTransformer;
+                            client.resumeInfo = resumeInfo;
                             Object.defineProperty(req, 'client', {
                                 value: client,
                                 writable: true,

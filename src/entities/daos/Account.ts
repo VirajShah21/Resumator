@@ -2,7 +2,6 @@ import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
 import Address, { IAddress } from '../models/Address';
 import { validateEmail } from '@shared/functions';
-import Entity from '../Entity';
 import DataAccessObject from '../DataAccessObject';
 
 /**
@@ -112,25 +111,29 @@ export default class Account extends DataAccessObject implements IAccount {
             });
     }
 
-    protected validatePhone(): boolean {
-        if (this.phone)
-            return (
-                this.phone.split('').filter((digit) => {
-                    return '1234567890 ()-'.indexOf(digit) < 0;
-                }).length === 0 && this.phone.length === 16
-            );
-        else return true;
+    private validateName(): boolean {
+        return this.fname.indexOf(' ') < 0 && this.lname.indexOf(' ') < 0;
     }
 
     public validate(): boolean {
+        const nameValid: boolean =
+            this.fname.indexOf(' ') < 0 && this.lname.indexOf(' ') < 0;
+        const addressValid: boolean = this.address
+            ? this.address.validate()
+            : true;
+
+        let phoneValid: boolean = this.phone
+            ? this.phone.split('').filter((digit) => {
+                  return '1234567890 ()-'.indexOf(digit) < 0;
+              }).length === 0 && this.phone.length === 16
+            : true;
+
         return (
-            (this.address ? this.address.validate() : true) &&
+            addressValid &&
             validateEmail(this.email) &&
-            this.fname.indexOf(' ') < 0 &&
-            this.lname.indexOf(' ') < 0 &&
+            nameValid &&
             this.password.length > 8 &&
-            this.validatePhone() &&
-            typeof this.emailVerified === 'boolean'
+            phoneValid
         );
     }
 }

@@ -1,7 +1,6 @@
 import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
 import { validateEmail, validateMonthYearString } from '@shared/functions';
-import Entity from '../Entity';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
@@ -94,13 +93,15 @@ export default class WorkExperience
     }
 
     public validate(): boolean {
+        const dates: boolean =
+            validateMonthYearString(this.start) && this.end.length
+                ? validateMonthYearString(this.end)
+                : false;
         return (
-            validateMonthYearString(this.end) ||
-            (this.end === '' &&
-                this.organization.length > 0 &&
-                this.position.length > 0 &&
-                validateMonthYearString(this.start) &&
-                validateEmail(this.user))
+            dates &&
+            this.organization.length > 0 &&
+            this.position.length > 0 &&
+            validateEmail(this.user)
         );
     }
 }

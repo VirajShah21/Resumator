@@ -1,7 +1,5 @@
 import { database } from '@shared/database';
 import { ObjectId } from 'mongodb';
-import { validateEmail, validateMonthYearString } from '@shared/functions';
-import Entity from '../Entity';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 /**
