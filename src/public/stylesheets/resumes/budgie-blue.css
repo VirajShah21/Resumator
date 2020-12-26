@@ -1,0 +1,160 @@
+:root {
+    --blue: #126dff;
+    --light-blue: #5295ff;
+    --dark-blue: #0a3a86;
+}
+
+h1 {
+    text-align: center;
+    font-size: 36pt;
+    color: var(--light-blue);
+    font-weight: bold;
+    margin: 0;
+}
+
+h4 {
+    margin: 0;
+    color: var(--dark-blue);
+}
+
+#contact {
+    text-align: center;
+    font-size: 12pt;
+}
+
+.date {
+    color: gray;
+    font-size: 10pt;
+}
+
+.p-12 {
+    padding: 12pt;
+    box-sizing: border-box;
+}
+
+.spacer-12 {
+    width: 12pt;
+}
+
+.title-cell {
+    padding-left: 12pt;
+    padding-right: 12pt;
+}
+
+.work-item {
+    padding-right: 12pt;
+}
+
+.education-item {
+    padding-left: 12pt;
+}
+
+td {
+    vertical-align: top;
+}
+
+h3 {
+    color: black;
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+p {
+    font-size: 10pt;
+    margin: 0;
+}
+
+.mb-12 {
+    margin-bottom: 12pt;
+}
+
+.text-blue {
+    color: var(--blue);
+}
+
+.text-light-blue {
+    color: var(--light-blue);
+}
+
+.text-dark-blue {
+    color: var(--dark-blue);
+}
+
+#left-col {
+    width: 33%;
+    height: 100%;
+    float: left;
+    padding: 0.25in;
+    box-sizing: border-box;
+    text-align: center;
+    color: white;
+}
+
+#left-col h3 {
+    color: white;
+}
+
+#white-box {
+    background: white;
+    width: 67%;
+    height: 100%;
+    float: right;
+    padding: 0.25in;
+    box-sizing: border-box;
+}
+
+#main-section {
+    margin-top: 0.5in;
+}
+
+h2 {
+    color: var(--light-blue);
+    margin-bottom: 1pt;
+    font-weight: bold;
+    font-size: 12pt;
+    text-transform: uppercase;
+}
+
+.blue-bar {
+    height: 0.05in;
+    width: 0.5in;
+    background: var(--light-blue);
+}
+
+.white-bar {
+    height: 1px;
+    width: 30%;
+    margin-left: 35%;
+    margin-right: 35%;
+    box-sizing: border-box;
+    background: white;
+    margin-top: 5pt;
+    margin-bottom: 10pt;
+}
+
+h3 small {
+    font-weight: inherit;
+    font-size: inherit;
+    color: gray;
+    float: right;
+}
+
+#profile-photo {
+    border-radius: 50%;
+    background: white;
+    width: 75%;
+}
+
+#contact-section {
+    margin-top: 0.5in;
+}
+
+.contact-info {
+    margin-bottom: 0.25in;
+}
+
+.description-line:before {
+    content: '—';
+}
