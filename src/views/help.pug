@@ -10,16 +10,7 @@ doctype html
 html(lang='en-US')
     head
         include components/head
-        style.
-            .container img {
-                max-width: 100%;
-                transition: 0.5s opacity;
-                opacity: 1;
-            }
-
-            .container img:hover {
-                opacity: 0.5;
-            }
+        link(rel='stylesheet' href='/stylesheets/help.css')
     body
         include components/navbar
 
@@ -33,79 +24,47 @@ html(lang='en-US')
                         h3
                             .btn
                                 ion-icon.text-primary(name='finger-print-outline')
-                            | Account Management
+                            | Resume Elements
                         ul.list-group
                             li.list-group-item
-                                a(href='?page=login-signup') Sign Up or Login
+                                a(href='?page=work-edu') Education and Work Experience
                             li.list-group-item
-                                a(href='?page=modify-contact-info') Edit Contact Information
+                                a(href='?page=modify-contact-info') Certification/Licenses, Awards/Honors
                             li.list-group-item
-                                a(href='?page=session-errors-explained') Session Errors Explained
+                                a(href='?page=session-errors-explained') Objective Statement
                             li.list-group-item
-                                a(href='?page=database-errors-explained') Database Errors Explained
+                                a(href='?page=database-errors-explained') Skills
                     .col-12.col-md-6.mb-4
                         h3
                             .btn
                                 ion-icon.text-primary(name='document-outline')
-                            | Resume Information
+                            | Resume Document Setup
                         ul.list-group
                             li.list-group-item
-                                a(href='?page=edit-education') Add, Edit, or Delete Education
+                                a(href='?page=edit-education') Standard vs Creative Resume
                             li.list-group-item
-                                a(href='?page=edit-work') Add, Edit, or Delete Work Experience
+                                a(href='?page=edit-work') Typography (Font Style)
                             li.list-group-item
-                                a(href='?page=edit-certifications') Add, Edit, or Delete Certifications
+                                a(href='?page=edit-certifications') Margins & Graphics
                             li.list-group-item
-                                a(href='?page=edit-skills') Add, Edit, or Delete Skills
+                                a(href='?page=edit-skills') Colors
                     .col-12.col-md-6.mb-4
                         h3
                             .btn
                                 ion-icon.text-primary(name='barbell-outline')
-                            | Resume Strength
+                            | Writing Style
                         ul.list-group
                             li.list-group-item
-                                a(href='?page=resume-strength-meters') Resume Strength Meters
+                                a(href='?page=resume-strength-meters') Bulleted Job/Education Description
                             li.list-group-item
-                                a(href='?page=resume-requirements') Resume Requirements
+                                a(href='?page=resume-requirements') Grammar and Spellcheck
                             li.list-group-item
-                                a(href='?page=resume-tips') Resume Tips
+                                a(href='?page=resume-tips') Contact and Personal Information
             else
-                .row
-                    .col-12
-                        nav
-                            ol.breadcrumb
-                                .breadcrumb-item
-                                    a(href='/app/help') Help
-                                .breadcrumb-item
-                                    a(href='/app/help')
-                                        if ["login-signup", "modify-contact-info"].indexOf(helpPage) >= 0
-                                            | Account Management
-                                        else if ["edit-education", "edit-work", "edit-certifications"].indexOf(helpPage) >= 0
-                                            | Resume Information
-                                .breadcrumb-item.active
-                                    case helpPage
-                                        when "login-signup"
-                                            | Signup or Login
-                                        when "modify-contact-info"
-                                            | Edit Contact Information
-                                        when "edit-education"
-                                            | Add, Edit, or Delete Education
-                                        when "edit-work"
-                                            | Add, Edit, or Delete Work Experience
-                                        when "edit-certifications"
-                                            | Add, Edit, or Delete Certifications
                 .mt-4
                     case helpPage
-                        when "login-signup"
-                            include help-pages/login-signup
-                        when "modify-contact-info"
-                            include help-pages/modify-contact-info
-                        when "edit-education"
-                            include help-pages/edit-education
-                        when "edit-work"
-                            include help-pages/edit-work
-                        when "edit-certifications"
-                            include help-pages/edit-certifications
+                        when "work-edu"
+                            include help-pages/work-edu
                         default
                             h2 Could not find the help page you requested
         include components/footer
