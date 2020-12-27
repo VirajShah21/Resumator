@@ -2,6 +2,10 @@
     font-family: 'Avenir Next';
 }
 
+.page {
+    padding: 0;
+}
+
 h1 {
     font-weight: lighter;
     font-size: 45pt;
@@ -28,11 +32,15 @@ hr {
     font-weight: 500;
 }
 
-.page {
-    padding: 0.5in;
-}
-
 .text-justify {
     text-align: justify;
     text-justify: kashida;
+}
+
+.left-content {
+    padding-left: 0.45in;
+}
+
+.right-content {
+    padding-right: 0.45in;
 }

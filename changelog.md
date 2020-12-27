@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 -   Changes font color for personal information — required for the resume labels turn red.
+-   New `Lux` theme
 
 ### Improvements
 

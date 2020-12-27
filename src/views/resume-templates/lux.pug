@@ -1,67 +1,81 @@
+mixin splitter(str)
+    each line in str.split('\n')
+        = line
+        br
+
 mixin work-experience(exp)
-    tr
-        td.demi-bold
-            i= exp.position
-            = ` at ${exp.organization}`
-        td.demi-bold.text-right= `${exp.start} — ${exp.end || 'Present'}`
-    tr
-        td(colspan='2')= exp.description
+    table.w-100(style='padding:10px')
+        tr
+            td.demi-bold
+                em= exp.position
+            td.demi-bold.text-right= `${exp.start} — ${exp.end || 'Present'}`
+        tr
+            td.demi-bold(colspan='2')= exp.organization
+        tr
+            td(colspan='2')
+                +splitter(exp.description)
 
 mixin education-item(edu)
-    tr
-        td.demi-bold
-            i= edu.degree
-        td.demi-bold.text-right= `${edu.start} — ${edu.end || 'Present'}`
-    tr
-        td(colspan='2')= edu.institution
-    tr
-        td(colspan='2')= edu.description
+    table.w-100(style='padding:10px')
+        tr
+            td.demi-bold
+                i= edu.degree
+            td.demi-bold.text-right= `${edu.start} — ${edu.end || 'Present'}`
+        tr
+            td.demi-bold(colspan='2')= edu.institution
+        tr
+            td(colspan='2')
+                +splitter(edu.description)
 
 mixin certification-item(cert)
-    tr
-        td.demi-bold
-            i= cert.certification
-        td.demi-bold.text-right= cert.examDate
-    tr
-        td.demi-bold(colspan='2')= cert.institution
-    tr
-        td(colspan='2')= cert.details
+    table.w-100(style='padding:10px')
+        tr
+            td.demi-bold
+                i= cert.certification
+            td.demi-bold.text-right= cert.examDate
+        tr
+            td.demi-bold(colspan='2')= cert.institution
+        tr
+            td(colspan='2')
+                +splitter(cert.details)
 
 mixin award-item(award)
-    tr
-        td= award.name
+    table.w-100(style='padding:10px')
+        tr
+            td= award.name
 
 mixin education-list
     if educationHistory
         hr
-        h3 Education
-        table.w-100
+        div.left-content
+            h3 Education
             each education in educationHistory
                 +education-item(education)
 
+
 mixin work-experience-list
     if workExperience
-        hr
-        h3 Work Experience
-        table.w-100
+        div.left-content
+            h3 Work Experience
             each experience in workExperience
                 +work-experience(experience)
 
 mixin certification-list
     if certifications
         hr
-        h3 Certifications
-        table.w-100(style='padding:10px')
+        div.right-content
+            h3 Certifications
             each cert in certifications
                 +certification-item(cert)
 
 mixin awards-list
     if awards
         hr
-        h3 Awards & Honors
-        table.w-100(style='padding:10px')
-            each award in awards
-                +award-item(award)
+        div.right-content
+            h3 Awards & Honors
+            table.w-100(style='padding:10px')
+                each award in awards
+                    +award-item(award)
 
 doctype html
 html(lang='en-US')
@@ -72,16 +86,12 @@ html(lang='en-US')
     body
         .page
             h1.text-center.m-0= `${account.fname} ${account.lname}`
-            hr
+            hr.m-0
             div
-                .float-left(style='width:59%')
-                    h3 Objective
-
-                    p.m-0.text-justify= account.objective
-
+                .float-left(style='width:59%;padding-top:8pt;')
                     +work-experience-list
                     +education-list
-                .float-right(style='width:40%;border-left:1px solid silver;')
+                .float-right(style='width:40%;border-left:1px solid silver;padding-top:8pt;')
                     h3 Contact Information
                     table(cellspacing='10')
                         tr
@@ -99,6 +109,13 @@ html(lang='en-US')
                                 if account.address.city && account.address.state && account.address.zip
                                     br
                                     = `${account.address.city}, ${account.address.state} ${account.address.zip}`
+                    if account.objective
+                        hr
+                        h3 Objective
+                        table.w-100(style='padding:10px')
+                            tr
+                                td
+                                    p.m-0.text-justify= account.objective
                     +certification-list
                     +awards-list
                                 
