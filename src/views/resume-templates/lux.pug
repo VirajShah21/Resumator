@@ -1,49 +1,108 @@
+mixin work-experience(exp)
+    tr
+        td.demi-bold
+            i= exp.position
+            = ` at ${exp.organization}`
+        td.demi-bold.text-right= `${exp.start} — ${exp.end || 'Present'}`
+    tr
+        td(colspan='2')= exp.description
+
+mixin education-item(edu)
+    tr
+        td.demi-bold
+            i= edu.degree
+        td.demi-bold.text-right= `${edu.start} — ${edu.end || 'Present'}`
+    tr
+        td(colspan='2')= edu.institution
+    tr
+        td(colspan='2')= edu.description
+
+mixin certification-item(cert)
+    tr
+        td.demi-bold
+            i= cert.certification
+        td.demi-bold.text-right= cert.examDate
+    tr
+        td.demi-bold(colspan='2')= cert.institution
+    tr
+        td(colspan='2')= cert.details
+
+mixin award-item(award)
+    tr
+        td= award.name
+
+mixin education-list
+    if educationHistory
+        hr
+        h3 Education
+        table.w-100
+            each education in educationHistory
+                +education-item(education)
+
+mixin work-experience-list
+    if workExperience
+        hr
+        h3 Work Experience
+        table.w-100
+            each experience in workExperience
+                +work-experience(experience)
+
+mixin certification-list
+    if certifications
+        hr
+        h3 Certifications
+        table.w-100(style='padding:10px')
+            each cert in certifications
+                +certification-item(cert)
+
+mixin awards-list
+    if awards
+        hr
+        h3 Awards & Honors
+        table.w-100(style='padding:10px')
+            each award in awards
+                +award-item(award)
+
 doctype html
-
-mixin section-title(label)
-    h2= label
-    .blue-bar &nbsp;
-    br
-
-mixin work-experience(experience)
-    h3= `${experience.position} // ${experience.organization}`
-        small= `${experience.start} - ${experience.end}`
-    p= experience.description
-
-mixin education(edu)
-    h3= edu.institution
-        small= `${edu.end.split("/")[2]}`
-    p= `${edu.level} // ${edu.degree}`
-    p= edu.description
-
-mixin certification(cert)
-    h3= cert.name
-        small= ` at ${cert.institution}`
-
-
 html(lang='en-US')
     head
         meta(charset='utf-8')
         link(rel='stylesheet' href='/stylesheets/resumes/resume.css')
-        style.
-            :root {
-                --primary: #d9bf71;
-                --bg: white;
-            }
-
-            .float-left {
-                float: left;
-            }
-
-            h1 {
-                color: var(--primary);
-            }
+        link(rel='stylesheet' href='/stylesheets/resumes/lux.css')
     body
         .page
+            h1.text-center.m-0= `${account.fname} ${account.lname}`
+            hr
             div
-                .float-left.text-right(style='width:2in')
-                    img(src='/app/account/my-photo' style='width:50%;border-radius:50%')
-                .float-left(style='padding-left:0.25in')
-                    h1(style='font-weight:normal')= `${account.fname} ${account.lname}`
+                .float-left(style='width:59%')
+                    h3 Objective
+
+                    p.m-0.text-justify= account.objective
+
+                    +work-experience-list
+                    +education-list
+                .float-right(style='width:40%;border-left:1px solid silver;')
+                    h3 Contact Information
+                    table(cellspacing='10')
+                        tr
+                            td.demi-bold Phone
+                            td= account.phone
+                        tr
+                            td.demi-bold Email
+                            td= account.email
+                        tr
+                            td.demi-bold(style='vertical-align:top') Address
+                            td= account.address.line1
+                                if account.address.line2
+                                    br
+                                    = account.address.line2
+                                if account.address.city && account.address.state && account.address.zip
+                                    br
+                                    = `${account.address.city}, ${account.address.state} ${account.address.zip}`
+                    +certification-list
+                    +awards-list
+                                
+
+
 
         script(src='https://unpkg.com/ionicons@5.1.2/dist/ionicons.js')
