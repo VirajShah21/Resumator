@@ -6,8 +6,9 @@
         "lint": "tslint --project \"tsconfig.json\"",
         "start": "node -r module-alias/register ./dist --env=production",
         "start:dev": "nodemon",
-        "test": "nodemon --config ./spec/nodemon.json && jest --coverage",
-        "eslint": "eslint . --ext .ts"
+        "test": "nodemon --config ./spec/nodemon.json",
+        "eslint": "eslint . --ext .ts",
+        "jest": "jest --coverage"
     },
     "nodemonConfig": {
         "watch": [
@@ -28,10 +29,19 @@
     "jestSonar": {
         "testResultsProcessor": "jest-sonar-reporter",
         "reportPath": "reports",
-        "reportFile": "test-report.xml",
-        "indent": 4,
-        "collectCoverage": true
+        "reportFile": "test-report.xml"
     },
+    "jest": {
+        "testEnvironment": "node",
+        "indent": 4,
+        "collectCoverage": true,
+        "testResultsProcessor": "jest-sonar-reporter",
+        "coveragePathIgnorePatterns": [
+          "node_modules/",
+          "spec/",
+          "dist"
+        ]
+      },
     "dependencies": {
         "@types/bcrypt": "^3.0.0",
         "@types/mongodb": "^3.5.25",
