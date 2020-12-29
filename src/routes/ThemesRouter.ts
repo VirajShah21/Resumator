@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { views } from '@shared/constants';
-import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
-import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
-import { getClient } from '@shared/functions';
+import { views } from '../shared/constants';
+import SessionErrorTransformer from '../transformers/SessionErrorTransformer';
+import ResumeInfoTransformer from '../transformers/ResumeInfoTransformer';
+import { getClient } from '../shared/functions';
 
 const ThemesRouter = Router();
 

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
 import { ObjectId } from 'mongodb';
-import Skill from '@entities/Skill';
-import { views, routes } from '@shared/constants';
-import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import { getClient } from '@shared/functions';
+import Skill from '../entities/daos/Skill';
+import { views, routes } from '../shared/constants';
+import DatabaseErrorTransformer from '../transformers/DatabaseErrorTransformer';
+import { getClient } from '../shared/functions';
 
 const DB_ERR = 'Could not delete skill.';
 const SkillsRouter = Router();

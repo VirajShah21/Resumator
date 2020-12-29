@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
-import WorkExperience from '@entities/WorkExperience';
+import WorkExperience from '../entities/daos/WorkExperience';
 import { ObjectId } from 'mongodb';
-import { views, routes } from '@shared/constants';
-import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import { getClient } from '@shared/functions';
+import { views, routes } from '../shared/constants';
+import DatabaseErrorTransformer from '../transformers/DatabaseErrorTransformer';
+import { getClient } from '../shared/functions';
 
 const WorkExperienceRouter = Router();
 const jsonParser = bodyParserJson();

@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { database } from '@shared/database';
-import { validateMonthYearString, validateEmail } from '@shared/functions';
+import { database } from '../../shared/database';
+import { validateMonthYearString, validateEmail } from '../../shared/functions';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 
 const CERT_COLLECTION = 'certifications';

@@ -1,6 +1,6 @@
-import { generateKey, KEYLENGTH } from '@shared/functions';
-import { database } from '@shared/database';
-import { IAccount } from '@entities/Account';
+import { generateKey, KEYLENGTH } from '../../shared/functions';
+import { database } from '../../shared/database';
+import { IAccount } from '../../entities/daos/Account';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 import { ObjectId } from 'mongodb';
 

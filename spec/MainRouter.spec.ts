@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '@server';
+import app from '../src/Server';
 
 describe('Testing routes (/) on root router', () => {
     it('Testing Route: /', (done) => {

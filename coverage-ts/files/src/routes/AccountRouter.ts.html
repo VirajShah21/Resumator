@@ -1,0 +1,484 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>AccountRouter.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/routes/AccountRouter.ts</td><td class="">91.09%</td><td class="">80%</td><td class="">696</td><td class="">634</td><td class="">62</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { Response, Router } from &#x27;express&#x27;;
+import { json as bodyParserJson } from &#x27;body-parser&#x27;;
+import Session from &#x27;@entities/Session&#x27;;
+import Account from &#x27;@entities/Account&#x27;;
+import {
+    hashPassword,
+    comparePasswordWithHash,
+    generateVerifyPin,
+    getClient,
+    assertGoodClient,
+    assertDefined,
+} from &#x27;@shared/functions&#x27;;
+import Address from &#x27;@entities/Address&#x27;;
+import { views, routes } from &#x27;@shared/constants&#x27;;
+import SessionErrorTransformer from &#x27;@transformers/SessionErrorTransformer&#x27;;
+import DatabaseErrorTransformer from &#x27;@transformers/DatabaseErrorTransformer&#x27;;
+import { ObjectId } from &#x27;mongodb&#x27;;
+import multer from &#x27;multer&#x27;;
+import path from &#x27;path&#x27;;
+import { exec } from &#x27;child_process&#x27;;
+import fs from &#x27;fs&#x27;;
+import { uploadProfilePhoto } from &#x27;@shared/cloud&#x27;;
+import logger from &#x27;@shared/Logger&#x27;;
+import { VerifyEmailer } from &#x27;@shared/util/Emailer&#x27;;
+import EmailTransition from &#x27;@entities/EmailTransition&#x27;;
+import Certification from &#x27;@entities/Certification&#x27;;
+import Education from &#x27;@entities/Education&#x27;;
+import Skill from &#x27;@entities/Skill&#x27;;
+import WorkExperience from &#x27;@entities/WorkExperience&#x27;;
+import { assert } from &#x27;console&#x27;;
+
+const AccountRouter = Router();
+
+AccountRouter.use(bodyParserJson());
+
+const profilePhotoUploads: unknown = {};
+const verifyEmailTokens: {
+    email: string;
+    userId: ObjectId;
+    token: string;
+}[] = [];
+
+// Setup temp storage directory
+exec(&#x27;mkdir /tmp&#x27;, () =&gt; {
+    if (!fs.existsSync(&#x27;/tmp&#x27;)) {
+        logger.error(&#x27;Could not create /tmp&#x27;);
+    } else {
+        logger.info(&#x27;Created /tmp&#x27;);
+        exec(&#x27;mkdir /tmp/profile_photos&#x27;, () =&gt; {
+            if (!fs.existsSync(&#x27;/tmp/profile_photos&#x27;)) {
+                logger.error(&#x27;Could not create /tmp/profile_photos&#x27;);
+            } else {
+                logger.info(&#x27;Created /tmp/profile_photos&#x27;);
+            }
+        });
+    }
+});
+
+AccountRouter.get(&#x27;/&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+    if (client &amp;&amp; client.account) {
+        res.render(&#x27;manage-account&#x27;, {
+            nav: &#x27;Account&#x27;,
+            account: client.account,
+        });
+    } else {
+        res.render(views.accountPage, {
+            nav: &#x27;Account&#x27;,
+        });
+    }
+});
+
+AccountRouter.post(&#x27;/signup&#x27;, (req, res) =&gt; {
+    if (req.body.password === req.body.passwordconf) {
+        hashPassword(req.body.password, (hash) =&gt; {
+            const account = new Account({
+                _id: new ObjectId(),
+                fname: req.body.fname,
+                lname: req.body.lname,
+                email: req.body.email,
+                password: hash,
+                emailVerified: false,
+            });
+            account.insertDatabaseItem((accountSuccess) =&gt; {
+                if (accountSuccess) {
+                    const session: Session = new Session(account);
+                    session.insertDatabaseItem((sessionSuccess) =&gt; {
+                        if (sessionSuccess) {
+                            // Send an email verification email
+                            const emailer = new VerifyEmailer(account._id);
+                            const verifyPin = generateVerifyPin();
+                            emailer.sendVerifyEmail(verifyPin);
+                            verifyEmailTokens.push({
+                                email: account.email,
+                                userId: new ObjectId(account._id),
+                                token: verifyPin,
+                            });
+
+                            res.cookie(&#x27;session&#x27;, session.key);
+                            res.redirect(routes.dashboard);
+                        } else {
+                            res.render(
+                                views.genericError,
+                                new DatabaseErrorTransformer(
+                                    &#x27;Could not create a new session. Your account was created, however, you will need to login manually.&#x27;
+                                )
+                            );
+                        }
+                    });
+                } else {
+                    res.render(
+                        views.genericError,
+                        new DatabaseErrorTransformer(
+                            &#x27;Could not create a new account.&#x27;
+                        )
+                    );
+                }
+            });
+        });
+    } else {
+        res.render(views.genericError, {
+            error: `Passwords don&#x27;t match`,
+            message:
+                &#x27;Your password and confirmation password do not match. Please make sure they are typed exactly the same. Passwords are case sensitive&#x27;,
+        });
+    }
+});
+
+/**
+ * Helper method to transition an account to a new email
+ *
+ * @param accountUpdated True if the account update was successful
+ * @param oldEmail The previous email
+ * @param newEmail The new email
+ * @param res The express response object, to send the final response to
+ */
+function beginEmailTransition(
+    accountUpdated: boolean,
+    oldEmail: string,
+    newEmail: string,
+    res: Response
+): void {
+    if (accountUpdated) {
+        res.redirect(routes.dashboard);
+
+        // Begin the email transition
+        const emailTransition = new EmailTransition(oldEmail, newEmail);
+        emailTransition.insertDatabaseItem(() =&gt; {
+            logger.info(
+                `Transitioning account from ${oldEmail} -&gt; ${newEmail}`
+            );
+        });
+    } else
+        res.render(
+            views.genericError,
+            new DatabaseErrorTransformer(&#x27;Could not update account info&#x27;)
+        );
+}
+
+AccountRouter.post(&#x27;/update&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+
+    assertGoodClient(client);
+
+    const account: Account = client.account;
+
+    account.fname = req.body.fname || account.fname;
+    account.lname = req.body.lname || account.lname;
+
+    // If the email address has changed
+    if (req.body.email !== account.email) {
+        const oldEmail: string = account.email;
+        const newEmail: string = req.body.email;
+
+        account.emailVerified = false;
+        account.email = newEmail || oldEmail;
+
+        // Create new session cookie and db item for the new account email
+        const newSession = new Session(account);
+        newSession.insertDatabaseItem((success) =&gt; {
+            if (success) res.cookie(&#x27;session&#x27;, newSession.key);
+
+            if (req.body.line1) {
+                account.address = new Address({
+                    line1: req.body.line1,
+                    line2: req.body.line2,
+                    city: req.body.city,
+                    state: req.body.state,
+                    zip: req.body.zip,
+                });
+            }
+
+            account.phone = req.body.phone;
+
+            // Send an email verification email
+            const emailer = new VerifyEmailer(account._id);
+            const verifyPin = generateVerifyPin();
+            emailer.sendVerifyEmail(verifyPin);
+            verifyEmailTokens.push({
+                email: newEmail,
+                userId: new ObjectId(account._id),
+                token: verifyPin,
+            });
+
+            // Update item in the database
+            account.updateDatabaseItem((success2) =&gt; {
+                assertDefined(success2);
+                beginEmailTransition(success2, oldEmail, newEmail, res);
+            });
+        });
+    } else {
+        if (req.body.line1) {
+            account.address = new Address({
+                line1: req.body.line1,
+                line2: req.body.line2,
+                city: req.body.city,
+                state: req.body.state,
+                zip: req.body.zip,
+            });
+        }
+
+        account.phone = req.body.phone;
+
+        account.updateDatabaseItem((success) =&gt; {
+            if (success) res.redirect(routes.dashboard);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(
+                        &#x27;Could not update account info&#x27;
+                    )
+                );
+        });
+    }
+});
+
+AccountRouter.post(&#x27;/update-goal&#x27;, (req, res) =&gt; {
+    const account = getClient(req)?.account;
+    if (account) {
+        account.currentGoal = req.body.goal;
+        account.objective = req.body.objective;
+        account.updateDatabaseItem((success) =&gt; {
+            if (success) res.redirect(routes.dashboardCard.goals);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(&#x27;Could not update goal &#x27;)
+                );
+        });
+    }
+});
+
+AccountRouter.post(&#x27;/login&#x27;, (req, res) =&gt; {
+    Account.loadFromDatabase(req.body.email, (account) =&gt; {
+        if (account) {
+            comparePasswordWithHash(
+                req.body.password,
+                account.password,
+                (correctPassword) =&gt; {
+                    if (correctPassword) {
+                        const session: Session = new Session(account);
+                        res.cookie(&#x27;session&#x27;, session.key);
+                        session.insertDatabaseItem((isSessionAdded) =&gt; {
+                            if (isSessionAdded) res.redirect(routes.dashboard);
+                            else
+                                res.render(
+                                    views.genericError,
+                                    new DatabaseErrorTransformer(
+                                        &#x27;Could not create a new session.&#x27;
+                                    )
+                                );
+                        });
+                    } else {
+                        res.render(views.genericError, {
+                            error: &#x27;Wrong Password&#x27;,
+                            message:
+                                &#x27;You entered an incorrect password. Passwords are case sensitive&#x27;,
+                        });
+                    }
+                }
+            );
+        } else {
+            res.render(views.genericError, new SessionErrorTransformer());
+        }
+    });
+});
+
+AccountRouter.get(&#x27;/logout&#x27;, (req, res) =&gt; {
+    res.cookie(&#x27;session&#x27;, &#x27;&#x27;, {
+        expires: new Date(Date.now()),
+    });
+    res.redirect(&#x27;/app/account&#x27;);
+});
+
+AccountRouter.post(
+    &#x27;/profile-pic/change&#x27;,
+    multer({
+        storage: multer.diskStorage({
+            destination: (req, file, cb) =&gt; {
+                cb(null, &#x27;/tmp/profile_photos&#x27;);
+            },
+            filename: (req, file, cb) =&gt; {
+                const filename = `${Date.now()}-${file.filename}`;
+                Object.defineProperty(
+                    profilePhotoUploads,
+                    req.cookies.session,
+                    {
+                        value: filename,
+                        writable: true,
+                    }
+                );
+                cb(null, filename);
+            },
+        }),
+        limits: {
+            fileSize: 8000000, // Sensitive: 10MB is more than the recommended limit of 8MB
+        },
+    }).single(&#x27;file&#x27;),
+    (req, res) =&gt; {
+        const client = getClient(req);
+
+        if (client) {
+            const destination = &#x27;/tmp/profile_photos&#x27;;
+            const filename = Object.getOwnPropertyDescriptor(
+                profilePhotoUploads,
+                req.cookies.session
+            )?.value;
+            // const filename = profilePhotoUploads[req.cookies.session];
+            const fullpath = path.join(destination, filename as string);
+            const account = client.account;
+
+            uploadProfilePhoto(fullpath, account._id);
+            account.photo = true;
+            account.updateDatabaseItem((success) =&gt; {
+                if (success)
+                    res.send(&#x27;Great! Your profile photo has been updated!&#x27;);
+                else res.send(&#x27;There seems to be an issue with your account.&#x27;);
+            });
+        }
+    }
+);
+
+AccountRouter.get(&#x27;/my-photo&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+    if (client &amp;&amp; client.account) {
+        if (client.account.photo)
+            res.redirect(
+                `https://res.cloudinary.com/virajshah/image/upload/v1600066438/profile_photos/${client.account._id}.jpg`
+            );
+        else res.redirect(&#x27;https://placehold.it/300x300&#x27;);
+    } else res.redirect(&#x27;https://placehold.it/300x300&#x27;);
+});
+
+/**
+ * /app/account/verify?token=&lt;token&gt;
+ */
+AccountRouter.get(&#x27;/verify&#x27;, (req, res) =&gt; {
+    const token: string = req.query.token as string;
+    const client = getClient(req);
+    assertGoodClient(client);
+
+    logger.info(`Verifying account with PIN ${token}`);
+
+    const tokenInfo = verifyEmailTokens.find((verifyObject) =&gt; {
+        return verifyObject.token === token;
+    });
+
+    if (tokenInfo) {
+        const account: Account = client.account;
+
+        if (
+            account._id.toString() === tokenInfo?.userId.toString() &amp;&amp;
+            account.email === tokenInfo?.email
+        ) {
+            account.emailVerified = true;
+            account.updateDatabaseItem((success) =&gt; {
+                if (success) {
+                    logger.info(`Account ${account.email} has been verified`);
+
+                    // Transition all database documents to use the new email
+
+                    res.redirect(&#x27;/app/dashboard&#x27;);
+                } else {
+                    logger.info(
+                        `There was an error updating ${account.email} to verify the email.`
+                    );
+                    res.render(&#x27;errors/UnknownError&#x27;);
+                }
+            });
+
+            // Begin transition of all database items with the verified email
+            EmailTransition.loadFromDatabase(
+                account.email,
+                (emailTransitionObj) =&gt; {
+                    if (emailTransitionObj) {
+                        const oldEmail: string = emailTransitionObj.oldEmail;
+                        const newEmail: string = emailTransitionObj.newEmail;
+
+                        // Transition all certifications
+                        Certification.loadFromDatabase(
+                            oldEmail,
+                            (certifications) =&gt; {
+                                certifications.forEach((certification) =&gt; {
+                                    certification.user = newEmail;
+                                    certification.updateDatabaseItem(() =&gt; {});
+                                });
+                            }
+                        );
+
+                        // Transition all education
+                        Education.loadFromDatabase(oldEmail, (edus) =&gt; {
+                            edus.forEach((edu) =&gt; {
+                                edu.user = newEmail;
+                                edu.updateDatabaseItem(() =&gt; {});
+                            });
+                        });
+
+                        // Transition all skills
+                        Skill.loadFromDatabase(oldEmail, (skills) =&gt; {
+                            skills.forEach((skill) =&gt; {
+                                skill.user = newEmail;
+                                skill.updateDatabaseItem(() =&gt; {});
+                            });
+                        });
+
+                        // Transition all work experience
+                        WorkExperience.loadFromDatabase(
+                            oldEmail,
+                            (workHistory) =&gt; {
+                                workHistory.forEach((workExp) =&gt; {
+                                    workExp.user = newEmail;
+                                    workExp.updateDatabaseItem(() =&gt; {});
+                                });
+                            }
+                        );
+                    }
+                }
+            );
+        } else {
+            logger.info(
+                `Account ${account.email} did not match the verification ID`
+            );
+            res.render(&#x27;errors/UnknownError&#x27;);
+        }
+    } else res.render(&#x27;errors/UnknownError&#x27;);
+});
+
+AccountRouter.get(&#x27;/resend-verification&#x27;, (req, res) =&gt; {
+    const account = getClient(req)?.account;
+
+    if (account) {
+        // Send an email verification email
+        const emailer = new VerifyEmailer(account._id);
+        const verifyPin = generateVerifyPin();
+        emailer.sendVerifyEmail(verifyPin);
+        verifyEmailTokens.push({
+            email: account.email,
+            userId: new ObjectId(account._id),
+            token: verifyPin,
+        });
+    }
+
+    res.redirect(&#x27;/app/account&#x27;);
+});
+
+export default AccountRouter;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:12,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:17,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:34,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:73,&quot;character&quot;:39,&quot;text&quot;:&quot;passwordconf&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:74,&quot;character&quot;:25,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:74,&quot;character&quot;:30,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:77,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:77,&quot;character&quot;:32,&quot;text&quot;:&quot;fname&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:78,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:78,&quot;character&quot;:32,&quot;text&quot;:&quot;lname&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:79,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:79,&quot;character&quot;:32,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:166,&quot;character&quot;:24,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:166,&quot;character&quot;:29,&quot;text&quot;:&quot;fname&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:167,&quot;character&quot;:24,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:167,&quot;character&quot;:29,&quot;text&quot;:&quot;lname&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:170,&quot;character&quot;:12,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:170,&quot;character&quot;:17,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:172,&quot;character&quot;:37,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:172,&quot;character&quot;:42,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:182,&quot;character&quot;:20,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:182,&quot;character&quot;:25,&quot;text&quot;:&quot;line1&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:184,&quot;character&quot;:31,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:184,&quot;character&quot;:36,&quot;text&quot;:&quot;line1&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:185,&quot;character&quot;:31,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:185,&quot;character&quot;:36,&quot;text&quot;:&quot;line2&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:186,&quot;character&quot;:30,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:186,&quot;character&quot;:35,&quot;text&quot;:&quot;city&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:187,&quot;character&quot;:31,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:187,&quot;character&quot;:36,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:188,&quot;character&quot;:29,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:188,&quot;character&quot;:34,&quot;text&quot;:&quot;zip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:192,&quot;character&quot;:32,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:192,&quot;character&quot;:37,&quot;text&quot;:&quot;phone&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:211,&quot;character&quot;:16,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:211,&quot;character&quot;:21,&quot;text&quot;:&quot;line1&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:213,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:213,&quot;character&quot;:32,&quot;text&quot;:&quot;line1&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:214,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:214,&quot;character&quot;:32,&quot;text&quot;:&quot;line2&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:215,&quot;character&quot;:26,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:215,&quot;character&quot;:31,&quot;text&quot;:&quot;city&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:216,&quot;character&quot;:27,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:216,&quot;character&quot;:32,&quot;text&quot;:&quot;state&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:217,&quot;character&quot;:25,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:217,&quot;character&quot;:30,&quot;text&quot;:&quot;zip&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:221,&quot;character&quot;:28,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:221,&quot;character&quot;:33,&quot;text&quot;:&quot;phone&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:239,&quot;character&quot;:34,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:239,&quot;character&quot;:39,&quot;text&quot;:&quot;goal&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:240,&quot;character&quot;:32,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:240,&quot;character&quot;:37,&quot;text&quot;:&quot;objective&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:253,&quot;character&quot;:33,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:253,&quot;character&quot;:38,&quot;text&quot;:&quot;email&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:256,&quot;character&quot;:20,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:256,&quot;character&quot;:25,&quot;text&quot;:&quot;password&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:305,&quot;character&quot;:24,&quot;text&quot;:&quot;cookies&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:305,&quot;character&quot;:32,&quot;text&quot;:&quot;session&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:323,&quot;character&quot;:18,&quot;text&quot;:&quot;filename&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:325,&quot;character&quot;:20,&quot;text&quot;:&quot;cookies&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:325,&quot;character&quot;:28,&quot;text&quot;:&quot;session&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AccountRouter.ts&quot;,&quot;line&quot;:326,&quot;character&quot;:15,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 29 Dec 2020 07:34:25 GMT</p>
+    </body>
+  </html>
+  

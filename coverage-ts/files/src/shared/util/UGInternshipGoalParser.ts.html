@@ -1,0 +1,121 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>UGInternshipGoalParser.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/shared/util/UGInternshipGoalParser.ts</td><td class="">100.00%</td><td class="">80%</td><td class="">124</td><td class="">124</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { ISuggestion, IGoalResults } from &#x27;./GoalInterfaces&#x27;;
+import ResumeInfoTransformer from &#x27;@transformers/ResumeInfoTransformer&#x27;;
+
+/**
+ * Undergraduate Internship Goal Parser
+ */
+export default class UGInternshipGoalParser {
+    public static readonly requiredUndergrad: ISuggestion = {
+        for: &#x27;education&#x27;,
+        message:
+            &#x27;When applying for an undergraduate internship, it is required that you have at least one undergraduate education listed&#x27;,
+    };
+
+    public static readonly requiredSkills: ISuggestion = {
+        for: &#x27;skills&#x27;,
+        message:
+            &#x27;You should have at least 5 skills... an internship is a job, where you use your existing skills to learn your field more in depth!&#x27;,
+    };
+
+    public static readonly highSchoolTip: ISuggestion = {
+        for: &#x27;education&#x27;,
+        message:
+            &#x27;Adding a high school to your resume would strengthen your education history&#x27;,
+    };
+
+    public static readonly previousWorkTip: ISuggestion = {
+        for: &#x27;work&#x27;,
+        message:
+            &#x27;Listing any previous work experience (even if irrelevant) could increase your chances of landing your next job&#x27;,
+        helpLink: &#x27;#&#x27;,
+        helpMessage: &#x27;What work experience should I list?&#x27;,
+    };
+
+    public static readonly certificationTip: ISuggestion = {
+        for: &#x27;certifications&#x27;,
+        message:
+            &#x27;Adding a certification to your resume will make you stand out, especially as an undergrad. Find a course online, learn a little, and get certified!&#x27;,
+    };
+
+    public static readonly requiredEducation: ISuggestion = {
+        for: &#x27;education&#x27;,
+        message: `You don&#x27;t have any education! Nobody will hire you for an internship.`,
+    };
+
+    public static readonly requiredHighschool: ISuggestion = {
+        for: &#x27;education&#x27;,
+        message: `Your resume isn&#x27;t strong enough to hide your high school education.`,
+    };
+
+    /**
+     * Handles parsing resumes for undergraduate internships
+     *
+     * @param resumeInfo The user&#x27;s resume information
+     * @returns The suggestions for the resume
+     */
+    public static handle(resumeInfo: ResumeInfoTransformer): IGoalResults {
+        const results: IGoalResults = { requirements: [], tips: [] };
+
+        if (resumeInfo.educationHistory.length === 0)
+            results.requirements.push(UGInternshipGoalParser.requiredEducation);
+
+        if (
+            resumeInfo.educationHistory.filter((edu) =&gt; {
+                return edu.level === &#x27;Undergraduate&#x27;;
+            }).length === 0
+        )
+            results.requirements.push(UGInternshipGoalParser.requiredUndergrad);
+
+        if (
+            resumeInfo.skillset.filter((skill) =&gt; {
+                return skill.proficiency &gt;= 0.67;
+            }).length &lt; 5
+        )
+            results.requirements.push(UGInternshipGoalParser.requiredSkills);
+
+        if (
+            resumeInfo.educationHistory.filter((edu) =&gt; {
+                return edu.level === &#x27;High School&#x27;;
+            }).length === 0 &amp;&amp;
+            resumeInfo.educationHistory.length &gt; 0
+        )
+            results.tips.push(UGInternshipGoalParser.highSchoolTip);
+
+        if (
+            resumeInfo.educationHistory.filter((edu) =&gt; {
+                return edu.level === &#x27;High School&#x27;;
+            }).length === 0 &amp;&amp;
+            resumeInfo.educationHistory.length &lt; 2 &amp;&amp;
+            resumeInfo.certifications.length === 0
+        )
+            results.requirements.push(
+                UGInternshipGoalParser.requiredHighschool
+            );
+
+        if (resumeInfo.workExperience.length === 0)
+            results.tips.push(UGInternshipGoalParser.previousWorkTip);
+
+        if (resumeInfo.certifications.length === 0)
+            results.tips.push(UGInternshipGoalParser.certificationTip);
+
+        return results;
+    }
+}
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 29 Dec 2020 07:34:25 GMT</p>
+    </body>
+  </html>
+  

@@ -1,5 +1,5 @@
-import Account from '@entities/Account';
-import logger from '@shared/Logger';
+import Account from '../../entities/daos/Account';
+import logger from '../Logger';
 import { ObjectId } from 'mongodb';
 import nodemailer from 'nodemailer';
 import fs from 'fs';

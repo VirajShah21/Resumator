@@ -1,6 +1,6 @@
-import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
-import Account from '@entities/Account';
-import Session from '@entities/Session';
+import ResumeInfoTransformer from '../../transformers/ResumeInfoTransformer';
+import Account from '../daos/Account';
+import Session from '../daos/Session';
 
 export default interface IClientWrapper {
     account: Account;

@@ -1,6 +1,6 @@
-import Account from '@entities/Account';
-import IClientWrapper from '@entities/IClientWrapper';
-import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
+import Account from 'src/entities/daos/Account';
+import IClientWrapper from 'src/entities/models/IClientWrapper';
+import ResumeInfoTransformer from 'src/transformers/ResumeInfoTransformer';
 import Bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { Session } from 'inspector';

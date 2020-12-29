@@ -1,0 +1,92 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>AwardsRouter.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/routes/AwardsRouter.ts</td><td class="">92.66%</td><td class="">80%</td><td class="">109</td><td class="">101</td><td class="">8</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { Router } from &#x27;express&#x27;;
+import { json as bodyParserJson } from &#x27;body-parser&#x27;;
+import { ObjectId } from &#x27;mongodb&#x27;;
+import { views, routes } from &#x27;@shared/constants&#x27;;
+import DatabaseErrorTransformer from &#x27;@transformers/DatabaseErrorTransformer&#x27;;
+import { getClient } from &#x27;@shared/functions&#x27;;
+import Award from &#x27;@entities/Award&#x27;;
+
+const AwardsRouter = Router();
+const jsonParser = bodyParserJson();
+
+AwardsRouter.post(&#x27;/add&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+
+    if (!client) {
+        res.send(&#x27;Access denied&#x27;);
+        return;
+    }
+
+    const award = new Award({
+        _id: new ObjectId(),
+        user: client.account.email,
+        name: req.body[&#x27;award-name&#x27;],
+    });
+
+    award.insertDatabaseItem((success) =&gt; {
+        if (success) res.redirect(routes.dashboardCard.awards);
+        else
+            res.render(
+                views.genericError,
+                new DatabaseErrorTransformer(
+                    &#x27;Could not add the award to your dashboard.&#x27;
+                )
+            );
+    });
+});
+
+AwardsRouter.post(&#x27;/update&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+    if (!client) {
+        res.send(&#x27;Access denied&#x27;);
+        return;
+    }
+    const award = new Award({
+        _id: req.body._id,
+        user: client.account.email,
+        name: req.body[&#x27;award-name&#x27;],
+    });
+
+    if (req.body.delete === &#x27;on&#x27;) {
+        award.deleteDatabaseItem((success) =&gt; {
+            if (success) res.redirect(routes.dashboardCard.awards);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(
+                        &#x27;Could not not delete this award.&#x27;
+                    )
+                );
+        });
+    } else {
+        award._id = new ObjectId(req.body._id);
+        award.updateDatabaseItem((success) =&gt; {
+            if (success) res.redirect(routes.dashboardCard.awards);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(&#x27;Could not update award.&#x27;)
+                );
+        });
+    }
+});
+
+export default AwardsRouter;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:22,&quot;character&quot;:18,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:44,&quot;character&quot;:17,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:44,&quot;character&quot;:22,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:46,&quot;character&quot;:18,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:49,&quot;character&quot;:12,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:49,&quot;character&quot;:17,&quot;text&quot;:&quot;delete&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:37,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/AwardsRouter.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:42,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 29 Dec 2020 07:34:25 GMT</p>
+    </body>
+  </html>
+  

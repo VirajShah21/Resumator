@@ -35,10 +35,6 @@ jobs:
               run: npm install bcrypt --build-from-source
             - name: Build server
               run: npm run build
-            - name: Install Jest globally
-              run: sudo npm install -g jest
-            - name: Run Tests
-              run: npm run jest
             # - name: Start Server
             #   run: npm run start
             #   env:

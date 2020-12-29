@@ -1,7 +1,7 @@
-import Account from '@entities/Account';
-import GoalParser from '@shared/util/GoalParser';
-import { IGoalResults, ISuggestion } from '@shared/util/GoalInterfaces';
-import ResumeInfoTransformer from '@transformers/ResumeInfoTransformer';
+import Account from '../entities/daos/Account';
+import GoalParser from '../shared/util/GoalParser';
+import { IGoalResults, ISuggestion } from '../shared/util/GoalInterfaces';
+import ResumeInfoTransformer from './ResumeInfoTransformer';
 
 export default class ResumeAnalysisTransformer {
     public requirements: ISuggestion[];

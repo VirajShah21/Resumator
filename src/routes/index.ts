@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import AppRouter from './AppRouter';
 import ApiRouter from './api';
-import { views } from '@shared/constants';
-import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
+import { views } from '../shared/constants';
+import AccountSessionTransformer from '../transformers/AccountSessionTransformer';
 
 export const PREFIX = '/';
 

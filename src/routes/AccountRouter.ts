@@ -1,7 +1,7 @@
 import { Response, Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
-import Session from '@entities/Session';
-import Account from '@entities/Account';
+import Session from '../entities/daos/Session';
+import Account from '../entities/daos/Account';
 import {
     hashPassword,
     comparePasswordWithHash,
@@ -9,24 +9,24 @@ import {
     getClient,
     assertGoodClient,
     assertDefined,
-} from '@shared/functions';
-import Address from '@entities/Address';
-import { views, routes } from '@shared/constants';
-import SessionErrorTransformer from '@transformers/SessionErrorTransformer';
-import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
+} from '../shared/functions';
+import Address from '../entities/models/Address';
+import { views, routes } from '../shared/constants';
+import SessionErrorTransformer from '../transformers/SessionErrorTransformer';
+import DatabaseErrorTransformer from '../transformers/DatabaseErrorTransformer';
 import { ObjectId } from 'mongodb';
 import multer from 'multer';
 import path from 'path';
 import { exec } from 'child_process';
 import fs from 'fs';
-import { uploadProfilePhoto } from '@shared/cloud';
-import logger from '@shared/Logger';
-import { VerifyEmailer } from '@shared/util/Emailer';
-import EmailTransition from '@entities/EmailTransition';
-import Certification from '@entities/Certification';
-import Education from '@entities/Education';
-import Skill from '@entities/Skill';
-import WorkExperience from '@entities/WorkExperience';
+import { uploadProfilePhoto } from '../shared/cloud';
+import logger from '../shared/Logger';
+import { VerifyEmailer } from '../shared/util/Emailer';
+import EmailTransition from '../entities/daos/EmailTransition';
+import Certification from '../entities/daos/Certification';
+import Education from '../entities/daos/Education';
+import Skill from '../entities/daos/Skill';
+import WorkExperience from '../entities/daos/WorkExperience';
 import { assert } from 'console';
 
 const AccountRouter = Router();
@@ -239,7 +239,7 @@ AccountRouter.post('/update-goal', (req, res) => {
     if (account) {
         account.currentGoal = req.body.goal;
         account.objective = req.body.objective;
-        account.updateDatabaseItem((success) => {
+        account.updateDatabaseItem((success: boolean) => {
             if (success) res.redirect(routes.dashboardCard.goals);
             else
                 res.render(
@@ -331,7 +331,7 @@ AccountRouter.post(
 
             uploadProfilePhoto(fullpath, account._id);
             account.photo = true;
-            account.updateDatabaseItem((success) => {
+            account.updateDatabaseItem((success: boolean) => {
                 if (success)
                     res.send('Great! Your profile photo has been updated!');
                 else res.send('There seems to be an issue with your account.');

@@ -1,7 +1,7 @@
-import { database } from '@shared/database';
+import { database } from '../../shared/database';
 import { ObjectId } from 'mongodb';
 import Address, { IAddress } from '../models/Address';
-import { validateEmail } from '@shared/functions';
+import { validateEmail } from '../../shared/functions';
 import DataAccessObject from '../DataAccessObject';
 
 /**

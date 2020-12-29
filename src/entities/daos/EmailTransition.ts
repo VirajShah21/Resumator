@@ -1,5 +1,5 @@
-import { database } from '@shared/database';
-import { validateEmail } from '@shared/functions';
+import { database } from '../../shared/database';
+import { validateEmail } from '../../shared/functions';
 import { ObjectId } from 'mongodb';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 

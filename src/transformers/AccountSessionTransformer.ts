@@ -1,5 +1,5 @@
-import Account, { IAccount } from '@entities/Account';
-import Session, { ISession } from '@entities/Session';
+import Account, { IAccount } from '../entities/daos/Account';
+import Session, { ISession } from '../entities/daos/Session';
 
 export default class AccountSessionTransformer {
     account: Account;

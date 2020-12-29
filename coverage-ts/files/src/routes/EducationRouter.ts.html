@@ -1,0 +1,101 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>EducationRouter.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">src/routes/EducationRouter.ts</td><td class="">80.65%</td><td class="">80%</td><td class="">155</td><td class="">125</td><td class="">30</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { Router } from &#x27;express&#x27;;
+import { json as bodyParserJson } from &#x27;body-parser&#x27;;
+import Education from &#x27;@entities/Education&#x27;;
+import { ObjectId } from &#x27;mongodb&#x27;;
+import { views, routes } from &#x27;@shared/constants&#x27;;
+import DatabaseErrorTransformer from &#x27;@transformers/DatabaseErrorTransformer&#x27;;
+import { getClient } from &#x27;@shared/functions&#x27;;
+
+const EducationRouter = Router();
+const jsonParser = bodyParserJson();
+
+EducationRouter.post(&#x27;/add&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+    if (!client) {
+        res.send(&#x27;Access denied&#x27;);
+        return;
+    }
+    const education = new Education({
+        _id: new ObjectId(),
+        user: client.account.email,
+        institution: req.body.institution,
+        level: req.body.level,
+        degree: req.body.degree,
+        start: req.body[&#x27;start-date&#x27;],
+        end: req.body[&#x27;end-date&#x27;],
+        gpa: req.body.gpa,
+        description: req.body.description,
+    });
+    education.insertDatabaseItem((success) =&gt; {
+        if (success) res.redirect(routes.dashboardCard.education);
+        else
+            res.render(
+                views.genericError,
+                new DatabaseErrorTransformer(
+                    &#x27;Could not add the education to your dashboard.&#x27;
+                )
+            );
+    });
+});
+
+EducationRouter.post(&#x27;/update&#x27;, (req, res) =&gt; {
+    const client = getClient(req);
+    if (!client) {
+        res.send(&#x27;Access denied&#x27;);
+        return;
+    }
+    const education = new Education({
+        _id: req.body._id,
+        user: client.account.email,
+        institution: req.body.institution,
+        level: req.body.level,
+        degree: req.body.degree,
+        start: req.body[&#x27;start-date&#x27;],
+        end: req.body[&#x27;end-date&#x27;],
+        gpa: req.body.gpa,
+        description: req.body.description,
+    });
+
+    if (req.body.delete === &#x27;on&#x27;) {
+        education.deleteDatabaseItem((success) =&gt; {
+            if (success) res.redirect(routes.dashboardCard.education);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(
+                        &#x27;Could not not delete this education.&#x27;
+                    )
+                );
+        });
+    } else {
+        education._id = new ObjectId(req.body._id);
+        education.updateDatabaseItem((success) =&gt; {
+            if (success) res.redirect(routes.dashboardCard.education);
+            else
+                res.render(
+                    views.genericError,
+                    new DatabaseErrorTransformer(&#x27;Could not update education.&#x27;)
+                );
+        });
+    }
+});
+
+export default EducationRouter;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:20,&quot;character&quot;:25,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:20,&quot;character&quot;:30,&quot;text&quot;:&quot;institution&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:21,&quot;character&quot;:19,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:21,&quot;character&quot;:24,&quot;text&quot;:&quot;level&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:22,&quot;character&quot;:20,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:22,&quot;character&quot;:25,&quot;text&quot;:&quot;degree&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:23,&quot;character&quot;:19,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:24,&quot;character&quot;:17,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:25,&quot;character&quot;:17,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:25,&quot;character&quot;:22,&quot;text&quot;:&quot;gpa&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:26,&quot;character&quot;:25,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:26,&quot;character&quot;:30,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:47,&quot;character&quot;:17,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:47,&quot;character&quot;:22,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:49,&quot;character&quot;:25,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:49,&quot;character&quot;:30,&quot;text&quot;:&quot;institution&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:50,&quot;character&quot;:19,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:50,&quot;character&quot;:24,&quot;text&quot;:&quot;level&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:51,&quot;character&quot;:20,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:51,&quot;character&quot;:25,&quot;text&quot;:&quot;degree&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:52,&quot;character&quot;:19,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:53,&quot;character&quot;:17,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:54,&quot;character&quot;:17,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:54,&quot;character&quot;:22,&quot;text&quot;:&quot;gpa&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:55,&quot;character&quot;:25,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:55,&quot;character&quot;:30,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:58,&quot;character&quot;:12,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:58,&quot;character&quot;:17,&quot;text&quot;:&quot;delete&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:70,&quot;character&quot;:41,&quot;text&quot;:&quot;body&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;src/routes/EducationRouter.ts&quot;,&quot;line&quot;:70,&quot;character&quot;:46,&quot;text&quot;:&quot;_id&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Tue, 29 Dec 2020 07:34:25 GMT</p>
+    </body>
+  </html>
+  

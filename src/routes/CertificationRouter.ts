@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
-import Certification from '@entities/Certification';
-import { views, routes } from '@shared/constants';
-import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
+import Certification from '../entities/daos/Certification';
+import { views, routes } from '../shared/constants';
+import DatabaseErrorTransformer from '../transformers/DatabaseErrorTransformer';
 import { ObjectId } from 'mongodb';
-import { getClient } from '@shared/functions';
+import { getClient } from '../shared/functions';
 
 const CertificationRouter = Router();
 const jsonParser = bodyParserJson();

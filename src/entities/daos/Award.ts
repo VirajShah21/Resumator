@@ -1,4 +1,4 @@
-import { database } from '@shared/database';
+import { database } from '../../shared/database';
 import { ObjectId } from 'mongodb';
 import DataAccessObject, { IDaoConfig } from '../DataAccessObject';
 

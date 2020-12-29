@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
-import Education from '@entities/Education';
+import Education from '../entities/daos/Education';
 import { ObjectId } from 'mongodb';
-import { views, routes } from '@shared/constants';
-import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import { getClient } from '@shared/functions';
+import { views, routes } from '../shared/constants';
+import DatabaseErrorTransformer from '../transformers/DatabaseErrorTransformer';
+import { getClient } from '../shared/functions';
 
 const EducationRouter = Router();
 const jsonParser = bodyParserJson();

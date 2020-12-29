@@ -1,4 +1,4 @@
-import { database } from '@shared/database';
+import { database } from '../shared/database';
 import { ObjectId } from 'mongodb';
 import Entity from './Entity';
 
@@ -36,7 +36,7 @@ export default abstract class DataAccessObject extends Entity {
      *
      * @param callback The function call upon completion
      */
-    public updateDatabaseItem(callback: (success?: boolean) => void): void {
+    public updateDatabaseItem(callback: (success: boolean) => void): void {
         if (this.validate())
             database.collection(this._dao.collection).updateOne(
                 {

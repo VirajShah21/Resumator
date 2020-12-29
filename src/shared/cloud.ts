@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { ObjectId } from 'mongodb';
-import Logger from '@shared/Logger';
+import Logger from './Logger';
 
 cloudinary.config({
     cloud_name: 'virajshah',

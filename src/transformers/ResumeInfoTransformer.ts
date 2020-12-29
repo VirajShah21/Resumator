@@ -1,9 +1,11 @@
-import WorkExperience, { IWorkExperience } from '@entities/WorkExperience';
-import Education, { IEducation } from '@entities/Education';
-import Skill, { ISkill } from '@entities/Skill';
-import Certification, { ICertification } from '@entities/Certification';
-import Award, { IAward } from '@entities/Award';
-import AwardsRouter from 'src/routes/AwardsRouter';
+import WorkExperience, {
+    IWorkExperience,
+} from '../entities/daos/WorkExperience';
+import Education, { IEducation } from '../entities/daos/Education';
+import Skill, { ISkill } from '../entities/daos/Skill';
+import Certification, { ICertification } from '../entities/daos/Certification';
+import Award, { IAward } from '../entities/daos/Award';
+import AwardsRouter from '../routes/AwardsRouter';
 
 export default class ResumeInfoTransformer {
     public workExperience: WorkExperience[];

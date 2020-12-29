@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { json as bodyParserJson } from 'body-parser';
 import { ObjectId } from 'mongodb';
-import { views, routes } from '@shared/constants';
-import DatabaseErrorTransformer from '@transformers/DatabaseErrorTransformer';
-import { getClient } from '@shared/functions';
-import Award from '@entities/Award';
+import { views, routes } from '../shared/constants';
+import DatabaseErrorTransformer from '../transformers/DatabaseErrorTransformer';
+import { getClient } from '../shared/functions';
+import Award from '../entities/daos/Award';
 
 const AwardsRouter = Router();
 const jsonParser = bodyParserJson();
