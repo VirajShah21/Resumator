@@ -105,6 +105,16 @@ The linter rules for TypeScript
 
 The linter rules for ES6
 
+## Unit Testing
+
+**To mock MongoDB:** Use `mongo-mock` package. No typescript definitions are available for this npm package, however, the functionality mocks that of `mongodb`.
+
+> To include type-definitions for `mongo-mock`, use `@types/mongodb/index.d.ts`; rename it to `mongo-mock.d.ts`; wrap the entire file with:
+>
+> ```TypeScript
+> declare module 'mongo-mock' { ... }
+> ```
+
 ## Features List
 
 |                    | Feature                                | Version Added | Version Updated |

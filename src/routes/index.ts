@@ -7,10 +7,10 @@ import AccountSessionTransformer from '@transformers/AccountSessionTransformer';
 export const PREFIX = '/';
 
 // Init router and path
-const router = Router();
+const MainRouter = Router();
 
 // Base Routes
-router.get('/', (req, res) => {
+MainRouter.get('/', (req, res) => {
     if (req.cookies.session) {
         AccountSessionTransformer.fetch(
             req.cookies.session,
@@ -32,8 +32,8 @@ router.get('/', (req, res) => {
 });
 
 // Add sub-routes
-router.use('/app', AppRouter);
-router.use('/api', ApiRouter);
+MainRouter.use('/app', AppRouter);
+MainRouter.use('/api', ApiRouter);
 
 // Export the base-router
-export default router;
+export default MainRouter;
