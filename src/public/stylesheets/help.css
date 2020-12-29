@@ -3,20 +3,30 @@
     font-weight: lighter;
 }
 
+#help-page p,
+#help-page ul,
+#help-page ol {
+    text-align: justify;
+    text-justify: kashida;
+}
+
 #help-page h1 {
     margin-top: 1em;
     margin-bottom: 1em;
     font-weight: lighter;
+    text-align: center;
 }
 
 #help-page h2 {
     margin-top: 1em;
     font-weight: lighter;
+    text-align: center;
 }
 
 #help-page h3 {
     margin-top: 1em;
     font-weight: lighter;
+    text-align: center;
 }
 
 #help-page ul,
