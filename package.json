@@ -6,7 +6,7 @@
         "lint": "tslint --project \"tsconfig.json\"",
         "start": "node -r module-alias/register ./dist --env=production",
         "start:dev": "nodemon",
-        "test": "nodemon --config ./spec/nodemon.json",
+        "test": "nodemon --config ./spec/nodemon.json && jest --coverage",
         "eslint": "eslint . --ext .ts"
     },
     "nodemonConfig": {
@@ -24,6 +24,13 @@
         "@entities": "dist/entities",
         "@shared": "dist/shared",
         "@server": "dist/Server"
+    },
+    "jestSonar": {
+        "testResultsProcessor": "jest-sonar-reporter",
+        "reportPath": "reports",
+        "reportFile": "test-report.xml",
+        "indent": 4,
+        "collectCoverage": true
     },
     "dependencies": {
         "@types/bcrypt": "^3.0.0",
@@ -75,6 +82,7 @@
         "find": "^0.3.0",
         "fs-extra": "^9.0.1",
         "jasmine": "^3.6.0",
+        "jest-sonar-reporter": "^2.0.0",
         "jshint": "^2.12.0",
         "jsonfile": "^6.0.1",
         "mocha": "^8.2.1",
