@@ -14,7 +14,8 @@
         "eslint": "eslint . --ext .ts",
         "jasmine": "jasmine-ts",
         "coverage": "jest --config jest.config.js --coverage",
-        "coverage:serve": "serve coverage/lcov-report"
+        "coverage:serve": "serve coverage/lcov-report",
+        "coverage:github": "jest-ci --config jest.config.js --coverage"
     },
     "nodemonConfig": {
         "watch": [
