@@ -35,6 +35,8 @@ jobs:
               run: npm install bcrypt --build-from-source
             - name: Build server
               run: npm run build
+            - name: Coverage Tests
+              run: npm run coverage
             # - name: Start Server
             #   run: npm run start
             #   env:

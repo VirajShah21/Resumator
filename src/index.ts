@@ -5,7 +5,6 @@ import logger from './shared/Logger';
 // Start the server
 const PORT = Number(process.env.PORT || 3000);
 
-if (process.env.NODE_ENV !== 'testing')
-    app.listen(PORT, () => {
-        logger.info(`Express server started on port: ${PORT}`);
-    });
+app.listen(PORT, () => {
+    logger.info(`Express server started on port: ${PORT}`);
+});
