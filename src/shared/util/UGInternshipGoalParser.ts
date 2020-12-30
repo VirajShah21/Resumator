@@ -1,5 +1,5 @@
 import { ISuggestion, IGoalResults } from './GoalInterfaces';
-import ResumeInfoTransformer from 'src/transformers/ResumeInfoTransformer';
+import ResumeInfoTransformer from '../../transformers/ResumeInfoTransformer';
 
 /**
  * Undergraduate Internship Goal Parser

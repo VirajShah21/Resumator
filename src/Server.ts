@@ -1,6 +1,6 @@
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import path from 'path';
+import { join } from 'path';
 import helmet from 'helmet';
 
 import express, { Request, Response, NextFunction } from 'express';
@@ -46,9 +46,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
  *                              Serve front-end content
  ***********************************************************************************/
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public')));
 
 // Export express instance
 export default app;

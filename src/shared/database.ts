@@ -1,5 +1,5 @@
 import { MongoClient, Db } from 'mongodb';
-import MongoMock from 'mongo-mock';
+import { MongoClient as MockMongoClient } from 'mongo-mock';
 import logger from './Logger';
 
 const DB_USER = process.env.RESUMATOR_WEB_DB_USER;
@@ -22,10 +22,10 @@ if (process.env.NODE_ENV !== 'testing')
         }
     });
 else
-    MongoMock.MongoClient.connect(
+    MockMongoClient.connect(
         url,
         { useUnifiedTopology: true },
-        (err: unknown, db: MongoMock.MongoClient) => {
+        (err: unknown, db: MockMongoClient) => {
             database = (db.db('resumator') as unknown) as Db;
         }
     );

@@ -1,9 +1,6 @@
-import Account from 'src/entities/daos/Account';
-import IClientWrapper from 'src/entities/models/IClientWrapper';
-import ResumeInfoTransformer from 'src/transformers/ResumeInfoTransformer';
-import Bcrypt from 'bcrypt';
+import IClientWrapper from '../entities/models/IClientWrapper';
+import { hash, compare } from 'bcrypt';
 import { Request } from 'express';
-import { Session } from 'inspector';
 import { passwordSaltRounds, keygenChars } from './constants';
 
 export const KEYLENGTH = 15;
@@ -18,7 +15,7 @@ export function hashPassword(
     plaintextPassword: string,
     callback?: (hash: string) => void
 ): void {
-    Bcrypt.hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
+    hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
         if (callback) callback(hash);
     });
 }
@@ -35,7 +32,7 @@ export function comparePasswordWithHash(
     hashedPassword: string,
     callback?: (matches: boolean) => void
 ): void {
-    Bcrypt.compare(plaintextPassword, hashedPassword, (err, result) => {
+    compare(plaintextPassword, hashedPassword, (err, result) => {
         if (callback) callback(result);
     });
 }

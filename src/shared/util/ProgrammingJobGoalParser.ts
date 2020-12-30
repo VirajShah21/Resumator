@@ -1,4 +1,4 @@
-import ResumeInfoTransformer from 'src/transformers/ResumeInfoTransformer';
+import ResumeInfoTransformer from '../../transformers/ResumeInfoTransformer';
 import { ISuggestion, IGoalResults } from './GoalInterfaces';
 
 export default class ProgrammingJobGoalParser {
