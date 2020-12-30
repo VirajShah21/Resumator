@@ -92,6 +92,7 @@
         "jasmine-ts": "^0.3.0",
         "jasmine-ts-console-reporter": "^3.1.1",
         "jest": "^26.6.3",
+        "jest-ci": "^0.1.1",
         "jest-cli": "^26.6.3",
         "jshint": "^2.12.0",
         "jsonfile": "^6.0.1",
