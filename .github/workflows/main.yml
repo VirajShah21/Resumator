@@ -33,12 +33,8 @@ jobs:
             #     echo test, and deploy your project.
             - name: Rebuild bcrypt
               run: npm install bcrypt --build-from-source
-            - name: Install Jest+
-              run: npm install jest ts-jest jest-cli jest-ci bs-logger
             - name: Build server
               run: npm run build
-            - name: Coverage Tests
-              run: npm run coverage:github
             # - name: Start Server
             #   run: npm run start
             #   env:
