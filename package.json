@@ -35,6 +35,7 @@
         "@types/nodemailer": "^6.4.0",
         "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",
+        "bs-logger": "^0.2.6",
         "child_process": "^1.0.2",
         "cloudinary": "^1.23.0",
         "command-line-args": "^5.1.1",

@@ -34,7 +34,7 @@ jobs:
             - name: Rebuild bcrypt
               run: npm install bcrypt --build-from-source
             - name: Install Jest+
-              run: npm install jest ts-jest jest-cli jest-ci
+              run: npm install jest ts-jest jest-cli jest-ci bs-logger
             - name: Build server
               run: npm run build
             - name: Coverage Tests
