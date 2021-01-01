@@ -115,6 +115,15 @@ The linter rules for ES6
 > declare module 'mongo-mock' { ... }
 > ```
 
+## Test Coverage Results
+
+| Breakdown  | % Coverage | Covered | Total |
+| ---------- | ---------- | ------- | ----- |
+| Statements | 12.01%     | 116     | 996   |
+| Branches   | 11.41%     | 55      | 482   |
+| Functions  | 12.11%     | 23      | 190   |
+| Lines      | 12.05%     | 113     | 938   |
+
 ## Features List
 
 |                    | Feature                                | Version Added | Version Updated |

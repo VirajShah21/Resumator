@@ -1,5 +1,4 @@
 import { MongoClient, Db } from 'mongodb';
-import { MongoClient as MockMongoClient } from 'mongo-mock';
 import logger from './Logger';
 
 const DB_USER = process.env.RESUMATOR_WEB_DB_USER;
@@ -21,11 +20,8 @@ if (process.env.NODE_ENV !== 'testing')
             database = db.db('resumator');
         }
     });
-else
-    MockMongoClient.connect(
-        url,
-        { useUnifiedTopology: true },
-        (err: unknown, db: MockMongoClient) => {
-            database = (db.db('resumator') as unknown) as Db;
-        }
-    );
+else database = {} as Db; // Functions should be mocked
+
+export function setMockDatabase(db: unknown) {
+    database = db as Db;
+}

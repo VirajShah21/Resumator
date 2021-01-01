@@ -39,6 +39,8 @@ export function comparePasswordWithHash(
 
 /**
  * Generates a random key with a length of KEYLENGTH
+ *
+ * @returns A key of length KEYLENGTH
  */
 export function generateKey(): string {
     let key = '';
@@ -67,7 +69,7 @@ export function validateEmail(email: string): boolean {
 }
 
 /**
- * Checks if a datestring follows the format mm/dd/YYYY
+ * Checks if a datestring follows the format mm/YYYY
  *
  * @param date The date to validate
  * @returns True if the date is a valid datestring
