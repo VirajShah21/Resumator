@@ -5,8 +5,8 @@ import Account from '../src/entities/daos/Account';
 import { database, setMockDatabase } from '../src/shared/database';
 
 setMockDatabase(new MockDatabase());
-let accountId: ObjectId = new ObjectId();
-let account: Account = new Account({
+const accountId: ObjectId = new ObjectId();
+const account: Account = new Account({
     _id: accountId,
     fname: 'Viraj',
     lname: 'Shah',
@@ -24,19 +24,19 @@ describe('Testing Account initialization', () => {
     });
 
     it('Should construct an account from a database pull', () => {
-        Account.loadFromDatabase('test@test.com', (account) => {
-            expect(account).toBeInstanceOf(Account);
+        Account.loadFromDatabase('test@test.com', (loadedAccount) => {
+            expect(loadedAccount).toBeInstanceOf(Account);
         });
 
-        Account.loadFromDatabaseById(accountId, (account) => {
-            expect(account).toBeInstanceOf(Account);
+        Account.loadFromDatabaseById(accountId, (loadedAccount) => {
+            expect(loadedAccount).toBeInstanceOf(Account);
         });
     });
 });
 
 describe('Testing Account Insertion', () => {
     it('Should cleanly insert account to db', () => {
-        let newAccount = new Account({
+        const newAccount = new Account({
             _id: new ObjectId(),
             fname: 'Other',
             lname: 'User',
@@ -50,7 +50,7 @@ describe('Testing Account Insertion', () => {
     });
 
     it('Should notify that the account already exists', () => {
-        let newAccount = new Account({
+        const newAccount = new Account({
             _id: new ObjectId(),
             fname: 'Other',
             lname: 'User',

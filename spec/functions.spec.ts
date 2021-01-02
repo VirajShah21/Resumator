@@ -14,8 +14,6 @@ import Account from 'src/entities/daos/Account';
 import IClientWrapper from 'src/entities/models/IClientWrapper';
 import Session from 'src/entities/daos/Session';
 import ResumeInfoTransformer from 'src/transformers/ResumeInfoTransformer';
-import { ObjectId } from 'mongodb';
-import logger from '../src/shared/Logger';
 
 describe('Testing password security functions', () => {
     it('hashPassword should generate hash', (done) => {
@@ -44,7 +42,7 @@ describe('Testing password security functions', () => {
     });
 
     it('generateKey should generate a key of KEYLENGTH', (done) => {
-        let key = generateKey();
+        const key = generateKey();
         expect(key).toBeDefined();
         expect(key.length).toBe(KEYLENGTH);
         done();
@@ -72,7 +70,7 @@ describe('Testing shared validation functions', () => {
 
 describe('Tests for Request.client', () => {
     it('Should return a client object from the request', (done) => {
-        let mockRequest: Request = ({
+        const mockRequest: Request = ({
             client: {
                 exists: true,
             },
@@ -82,13 +80,13 @@ describe('Tests for Request.client', () => {
     });
 
     it('Should return undefined for no client', (done) => {
-        let mockRequest: Request = ({} as unknown) as Request;
+        const mockRequest: Request = ({} as unknown) as Request;
         expect(getClient(mockRequest)).toBeUndefined();
         done();
     });
 
     it('Should assert the client object is good', (done) => {
-        let mockClient: IClientWrapper = ({
+        const mockClient: IClientWrapper = ({
             account: {} as Account,
             session: {} as Session,
             resumeInfo: {} as ResumeInfoTransformer,

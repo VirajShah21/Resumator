@@ -1,7 +1,7 @@
 import Address from '../src/entities/models/Address';
 
 describe('Constructing an address', () => {
-    let address: Address = new Address({
+    const address: Address = new Address({
         line1: '2000 N Broad St.',
         city: 'Philadelphia',
         state: 'PA',

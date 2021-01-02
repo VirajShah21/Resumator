@@ -27,7 +27,6 @@ import Certification from '../entities/daos/Certification';
 import Education from '../entities/daos/Education';
 import Skill from '../entities/daos/Skill';
 import WorkExperience from '../entities/daos/WorkExperience';
-import { assert } from 'console';
 
 const AccountRouter = Router();
 
@@ -402,7 +401,9 @@ AccountRouter.get('/verify', (req, res) => {
                             (certifications) => {
                                 certifications.forEach((certification) => {
                                     certification.user = newEmail;
-                                    certification.updateDatabaseItem(() => {});
+                                    certification.updateDatabaseItem(() => {
+                                        // Certification transitioned
+                                    });
                                 });
                             }
                         );
@@ -411,7 +412,9 @@ AccountRouter.get('/verify', (req, res) => {
                         Education.loadFromDatabase(oldEmail, (edus) => {
                             edus.forEach((edu) => {
                                 edu.user = newEmail;
-                                edu.updateDatabaseItem(() => {});
+                                edu.updateDatabaseItem(() => {
+                                    // Education transitioned
+                                });
                             });
                         });
 
@@ -419,7 +422,9 @@ AccountRouter.get('/verify', (req, res) => {
                         Skill.loadFromDatabase(oldEmail, (skills) => {
                             skills.forEach((skill) => {
                                 skill.user = newEmail;
-                                skill.updateDatabaseItem(() => {});
+                                skill.updateDatabaseItem(() => {
+                                    // Skill transitioned
+                                });
                             });
                         });
 
@@ -429,7 +434,9 @@ AccountRouter.get('/verify', (req, res) => {
                             (workHistory) => {
                                 workHistory.forEach((workExp) => {
                                     workExp.user = newEmail;
-                                    workExp.updateDatabaseItem(() => {});
+                                    workExp.updateDatabaseItem(() => {
+                                        // Work Experience transitioned
+                                    });
                                 });
                             }
                         );

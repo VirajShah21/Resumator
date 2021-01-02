@@ -118,7 +118,7 @@ export default class Account extends DataAccessObject implements IAccount {
             ? this.address.validate()
             : true;
 
-        let phoneValid: boolean = this.phone
+        const phoneValid: boolean = this.phone
             ? this.phone.split('').filter((digit) => {
                   return '1234567890 ()-'.indexOf(digit) < 0;
               }).length === 0 && this.phone.length === 16

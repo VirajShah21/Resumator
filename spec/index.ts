@@ -3,7 +3,6 @@ import Jasmine from 'jasmine';
 import dotenv from 'dotenv';
 import commandLineArgs from 'command-line-args';
 import logger from '../src/shared/Logger';
-const JasmineConsoleReporter = require('jasmine-ts-console-reporter');
 
 // Setup command line options
 const options = commandLineArgs([
@@ -26,23 +25,6 @@ if (result2.error) {
 const jasmine = new Jasmine(null);
 
 // Reporter
-jasmine.addReporter(
-    new JasmineConsoleReporter({
-        color: 4,
-        cleanStack: 3,
-        verbosity: 4,
-        listStyle: 'indent',
-        activity: false,
-    })
-);
-jasmine.addReporter(
-    new JasmineConsoleReporter({
-        name: 'jasmine-spec-reporter#SpecReporter',
-        options: {
-            displayStackTrace: 'all',
-        },
-    })
-);
 jasmine.showColors(true);
 
 // Set location of test files

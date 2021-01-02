@@ -15,8 +15,8 @@ export function hashPassword(
     plaintextPassword: string,
     callback?: (hash: string) => void
 ): void {
-    hash(plaintextPassword, passwordSaltRounds, (err, hash) => {
-        if (callback) callback(hash);
+    hash(plaintextPassword, passwordSaltRounds, (err, hashOut) => {
+        if (callback) callback(hashOut);
     });
 }
 
@@ -101,12 +101,14 @@ export function assertGoodClient(
     client?: IClientWrapper
 ): asserts client is IClientWrapper {
     if (!client || !client.account || !client.session || !client.resumeInfo)
-        throw `Client is not good ${JSON.stringify(client, null, 4)}`;
+        throw new Error(
+            `Client is not good ${JSON.stringify(client, null, 4)}`
+        );
 }
 
 export function assertDefined<T>(
     anything: T | undefined | null
 ): asserts anything is T {
     if (anything === undefined || anything === null)
-        throw `${anything} is not defined.`;
+        throw new Error(`${anything} is not defined.`);
 }

@@ -1,6 +1,6 @@
 import { MongoClient, Db } from 'mongodb';
 import logger from './Logger';
-import { MockDatabase } from './database.mock';
+import MockDatabase from './database.mock';
 
 const DB_USER = process.env.RESUMATOR_WEB_DB_USER;
 const DB_PASS = process.env.RESUMATOR_WEB_DB_PASS;
