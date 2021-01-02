@@ -20,9 +20,22 @@ export default class MockCollection<TSchema extends object> {
     ): void {
         const outDoc: TSchema | undefined = this.documents.find(
             (doc: TSchema) => {
-                for (const prop in filter)
-                    if (filter.hasOwnProperty(prop) && doc.hasOwnProperty(prop))
-                        if (filter[prop] !== (doc as any)[prop]) return false;
+                for (const prop in filter) {
+                    if (
+                        filter.hasOwnProperty(prop) &&
+                        doc.hasOwnProperty(prop)
+                    ) {
+                        const docPropDesc = Object.getOwnPropertyDescriptor(
+                            doc,
+                            prop
+                        );
+
+                        if (docPropDesc) {
+                            const docProp = docPropDesc.value;
+                            if (filter[prop] !== docProp) return false;
+                        } else return false;
+                    }
+                }
 
                 return true;
             }
@@ -37,9 +50,19 @@ export default class MockCollection<TSchema extends object> {
         callback?: (err: MongoError | null, result?: TSchema) => void
     ): MockCollection<TSchema> {
         const docs: TSchema[] = this.documents.filter((doc: TSchema) => {
-            for (const prop in filter)
-                if (filter.hasOwnProperty(prop) && doc.hasOwnProperty(prop))
-                    if (filter[prop] !== (doc as any)[prop]) return false;
+            for (const prop in filter) {
+                if (filter.hasOwnProperty(prop) && doc.hasOwnProperty(prop)) {
+                    const docPropDesc = Object.getOwnPropertyDescriptor(
+                        doc,
+                        prop
+                    );
+
+                    if (docPropDesc) {
+                        const docProp = docPropDesc.value;
+                        if (filter[prop] !== docProp) return false;
+                    } else return false;
+                }
+            }
 
             return true;
         });

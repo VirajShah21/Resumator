@@ -23,6 +23,6 @@ if (process.env.NODE_ENV !== 'testing')
     });
 else database = (new MockDatabase() as unknown) as Db; // Functions should be mocked
 
-export function setMockDatabase(db: unknown) {
+export function setMockDatabase(db: unknown): void {
     database = db as Db;
 }
