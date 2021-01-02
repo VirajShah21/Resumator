@@ -63,11 +63,7 @@ export default class Account extends DataAccessObject implements IAccount {
      * @param callback The function to call upon completion
      */
     public insertDatabaseItem(callback: (success: boolean) => void): void {
-        if (
-            validateEmail(this.email) &&
-            this.fname.indexOf(' ') < 0 &&
-            this.lname.indexOf(' ') < 0
-        ) {
+        if (validateEmail(this.email) && this.validateName()) {
             database
                 .collection(this._dao.collection)
                 .findOne({ email: this.email }, (err, result) => {

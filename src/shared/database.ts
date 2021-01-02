@@ -1,5 +1,6 @@
 import { MongoClient, Db } from 'mongodb';
 import logger from './Logger';
+import { MockDatabase } from './database.mock';
 
 const DB_USER = process.env.RESUMATOR_WEB_DB_USER;
 const DB_PASS = process.env.RESUMATOR_WEB_DB_PASS;
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV !== 'testing')
             database = db.db('resumator');
         }
     });
-else database = {} as Db; // Functions should be mocked
+else database = (new MockDatabase() as unknown) as Db; // Functions should be mocked
 
 export function setMockDatabase(db: unknown) {
     database = db as Db;
