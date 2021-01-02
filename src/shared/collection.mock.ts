@@ -1,4 +1,4 @@
-import { FilterQuery, MongoError } from 'mongodb';
+import { FilterQuery, MongoError, ObjectId } from 'mongodb';
 
 export default class MockCollection<TSchema extends object> {
     public readonly name: string;
@@ -21,20 +21,8 @@ export default class MockCollection<TSchema extends object> {
         const outDoc: TSchema | undefined = this.documents.find(
             (doc: TSchema) => {
                 for (const prop in filter) {
-                    if (
-                        filter.hasOwnProperty(prop) &&
-                        doc.hasOwnProperty(prop)
-                    ) {
-                        const docPropDesc = Object.getOwnPropertyDescriptor(
-                            doc,
-                            prop
-                        );
-
-                        if (docPropDesc) {
-                            const docProp = docPropDesc.value;
-                            if (filter[prop] !== docProp) return false;
-                        } else return false;
-                    }
+                    if (filter[prop] !== (doc as FilterQuery<TSchema>)[prop])
+                        return false;
                 }
 
                 return true;
@@ -51,17 +39,8 @@ export default class MockCollection<TSchema extends object> {
     ): MockCollection<TSchema> {
         const docs: TSchema[] = this.documents.filter((doc: TSchema) => {
             for (const prop in filter) {
-                if (filter.hasOwnProperty(prop) && doc.hasOwnProperty(prop)) {
-                    const docPropDesc = Object.getOwnPropertyDescriptor(
-                        doc,
-                        prop
-                    );
-
-                    if (docPropDesc) {
-                        const docProp = docPropDesc.value;
-                        if (filter[prop] !== docProp) return false;
-                    } else return false;
-                }
+                if (filter[prop] !== (doc as FilterQuery<TSchema>)[prop])
+                    return false;
             }
 
             return true;
