@@ -29,6 +29,9 @@ All notable changes to this project will be documented in this file.
 -   Upgraded npm packages with vulnerabilities
 -   Removed the bulk of logging from the server-side
 -   Removed duplicate code (not caught by SonarCloud)
+-   Setup core testing frameworks (Jasmine, Jest, +ts preprocessing)
+-   Refactored code for test driven development
+-   Covered essential code with unit tests
 
 ### Improvements
 

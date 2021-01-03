@@ -32,12 +32,70 @@ const AccountRouter = Router();
 
 AccountRouter.use(bodyParserJson());
 
-const profilePhotoUploads: unknown = {};
-const verifyEmailTokens: {
+export const profilePhotoUploads: unknown = {};
+export const verifyEmailTokens: VerifyEmailToken[] = [];
+
+export interface VerifyEmailToken {
     email: string;
     userId: ObjectId;
     token: string;
-}[] = [];
+}
+
+export function sendVerificationEmail(account: Account) {
+    const emailer = new VerifyEmailer(account._id);
+    const verifyPin = generateVerifyPin();
+    emailer.sendVerifyEmail(verifyPin);
+    verifyEmailTokens.push({
+        email: account.email,
+        userId: new ObjectId(account._id),
+        token: verifyPin,
+    });
+}
+
+export function refactorAccountEmailInDatabase(
+    oldEmail: string,
+    newEmail: string
+) {
+    // Transition all certifications
+    Certification.loadFromDatabase(oldEmail, (certifications) => {
+        certifications.forEach((certification) => {
+            certification.user = newEmail;
+            certification.updateDatabaseItem(() => {
+                // Certification transitioned
+            });
+        });
+    });
+
+    // Transition all education
+    Education.loadFromDatabase(oldEmail, (edus) => {
+        edus.forEach((edu) => {
+            edu.user = newEmail;
+            edu.updateDatabaseItem(() => {
+                // Education transitioned
+            });
+        });
+    });
+
+    // Transition all skills
+    Skill.loadFromDatabase(oldEmail, (skills) => {
+        skills.forEach((skill) => {
+            skill.user = newEmail;
+            skill.updateDatabaseItem(() => {
+                // Skill transitioned
+            });
+        });
+    });
+
+    // Transition all work experience
+    WorkExperience.loadFromDatabase(oldEmail, (workHistory) => {
+        workHistory.forEach((workExp) => {
+            workExp.user = newEmail;
+            workExp.updateDatabaseItem(() => {
+                // Work Experience transitioned
+            });
+        });
+    });
+}
 
 // Setup temp storage directory
 exec('mkdir /tmp', () => {
@@ -86,15 +144,7 @@ AccountRouter.post('/signup', (req, res) => {
                     session.insertDatabaseItem((sessionSuccess) => {
                         if (sessionSuccess) {
                             // Send an email verification email
-                            const emailer = new VerifyEmailer(account._id);
-                            const verifyPin = generateVerifyPin();
-                            emailer.sendVerifyEmail(verifyPin);
-                            verifyEmailTokens.push({
-                                email: account.email,
-                                userId: new ObjectId(account._id),
-                                token: verifyPin,
-                            });
-
+                            sendVerificationEmail(account);
                             res.cookie('session', session.key);
                             res.redirect(routes.dashboard);
                         } else {
@@ -192,14 +242,7 @@ AccountRouter.post('/update', (req, res) => {
             account.phone = req.body.phone;
 
             // Send an email verification email
-            const emailer = new VerifyEmailer(account._id);
-            const verifyPin = generateVerifyPin();
-            emailer.sendVerifyEmail(verifyPin);
-            verifyEmailTokens.push({
-                email: newEmail,
-                userId: new ObjectId(account._id),
-                token: verifyPin,
-            });
+            sendVerificationEmail(account);
 
             // Update item in the database
             account.updateDatabaseItem((success2) => {
@@ -394,52 +437,7 @@ AccountRouter.get('/verify', (req, res) => {
                     if (emailTransitionObj) {
                         const oldEmail: string = emailTransitionObj.oldEmail;
                         const newEmail: string = emailTransitionObj.newEmail;
-
-                        // Transition all certifications
-                        Certification.loadFromDatabase(
-                            oldEmail,
-                            (certifications) => {
-                                certifications.forEach((certification) => {
-                                    certification.user = newEmail;
-                                    certification.updateDatabaseItem(() => {
-                                        // Certification transitioned
-                                    });
-                                });
-                            }
-                        );
-
-                        // Transition all education
-                        Education.loadFromDatabase(oldEmail, (edus) => {
-                            edus.forEach((edu) => {
-                                edu.user = newEmail;
-                                edu.updateDatabaseItem(() => {
-                                    // Education transitioned
-                                });
-                            });
-                        });
-
-                        // Transition all skills
-                        Skill.loadFromDatabase(oldEmail, (skills) => {
-                            skills.forEach((skill) => {
-                                skill.user = newEmail;
-                                skill.updateDatabaseItem(() => {
-                                    // Skill transitioned
-                                });
-                            });
-                        });
-
-                        // Transition all work experience
-                        WorkExperience.loadFromDatabase(
-                            oldEmail,
-                            (workHistory) => {
-                                workHistory.forEach((workExp) => {
-                                    workExp.user = newEmail;
-                                    workExp.updateDatabaseItem(() => {
-                                        // Work Experience transitioned
-                                    });
-                                });
-                            }
-                        );
+                        refactorAccountEmailInDatabase(oldEmail, newEmail);
                     }
                 }
             );
@@ -455,17 +453,7 @@ AccountRouter.get('/verify', (req, res) => {
 AccountRouter.get('/resend-verification', (req, res) => {
     const account = getClient(req)?.account;
 
-    if (account) {
-        // Send an email verification email
-        const emailer = new VerifyEmailer(account._id);
-        const verifyPin = generateVerifyPin();
-        emailer.sendVerifyEmail(verifyPin);
-        verifyEmailTokens.push({
-            email: account.email,
-            userId: new ObjectId(account._id),
-            token: verifyPin,
-        });
-    }
+    if (account) sendVerificationEmail(account);
 
     res.redirect('/app/account');
 });

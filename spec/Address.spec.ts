@@ -8,11 +8,13 @@ describe('Constructing an address', () => {
         zip: '19121',
     });
 
-    it('Should construct an Address object', () => {
+    it('Should construct an Address object', (done) => {
         expect(address).toBeInstanceOf(Address);
+        done();
     });
 
-    it('Should be valid', () => {
+    it('Should be valid', (done) => {
         expect(address.validate()).toBe(true);
+        done();
     });
 });

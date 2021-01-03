@@ -25,33 +25,34 @@ export class VerifyEmailer {
     }
 
     public sendVerifyEmail(tokenString: string): void {
-        Account.loadFromDatabaseById(this.user, (account) => {
-            if (account && account.email) {
-                let html = readFileSync(
-                    join(process.cwd(), 'email_templates/verifyEmail.html'),
-                    'utf-8'
-                );
+        if (process.env.NODE_ENV !== 'testing')
+            Account.loadFromDatabaseById(this.user, (account) => {
+                if (account && account.email) {
+                    let html = readFileSync(
+                        join(process.cwd(), 'email_templates/verifyEmail.html'),
+                        'utf-8'
+                    );
 
-                while (html.indexOf('${verifylink}') >= 0)
-                    html = html.replace('${verifylink}', tokenString);
+                    while (html.indexOf('${verifylink}') >= 0)
+                        html = html.replace('${verifylink}', tokenString);
 
-                const emailInfo = {
-                    from: 'Viraj Shah at Resumator',
-                    to: account.email,
-                    subject: 'Please Verify Your Email',
-                    html,
-                };
+                    const emailInfo = {
+                        from: 'Viraj Shah at Resumator',
+                        to: account.email,
+                        subject: 'Please Verify Your Email',
+                        html,
+                    };
 
-                transporter.sendMail(emailInfo, (err, info) => {
-                    if (err) {
-                        logger.error(err);
-                    } else {
-                        logger.info(
-                            `Verification email sent to ${account.email}`
-                        );
-                    }
-                });
-            }
-        });
+                    transporter.sendMail(emailInfo, (err, info) => {
+                        if (err) {
+                            logger.error(err);
+                        } else {
+                            logger.info(
+                                `Verification email sent to ${account.email}`
+                            );
+                        }
+                    });
+                }
+            });
     }
 }

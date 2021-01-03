@@ -27,6 +27,10 @@ const AppRouter = Router();
 
 const jsonParser = bodyParserJson();
 
+function emptyResumeInfoTransformer(): ResumeInfoTransformer {
+    return new ResumeInfoTransformer([], [], [], [], []);
+}
+
 AppRouter.use((req, res, next) => {
     if (req.cookies.session) {
         AccountSessionTransformer.fetch(
@@ -44,13 +48,7 @@ AppRouter.use((req, res, next) => {
                     } = {
                         account: accountSession.account,
                         session: accountSession.session,
-                        resumeInfo: new ResumeInfoTransformer(
-                            [],
-                            [],
-                            [],
-                            [],
-                            []
-                        ),
+                        resumeInfo: emptyResumeInfoTransformer(),
                     };
 
                     ResumeInfoTransformer.fetch(

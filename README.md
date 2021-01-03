@@ -119,10 +119,10 @@ The linter rules for ES6
 
 | Breakdown  | % Coverage | Covered | Total |
 | ---------- | ---------- | ------- | ----- |
-| Statements | 12.01%     | 116     | 996   |
-| Branches   | 11.41%     | 55      | 482   |
-| Functions  | 12.11%     | 23      | 190   |
-| Lines      | 12.05%     | 113     | 938   |
+| Statements | 26.47%     | 265     | 1001  |
+| Branches   | 15.97%     | 80      | 501   |
+| Functions  | 21.67%     | 44      | 203   |
+| Lines      | 26.47%     | 256     | 967   |
 
 ## Features List
 
